@@ -1,0 +1,6 @@
+interface:
+  display_name: "ASu-skills"
+  short_description: "将零散经历包装成可信、量化、匹配岗位的简历与HR开场"
+  icon_small: "./assets/asu-circle.png"
+  icon_large: "./assets/asu-circle.png"
+  default_prompt: "使用 $asu-skills，根据我的经历和目标岗位提炼定位、改写简历，并生成可直接发给 HR 的中文自我介绍。"
