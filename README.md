@@ -100,10 +100,6 @@ https://github.com/Hisn00w/ASu-skills
 
 最终简历应形成：**目标身份 → 系统能力 → 项目全景 → 个人作用域 → 结果证据**。强表达的目的，是让真实能力被看见，而不是让 HR 误判经历。
 
-<div align="center">
-  <img src="assets/resume-packaging-reference.jpg" width="360" alt="从底层经历到简历呈现的参考图">
-</div>
-
 ## 表达边界
 
 ASu-skills 强调“强表达”，但不伪造 title、学校、公司、项目归属、技术栈、数据或管理权限。可以校准岗位标签、突出真实职责、补充可验证证据，但不能把参与写成独立负责，也不能把 AI 生成的代码冒领为未经验证的个人成果。
