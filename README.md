@@ -44,86 +44,20 @@ ASu-skills 用于简历包装、项目经历改写、岗位定位，以及 Boss 
 
 GitHub 仓库：[https://github.com/Hisn00w/ASu-skills](https://github.com/Hisn00w/ASu-skills)
 
-### 方法一：从 GitHub 克隆安装（推荐）
-
-确保电脑已安装 Git，然后在 PowerShell 中执行：
-
-```powershell
-$skillTarget = "C:\Users\你的用户名\.codex\skills\asu-skills"
-
-New-Item -ItemType Directory -Force -Path (Split-Path $skillTarget) | Out-Null
-git clone https://github.com/Hisn00w/ASu-skills.git $skillTarget
-```
-
-当前 Windows 用户可以直接使用：
-
-```powershell
-$skillTarget = "C:\Users\Hisn0w\.codex\skills\asu-skills"
-
-New-Item -ItemType Directory -Force -Path (Split-Path $skillTarget) | Out-Null
-git clone https://github.com/Hisn00w/ASu-skills.git $skillTarget
-```
-
-如果目标目录已经存在并且本身就是 Git 仓库，不要重复 `clone`，改用更新命令：
-
-```powershell
-$skillTarget = "C:\Users\你的用户名\.codex\skills\asu-skills"
-git -C $skillTarget pull
-```
-
-### 方法二：下载 ZIP 或手动复制
-
-从 GitHub 仓库选择 **Code → Download ZIP**，解压后将整个 `asu-skills` 文件夹放入 Codex 的个人技能目录：
+把下面这句话和仓库链接直接发给 Codex：
 
 ```text
-C:\Users\你的用户名\.codex\skills\asu-skills
+请从这个 GitHub 仓库安装 ASu-skills 技能：
+https://github.com/Hisn00w/ASu-skills
 ```
 
-确保技能根目录直接包含以下文件和目录，避免多嵌套一层：
+安装完成后，在 Codex 中输入：
 
 ```text
-asu-skills/
-├── SKILL.md
-├── README.md
-├── agents/openai.yaml
-└── assets/
+我要酥化
 ```
 
-### 方法三：PowerShell 复制本地文件夹
-
-如果技能文件夹已经下载到本地，可以执行：
-
-```powershell
-$skillSource = "C:\你的路径\asu-skills"
-$skillTarget = "C:\Users\你的用户名\.codex\skills\asu-skills"
-
-New-Item -ItemType Directory -Force -Path (Split-Path $skillTarget) | Out-Null
-Copy-Item -LiteralPath $skillSource -Destination $skillTarget -Recurse -Force
-```
-
-### 安装后验证
-
-1. 关闭并重新打开 Codex，或新建一个对话，让技能列表重新加载；
-2. 确认以下文件存在：
-
-   ```text
-   C:\Users\你的用户名\.codex\skills\asu-skills\SKILL.md
-   C:\Users\你的用户名\.codex\skills\asu-skills\agents\openai.yaml
-   C:\Users\你的用户名\.codex\skills\asu-skills\assets\asu-circle.png
-   ```
-3. 在 Codex 中输入以下任意一种方式：
-
-   ```text
-   使用 $asu-skills，帮我把下面这段经历包装成适合发给 HR 的中文自我介绍。
-   ```
-
-   或者：
-
-   ```text
-   我要酥化
-   ```
-
-如果技能没有被识别，优先检查文件夹是否多嵌套了一层，例如是否误放成了 `asu-skills\asu-skills\SKILL.md`，然后重新启动 Codex。
+如果 Codex 询问要安装哪个技能，选择 `asu-skills` 即可。
 
 ## 默认输出
 
