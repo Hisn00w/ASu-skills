@@ -1,0 +1,4 @@
+interface:
+  display_name: "resume"
+  short_description: "制作可编辑 HTML/PDF 简历"
+  default_prompt: "用 /resume 根据我的经历制作一份可编辑的中文 HTML 简历，并准备 PDF 导出。"
