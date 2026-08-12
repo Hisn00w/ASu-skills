@@ -120,7 +120,6 @@ asu-skills/
     ├── asu.png          # 原始技能图片
     ├── asu-circle.png   # 圆形透明背景图标
     ├── hr-intro-example.jpg # Boss 直聘开场示例图
-    └── resume-packaging-reference.jpg # 简历包装方法参考图
 ```
 
 ## 致谢
