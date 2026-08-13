@@ -6,7 +6,7 @@
   <p>用三个独立入口完成经历酥化、简历制作和秋招进度管理。</p>
 </div>
 
-ASu-skills 现在是一个 插件包。安装后会提供三个可单独调用的入口：
+ASu-skills 现在是一个插件包。安装后会提供三个可单独调用的入口：
 
 [![Build with CODEX](https://img.shields.io/badge/Build%20with-CODEX-59B390?style=for-the-badge&logo=openai&logoColor=white)](https://chatgpt.com/codex) [![GitHub Stars](https://img.shields.io/github/stars/Hisn00w/ASu-skills?style=for-the-badge)](https://github.com/Hisn00w/ASu-skills/stargazers)
 
