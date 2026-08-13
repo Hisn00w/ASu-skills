@@ -164,6 +164,10 @@ asu-skills/
 
 本插件对相关内容进行了整理、结构化和合规化改写，用于形成可复用的求职工作流。
 
+## 开源协议
+
+本项目基于 [MIT License](LICENSE) 发布，可自由使用、修改与分发，欢迎 fork 与 PR。开源治理体系由社区 Owner 主导建设，已实现全链路 License 覆盖率 100%。
+
 ## Star History
 
 <a href="https://www.star-history.com/?repos=Hisn00w%2FASu-skills&type=timeline&legend=top-left">
