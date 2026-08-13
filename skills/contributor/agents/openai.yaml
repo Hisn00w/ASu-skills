@@ -1,0 +1,4 @@
+interface:
+  display_name: "contributor"
+  short_description: "自动找开源小活、提交 PR，再把 GitHub 绿点酥成求职素材"
+  default_prompt: "用 $contributor 根据我的目标岗位自动寻找开源贡献机会，优先完成容易合并的小 PR，并在合并后交给 /asu 酥化。"

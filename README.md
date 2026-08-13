@@ -3,15 +3,16 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills 图标">
   <h3>中文求职工作流插件</h3>
-  <p>用三个独立入口完成经历酥化、简历制作和秋招进度管理。</p>
+  <p>用四个独立入口完成开源贡献、经历酥化、简历制作和秋招进度管理。</p>
 </div>
 
-ASu-skills 现在是一个 插件包。安装后会提供三个可单独调用的入口：
+ASu-skills 现在是一个 插件包。安装后会提供四个可单独调用的入口：
 
 [![Build with CODEX](https://img.shields.io/badge/Build%20with-CODEX-59B390?style=for-the-badge&logo=openai&logoColor=white)](https://chatgpt.com/codex) [![GitHub Stars](https://img.shields.io/github/stars/Hisn00w/ASu-skills?style=for-the-badge)](https://github.com/Hisn00w/ASu-skills/stargazers)
 
 | 入口        | 用途     | 主要交付                                    |
 | ----------- | -------- | ------------------------------------------- |
+| `/contributor` | 开源贡献 | 自动找活、提交 PR、把 GitHub 绿点喂给 `/asu` |
 | `/asu`    | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白     |
 | `/resume` | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出        |
 | `/offer`  | 秋招进度 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪 |
@@ -21,18 +22,36 @@ ASu-skills 现在是一个 插件包。安装后会提供三个可单独调用�
 最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件：
 
 ```text
-请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 asu、resume、offer 三个 skills：
+请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、resume、offer 四个 skills：
 https://github.com/Hisn00w/ASu-skills
 ```
 
-安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `asu`、`resume` 或 `offer`。
+安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`resume` 或 `offer`。
 
 如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
 
 ```text
+$contributor 根据我的目标岗位自动寻找容易完成的开源贡献，提 PR 并在合并后交给 /asu 酥化。
 $asu 请把我的实习经历改写成适合 AI 应用工程师岗位的版本。
 $resume 根据我的经历制作一份可编辑的中文 HTML 简历。
 $offer 把这些招聘邮件整理成秋招投递进度表。
+```
+
+## `/contributor`：先把绿点刷起来
+
+不用一上来重构 Kubernetes。`/contributor` 会根据目标公司和岗位寻找活跃项目，优先扫描 typo、标点、Markdown、formatting、坏链接和 README 小修，然后自动 fork、改动、验证并提交 PR。
+
+小改动也可以有大叙事：一个错字是文档质量治理，一处坏链接是开发者体验优化，多个仓库就是跨项目协作闭环。PR 本身保持正常，合并后再把真实链接和数据交给 `/asu` 酥化；没合并的就写“协作中”。
+
+典型用法：
+
+```text
+/contributor
+
+目标岗位：AI 应用工程师
+技术栈：TypeScript、React、Python
+每周可投入：4 小时
+先帮我做 3 个容易合并的小 PR，再补 1 个能在面试里展开的技术贡献。
 ```
 
 ## `/asu`：经历酥化
@@ -112,15 +131,16 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 
 ![秋招进度表预览](assets/application-tracker-overview.svg)
 
-## 三个入口如何配合
+## 四个入口如何配合
 
 推荐按照下面的顺序使用：
 
-1. 用 `/asu` 明确目标岗位，整理真实经历和 HR 话术；
-2. 用 `/resume` 把确认后的文字放入可编辑简历并导出 PDF；
-3. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
+1. 用 `/contributor` 完成与目标岗位相关的真实开源贡献，并在 PR 合并后生成证据卡；
+2. 用 `/asu` 根据证据卡和已有经历明确目标岗位，整理简历表述和 HR 话术；
+3. 用 `/resume` 把确认后的文字放入可编辑简历并导出 PDF；
+4. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
 
-也可以在同一条需求里说明组合目标，例如：“先用 `/asu` 改写经历，再用 `/resume` 生成 HTML 简历”。
+也可以在同一条需求里说明组合目标，例如：“先用 `/contributor` 整理已合并 PR，再用 `/asu` 改写经历，最后用 `/resume` 生成 HTML 简历”。
 
 ## 事实边界
 
@@ -143,6 +163,9 @@ asu-skills/
 ├── skills/
 │   ├── asu/
 │   │   ├── SKILL.md             # /asu 经历酥化
+│   │   └── agents/openai.yaml
+│   ├── contributor/
+│   │   ├── SKILL.md             # /contributor 开源贡献
 │   │   └── agents/openai.yaml
 │   ├── resume/
 │   │   ├── SKILL.md             # /resume 简历制作
