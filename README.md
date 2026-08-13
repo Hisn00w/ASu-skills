@@ -10,6 +10,14 @@ ASu-skills 现在是一个 插件包。安装后会提供三个可单独调用�
 
 [![Build with CODEX](https://img.shields.io/badge/Build%20with-CODEX-59B390?style=for-the-badge&logo=openai&logoColor=white)](https://chatgpt.com/codex) [![GitHub Stars](https://img.shields.io/github/stars/Hisn00w/ASu-skills?style=for-the-badge)](https://github.com/Hisn00w/ASu-skills/stargazers)
 
+## Harness 工程更新
+
+ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 和 PR 一起补充真实求职案例、技能和终端体验。
+
+<img src="assets/harness-update.png" alt="ASu Harness 工程更新" width="560" />
+
+[前往 GitHub 查看 ASu Harness 工程](https://github.com/Hisn00w/Asu)
+
 | 入口        | 用途     | 主要交付                                    |
 | ----------- | -------- | ------------------------------------------- |
 | `/asu`    | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白     |
