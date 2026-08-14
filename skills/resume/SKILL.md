@@ -10,7 +10,12 @@ description: 中文可编辑简历制作技能：根据用户经历选择或复�
 
 ## 资源定位
 
-本 skill 位于插件的 `skills/resume/` 目录时，ASu 共享资源位于命名空间目录 `../../assets/asu/`：
+ASu 资源支持两种布局，按以下顺序定位：
+
+1. Claude Code 安装布局：`../../assets/asu/`；
+2. 仓库插件布局：`../../assets/`。
+
+只有候选目录同时包含 `resume-data-template.json`、`templates-html/` 和 `resume-template-editable.html` 时才使用它，避免把其他 skill 的同名目录误判为 ASu 资源：
 
 - `resume-data-template.json`：匿名简历内容结构；
 - `templates-html/`：18 个中文 HTML 模板；
@@ -19,9 +24,9 @@ description: 中文可编辑简历制作技能：根据用户经历选择或复�
 - `template-overview.jpg`：模板预览图；
 - `fictional-resume-photo.png`：虚构示例照片，只用于模板演示。
 
-如果 skill 被单独复制到其他目录，先从当前 skill 目录向上定位 `assets/asu/`，不要凭空创建模板资源。
+如果 skill 被单独复制到其他目录，先从当前 skill 目录向上依次定位 `assets/asu/` 与 `assets/`，不要凭空创建模板资源。
 
-如果向上查找后仍找不到 `assets/asu/`，必须显式说明“模板资源未随 skill 一起安装”，并启用后备方案：
+如果向上查找后两种布局都找不到完整资源，必须显式说明“模板资源未随 skill 一起安装”，并启用后备方案：
 
 - 优先创建简洁 A4 可编辑 HTML，保留浏览器编辑、打印隐藏工具栏和 PDF 导出能力；
 - 不承诺 18 套模板、模板预览图、示例照片或原模板复刻精度；
