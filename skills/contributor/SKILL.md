@@ -1,6 +1,6 @@
 ---
 name: contributor
-description: GitHub 开源贡献辅助技能：根据目标公司和岗位寻找活跃项目，优先扫描 typo、README、Markdown、坏链接和 formatting 等机会，先展示候选与改动方案，经用户明确确认后再 fork、验证、push 和提交 PR，合并后把 contribution graph 酥化为 /asu 可用的简历素材；当用户输入“/contributor”、想做 first contribution、寻找开源小活或把 PR 写进简历时使用。
+description: GitHub 开源贡献辅助技能：根据目标公司和岗位寻找活跃项目，优先扫描 typo、README、Markdown、坏链接和 formatting 等机会，先展示候选与改动方案并完成验证，经用户明确确认后再 fork、push 和提交 PR，合并后把 contribution graph 酥化为 /asu 可用的简历素材；当用户输入“/contributor”、想做 first contribution、寻找开源小活或把 PR 写进简历时使用。
 ---
 
 # /contributor：做真实的开源贡献
@@ -26,9 +26,9 @@ description: GitHub 开源贡献辅助技能：根据目标公司和岗位寻找
 1. 在 GitHub 搜索近期仍有提交或 PR 活动的项目，优先 `good first issue`、`help wanted` 和贡献规则清楚的仓库；此阶段只读，不 fork、不 push。
 2. 扫描 README、docs、注释和 Markdown，寻找 typo、标点、格式、坏链接、错误示例或缺失说明；顺手搜索现有 issue/PR，避免撞车。
 3. 快速看一遍 `CONTRIBUTING` 和仓库里的代理说明；如果规则明确禁止 typo-only、drive-by documentation 或当前拟议的 PR 类型，直接标记为 `ineligible` 并丢弃，不进入待确认候选清单。否则形成候选清单，写明目标仓库、问题、拟修改文件、验证方式和潜在影响。
-4. 在本地准备最小改动或 patch，运行可用的测试、lint 或链接检查；纯文档小修至少检查 diff 和 Markdown，然后把完整 diff 展示给用户。
+4. 每个候选在准备本地改动或 patch 前，都从当前上游基线创建独立专用分支；不得修改默认分支，也不得把下一份补丁堆叠到已有 PR 分支。随后运行可用的测试、lint 或链接检查；纯文档小修至少检查 diff 和 Markdown，然后把完整 diff 展示给用户。
 5. fork、push、提交 PR 都是外部写操作。必须在执行前明确列出目标仓库、GitHub 账号、分支、文件和将产生的动作，并逐个等待用户确认；“找 N 个”“自动做”或“直接提”只授权准备候选和本地 diff，不授权批量写入。
-6. 每次只执行一个已确认的 PR。提交后可以自动只读跟踪 CI 和 review；如果 review 或 CI 产生新的修改、commit、push、PR 更新、评论、回复或 thread resolution 需求，必须回到第 3–5 步，先说明新动作和目标、展示更新后的完整 diff，再逐项等待新的明确确认，未确认前只记录建议，不执行外部写操作。PR 合并后生成 `/asu` 素材，关闭或未合并的 PR 记录为“开源协作中”，不写成“已被采用”。
+6. 每次只执行一个已确认的 PR。提交后可以自动只读跟踪 CI 和 review；如果 review 或 CI 产生新的修改、commit、push 或 PR 更新需求，必须回到第 3–5 步，先说明新动作和目标、展示更新后的完整 diff，再逐项等待新的明确确认。若只需评论或回复，先展示将发布的准确文本及其目标；若只需解决 thread，先列出将解决的 PR、thread 链接或文件行号和讨论摘要。以上任何外部写操作在未取得新的明确确认前都只记录建议、不执行。PR 合并后生成 `/asu` 素材，关闭或未合并的 PR 记录为“开源协作中”，不写成“已被采用”。
 
 可以连续准备多个项目，但外部写操作必须逐个确认。每个 PR 只解决一个清楚的小问题，标题和正文按目标仓库的语言写，不把同一段模板无脑群发。
 
@@ -60,4 +60,3 @@ PR 本体保持短小正常，默认包含：
 ## 最后一道边界
 
 没 merge 就写“已提交/协作中”，merge 之后再写“被项目采用”。
-
