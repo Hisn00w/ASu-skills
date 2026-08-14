@@ -14,8 +14,6 @@
 
 <img src="assets/asu-resume-editor.png" alt="阿酥同款简历编辑器" width="900" />
 
-ASu-skills 现在是一个插件包。安装后会提供五个可单独调用的入口：
-
 ## Harness 工程更新
 
 ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 和 PR 一起补充真实求职案例、技能和终端体验。
@@ -23,6 +21,8 @@ ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 
 <img src="assets/harness-update.png" alt="ASu Harness 工程更新" width="560" />
 
 [前往 GitHub 查看 ASu Harness 工程](https://github.com/Hisn00w/Asu)
+
+ASu-skills 现在是一个插件包。安装后会提供五个可单独调用的入口：
 
 | 入口             | 用途     | 主要交付                                      |
 | ---------------- | -------- | --------------------------------------------- |
