@@ -22,10 +22,30 @@
 1. Fork 仓库，从 `main` 切一个分支，例如 `docs/fix-typo`；
 2. 一个 PR 只改一件事，改动越小，头衔越快到手；
 3. 改 Markdown 就自己预览一遍，改 HTML 模板就在浏览器里打开，确认还能编辑、还能打印成 A4；
-4. commit 沿用仓库现有风格：`feat:`、`fix:`、`docs(readme):`；
-5. PR 正文写清楚：改了什么、为什么改、怎么验证的。
+4. commit 遵循 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)：使用 `feat:`、`fix:`、`docs:` 等英文类型前缀，并用中文写简洁、具体的标题；
+5. 创建 PR 前先完整阅读本文件和 [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md)，逐项完成 PR 模板中的检查清单；
+6. PR 正文写清楚：改了什么、为什么改、怎么验证的；如果有检查项无法完成，必须在 PR 中说明原因和替代验证方式。
 
 正文保持正常人的写法就行，酥化留给 `/asu`。
+
+## Pull Request 提交流程
+
+创建 PR 时必须遵循以下顺序：
+
+1. 从最新的 `main` 创建功能分支，避免直接在 `main` 上开发；
+2. 先阅读本文件和 [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md)；
+3. 完成本次改动对应的代码、技能、Markdown、JSON、HTML 和浏览器预览检查；
+4. 运行 `git diff --check`，确认没有空白错误；
+5. 检查所有待提交文件，确认没有冲突标记、密钥、个人隐私或无关文件；
+6. 使用中文 Conventional Commits 提交，例如 `docs: 新增贡献指南和 PR 模板`；
+7. 创建 PR 并完整填写模板。所有检查项都必须勾选；确实无法完成的项目要在 PR 描述中解释原因；
+8. 如存在合并冲突，先解决冲突并重新完成检查，再请求评审。
+
+涉及简历模板时，还必须确认：
+
+- `assets/asu-resume-template.html` 只作为只读母版，用户专属简历应复制母版后再修改；
+- 新增图片和 Logo 使用仓库内相对路径，并遵循仓库现有资源规范；
+- HTML 在浏览器中可编辑、可保存，并能正确导出 A4 分页或不限高度版本。
 
 ## 我们真的很欢迎的贡献
 
