@@ -6,11 +6,14 @@
   <p>用五个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻和秋招进度管理。</p>
 </div>
 
-[![Build with CODEX](<https://img.shields.io/badge/Build%20with-CODEX-59B390?style=for-the-badge&logo=openai&logoColor=white>)](https://chatgpt.com/codex) [![GitHub Stars](https://img.shields.io/github/stars/Hisn00w/ASu-skills?style=for-the-badge)](https://github.com/Hisn00w/ASu-skills/stargazers)
+<div align="center">
+  <a href="https://chatgpt.com/codex"><img src="https://img.shields.io/badge/Build%20with-EVERYONE-59B390?style=for-the-badge&logo=openai&logoColor=white" alt="Build with Everyone"></a>
+  <a href="https://github.com/Hisn00w/ASu-skills/stargazers"><img src="https://img.shields.io/github/stars/Hisn00w/ASu-skills?style=for-the-badge" alt="GitHub Stars"></a>
+</div>
 
 ## 阿酥同款简历
 
-现在输入“我想要阿酥同款简历”就能制作属于你的简历！支持 AI 编辑和手动编辑。
+现在输入“**我想要阿酥同款简历**”就能制作属于你的简历！支持 AI 编辑和手动编辑。
 
 <img src="assets/asu-resume-editor.png" alt="阿酥同款简历编辑器" width="900" />
 
@@ -122,7 +125,7 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 
 ## `/asu-resume`：复刻同款高密度技术简历
 
-`/asu-resume` 专门复刻参考图中的单栏技术简历，适合应届生、实习生和 AI/Agent/LLM/等方向。用户也可以直接输入“我想要阿酥同款简历”触发同一技能。它会先按目标岗位酥化真实经历，再以模板为只读母版生成用户专属可编辑 HTML；不把截图直接嵌入简历，也不修改模板源文件。
+`/asu-resume` 专门复刻参考图中的单栏技术简历，适合应届生、实习生和 AI/Agent/LLM/等方向。用户也可以直接输入“**我想要阿酥同款简历**”触发同一技能。它会先按目标岗位酥化真实经历，再以模板为只读母版生成用户专属可编辑 HTML；不把截图直接嵌入简历，也不修改模板源文件。
 
 模板包含：
 
