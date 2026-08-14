@@ -26,7 +26,7 @@ ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 
 
 | 入口             | 用途     | 主要交付                                      |
 | ---------------- | -------- | --------------------------------------------- |
-| `/contributor` | 开源贡献 | 自动找活、提交 PR、把 GitHub 绿点喂给`/asu` |
+| `/contributor` | 开源贡献 | 寻找候选、展示 diff，经确认后提交 PR并把贡献交给 `/asu` |
 | `/asu`         | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白       |
 | `/resume`      | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出          |
 | `/asu-resume`  | 同款简历 | 复刻 ASu 单栏高密度技术简历、Logo 资源和 PDF  |
@@ -46,16 +46,16 @@ https://github.com/Hisn00w/ASu-skills
 如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
 
 ```text
-$contributor 根据我的目标岗位自动寻找容易完成的开源贡献，提 PR 并在合并后交给 /asu 酥化。
+$contributor 根据我的目标岗位寻找开源贡献候选，先展示 diff；我确认后再提 PR，并在合并后交给 /asu 酥化。
 $asu 请把我的实习经历改写成适合 AI 应用工程师岗位的版本。
 $resume 根据我的经历制作一份可编辑的中文 HTML 简历。
 $asu-resume 根据我的经历复刻参考图中的单栏高密度技术简历，并输出可编辑 HTML。
 $offer 把这些招聘邮件整理成秋招投递进度表。
 ```
 
-## `/contributor`：先把绿点刷起来
+## `/contributor`：做真实的开源贡献
 
-不用一上来重构 Kubernetes。`/contributor` 会根据目标公司和岗位寻找活跃项目，优先扫描 typo、标点、Markdown、formatting、坏链接和 README 小修，然后自动 fork、改动、验证并提交 PR。
+不用一上来重构 Kubernetes。`/contributor` 会根据目标公司和岗位寻找活跃项目，优先扫描 typo、标点、Markdown、formatting、坏链接和 README 小修，先展示候选、拟改动和验证结果；用户明确确认后才 fork、push 和提交 PR。
 
 小改动也可以有大叙事：一个错字是文档质量治理，一处坏链接是开发者体验优化，多个仓库就是跨项目协作闭环。PR 本身保持正常，合并后再把真实链接和数据交给 `/asu` 酥化；没合并的就写“协作中”。
 
@@ -255,3 +255,4 @@ asu-skills/
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Hisn00w/ASu-skills&type=timeline&legend=top-left&sealed_token=bjbMfvRN5HhBif26VkNL7fMNZhYEU6NOxOMDWOzZvQnyJjYS5cPBNShexQ_xybTo30fuVzzhrKWq4x4IZAHEFrDesIwfK5iGJONtmrR_3Hhz3B2UFaKxs2iptYBKSxN0TbubpjnmkGaFme25ufww7AXpqptuXSHNK9KAWAP45t26kEa8NXXbLPxqH-5w" />
  </picture>
 </a>
+

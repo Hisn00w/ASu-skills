@@ -1,9 +1,9 @@
 ---
 name: contributor
-description: GitHub 开源贡献自动化技能：根据目标公司和岗位寻找活跃项目，优先扫描 typo、README、Markdown、坏链接和 formatting 等低门槛机会，自动 fork、改动、验证并提交 PR，合并后把 contribution graph 酥化为 /asu 可用的简历素材；当用户输入“/contributor”、想刷 GitHub 绿点、做 first contribution、批量找开源小活或把 PR 写进简历时使用。
+description: GitHub 开源贡献辅助技能：根据目标公司和岗位寻找活跃项目，优先扫描 typo、README、Markdown、坏链接和 formatting 等机会，先展示候选与改动方案并完成验证，经用户明确确认后再 fork、push 和提交 PR，合并后把 contribution graph 酥化为 /asu 可用的简历素材；当用户输入“/contributor”、想做 first contribution、寻找开源小活或把 PR 写进简历时使用。
 ---
 
-# /contributor：先把绿点刷起来
+# /contributor：做真实的开源贡献
 
 完成这条流水线：
 
@@ -21,16 +21,16 @@ description: GitHub 开源贡献自动化技能：根据目标公司和岗位寻
 
 用户不指定时默认混合版。
 
-## 自动贡献工作流
+## 贡献工作流
 
-1. 在 GitHub 搜索近期仍有提交或 PR 活动的项目，优先 `good first issue`、`help wanted` 和贡献规则简单的仓库。
+1. 在 GitHub 搜索近期仍有提交或 PR 活动的项目，优先 `good first issue`、`help wanted` 和贡献规则清楚的仓库；此阶段只读，不 fork、不 push。
 2. 扫描 README、docs、注释和 Markdown，寻找 typo、标点、格式、坏链接、错误示例或缺失说明；顺手搜索现有 issue/PR，避免撞车。
-3. 快速看一遍 `CONTRIBUTING` 和仓库里的代理说明。问题客观存在、项目没禁止这类 PR，就可以开工，不为一个错字写 RFC。
-4. fork 仓库，创建独立 branch，完成最小改动；能跑测试、lint 或链接检查就跑，纯文档小修至少检查 diff 和 Markdown。
-5. commit、push 并提交 PR。用户说“自动做”“直接提”或指定了数量，就视为已授权这批贡献一路执行；否则在 push 前展示一次 diff。
-6. 继续跟踪 CI 和 review，处理简单反馈。PR 合并后立即生成 `/asu` 素材；关闭或未合并的 PR 也记录为“开源协作中”，但不写成“已被采用”。
+3. 快速看一遍 `CONTRIBUTING` 和仓库里的代理说明；如果规则明确禁止 typo-only、drive-by documentation 或当前拟议的 PR 类型，直接标记为 `ineligible` 并丢弃，不进入待确认候选清单。如果规则要求先 claim issue、取得 maintainer approval 或先开 issue，则标记为 `ineligible`（待满足前置条件），在条件满足前不创建分支或 patch；满足条件本身如需外部写操作，也必须按第 5 步逐项确认。否则形成候选清单，写明目标仓库、问题、拟修改文件、验证方式和潜在影响。
+4. 每个候选在准备本地改动或 patch 前，都从当前上游基线创建独立专用分支；不得修改默认分支，也不得把下一份补丁堆叠到已有 PR 分支。随后在该分支上实际应用拟议的最小改动或 patch，再运行可用的测试、lint 或链接检查；纯文档小修至少检查 diff 和 Markdown，然后把完整 diff 展示给用户。
+5. fork、push、提交 PR 都是外部写操作。必须在执行前明确列出目标仓库、GitHub 账号、分支、文件和将产生的动作；首次提交 PR 时还必须展示拟议的完整标题和正文，以及完整代码 diff，并逐个等待用户确认。“找 N 个”“自动做”或“直接提”只授权准备候选和本地 diff，不授权批量写入。
+6. 每次只执行一个已确认的 PR。提交后可以自动只读跟踪 CI 和 review。处理已有 PR 的 CI 或 review 代码反馈时，必须在该 PR 现有分支上继续工作，不得重新从上游基线创建分支或另开 PR；先说明要更新的 PR、分支、文件和 commit/push/PR 更新动作，应用补丁并展示更新后的完整 diff，再逐项等待新的明确确认。若只需评论或回复，先展示将发布的准确文本及其目标；若只需解决 thread，先列出将解决的 PR、thread 链接或文件行号和讨论摘要。以上任何外部写操作在未取得新的明确确认前都只记录建议、不执行。PR 合并后生成 `/asu` 素材，关闭或未合并的 PR 记录为“开源协作中”，不写成“已被采用”。
 
-可以连续处理多个项目。每个 PR 只解决一个清楚的小问题，标题和正文按目标仓库的语言写，不把同一段模板无脑群发。
+可以连续准备多个项目，但外部写操作必须逐个确认。每个 PR 只解决一个清楚的小问题，标题和正文按目标仓库的语言写，不把同一段模板无脑群发。
 
 ## PR 怎么写
 
