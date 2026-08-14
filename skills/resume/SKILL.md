@@ -15,7 +15,7 @@ ASu 资源支持两种布局，按以下顺序定位：
 1. Claude Code 安装布局：`../../assets/asu/`；
 2. 仓库插件布局：`../../assets/`。
 
-只有候选目录同时包含 `resume-data-template.json`、`templates-html/` 和 `resume-template-editable.html` 时才使用它，避免把其他 skill 的同名目录误判为 ASu 资源：
+只有候选目录同时包含 `resume-data-template.json`、`resume-template-editable.html`、`resume-template-two-page.html`、`template-overview.jpg`、`fictional-resume-photo.png`，以及 `templates-html/` 下全部 18 个内置模板时才使用它，避免把其他 skill 的同名目录或不完整安装误判为 ASu 资源：
 
 - `resume-data-template.json`：匿名简历内容结构；
 - `templates-html/`：18 个中文 HTML 模板；
@@ -118,4 +118,3 @@ PDF 不是简单“能保存”即可。导出或指导用户导出时，按以�
 ## 交付内容
 
 默认交付：可编辑 `.html` 文件、使用的模板说明、资源/fallback 状态、print-preview QA 结果、浏览器编辑方法和 PDF 导出方法。若用户同时需要经历改写，先调用 `/asu` 完成文字，再将确认后的内容放入简历。
-
