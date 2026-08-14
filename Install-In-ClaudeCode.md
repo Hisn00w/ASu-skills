@@ -30,7 +30,10 @@ if [ -f "$tracker_path" ]; then
     backup_path="${tracker_path}.bak.${backup_index}"
     backup_index=$((backup_index + 1))
   done
-  cp "$tracker_path" "$backup_path"
+  if ! cp "$tracker_path" "$backup_path"; then
+    printf '无法备份现有求职进度表，安装已停止: %s\n' "$tracker_path" >&2
+    exit 1
+  fi
   printf '已备份现有求职进度表: %s\n' "$backup_path"
 fi
 
@@ -171,7 +174,10 @@ if [ -f "$tracker_path" ]; then
     backup_path="${tracker_path}.bak.${backup_index}"
     backup_index=$((backup_index + 1))
   done
-  cp "$tracker_path" "$backup_path"
+  if ! cp "$tracker_path" "$backup_path"; then
+    printf '无法备份现有求职进度表，安装已停止: %s\n' "$tracker_path" >&2
+    exit 1
+  fi
   printf '已备份现有求职进度表: %s\n' "$backup_path"
 fi
 cp -r "$asu_skills_dir/skills/."     ~/.claude/skills/
@@ -233,7 +239,7 @@ Claude Code 根据 `description` 自动匹配技能，直接说人话即可：
 | 事项 | 说明 |
 | --- | --- |
 | `agents/openai.yaml` | Codex 专属配置，Claude Code 会忽略，保留或删除均可 |
-| `/contributor` 权限 | 本安装文档不授予远端写权限；具体授权以最新版 contributor skill 的逐项确认规则为准，未确认前只做只读扫描和本地 diff，使用最小 Git/GitHub 权限，不要使用 `--dangerously-skip-permissions` |
+| `/contributor` 权限 | 本文只说明安装，不授予或承诺 GitHub 写操作。使用 `/contributor` 前，请直接阅读已安装版本的 `skills/contributor/SKILL.md` 和目标仓库规则；在未阅读这些契约前，不执行 fork、push、PR、评论或 thread resolution，也不要使用 `--dangerously-skip-permissions` |
 | 项目级安装与 git | `.claude/skills` 默认会进 git，适合团队共享；若只想自己用，请改用方式 2 或加入 `.gitignore` |
 | 路径问题 | `resume` 和 `offer` 依赖 `.claude/assets/asu`、`.claude/references/asu`，必须复制共享资源，不要只拷 `SKILL.md` 或四个 skill 文件夹 |
 
