@@ -9,9 +9,9 @@ description: 中文秋招求职进度管理技能：记录和更新投递、筛�
 
 ## 资源定位
 
-本 skill 位于插件的 `skills/offer/` 目录时，共享资源位于 `../../assets/`，其中 `application-tracker.html` 是可编辑的求职进度表，`application-tracker-overview.svg` 是预览图。需要整理招聘邮箱时，先读取 `../../references/email-monitoring.md`。
+本 skill 位于插件的 `skills/offer/` 目录时，ASu 共享资源位于命名空间目录 `../../assets/asu/`，其中 `application-tracker.html` 是可编辑的求职进度表，`application-tracker-overview.svg` 是预览图。需要整理招聘邮箱时，先读取 `../../references/asu/email-monitoring.md`。
 
-如果 skill 被单独复制到其他目录，先从当前 skill 目录向上定位 `assets/` 和 `references/`，不要重新制作已有资源。
+如果 skill 被单独复制到其他目录，先从当前 skill 目录向上定位 `assets/asu/` 和 `references/asu/`，不要重新制作已有资源。
 
 ## 工作流程
 
@@ -29,3 +29,4 @@ description: 中文秋招求职进度管理技能：记录和更新投递、筛�
 ## 默认交付
 
 默认提供进度表文件、已识别记录摘要、状态变化、下一步清单和缺失信息。不要把用户的真实求职记录写进 skill 的模板或 README。
+

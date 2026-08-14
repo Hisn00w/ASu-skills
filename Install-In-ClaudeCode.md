@@ -18,13 +18,13 @@ asu_skills_dir=/path/to/ASu-skills
 # 进入你的工作项目
 cd /path/to/your-project
 
-# 创建 skill 和共享资源目录
-mkdir -p .claude/skills .claude/assets .claude/references
+# 创建 skill 和 ASu 命名空间资源目录
+mkdir -p .claude/skills .claude/assets/asu .claude/references/asu
 
 # 复制四个 skill 和共享资源
 cp -r "$asu_skills_dir/skills/."     .claude/skills/
-cp -r "$asu_skills_dir/assets/."     .claude/assets/
-cp -r "$asu_skills_dir/references/." .claude/references/
+cp -r "$asu_skills_dir/assets/."     .claude/assets/asu/
+cp -r "$asu_skills_dir/references/." .claude/references/asu/
 ```
 
 Windows PowerShell 版：
@@ -32,10 +32,10 @@ Windows PowerShell 版：
 ```powershell
 $sourceRoot = "D:\DevProject\ASu-skills"
 $targetRoot = Join-Path (Get-Location) ".claude"
-New-Item -ItemType Directory -Path (Join-Path $targetRoot "skills"),(Join-Path $targetRoot "assets"),(Join-Path $targetRoot "references") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $targetRoot "skills"),(Join-Path $targetRoot "assets\asu"),(Join-Path $targetRoot "references\asu") -Force | Out-Null
 Copy-Item (Join-Path $sourceRoot "skills\*") (Join-Path $targetRoot "skills") -Recurse -Force
-Copy-Item (Join-Path $sourceRoot "assets\*") (Join-Path $targetRoot "assets") -Recurse -Force
-Copy-Item (Join-Path $sourceRoot "references\*") (Join-Path $targetRoot "references") -Recurse -Force
+Copy-Item (Join-Path $sourceRoot "assets\*") (Join-Path $targetRoot "assets\asu") -Recurse -Force
+Copy-Item (Join-Path $sourceRoot "references\*") (Join-Path $targetRoot "references\asu") -Recurse -Force
 ```
 
 **最终目录结构（`skills/` 下的每个 skill 必须含 `SKILL.md`）：**
@@ -44,11 +44,13 @@ Copy-Item (Join-Path $sourceRoot "references\*") (Join-Path $targetRoot "referen
 your-project/
 └── .claude/
     ├── assets/
-    │   ├── application-tracker.html
-    │   ├── templates-html/
-    │   └── ...
+    │   └── asu/
+    │       ├── application-tracker.html
+    │       ├── templates-html/
+    │       └── ...
     ├── references/
-    │   └── email-monitoring.md
+    │   └── asu/
+    │       └── email-monitoring.md
     └── skills/
         ├── asu/SKILL.md
         ├── contributor/SKILL.md
@@ -56,17 +58,66 @@ your-project/
         └── offer/SKILL.md
 ```
 
-安装后可在项目根目录运行以下检查，确认共享资源没有漏拷：
+安装后可在项目根目录运行以下检查，确认四个 skill 和共享资源没有漏拷。任一资源缺失都会输出路径并返回非零状态。
 
 ```bash
-test -f .claude/assets/application-tracker.html
-test -d .claude/assets/templates-html
-test -f .claude/references/email-monitoring.md
+required_paths=(
+  .claude/skills/asu/SKILL.md
+  .claude/skills/contributor/SKILL.md
+  .claude/skills/resume/SKILL.md
+  .claude/skills/offer/SKILL.md
+  .claude/assets/asu/application-tracker.html
+  .claude/assets/asu/application-tracker-overview.svg
+  .claude/assets/asu/templates-html
+  .claude/assets/asu/resume-data-template.json
+  .claude/assets/asu/resume-template-editable.html
+  .claude/assets/asu/resume-template-two-page.html
+  .claude/assets/asu/template-overview.jpg
+  .claude/assets/asu/fictional-resume-photo.png
+  .claude/references/asu/email-monitoring.md
+)
+missing=0
+for path in "${required_paths[@]}"; do
+  if [ ! -e "$path" ]; then
+    printf '缺少资源: %s\n' "$path" >&2
+    missing=1
+  fi
+done
+if [ "$missing" -ne 0 ]; then
+  exit 1
+fi
+printf 'ASu-skills 安装检查通过。\n'
+```
+
+Windows PowerShell 版：
+
+```powershell
+$requiredPaths = @(
+    ".claude\skills\asu\SKILL.md",
+    ".claude\skills\contributor\SKILL.md",
+    ".claude\skills\resume\SKILL.md",
+    ".claude\skills\offer\SKILL.md",
+    ".claude\assets\asu\application-tracker.html",
+    ".claude\assets\asu\application-tracker-overview.svg",
+    ".claude\assets\asu\templates-html",
+    ".claude\assets\asu\resume-data-template.json",
+    ".claude\assets\asu\resume-template-editable.html",
+    ".claude\assets\asu\resume-template-two-page.html",
+    ".claude\assets\asu\template-overview.jpg",
+    ".claude\assets\asu\fictional-resume-photo.png",
+    ".claude\references\asu\email-monitoring.md"
+)
+$missingPaths = @($requiredPaths | Where-Object { -not (Test-Path -LiteralPath $_) })
+if ($missingPaths.Count -gt 0) {
+    $missingPaths | ForEach-Object { Write-Error "缺少资源: $_" }
+    exit 1
+}
+Write-Output "ASu-skills 安装检查通过。"
 ```
 
 ### 方式 2：用户级安装（本机所有项目可用）
 
-共享资源也要复制到同一个 `.claude/` 根目录，不能只复制 `skills/`：
+共享资源也要复制到同一个 `.claude/` 根目录下的 ASu 命名空间，不能只复制 `skills/`：
 
 - macOS / Linux：`~/.claude/skills/`
 - Windows：`%USERPROFILE%\.claude\skills\`
@@ -77,10 +128,10 @@ test -f .claude/references/email-monitoring.md
 # 设置 ASu-skills 仓库路径
 asu_skills_dir=/path/to/ASu-skills
 
-mkdir -p ~/.claude/skills ~/.claude/assets ~/.claude/references
+mkdir -p ~/.claude/skills ~/.claude/assets/asu ~/.claude/references/asu
 cp -r "$asu_skills_dir/skills/."     ~/.claude/skills/
-cp -r "$asu_skills_dir/assets/."     ~/.claude/assets/
-cp -r "$asu_skills_dir/references/." ~/.claude/references/
+cp -r "$asu_skills_dir/assets/."     ~/.claude/assets/asu/
+cp -r "$asu_skills_dir/references/." ~/.claude/references/asu/
 ```
 
 Windows PowerShell 用户级安装：
@@ -88,10 +139,10 @@ Windows PowerShell 用户级安装：
 ```powershell
 $sourceRoot = "D:\DevProject\ASu-skills"
 $targetRoot = Join-Path $env:USERPROFILE ".claude"
-New-Item -ItemType Directory -Path (Join-Path $targetRoot "skills"),(Join-Path $targetRoot "assets"),(Join-Path $targetRoot "references") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $targetRoot "skills"),(Join-Path $targetRoot "assets\asu"),(Join-Path $targetRoot "references\asu") -Force | Out-Null
 Copy-Item (Join-Path $sourceRoot "skills\*") (Join-Path $targetRoot "skills") -Recurse -Force
-Copy-Item (Join-Path $sourceRoot "assets\*") (Join-Path $targetRoot "assets") -Recurse -Force
-Copy-Item (Join-Path $sourceRoot "references\*") (Join-Path $targetRoot "references") -Recurse -Force
+Copy-Item (Join-Path $sourceRoot "assets\*") (Join-Path $targetRoot "assets\asu") -Recurse -Force
+Copy-Item (Join-Path $sourceRoot "references\*") (Join-Path $targetRoot "references\asu") -Recurse -Force
 ```
 
 
@@ -126,9 +177,9 @@ Claude Code 根据 `description` 自动匹配技能，直接说人话即可：
 | 事项 | 说明 |
 | --- | --- |
 | `agents/openai.yaml` | Codex 专属配置，Claude Code 会忽略，保留或删除均可 |
-| `/contributor` 权限 | 先只读扫描并展示 diff；fork、push 和提交 PR 前逐个明确确认，使用最小 Git/GitHub 权限，不要使用 `--dangerously-skip-permissions` |
+| `/contributor` 权限 | 本安装文档不授予远端写权限；具体授权以最新版 contributor skill 的逐项确认规则为准，未确认前只做只读扫描和本地 diff，使用最小 Git/GitHub 权限，不要使用 `--dangerously-skip-permissions` |
 | 项目级安装与 git | `.claude/skills` 默认会进 git，适合团队共享；若只想自己用，请改用方式 2 或加入 `.gitignore` |
-| 路径问题 | `resume` 和 `offer` 依赖 `.claude/assets`、`.claude/references`，必须复制共享资源，不要只拷 `SKILL.md` 或四个 skill 文件夹 |
+| 路径问题 | `resume` 和 `offer` 依赖 `.claude/assets/asu`、`.claude/references/asu`，必须复制共享资源，不要只拷 `SKILL.md` 或四个 skill 文件夹 |
 
 ## 六、卸载
 
@@ -142,6 +193,30 @@ rm -rf .claude/skills/asu .claude/skills/contributor .claude/skills/resume .clau
 rm -rf ~/.claude/skills/asu ~/.claude/skills/contributor ~/.claude/skills/resume ~/.claude/skills/offer
 ```
 
+上面的命令不会删除共享资源，因为 `application-tracker.html` 可能包含用户编辑内容。确认不需要这些 ASu 资源后，再分别执行：
+
+```bash
+shared_paths=(
+  .claude/assets/asu
+  .claude/references/asu
+  "${HOME}/.claude/assets/asu"
+  "${HOME}/.claude/references/asu"
+)
+existing_paths=()
+for path in "${shared_paths[@]}"; do
+  [ -e "$path" ] && existing_paths+=("$path")
+done
+if [ "${#existing_paths[@]}" -gt 0 ]; then
+  printf '将删除以下 ASu 共享资源:\n%s\n' "${existing_paths[*]}"
+  read -r -p '确认删除请输入 DELETE，否则保留: ' answer
+  if [ "$answer" = "DELETE" ]; then
+    rm -rf -- "${existing_paths[@]}"
+  else
+    printf '已保留 ASu 共享资源。\n'
+  fi
+fi
+```
+
 Windows PowerShell：
 
 ```powershell
@@ -150,5 +225,26 @@ Remove-Item -Path .claude\skills\asu,.claude\skills\contributor,.claude\skills\r
 
 # 用户级
 Remove-Item -Path "$env:USERPROFILE\.claude\skills\asu","$env:USERPROFILE\.claude\skills\contributor","$env:USERPROFILE\.claude\skills\resume","$env:USERPROFILE\.claude\skills\offer" -Recurse -Force
+```
+
+上面的命令不会删除共享资源。确认不需要这些 ASu 资源后，再运行以下 PowerShell 清理命令；输入 `DELETE` 以确认，其他输入都会保留资源：
+
+```powershell
+$sharedPaths = @(
+    (Join-Path (Get-Location) ".claude\assets\asu"),
+    (Join-Path (Get-Location) ".claude\references\asu"),
+    (Join-Path $env:USERPROFILE ".claude\assets\asu"),
+    (Join-Path $env:USERPROFILE ".claude\references\asu")
+)
+$existingPaths = @($sharedPaths | Where-Object { Test-Path -LiteralPath $_ })
+if ($existingPaths.Count -gt 0) {
+    $existingPaths | ForEach-Object { Write-Output "将删除: $_" }
+    $answer = Read-Host "确认删除请输入 DELETE，否则保留"
+    if ($answer -eq "DELETE") {
+        Remove-Item -LiteralPath $existingPaths -Recurse -Force
+    } else {
+        Write-Output "已保留 ASu 共享资源。"
+    }
+}
 ```
 
