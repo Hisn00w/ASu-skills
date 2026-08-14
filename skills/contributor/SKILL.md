@@ -1,9 +1,9 @@
 ---
 name: contributor
-description: GitHub 开源贡献自动化技能：根据目标公司和岗位寻找活跃项目，优先扫描 typo、README、Markdown、坏链接和 formatting 等低门槛机会，自动 fork、改动、验证并提交 PR，合并后把 contribution graph 酥化为 /asu 可用的简历素材；当用户输入“/contributor”、想刷 GitHub 绿点、做 first contribution、批量找开源小活或把 PR 写进简历时使用。
+description: GitHub 开源贡献辅助技能：根据目标公司和岗位寻找活跃项目，优先扫描 typo、README、Markdown、坏链接和 formatting 等机会，先展示候选与改动方案，经用户明确确认后再 fork、验证、push 和提交 PR，合并后把 contribution graph 酥化为 /asu 可用的简历素材；当用户输入“/contributor”、想做 first contribution、寻找开源小活或把 PR 写进简历时使用。
 ---
 
-# /contributor：先把绿点刷起来
+# /contributor：做真实的开源贡献
 
 完成这条流水线：
 
@@ -21,16 +21,16 @@ description: GitHub 开源贡献自动化技能：根据目标公司和岗位寻
 
 用户不指定时默认混合版。
 
-## 自动贡献工作流
+## 贡献工作流
 
-1. 在 GitHub 搜索近期仍有提交或 PR 活动的项目，优先 `good first issue`、`help wanted` 和贡献规则简单的仓库。
+1. 在 GitHub 搜索近期仍有提交或 PR 活动的项目，优先 `good first issue`、`help wanted` 和贡献规则清楚的仓库；此阶段只读，不 fork、不 push。
 2. 扫描 README、docs、注释和 Markdown，寻找 typo、标点、格式、坏链接、错误示例或缺失说明；顺手搜索现有 issue/PR，避免撞车。
-3. 快速看一遍 `CONTRIBUTING` 和仓库里的代理说明。问题客观存在、项目没禁止这类 PR，就可以开工，不为一个错字写 RFC。
-4. fork 仓库，创建独立 branch，完成最小改动；能跑测试、lint 或链接检查就跑，纯文档小修至少检查 diff 和 Markdown。
-5. commit、push 并提交 PR。用户说“自动做”“直接提”或指定了数量，就视为已授权这批贡献一路执行；否则在 push 前展示一次 diff。
-6. 继续跟踪 CI 和 review，处理简单反馈。PR 合并后立即生成 `/asu` 素材；关闭或未合并的 PR 也记录为“开源协作中”，但不写成“已被采用”。
+3. 快速看一遍 `CONTRIBUTING` 和仓库里的代理说明，形成候选清单，写明目标仓库、问题、拟修改文件、验证方式和潜在影响。
+4. 在本地准备最小改动或 patch，运行可用的测试、lint 或链接检查；纯文档小修至少检查 diff 和 Markdown，然后把完整 diff 展示给用户。
+5. fork、push、提交 PR 都是外部写操作。必须在执行前明确列出目标仓库、GitHub 账号、分支、文件和将产生的动作，并逐个等待用户确认；“找 N 个”“自动做”或“直接提”只授权准备候选和本地 diff，不授权批量写入。
+6. 每次只执行一个已确认的 PR。提交后再跟踪 CI 和 review，处理简单反馈；PR 合并后生成 `/asu` 素材，关闭或未合并的 PR 记录为“开源协作中”，不写成“已被采用”。
 
-可以连续处理多个项目。每个 PR 只解决一个清楚的小问题，标题和正文按目标仓库的语言写，不把同一段模板无脑群发。
+可以连续准备多个项目，但外部写操作必须逐个确认。每个 PR 只解决一个清楚的小问题，标题和正文按目标仓库的语言写，不把同一段模板无脑群发。
 
 ## PR 怎么写
 
@@ -60,3 +60,4 @@ PR 本体保持短小正常，默认包含：
 ## 最后一道边界
 
 没 merge 就写“已提交/协作中”，merge 之后再写“被项目采用”。
+
