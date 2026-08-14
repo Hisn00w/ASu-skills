@@ -21,6 +21,19 @@ cd /path/to/your-project
 # 创建 skill 和 ASu 命名空间资源目录
 mkdir -p .claude/skills .claude/assets/asu .claude/references/asu
 
+# 重装前备份可编辑的求职进度表；不会覆盖已有备份
+tracker_path=.claude/assets/asu/application-tracker.html
+if [ -f "$tracker_path" ]; then
+  backup_path="${tracker_path}.bak"
+  backup_index=1
+  while [ -e "$backup_path" ]; do
+    backup_path="${tracker_path}.bak.${backup_index}"
+    backup_index=$((backup_index + 1))
+  done
+  cp "$tracker_path" "$backup_path"
+  printf '已备份现有求职进度表: %s\n' "$backup_path"
+fi
+
 # 复制四个 skill 和共享资源
 cp -r "$asu_skills_dir/skills/."     .claude/skills/
 cp -r "$asu_skills_dir/assets/."     .claude/assets/asu/
@@ -33,10 +46,23 @@ Windows PowerShell 版：
 $sourceRoot = "D:\DevProject\ASu-skills"
 $targetRoot = Join-Path (Get-Location) ".claude"
 New-Item -ItemType Directory -Path (Join-Path $targetRoot "skills"),(Join-Path $targetRoot "assets\asu"),(Join-Path $targetRoot "references\asu") -Force | Out-Null
+$trackerPath = Join-Path $targetRoot "assets\asu\application-tracker.html"
+if (Test-Path -LiteralPath $trackerPath -PathType Leaf) {
+    $backupPath = "$trackerPath.bak"
+    $backupIndex = 1
+    while (Test-Path -LiteralPath $backupPath) {
+        $backupPath = "$trackerPath.bak.$backupIndex"
+        $backupIndex++
+    }
+    Copy-Item -LiteralPath $trackerPath -Destination $backupPath -ErrorAction Stop
+    Write-Output "已备份现有求职进度表: $backupPath"
+}
 Copy-Item (Join-Path $sourceRoot "skills\*") (Join-Path $targetRoot "skills") -Recurse -Force
 Copy-Item (Join-Path $sourceRoot "assets\*") (Join-Path $targetRoot "assets\asu") -Recurse -Force
 Copy-Item (Join-Path $sourceRoot "references\*") (Join-Path $targetRoot "references\asu") -Recurse -Force
 ```
+
+重复安装会在替换 `application-tracker.html` 前创建不覆盖的 `.bak` 备份，以保留用户在进度表中的编辑；其余共享资源照常更新。
 
 **最终目录结构（`skills/` 下的每个 skill 必须含 `SKILL.md`）：**
 
@@ -137,6 +163,17 @@ Write-Output "ASu-skills 安装检查通过。"
 asu_skills_dir=/path/to/ASu-skills
 
 mkdir -p ~/.claude/skills ~/.claude/assets/asu ~/.claude/references/asu
+tracker_path="$HOME/.claude/assets/asu/application-tracker.html"
+if [ -f "$tracker_path" ]; then
+  backup_path="${tracker_path}.bak"
+  backup_index=1
+  while [ -e "$backup_path" ]; do
+    backup_path="${tracker_path}.bak.${backup_index}"
+    backup_index=$((backup_index + 1))
+  done
+  cp "$tracker_path" "$backup_path"
+  printf '已备份现有求职进度表: %s\n' "$backup_path"
+fi
 cp -r "$asu_skills_dir/skills/."     ~/.claude/skills/
 cp -r "$asu_skills_dir/assets/."     ~/.claude/assets/asu/
 cp -r "$asu_skills_dir/references/." ~/.claude/references/asu/
@@ -148,6 +185,17 @@ Windows PowerShell 用户级安装：
 $sourceRoot = "D:\DevProject\ASu-skills"
 $targetRoot = Join-Path $env:USERPROFILE ".claude"
 New-Item -ItemType Directory -Path (Join-Path $targetRoot "skills"),(Join-Path $targetRoot "assets\asu"),(Join-Path $targetRoot "references\asu") -Force | Out-Null
+$trackerPath = Join-Path $targetRoot "assets\asu\application-tracker.html"
+if (Test-Path -LiteralPath $trackerPath -PathType Leaf) {
+    $backupPath = "$trackerPath.bak"
+    $backupIndex = 1
+    while (Test-Path -LiteralPath $backupPath) {
+        $backupPath = "$trackerPath.bak.$backupIndex"
+        $backupIndex++
+    }
+    Copy-Item -LiteralPath $trackerPath -Destination $backupPath -ErrorAction Stop
+    Write-Output "已备份现有求职进度表: $backupPath"
+}
 Copy-Item (Join-Path $sourceRoot "skills\*") (Join-Path $targetRoot "skills") -Recurse -Force
 Copy-Item (Join-Path $sourceRoot "assets\*") (Join-Path $targetRoot "assets\asu") -Recurse -Force
 Copy-Item (Join-Path $sourceRoot "references\*") (Join-Path $targetRoot "references\asu") -Recurse -Force
@@ -296,4 +344,3 @@ if ($userExistingPaths.Count -gt 0) {
     }
 }
 ```
-
