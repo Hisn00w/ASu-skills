@@ -3,12 +3,18 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills 图标">
   <h3>中文求职工作流插件</h3>
-  <p>用四个独立入口完成开源贡献、经历酥化、简历制作和秋招进度管理。</p>
+  <p>用五个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻和秋招进度管理。</p>
 </div>
 
-ASu-skills 现在是一个 插件包。安装后会提供四个可单独调用的入口：
+[![Build with CODEX](<https://img.shields.io/badge/Build%20with-CODEX-59B390?style=for-the-badge&logo=openai&logoColor=white>)](https://chatgpt.com/codex) [![GitHub Stars](https://img.shields.io/github/stars/Hisn00w/ASu-skills?style=for-the-badge)](https://github.com/Hisn00w/ASu-skills/stargazers)
 
-[![Build with CODEX](https://img.shields.io/badge/Build%20with-CODEX-59B390?style=for-the-badge&logo=openai&logoColor=white)](https://chatgpt.com/codex) [![GitHub Stars](https://img.shields.io/github/stars/Hisn00w/ASu-skills?style=for-the-badge)](https://github.com/Hisn00w/ASu-skills/stargazers)
+## 阿酥同款简历
+
+现在输入“我想要阿酥同款简历”就能制作属于你的简历！支持 AI 编辑和手动编辑。
+
+<img src="assets/asu-resume-editor.png" alt="阿酥同款简历编辑器" width="900" />
+
+ASu-skills 现在是一个插件包。安装后会提供五个可单独调用的入口：
 
 ## Harness 工程更新
 
@@ -18,23 +24,24 @@ ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 
 
 [前往 GitHub 查看 ASu Harness 工程](https://github.com/Hisn00w/Asu)
 
-| 入口        | 用途     | 主要交付                                    |
-| ----------- | -------- | ------------------------------------------- |
-| `/contributor` | 开源贡献 | 自动找活、提交 PR、把 GitHub 绿点喂给 `/asu` |
-| `/asu`    | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白     |
-| `/resume` | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出        |
-| `/offer`  | 秋招进度 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪 |
+| 入口             | 用途     | 主要交付                                      |
+| ---------------- | -------- | --------------------------------------------- |
+| `/contributor` | 开源贡献 | 自动找活、提交 PR、把 GitHub 绿点喂给`/asu` |
+| `/asu`         | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白       |
+| `/resume`      | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出          |
+| `/asu-resume`  | 同款简历 | 复刻 ASu 单栏高密度技术简历、Logo 资源和 PDF  |
+| `/offer`       | 秋招进度 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪   |
 
 ## 安装
 
 最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件：
 
 ```text
-请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、resume、offer 四个 skills：
+请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、resume、asu-resume、offer 五个 skills：
 https://github.com/Hisn00w/ASu-skills
 ```
 
-安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`resume` 或 `offer`。
+安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume` 或 `offer`。
 
 如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
 
@@ -42,6 +49,7 @@ https://github.com/Hisn00w/ASu-skills
 $contributor 根据我的目标岗位自动寻找容易完成的开源贡献，提 PR 并在合并后交给 /asu 酥化。
 $asu 请把我的实习经历改写成适合 AI 应用工程师岗位的版本。
 $resume 根据我的经历制作一份可编辑的中文 HTML 简历。
+$asu-resume 根据我的经历复刻参考图中的单栏高密度技术简历，并输出可编辑 HTML。
 $offer 把这些招聘邮件整理成秋招投递进度表。
 ```
 
@@ -112,6 +120,30 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 
 ![简历模板预览](assets/template-overview.jpg)
 
+## `/asu-resume`：复刻同款高密度技术简历
+
+`/asu-resume` 专门复刻参考图中的单栏技术简历，适合应届生、实习生和 AI/Agent/LLM/等方向。用户也可以直接输入“我想要阿酥同款简历”触发同一技能。它会先按目标岗位酥化真实经历，再以模板为只读母版生成用户专属可编辑 HTML；不把截图直接嵌入简历，也不修改模板源文件。
+
+模板包含：
+
+- 顶部身份、联系方式、公开链接和教育背景；
+- 顶部最右侧预留证件照位置，个人信息区使用 SVG 图标，不使用 Emoji；
+- 蓝色分区标题、浅灰公司条和高密度项目要点；
+- `assets/icons/` 中的电话、邮箱、微信、身份、教育和 Star 图标；
+- `assets/logos/` 中的 OpenAI、Claude、ByteDance、bilibili、GitHub SVG Logo；
+- A4 两页连续排版、浏览器编辑和 PDF 导出。
+- HTML 工具栏可切换 `A4 分页` 或 `A4 长页（不限高度）`，分页模式带纸张阴影，长页模式保持 A4 宽度并居中。
+
+典型用法：
+
+```text
+/asu-resume
+
+请读取我提供的简历，复刻参考图中的同款单栏高密度技术简历，输出可编辑 HTML 和 PDF。
+```
+
+获取新增 AI、模型、平台或公司 Logo 时，优先遵循 [LobeHub Icons 技能说明](https://lobehub.com/icons/skill.md)，使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的 SVG/CDN 资源，不使用低清截图或自行绘制品牌图标。
+
 ## `/offer`：秋招进度管理
 
 `/offer` 把招聘网站、邮件、聊天记录和截图中的信息整理成求职漏斗，默认记录：
@@ -139,14 +171,15 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 
 ![秋招进度表预览](assets/application-tracker-overview.svg)
 
-## 四个入口如何配合
+## 五个入口如何配合
 
 推荐按照下面的顺序使用：
 
 1. 用 `/contributor` 完成与目标岗位相关的真实开源贡献，并在 PR 合并后生成证据卡；
 2. 用 `/asu` 根据证据卡和已有经历明确目标岗位，整理简历表述和 HR 话术；
 3. 用 `/resume` 把确认后的文字放入可编辑简历并导出 PDF；
-4. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
+4. 需要复刻ASu同款简历时用 `/asu-resume` 生成同款技术简历；
+5. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
 
 也可以在同一条需求里说明组合目标，例如：“先用 `/contributor` 整理已合并 PR，再用 `/asu` 改写经历，最后用 `/resume` 生成 HTML 简历”。
 
@@ -178,10 +211,17 @@ asu-skills/
 │   ├── resume/
 │   │   ├── SKILL.md             # /resume 简历制作
 │   │   └── agents/openai.yaml
+│   ├── asu-resume/
+│   │   ├── SKILL.md             # /asu-resume 同款技术简历
+│   │   ├── references/          # 模板结构与排版规则
+│   │   └── agents/openai.yaml
 │   └── offer/
 │       ├── SKILL.md             # /offer 秋招进度
 │       └── agents/openai.yaml
 ├── assets/                      # 模板、图片、进度表和示例资源
+│   ├── asu-resume-template.html # ASu 同款可编辑简历起点
+│   ├── icons/                    # 个人信息与通用信息 SVG 图标
+│   └── logos/                    # LobeHub Icons 静态 SVG Logo
 ├── references/                  # 招聘邮箱整理参考
 ├── CONTRIBUTING.md              # 贡献指南与贡献者职级对照表
 └── README.md
@@ -199,6 +239,8 @@ asu-skills/
 - [**Hi Mr Lonely**](https://xhslink.cn/m/3kVQDyUJ6of)：关于简历包装与求职表达的分享。
 
 本插件对相关内容进行了整理、结构化和合规化改写，用于形成可复用的求职工作流。
+
+感谢 [LobeHub/lobe-icons](https://github.com/lobehub/lobe-icons) 提供开源品牌图标资源；本插件按其技能说明优先使用 `@lobehub/icons` 及静态 SVG/CDN 资源。
 
 ## 开源协议
 

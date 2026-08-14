@@ -1,7 +1,7 @@
 {
   "name": "asu-skills",
   "version": "0.3.0",
-  "description": "中文求职工作流：开源贡献、经历酥化、简历制作和秋招进度管理。",
+  "description": "中文求职工作流：开源贡献、经历酥化、同款技术简历制作和秋招进度管理。",
   "author": {
     "name": "Hisn0w",
     "url": "https://github.com/Hisn00w"
@@ -13,8 +13,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "ASu-skills",
-    "shortDescription": "用 /contributor、/asu、/resume、/offer 完成中文求职工作流",
-    "longDescription": "ASu-skills 将开源贡献、经历酥化、中文简历制作和秋招进度管理拆成四个可单独调用的 Codex skill。",
+    "shortDescription": "用 /contributor、/asu、/resume、/asu-resume、/offer 完成中文求职工作流",
+    "longDescription": "ASu-skills 将开源贡献、经历酥化、中文简历制作、同款高密度技术简历复刻和秋招进度管理拆成五个可单独调用的 Codex skill。",
     "developerName": "Hisn0w",
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],
@@ -23,6 +23,7 @@
       "用 /contributor 寻找与目标岗位匹配的开源贡献机会。",
       "用 /asu 酥化我的经历并生成 HR 开场白。",
       "用 /resume 制作可编辑 HTML 简历。",
+      "用 /asu-resume 根据参考图复刻同款单栏高密度技术简历。",
       "用 /offer 记录我的秋招投递和进度。"
     ],
     "brandColor": "#11A683",
