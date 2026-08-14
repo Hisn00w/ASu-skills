@@ -1,5 +1,5 @@
 interface:
   display_name: "contributor"
-  short_description: "寻找开源贡献候选，确认后提交 PR并整理求职素材"
+  short_description: "寻找开源贡献候选，逐项确认后提交 PR并整理求职素材"
   default_prompt: "用 $contributor 根据我的目标岗位寻找开源贡献候选，先展示问题、拟改动和验证结果；经我逐个确认后再提交 PR，并在合并后交给 /asu 酥化。"
 
