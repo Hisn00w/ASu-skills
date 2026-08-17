@@ -1,5 +1,10 @@
 # 贡献指南
 
+<div align="center">
+  <a href="CONTRIBUTING_en.md"><img src="https://img.shields.io/badge/English-Contribution-11A683?style=for-the-badge" alt="English"></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97-59B390?style=for-the-badge" alt="贡献指南"></a>
+</div>
+
 本仓库对贡献者一律酥化处理。
 
 最近 issue 里出现了大量「求蹭一个 contributor」。我们决定不再逐条回复，而是把换算规则公开。
