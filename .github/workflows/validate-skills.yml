@@ -1,0 +1,37 @@
+name: validate-skills
+
+on:
+  pull_request:
+    paths:
+      - 'skills/**'
+      - '.codex-plugin/**'
+      - 'scripts/validate_skills.py'
+      - 'tests/skill-routing-cases.yaml'
+      - '.github/workflows/validate-skills.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'skills/**'
+      - '.codex-plugin/**'
+      - 'scripts/validate_skills.py'
+      - 'tests/skill-routing-cases.yaml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate skills metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run skill validator
+        run: python3 scripts/validate_skills.py
