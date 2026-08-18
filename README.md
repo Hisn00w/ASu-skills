@@ -204,6 +204,10 @@ ASu-skills 的“酥化”是强定位、强证据和清晰表达，不是伪造
 asu-skills/
 ├── .codex-plugin/
 │   └── plugin.json              # 插件清单
+├── package.json                # DSH 插件包清单（bundle patch 入口）
+├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方
+├── lib/
+│   └── index.js                # DSH 插件入口模块
 ├── skills/
 │   ├── asu/
 │   │   ├── SKILL.md             # /asu 经历酥化

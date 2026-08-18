@@ -1,0 +1,45 @@
+{
+  "name": "asu-skills",
+  "version": "0.3.0",
+  "description": "中文求职工作流 skills：开源贡献、经历酥化、可编辑简历制作、同款高密度技术简历复刻和秋招进度管理（DeepSeek Harness 插件包）。",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "skills",
+    "assets",
+    "references",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "agent-skill",
+    "resume",
+    "job-search",
+    "career",
+    "open-source",
+    "chinese",
+    "asu"
+  ],
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hisn00w/ASu-skills.git"
+  },
+  "homepage": "https://github.com/Hisn00w/ASu-skills",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
