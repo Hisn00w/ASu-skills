@@ -186,6 +186,8 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 
 也可以在同一条需求里说明组合目标，例如：“先用 `/contributor` 整理已合并 PR，再用 `/asu` 改写经历，最后用 `/resume` 生成 HTML 简历”。
 
+组合使用多个入口、材料存在冲突或简历包含强主张时，可以复制 [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) 建立主张—证据账本。它让开源贡献、经历改写和简历文件共享同一份事实、确认状态与个人边界；详细规则见 [`skills/asu/references/claim-evidence-ledger.md`](skills/asu/references/claim-evidence-ledger.md)。
+
 ## 事实边界
 
 ASu-skills 的“酥化”是强定位、强证据和清晰表达，不是伪造经历。使用时请遵守：
