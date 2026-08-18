@@ -35,6 +35,24 @@ ASu-skills 现在是一个插件包。安装后会提供五个可单独调用的
 | `/asu-resume`  | 同款简历 | 复刻 ASu 单栏高密度技术简历、Logo 资源和 PDF  |
 | `/offer`       | 秋招进度 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪   |
 
+## 第一次使用：从哪个入口开始
+
+先根据当前最需要解决的问题选择第一个入口：
+
+| 当前情况 | 建议先使用 |
+| -------- | ---------- |
+| 缺少可验证的项目或协作经历 | `/contributor` |
+| 已有经历，但不知道如何匹配目标岗位 | `/asu` |
+| 简历内容已确定，需要制作常规可编辑简历 | `/resume` |
+| 想复刻 ASu 同款高密度技术简历 | `/asu-resume` |
+| 已开始投递，需要整理招聘邮件和后续进度 | `/offer` |
+
+也可以组合多个入口：
+
+- **没有实习、想补充真实经历**：先用 `/contributor` 完成与岗位相关的开源贡献，再交给 `/asu` 整理成可核验的简历表述；
+- **已有项目、准备开始投递**：先用 `/asu` 对齐目标岗位，再用 `/resume` 或 `/asu-resume` 生成简历；
+- **已经投递、需要持续跟进**：直接用 `/offer` 整理邮件和状态，简历需要更新时再回到 `/asu` 和 `/resume`。
+
 ## 安装
 
 最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件：
@@ -258,4 +276,3 @@ asu-skills/
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Hisn00w/ASu-skills&type=timeline&legend=top-left&sealed_token=bjbMfvRN5HhBif26VkNL7fMNZhYEU6NOxOMDWOzZvQnyJjYS5cPBNShexQ_xybTo30fuVzzhrKWq4x4IZAHEFrDesIwfK5iGJONtmrR_3Hhz3B2UFaKxs2iptYBKSxN0TbubpjnmkGaFme25ufww7AXpqptuXSHNK9KAWAP45t26kEa8NXXbLPxqH-5w" />
  </picture>
 </a>
-
