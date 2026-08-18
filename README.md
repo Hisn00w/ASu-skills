@@ -45,7 +45,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 https://github.com/Hisn00w/ASu-skills
 ```
 
-安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume` 或 `offer`。
+安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume`、`interview` 或 `offer`。
 
 如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
 
@@ -234,7 +234,8 @@ asu-skills/
 │   │   ├── references/          # 模板结构与排版规则
 │   │   └── agents/openai.yaml
 │   ├── interview/
-│   │   └── SKILL.md             # /interview 面试预测与连续追问
+│   │   ├── SKILL.md             # /interview 面试预测与连续追问
+│   │   └── agents/openai.yaml
 │   └── offer/
 │       ├── SKILL.md             # /offer 秋招进度
 │       └── agents/openai.yaml
