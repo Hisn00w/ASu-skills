@@ -4,7 +4,7 @@
 * { box-sizing:border-box; }
 html { background:#e9eef3; }
 body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-family:Arial, "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; font-size:14px; line-height:1.46; }
-.resume-toolbar { position:fixed; z-index:1000; left:0; right:0; top:0; min-height:58px; padding:10px 18px; display:flex; align-items:center; justify-content:flex-end; gap:9px; background:rgba(255,255,255,.97); border-bottom:1px solid #ccd5df; box-shadow:0 2px 10px rgba(21,41,62,.12); }
+.resume-toolbar { position:fixed; z-index:1000; left:0; right:0; top:0; min-height:58px; padding:10px 18px; display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:9px; background:rgba(255,255,255,.97); border-bottom:1px solid #ccd5df; box-shadow:0 2px 10px rgba(21,41,62,.12); }
 .toolbar-title { margin-right:auto; color:#3b4b5d; font-size:13px; letter-spacing:.06em; }
 .resume-toolbar button { border:1px solid #9db0c4; border-radius:5px; background:#fff; color:#24466e; padding:7px 13px; font:inherit; cursor:pointer; }
 .resume-toolbar button:hover { background:#edf4fb; border-color:#315f98; }
@@ -179,7 +179,10 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
 <div class="resume-toolbar" role="toolbar" aria-label="简历工具" contenteditable="false">
   <span class="toolbar-title">HTML 简历</span>
   <button type="button" data-action="edit">编辑</button>
-  <label class="toolbar-control">字体<select data-action="font" aria-label="字体"><option value="Microsoft YaHei">微软雅黑</option><option value="SimSun">宋体</option><option value="SimHei">黑体</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option></select></label>
+  <label class="toolbar-control">字体<select data-action="font" aria-label="字体"><option value="Microsoft YaHei">微软雅黑</option><option value="SimSun">宋体</option><option value="SimHei">黑体</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><optgroup label="本地字体" data-local-font-group></optgroup></select></label>
+  <button type="button" data-action="local-fonts" title="读取系统中已安装的字体（需浏览器授权）">本地字体</button>
+  <button type="button" data-action="import-font" title="导入本地字体文件（TTF / OTF / WOFF / WOFF2）">导入字体</button>
+  <input type="file" accept=".ttf,.otf,.ttc,.woff,.woff2" multiple data-font-file-input hidden>
   <label class="toolbar-control color-control">文字颜色<input type="color" data-action="color" value="#20252b" aria-label="文字颜色"></label>
   <button type="button" data-action="bold" title="对选中文字加粗或取消加粗"><strong>B</strong> 加粗</button>
   <button type="button" data-action="photo">替换照片</button>
@@ -236,7 +239,227 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
     reader.onload = () => { const image = document.querySelector('.photo-frame img'); if (image) image.src = reader.result; };
     reader.readAsDataURL(file);
   });
-  fontSelect?.addEventListener('change', () => applyFormat('fontName', fontSelect.value));
+  const localFontGroup = fontSelect ? fontSelect.querySelector('[data-local-font-group]') : null;
+  const localFontButton = document.querySelector('[data-action="local-fonts"]');
+  const importFontButton = document.querySelector('[data-action="import-font"]');
+  const fontFileInput = document.querySelector('[data-font-file-input]');
+  const toolbarTitle = document.querySelector('.toolbar-title');
+  const localFontValuePrefix = 'local:';
+  const removeLocalFontsValue = '__remove_local_fonts__';
+  const installedFontBlocklist = ['icon', 'emoji', 'symbol', 'wingdings', 'webdings', 'dingbat', 'awesome'];
+  const localFontsStorageKey = `resume-local-fonts-${window.location.pathname.split('/').pop() || 'default'}`;
+  const fontDbName = 'resume-local-fonts';
+  const fontStoreName = 'fonts';
+  const fontFaces = new Map();
+  let localFonts = [];
+  let installedFontNames = [];
+  let statusTimer = null;
+
+  const setToolStatus = (text) => {
+    if (!toolbarTitle) return;
+    toolbarTitle.textContent = text;
+    window.clearTimeout(statusTimer);
+    statusTimer = window.setTimeout(() => { toolbarTitle.textContent = 'HTML 简历'; }, 3000);
+  };
+  const openFontDb = () => new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) {
+      reject(new Error('IndexedDB 不可用'));
+      return;
+    }
+    const request = indexedDB.open(fontDbName, 1);
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(fontStoreName)) db.createObjectStore(fontStoreName, { keyPath: 'name' });
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error || new Error('IndexedDB 打开失败'));
+  });
+  const fontDbRun = (method, mode, ...args) => openFontDb().then((db) => new Promise((resolve, reject) => {
+    const request = db.transaction(fontStoreName, mode).objectStore(fontStoreName)[method](...args);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error || new Error('IndexedDB 操作失败'));
+  }));
+  const saveFontEntry = (name, data) => fontDbRun('put', 'readwrite', { name, data });
+  const getAllFontEntries = () => fontDbRun('getAll', 'readonly').then((entries) => (Array.isArray(entries) ? entries : []));
+  const clearFontEntries = () => fontDbRun('clear', 'readwrite');
+  const registerLocalFont = async (name, dataUrl) => {
+    const fontFace = new FontFace(name, `url(${dataUrl})`);
+    await fontFace.load();
+    const previous = fontFaces.get(name);
+    if (previous) document.fonts.delete(previous);
+    document.fonts.add(fontFace);
+    fontFaces.set(name, fontFace);
+  };
+  const refreshLocalFontOptions = () => {
+    if (!localFontGroup) return;
+    const names = [];
+    installedFontNames.forEach((name) => {
+      if (!names.includes(name)) names.push(name);
+    });
+    localFonts.forEach((font) => {
+      if (!names.includes(font.name)) names.push(font.name);
+    });
+    localFontGroup.innerHTML = '';
+    names.forEach((name) => {
+      const option = document.createElement('option');
+      option.value = localFontValuePrefix + name;
+      option.textContent = name;
+      localFontGroup.appendChild(option);
+    });
+    if (names.length) {
+      const removeOption = document.createElement('option');
+      removeOption.value = removeLocalFontsValue;
+      removeOption.textContent = '移除全部本地字体';
+      localFontGroup.appendChild(removeOption);
+    }
+  };
+  const importFontFile = (file) => new Promise((resolve) => {
+    const name = (file.name || '本地字体').replace(/\.(ttf|otf|ttc|woff2?|sfnt)$/i, '').trim() || '本地字体';
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const dataUrl = String(reader.result || '');
+      try {
+        await registerLocalFont(name, dataUrl);
+      } catch (error) {
+        setToolStatus('字体文件无法解析');
+        resolve();
+        return;
+      }
+      localFonts = localFonts.filter((font) => font.name !== name);
+      localFonts.push({ name, data: dataUrl });
+      let persisted = false;
+      try {
+        await saveFontEntry(name, dataUrl);
+        persisted = true;
+      } catch (error) { /* 回退 localStorage */ }
+      if (persisted) {
+        try {
+          localStorage.removeItem(localFontsStorageKey);
+        } catch (error) { /* 忽略清理失败 */ }
+      } else {
+        try {
+          localStorage.setItem(localFontsStorageKey, JSON.stringify(localFonts));
+          persisted = true;
+        } catch (error) { /* 均失败时仅本次会话可用 */ }
+      }
+      setToolStatus(persisted ? '本地字体已导入' : '字体已加载，本次会话可用（存储空间不足）');
+      resolve();
+    };
+    reader.onerror = () => {
+      setToolStatus('字体文件无法读取');
+      resolve();
+    };
+    reader.readAsDataURL(file);
+  });
+  const restoreLocalFonts = async () => {
+    let entries = [];
+    try {
+      entries = await getAllFontEntries();
+    } catch (error) {
+      entries = [];
+    }
+    let fromLegacyStorage = false;
+    if (!entries.length) {
+      let raw = null;
+      try {
+        raw = localStorage.getItem(localFontsStorageKey);
+      } catch (error) {
+        raw = null;
+      }
+      if (raw) {
+        try {
+          const saved = JSON.parse(raw);
+          if (Array.isArray(saved)) {
+            entries = saved;
+            fromLegacyStorage = true;
+          }
+        } catch (error) { entries = []; }
+      }
+    }
+    const restored = [];
+    for (const entry of entries) {
+      if (!entry || typeof entry.name !== 'string' || typeof entry.data !== 'string') continue;
+      try {
+        await registerLocalFont(entry.name, entry.data);
+        restored.push({ name: entry.name, data: entry.data });
+      } catch (error) { /* 跳过无法恢复的字体 */ }
+    }
+    localFonts = restored;
+    if (fromLegacyStorage && localFonts.length) {
+      try {
+        for (const font of localFonts) await saveFontEntry(font.name, font.data);
+        localStorage.removeItem(localFontsStorageKey);
+      } catch (error) { /* 迁移失败时保留 localStorage 数据 */ }
+    }
+    refreshLocalFontOptions();
+  };
+  const loadInstalledFonts = async () => {
+    if (typeof window.queryLocalFonts !== 'function') {
+      setToolStatus('当前浏览器不支持读取本地字体，可用「导入字体」');
+      return;
+    }
+    setToolStatus('正在读取本地字体...');
+    try {
+      const fonts = await window.queryLocalFonts();
+      const families = new Set();
+      fonts.forEach((font) => {
+        if (!font || typeof font.family !== 'string') return;
+        const family = font.family.trim();
+        if (!family) return;
+        const lower = family.toLowerCase();
+        if (installedFontBlocklist.some((part) => lower.includes(part))) return;
+        families.add(family);
+      });
+      installedFontNames = Array.from(families).sort((a, b) => a.localeCompare(b));
+      refreshLocalFontOptions();
+      setToolStatus(`已读取 ${installedFontNames.length} 个本地字体`);
+    } catch (error) {
+      setToolStatus(error && error.name === 'NotAllowedError' ? '已拒绝本地字体读取权限' : '本地字体读取失败');
+    }
+  };
+  const removeAllLocalFonts = () => {
+    fontFaces.forEach((fontFace) => document.fonts.delete(fontFace));
+    fontFaces.clear();
+    localFonts = [];
+    installedFontNames = [];
+    try {
+      localStorage.removeItem(localFontsStorageKey);
+    } catch (error) { /* 存储不可用时忽略 */ }
+    clearFontEntries().catch(() => { /* 清理失败不影响界面 */ });
+    refreshLocalFontOptions();
+    setToolStatus('已清除本地字体');
+  };
+
+  fontSelect?.addEventListener('change', () => {
+    const value = fontSelect.value;
+    if (value === removeLocalFontsValue) {
+      removeAllLocalFonts();
+      fontSelect.value = 'Microsoft YaHei';
+      return;
+    }
+    if (value.startsWith(localFontValuePrefix)) {
+      applyFormat('fontName', `"${value.slice(localFontValuePrefix.length)}", "Microsoft YaHei", sans-serif`);
+      return;
+    }
+    applyFormat('fontName', value);
+  });
+  localFontButton?.addEventListener('click', () => { loadInstalledFonts(); });
+  importFontButton?.addEventListener('click', () => {
+    if (!('FontFace' in window && 'fonts' in document)) {
+      setToolStatus('当前浏览器不支持导入字体文件');
+      return;
+    }
+    fontFileInput?.click();
+  });
+  fontFileInput?.addEventListener('change', async (event) => {
+    const files = Array.from(event.target.files || []);
+    event.target.value = '';
+    if (!files.length) return;
+    setToolStatus('正在导入字体...');
+    for (const file of files) await importFontFile(file);
+    refreshLocalFontOptions();
+  });
+  if ('FontFace' in window && 'fonts' in document) restoreLocalFonts();
   colorInput?.addEventListener('input', () => applyFormat('foreColor', colorInput.value));
   boldButton?.addEventListener('click', () => applyFormat('bold'));
   pdfButton?.addEventListener('click', () => window.print());
