@@ -247,9 +247,6 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
   const localFontValuePrefix = 'local:';
   const removeLocalFontsValue = '__remove_local_fonts__';
   const installedFontBlocklist = ['icon', 'emoji', 'symbol', 'wingdings', 'webdings', 'dingbat', 'awesome'];
-  const localFontsStorageKey = `resume-local-fonts-${window.location.pathname.split('/').pop() || 'default'}`;
-  const fontDbName = 'resume-local-fonts';
-  const fontStoreName = 'fonts';
   const fontFaces = new Map();
   let localFonts = [];
   let installedFontNames = [];
@@ -261,27 +258,6 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
     window.clearTimeout(statusTimer);
     statusTimer = window.setTimeout(() => { toolbarTitle.textContent = 'HTML 简历'; }, 3000);
   };
-  const openFontDb = () => new Promise((resolve, reject) => {
-    if (!('indexedDB' in window)) {
-      reject(new Error('IndexedDB 不可用'));
-      return;
-    }
-    const request = indexedDB.open(fontDbName, 1);
-    request.onupgradeneeded = () => {
-      const db = request.result;
-      if (!db.objectStoreNames.contains(fontStoreName)) db.createObjectStore(fontStoreName, { keyPath: 'name' });
-    };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error || new Error('IndexedDB 打开失败'));
-  });
-  const fontDbRun = (method, mode, ...args) => openFontDb().then((db) => new Promise((resolve, reject) => {
-    const request = db.transaction(fontStoreName, mode).objectStore(fontStoreName)[method](...args);
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error || new Error('IndexedDB 操作失败'));
-  }));
-  const saveFontEntry = (name, data) => fontDbRun('put', 'readwrite', { name, data });
-  const getAllFontEntries = () => fontDbRun('getAll', 'readonly').then((entries) => (Array.isArray(entries) ? entries : []));
-  const clearFontEntries = () => fontDbRun('clear', 'readwrite');
   const registerLocalFont = async (name, dataUrl) => {
     const fontFace = new FontFace(name, `url(${dataUrl})`);
     await fontFace.load();
@@ -327,22 +303,7 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
       }
       localFonts = localFonts.filter((font) => font.name !== name);
       localFonts.push({ name, data: dataUrl });
-      let persisted = false;
-      try {
-        await saveFontEntry(name, dataUrl);
-        persisted = true;
-      } catch (error) { /* 回退 localStorage */ }
-      if (persisted) {
-        try {
-          localStorage.removeItem(localFontsStorageKey);
-        } catch (error) { /* 忽略清理失败 */ }
-      } else {
-        try {
-          localStorage.setItem(localFontsStorageKey, JSON.stringify(localFonts));
-          persisted = true;
-        } catch (error) { /* 均失败时仅本次会话可用 */ }
-      }
-      setToolStatus(persisted ? '本地字体已导入' : '字体已加载，本次会话可用（存储空间不足）');
+      setToolStatus('本地字体已导入（刷新后需重新导入）');
       resolve();
     };
     reader.onerror = () => {
@@ -351,48 +312,6 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
     };
     reader.readAsDataURL(file);
   });
-  const restoreLocalFonts = async () => {
-    let entries = [];
-    try {
-      entries = await getAllFontEntries();
-    } catch (error) {
-      entries = [];
-    }
-    let fromLegacyStorage = false;
-    if (!entries.length) {
-      let raw = null;
-      try {
-        raw = localStorage.getItem(localFontsStorageKey);
-      } catch (error) {
-        raw = null;
-      }
-      if (raw) {
-        try {
-          const saved = JSON.parse(raw);
-          if (Array.isArray(saved)) {
-            entries = saved;
-            fromLegacyStorage = true;
-          }
-        } catch (error) { entries = []; }
-      }
-    }
-    const restored = [];
-    for (const entry of entries) {
-      if (!entry || typeof entry.name !== 'string' || typeof entry.data !== 'string') continue;
-      try {
-        await registerLocalFont(entry.name, entry.data);
-        restored.push({ name: entry.name, data: entry.data });
-      } catch (error) { /* 跳过无法恢复的字体 */ }
-    }
-    localFonts = restored;
-    if (fromLegacyStorage && localFonts.length) {
-      try {
-        for (const font of localFonts) await saveFontEntry(font.name, font.data);
-        localStorage.removeItem(localFontsStorageKey);
-      } catch (error) { /* 迁移失败时保留 localStorage 数据 */ }
-    }
-    refreshLocalFontOptions();
-  };
   const loadInstalledFonts = async () => {
     if (typeof window.queryLocalFonts !== 'function') {
       setToolStatus('当前浏览器不支持读取本地字体，可用「导入字体」');
@@ -422,10 +341,6 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
     fontFaces.clear();
     localFonts = [];
     installedFontNames = [];
-    try {
-      localStorage.removeItem(localFontsStorageKey);
-    } catch (error) { /* 存储不可用时忽略 */ }
-    clearFontEntries().catch(() => { /* 清理失败不影响界面 */ });
     refreshLocalFontOptions();
     setToolStatus('已清除本地字体');
   };
@@ -459,7 +374,6 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
     for (const file of files) await importFontFile(file);
     refreshLocalFontOptions();
   });
-  if ('FontFace' in window && 'fonts' in document) restoreLocalFonts();
   colorInput?.addEventListener('input', () => applyFormat('foreColor', colorInput.value));
   boldButton?.addEventListener('click', () => applyFormat('bold'));
   pdfButton?.addEventListener('click', () => window.print());
