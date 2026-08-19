@@ -43,6 +43,37 @@ ASu-skills 现在是一个插件包。安装后会提供五个可单独调用的
 
 ## 安装
 
+ASu-skills 同时支持 Codex 和 Claude Code：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，两者共用同一套 `skills/`、`assets/` 和 `references/`。
+
+### Claude Code
+
+在 Claude Code 会话中执行：
+
+```text
+/plugin marketplace add Hisn00w/ASu-skills
+/plugin install asu-skills@asu
+```
+
+也可以在终端里执行等价命令：
+
+```bash
+claude plugin marketplace add Hisn00w/ASu-skills
+claude plugin install asu-skills@asu
+```
+
+安装摘要提示 `Run /reload-plugins to activate.` 时执行 `/reload-plugins`，否则重启 Claude Code。安装后可用 `claude plugin details asu-skills` 确认五个 skill 都已加载。
+
+更新与卸载：
+
+```text
+/plugin marketplace update asu
+/plugin uninstall asu-skills
+```
+
+插件方式的卸载只删除插件缓存，不会动你在项目或用户目录里编辑过的求职进度表。
+
+### Codex
+
 最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件：
 
 ```text
@@ -208,8 +239,11 @@ ASu-skills 的“酥化”是强定位、强证据和清晰表达，不是伪造
 
 ```text
 asu-skills/
+├── .claude-plugin/
+│   ├── plugin.json              # Claude Code 插件清单
+│   └── marketplace.json         # Claude Code 插件市场清单
 ├── .codex-plugin/
-│   └── plugin.json              # 插件清单
+│   └── plugin.json              # Codex 插件清单
 ├── skills/
 │   ├── asu/
 │   │   ├── SKILL.md             # /asu 经历酥化

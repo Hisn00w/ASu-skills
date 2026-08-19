@@ -1,0 +1,34 @@
+{
+  "name": "asu",
+  "description": "ASu 中文求职工作流插件市场。",
+  "owner": {
+    "name": "Hisn0w",
+    "url": "https://github.com/Hisn00w"
+  },
+  "plugins": [
+    {
+      "name": "asu-skills",
+      "source": "./",
+      "displayName": "ASu-skills",
+      "description": "用 /contributor、/asu、/resume、/asu-resume、/offer 完成中文求职工作流。",
+      "version": "0.3.0",
+      "author": {
+        "name": "Hisn0w",
+        "url": "https://github.com/Hisn00w"
+      },
+      "homepage": "https://github.com/Hisn00w/ASu-skills",
+      "repository": "https://github.com/Hisn00w/ASu-skills",
+      "license": "MIT",
+      "category": "Productivity",
+      "keywords": [
+        "resume",
+        "job-search",
+        "career",
+        "open-source",
+        "contributor",
+        "chinese",
+        "asu"
+      ]
+    }
+  ]
+}
