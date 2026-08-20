@@ -23,6 +23,9 @@
     .tool-button { width: 32px; min-width: 32px; padding: 0; border: 1px solid #cbd5e1; background: #f8fafc; color: #334155; cursor: pointer; font-weight: 700; }
     .tool-button:hover, .tool-button.active { border-color: #7296d8; background: #eff6ff; color: #1d4ed8; }
     .history-button { width: auto; min-width: 46px; padding: 0 8px; }
+    .reset-button { height: 32px; padding: 0 10px; border: 1px solid #f0b4b4; border-radius: 5px; background: #fff5f5; color: #b91c1c; cursor: pointer; font: inherit; font-weight: 700; transition: border-color .15s ease, background .15s ease, color .15s ease; }
+    .reset-button:hover { border-color: #dc2626; background: #fee2e2; color: #991b1b; }
+    .reset-button.armed { border-color: #dc2626; background: #dc2626; color: #fff; }
     .save-status { color: #64748b; white-space: nowrap; font-size: 12px; }
     .color-control { display: flex; align-items: center; gap: 4px; height: 32px; padding: 0 5px; border: 1px solid #cbd5e1; border-radius: 5px; background: #fff; cursor: pointer; }
     .color-control input { width: 21px; height: 21px; padding: 0; border: 0; background: transparent; cursor: pointer; }
@@ -123,6 +126,7 @@
     </select>
     <label class="color-control" title="文字颜色"><span>颜色</span><input id="textColor" type="color" value="#151515" aria-label="文字颜色"></label>
     <button class="tool-button" type="button" data-command="bold" title="加粗"><strong>B</strong></button>
+    <button class="reset-button" type="button" id="resetButton" title="清除所有编辑，恢复模板初始内容">重置</button>
     <span id="saveStatus" class="save-status" role="status" aria-live="polite">自动保存已开启</span>
     <button class="print-button" type="button" onclick="window.print()">打印 / 导出 PDF</button>
   </div>
@@ -357,7 +361,8 @@
         return (hash >>> 0).toString(16);
       };
       const contentStorageKey = `${contentStoragePrefix}-${hashText(window.location.href)}`;
-      const templateHash = hashText(JSON.stringify(sheets.map((sheet) => sheet.innerHTML)));
+      const originalSheets = sheets.map((sheet) => sheet.innerHTML);
+      const templateHash = hashText(JSON.stringify(originalSheets));
       const restoreSavedContent = () => {
         const raw = getStoredValue(contentStorageKey);
         if (!raw) return;
@@ -436,6 +441,56 @@
         applyMode(pageMode.value);
         setStoredValue(modeStorageKey, pageMode.value);
       });
+
+      const resetButton = document.querySelector('#resetButton');
+      const resetEditor = () => {
+        try { localStorage.removeItem(contentStorageKey); } catch (error) { /* 忽略 */ }
+        sheets.forEach((sheet, index) => {
+          sheet.innerHTML = originalSheets[index];
+        });
+        document.querySelectorAll('.profile-photo-slot').forEach((slot) => {
+          const photo = slot.querySelector('.profile-photo');
+          if (photo) photo.remove();
+          if (!slot.querySelector('.photo-placeholder')) {
+            const placeholder = document.createElement('span');
+            placeholder.className = 'photo-placeholder';
+            placeholder.innerHTML = '证件照<br>预留位置';
+            slot.insertBefore(placeholder, slot.querySelector('.photo-input'));
+          }
+          slot.classList.remove('has-photo');
+        });
+        const photoInput = document.querySelector('.photo-input');
+        if (photoInput) photoInput.value = '';
+        setSaveStatus('已恢复初始内容');
+      };
+      if (resetButton) {
+        let armed = false;
+        let disarmTimer = null;
+        const disarm = () => {
+          armed = false;
+          resetButton.classList.remove('armed');
+          resetButton.textContent = '重置';
+          window.clearTimeout(disarmTimer);
+        };
+        resetButton.addEventListener('click', () => {
+          if (!armed) {
+            armed = true;
+            resetButton.classList.add('armed');
+            resetButton.textContent = '再点一次确认重置';
+            window.clearTimeout(disarmTimer);
+            disarmTimer = window.setTimeout(disarm, 3000);
+            return;
+          }
+          disarm();
+          resetEditor();
+        });
+        resetButton.addEventListener('mouseleave', () => {
+          if (armed) disarmTimer = window.setTimeout(disarm, 800);
+        });
+        resetButton.addEventListener('mouseenter', () => {
+          window.clearTimeout(disarmTimer);
+        });
+      }
 
       const editorSelector = '[contenteditable="true"]';
       const getElement = (node) => node && (node.nodeType === 1 ? node : node.parentElement);
