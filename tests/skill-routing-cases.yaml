@@ -1,0 +1,48 @@
+# Skill 路由回归用例
+#
+# 本文件是 ASu-skills 多入口求职工作流的"路由回归数据集"。
+#
+# 现状声明（重要）：
+#   - 当前该数据集**不在 CI 中调用 LLM 判定**。LLM 路由受模型、温度、
+#     系统提示等多因素影响，结果不稳定，不适合作为确定性 CI 门禁。
+#   - 本文件作为 schema 与 case 的存档，以及后续 Agent Eval 的输入接口：
+#     评测脚本可读取本文件，对每条 prompt 调用被测 Agent，断言其选择
+#     的 skill 等于 expected 字段，从而把"两个 skill 触发范围重叠"
+#     这类回归变成可量化指标。
+#
+# Schema:
+#   cases:
+#     - prompt:   <用户输入>
+#       expected: <期望命中的 skill 目录名，对应 skills/<name>/>
+#       note:     <可选，说明为何应路由到此 skill>
+#
+# 新增 case 规则：
+#   - 每条 case 只对应一个明确的 expected skill；
+#   - 边界 case（两个 skill description 都可能匹配）优先收录，用于压测
+#     description 的路由区分度；
+#   - expected 必须是 skills/ 下实际存在的目录名。
+
+cases:
+  - prompt: "帮我酥化这段实习经历"
+    expected: asu
+    note: 典型经历酥化请求，命中 /asu。
+
+  - prompt: "帮我把 Agent 项目包装一下，顺便写 HR 开场白"
+    expected: asu
+    note: 包装经历 + HR 话术，原与 asu-resume 重叠的边界，现归 /asu。
+
+  - prompt: "帮我写一段发给 HR 的自我介绍"
+    expected: asu
+    note: HR 自我介绍，归 /asu。
+
+  - prompt: "帮我做一份普通后端简历"
+    expected: resume
+    note: 一般简历制作与模板选择，归 /resume。
+
+  - prompt: "我要阿酥同款简历"
+    expected: asu-resume
+    note: 明确"阿酥同款"，命中 /asu-resume。
+
+  - prompt: "按照阿酥模板复刻并输出 HTML"
+    expected: asu-resume
+    note: 明确复刻模板 + 生成 HTML，命中 /asu-resume。
