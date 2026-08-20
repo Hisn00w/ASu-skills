@@ -61,7 +61,7 @@
     .meta-row strong { font-weight: 700; }
     .separator { color: #2d2d2d; padding: 0 5px; }
     .section { margin-top: 8px; }
-    .section-title { margin: 0 0 4px; padding-bottom: 2px; border-bottom: 2px solid var(--blue); color: var(--blue); font-family: "Microsoft YaHei", "Arial", sans-serif; font-size: 18.5pt; line-height: 1.03; font-weight: 700; }
+    .section-title { margin: 0 0 4px; padding-bottom: 2px; border-bottom: 2px solid var(--blue); color: var(--blue); font-family: "Microsoft YaHei", "Arial", sans-serif; font-size: 18.5pt; line-height: 1.03; font-weight: 700; break-after: avoid; }
     .lead { margin: 3px 0 4px; color: #1d448f; font-size: 10.8pt; line-height: 1.35; font-weight: 700; }
     .evidence-link { margin: 2px 0 5px; color: #2458b8; font-size: 11.5pt; font-weight: 700; }
     .evidence-link a { color: inherit; }
@@ -69,15 +69,15 @@
     .evidence-link { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
     .trend-badge { min-width: 135px; padding: 4px 7px; border: 1px solid #7351a3; border-radius: 6px; color: #7351a3; text-align: center; font: 7px/1.25 Arial, sans-serif; }
     .trend-badge strong { font-size: 8px; }
-    .company { display: flex; align-items: center; gap: 7px; min-height: 31px; margin: 6px 0 4px; padding: 5px 8px; border-radius: 6px; background: var(--band); page-break-inside: avoid; }
+    .company { display: flex; align-items: center; gap: 7px; min-height: 31px; margin: 6px 0 4px; padding: 5px 8px; border-radius: 6px; background: var(--band); page-break-inside: avoid; break-inside: avoid; }
     .company-logo { width: 27px; height: 27px; object-fit: contain; flex: 0 0 auto; }
     .company-name { flex: 1; min-width: 0; font-size: 11.2pt; font-weight: 700; }
     .company-meta { color: #202020; font-size: 9.5pt; white-space: nowrap; }
     .education-name .education-major { margin-left: 18px; }
     .project { margin: 3px 0 4px; page-break-inside: avoid; }
-    .project-title { margin: 3px 0 2px; color: #244b9b; font-size: 11.5pt; line-height: 1.12; font-weight: 700; }
+    .project-title { margin: 3px 0 2px; color: #244b9b; font-size: 11.5pt; line-height: 1.12; font-weight: 700; break-after: avoid; }
     ul { margin: 1px 0 3px 17px; padding: 0; }
-    li { margin: 1px 0; }
+    li { margin: 1px 0; break-inside: avoid; }
     li::marker { font-size: .8em; }
     .nested { margin-left: 18px; }
     .nested::marker { content: "○ "; }
