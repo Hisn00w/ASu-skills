@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ASu Resume</title>
   <style>
-    @page { size: A4; margin: 0; }
+    @page { size: A4; margin: 7mm 10mm 8mm; }
     :root { --blue: #2458b8; --text: #151515; --muted: #596273; --band: #f2f3f5; }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #fff; }
@@ -41,8 +41,9 @@
       body[data-page-mode="continuous"] .sheet { margin: 0 auto; box-shadow: none; }
     }
     @media print {
-      body[data-page-mode="paged"] .sheet { min-height: 297mm; margin: 0; box-shadow: none; }
-      body[data-page-mode="continuous"] .sheet { min-height: 0; margin: 0; box-shadow: none; }
+      .sheet { padding: 0; width: auto; min-height: 0; }
+      body[data-page-mode="paged"] .sheet { margin: 0; box-shadow: none; }
+      body[data-page-mode="continuous"] .sheet { margin: 0; box-shadow: none; }
     }
     [contenteditable="true"]:focus { outline: 2px solid #b7caf3; outline-offset: 2px; }
     h1 { margin: 0 0 3px; font-family: "Microsoft YaHei", "Arial", sans-serif; font-size: 24pt; line-height: 1.08; font-weight: 700; }
