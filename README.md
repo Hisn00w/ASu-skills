@@ -1,11 +1,17 @@
 # ASu-skills
 
+
+
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills 图标">
   <h3>中文求职工作流插件</h3>
-  <p>用五个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻和秋招进度管理。</p>
+  <p>用六个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻、面试准备和秋招进度管理。</p>
 </div>
 
+<div align="center">
+  <a href="README_en.md"><img src="https://img.shields.io/badge/English-README-11A683?style=for-the-badge" alt="English"></a>
+  <a href="README.md"><img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-README-59B390?style=for-the-badge" alt="中文"></a>
+</div>
 <div align="center">
   <a href="https://chatgpt.com/codex"><img src="https://img.shields.io/badge/Build%20with-EVERYONE-59B390?style=for-the-badge&logo=openai&logoColor=white" alt="Build with Everyone"></a>
   <a href="https://github.com/Hisn00w/ASu-skills/stargazers"><img src="https://img.shields.io/github/stars/Hisn00w/ASu-skills?style=for-the-badge" alt="GitHub Stars"></a>
@@ -25,7 +31,7 @@ ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 
 
 [前往 GitHub 查看 ASu Harness 工程](https://github.com/Hisn00w/Asu)
 
-ASu-skills 现在是一个插件包。安装后会提供五个可单独调用的入口：
+ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的入口：
 
 | 入口             | 用途     | 主要交付                                      |
 | ---------------- | -------- | --------------------------------------------- |
@@ -33,18 +39,68 @@ ASu-skills 现在是一个插件包。安装后会提供五个可单独调用的
 | `/asu`         | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白       |
 | `/resume`      | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出          |
 | `/asu-resume`  | 同款简历 | 复刻 ASu 单栏高密度技术简历、Logo 资源和 PDF  |
+| `/interview`   | 面试准备 | 简历驱动的面试预测、连续追问和掌握度复盘       |
 | `/offer`       | 秋招进度 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪   |
 
+## 第一次使用：从哪个入口开始
+
+先根据当前最需要解决的问题选择第一个入口：
+
+| 当前情况 | 建议先使用 |
+| -------- | ---------- |
+| 缺少可验证的项目或协作经历 | `/contributor` |
+| 已有经历，但不知道如何匹配目标岗位 | `/asu` |
+| 简历内容已确定，需要制作常规可编辑简历 | `/resume` |
+| 想复刻 ASu 同款高密度技术简历 | `/asu-resume` |
+| 已开始投递，需要整理招聘邮件和后续进度 | `/offer` |
+
+也可以组合多个入口：
+
+- **没有实习、想补充真实经历**：先用 `/contributor` 完成与岗位相关的开源贡献，再交给 `/asu` 整理成可核验的简历表述；
+- **已有项目、准备开始投递**：先用 `/asu` 对齐目标岗位，再用 `/resume` 或 `/asu-resume` 生成简历；
+- **已经投递、需要持续跟进**：直接用 `/offer` 整理邮件和状态，简历需要更新时再回到 `/asu` 和 `/resume`。
+
 ## 安装
+
+ASu-skills 同时支持 Codex 和 Claude Code：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，两者共用同一套 `skills/`、`assets/` 和 `references/`。
+
+### Claude Code
+
+在 Claude Code 会话中执行：
+
+```text
+/plugin marketplace add Hisn00w/ASu-skills
+/plugin install asu-skills@asu
+```
+
+也可以在终端里执行等价命令：
+
+```bash
+claude plugin marketplace add Hisn00w/ASu-skills
+claude plugin install asu-skills@asu
+```
+
+安装摘要提示 `Run /reload-plugins to activate.` 时执行 `/reload-plugins`，否则重启 Claude Code。安装后可用 `claude plugin details asu-skills` 确认五个 skill 都已加载。
+
+更新与卸载：
+
+```text
+/plugin marketplace update asu
+/plugin uninstall asu-skills
+```
+
+插件方式的卸载只删除插件缓存，不会动你在项目或用户目录里编辑过的求职进度表。
+
+### Codex
 
 最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件：
 
 ```text
-请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、resume、asu-resume、offer 五个 skills：
+请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、resume、asu-resume、interview、offer 六个 skills：
 https://github.com/Hisn00w/ASu-skills
 ```
 
-安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume` 或 `offer`。
+安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume`、`interview` 或 `offer`。
 
 如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
 
@@ -53,8 +109,21 @@ $contributor 根据我的目标岗位寻找开源贡献候选，先展示 diff�
 $asu 请把我的实习经历改写成适合 AI 应用工程师岗位的版本。
 $resume 根据我的经历制作一份可编辑的中文 HTML 简历。
 $asu-resume 根据我的经历复刻参考图中的单栏高密度技术简历，并输出可编辑 HTML。
+$interview 根据我的简历预测面试问题，并通过连续追问检查我是否真的掌握这些经历。
 $offer 把这些招聘邮件整理成秋招投递进度表。
 ```
+
+## 本地校验
+
+修改 SKILL.md、`agents/openai.yaml`、`.codex-plugin/plugin.json` 或新增 skill 后，运行静态校验器确认 frontmatter、元数据与资源引用是否合法：
+
+```bash
+python3 scripts/validate_skills.py
+```
+
+校验内容：SKILL.md 是否存在、frontmatter 是否可解析、`name` 是否与目录名一致、`description` 是否非空且不过长、`agents/openai.yaml` 是否可解析、SKILL.md 引用的本地 references/assets 路径是否存在，以及 `.codex-plugin/plugin.json` 是否为合法 JSON 且指向的资源真实存在。GitHub Actions 会在涉及 `skills/**` 等路径的 PR 上自动运行该校验。
+
+路由回归用例存放在 `tests/skill-routing-cases.yaml`，记录各求职入口的预期路由，供后续 Agent Eval 使用。
 
 ## `/contributor`：做真实的开源贡献
 
@@ -107,6 +176,7 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 - 18 个中文 HTML 模板；
 - A4 单页或双页排版；
 - 浏览器内编辑文字、照片、字体、颜色和加粗；
+- 「本地字体」读取系统中已安装的字体（Chrome 103+，需浏览器授权），「导入字体」加载本地字体文件（TTF/OTF/WOFF/WOFF2）作为补充；
 - 打印导出 PDF；
 - 根据截图分析栏位、间距、字号、颜色和分页结构；
 - 使用虚构示例照片作为占位，生成真实简历时由用户主动替换。
@@ -125,7 +195,7 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 
 ## `/asu-resume`：复刻同款高密度技术简历
 
-`/asu-resume` 专门复刻参考图中的单栏技术简历，适合应届生、实习生和 AI/Agent/LLM/等方向。用户也可以直接输入“**我想要阿酥同款简历**”触发同一技能。它会先按目标岗位酥化真实经历，再以模板为只读母版生成用户专属可编辑 HTML；不把截图直接嵌入简历，也不修改模板源文件。
+`/asu-resume` 专门复刻参考图中的单栏技术简历，适合应届生、实习生和 AI/Agent/LLM 等方向。用户也可以直接输入“**我想要阿酥同款简历**”触发同一技能。它会先按目标岗位酥化真实经历，再以模板为只读母版生成用户专属可编辑 HTML；不把截图直接嵌入简历，也不修改模板源文件。
 
 模板包含：
 
@@ -136,6 +206,7 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 - `assets/logos/` 中的 OpenAI、Claude、ByteDance、bilibili、GitHub SVG Logo；
 - A4 两页连续排版、浏览器编辑和 PDF 导出。
 - HTML 工具栏可切换 `A4 分页` 或 `A4 长页（不限高度）`，分页模式带纸张阴影，长页模式保持 A4 宽度并居中。
+- 工具栏「本地字体」可读取系统中已安装的字体（Chrome 103+，需浏览器授权），「导入字体」可读取本地字体文件（TTF/OTF/WOFF/WOFF2）作为补充，选中文字后从「本地字体」分组应用；导入的字体仅本次会话有效，刷新后需重新导入。
 
 典型用法：
 
@@ -146,6 +217,18 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 ```
 
 获取新增 AI、模型、平台或公司 Logo 时，优先遵循 [LobeHub Icons 技能说明](https://lobehub.com/icons/skill.md)，使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的 SVG/CDN 资源，不使用低清截图或自行绘制品牌图标。
+
+## `/interview`：把简历问穿
+
+`/interview` 从简历和目标岗位中提取需要验证的 Claim，预测高概率面试问题，并通过一次只问一个问题的连续追问，检查用户是否讲得清个人职责、技术实现、指标口径、决策取舍和失败案例。复盘时会标出高风险表述、知识缺口和需要补证据或降低强度的简历内容，不替用户编造面试答案。
+
+典型用法：
+
+```text
+/interview grill
+
+这是我的简历，目标岗位是 AI 应用工程师。请从最高风险的项目开始，一次问我一个问题；如果我的回答含糊，就继续追问。
+```
 
 ## `/offer`：秋招进度管理
 
@@ -174,7 +257,7 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 
 ![秋招进度表预览](assets/application-tracker-overview.svg)
 
-## 五个入口如何配合
+## 六个入口如何配合
 
 推荐按照下面的顺序使用：
 
@@ -182,9 +265,12 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 2. 用 `/asu` 根据证据卡和已有经历明确目标岗位，整理简历表述和 HR 话术；
 3. 用 `/resume` 把确认后的文字放入可编辑简历并导出 PDF；
 4. 需要复刻ASu同款简历时用 `/asu-resume` 生成同款技术简历；
-5. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
+5. 用 `/interview` 预测问题并通过追问确认简历内容经得住面试；
+6. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
 
 也可以在同一条需求里说明组合目标，例如：“先用 `/contributor` 整理已合并 PR，再用 `/asu` 改写经历，最后用 `/resume` 生成 HTML 简历”。
+
+想看同一个人的材料如何在五个入口之间流转，可以阅读[端到端虚构求职案例](docs/end-to-end-fictional-case.md)。案例从课程项目和开源贡献出发，依次展示证据卡、经历改写、可编辑简历和投递进度表，并明确区分已完成、协作中与待补充状态。
 
 ## 事实边界
 
@@ -202,8 +288,11 @@ ASu-skills 的“酥化”是强定位、强证据和清晰表达，不是伪造
 
 ```text
 asu-skills/
+├── .claude-plugin/
+│   ├── plugin.json              # Claude Code 插件清单
+│   └── marketplace.json         # Claude Code 插件市场清单
 ├── .codex-plugin/
-│   └── plugin.json              # 插件清单
+│   └── plugin.json              # Codex 插件清单
 ├── skills/
 │   ├── asu/
 │   │   ├── SKILL.md             # /asu 经历酥化
@@ -217,6 +306,9 @@ asu-skills/
 │   ├── asu-resume/
 │   │   ├── SKILL.md             # /asu-resume 同款技术简历
 │   │   ├── references/          # 模板结构与排版规则
+│   │   └── agents/openai.yaml
+│   ├── interview/
+│   │   ├── SKILL.md             # /interview 面试预测与连续追问
 │   │   └── agents/openai.yaml
 │   └── offer/
 │       ├── SKILL.md             # /offer 秋招进度
@@ -258,4 +350,3 @@ asu-skills/
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Hisn00w/ASu-skills&type=timeline&legend=top-left&sealed_token=bjbMfvRN5HhBif26VkNL7fMNZhYEU6NOxOMDWOzZvQnyJjYS5cPBNShexQ_xybTo30fuVzzhrKWq4x4IZAHEFrDesIwfK5iGJONtmrR_3Hhz3B2UFaKxs2iptYBKSxN0TbubpjnmkGaFme25ufww7AXpqptuXSHNK9KAWAP45t26kEa8NXXbLPxqH-5w" />
  </picture>
 </a>
-

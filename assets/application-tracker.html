@@ -144,12 +144,14 @@
         <p>把每一次投递、面试和反馈都记录下来，随时掌握求职节奏。</p>
       </div>
       <div class="hero-actions">
-        <button class="button secondary" id="importButton" type="button">导入备份</button>
+        <button class="button secondary" id="importButton" type="button">覆盖导入</button>
+        <button class="button secondary" id="mergeImportButton" type="button">合并导入</button>
         <button class="button secondary" id="exportJsonButton" type="button">备份 JSON</button>
         <button class="button secondary" id="exportCsvButton" type="button">导出 CSV</button>
         <button class="button secondary" id="printButton" type="button">打印 / PDF</button>
         <button class="button" id="addButton" type="button">＋ 新增记录</button>
         <input id="importInput" type="file" accept="application/json,.json" hidden>
+        <input id="mergeImportInput" type="file" accept="application/json,.json" hidden>
       </div>
     </header>
 
@@ -221,7 +223,12 @@
       let records = loadRecords();
       let editingId = null;
 
-      function today() { return new Date().toISOString().slice(0, 10); }
+      function today(date = new Date()) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
       function makeId() {
         return window.crypto?.randomUUID ? window.crypto.randomUUID() : `record-${Date.now()}-${Math.random().toString(16).slice(2)}`;
       }
@@ -230,10 +237,39 @@
           const saved = localStorage.getItem(STORAGE_KEY);
           if (!saved) return initialRecords.map((item) => ({ ...item }));
           const value = JSON.parse(saved);
-          return Array.isArray(value) ? value.map((item) => ({ ...item, time: item.time || '' })) : initialRecords.map((item) => ({ ...item }));
+          return Array.isArray(value) ? value.map(normalizeRecord).filter((item) => item.company) : initialRecords.map((item) => ({ ...item }));
         } catch { return initialRecords.map((item) => ({ ...item })); }
       }
       function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(records)); }
+      function normalizeRecord(item) {
+        return {
+          id: item.id || makeId(),
+          date: item.date || today(),
+          time: String(item.time || ''),
+          company: String(item.company || '').trim(),
+          position: String(item.position || '').trim(),
+          status: statuses.includes(item.status) ? item.status : '已投递',
+          next: String(item.next || ''),
+          note: String(item.note || ''),
+          updatedAt: item.updatedAt || `${item.date || ''}T${item.time || ''}`
+        };
+      }
+      function recordKey(item) {
+        return `${item.company.replace(/\s+/g, '').toLocaleLowerCase('zh-CN')}\u0000${item.position.replace(/\s+/g, '').toLocaleLowerCase('zh-CN')}`;
+      }
+      function recency(item) { return item.updatedAt || `${item.date || ''}T${item.time || ''}`; }
+      function mergeRecords(current, incoming) {
+        const byKey = new Map(current.map((item) => [recordKey(item), item]));
+        let added = 0;
+        let updated = 0;
+        for (const item of incoming) {
+          const key = recordKey(item);
+          const previous = byKey.get(key);
+          if (!previous) { byKey.set(key, item); added += 1; continue; }
+          if (recency(item) >= recency(previous)) { byKey.set(key, { ...previous, ...item, id: previous.id }); updated += 1; }
+        }
+        return { records: [...byKey.values()], added, updated };
+      }
       function escapeHtml(value) {
         return String(value ?? '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
       }
@@ -425,19 +461,21 @@
       $('#printButton').addEventListener('click', () => window.print());
       $('#exportCsvButton').addEventListener('click', exportCsv);
       $('#importButton').addEventListener('click', () => $('#importInput').click());
+      $('#mergeImportButton').addEventListener('click', () => $('#mergeImportInput').click());
       $('#exportJsonButton').addEventListener('click', () => {
         const backup = JSON.stringify(records, null, 2);
         download(`秋招投递进度备份-${today()}.json`, backup, 'application/json;charset=utf-8');
       });
-      $('#importInput').addEventListener('change', (event) => { if (event.target.files[0]) importJson(event.target.files[0]); event.target.value = ''; });
+      $('#importInput').addEventListener('change', (event) => { if (event.target.files[0] && confirm('覆盖导入会替换当前全部记录，确定继续吗？')) importJson(event.target.files[0]); event.target.value = ''; });
+      $('#mergeImportInput').addEventListener('change', (event) => { if (event.target.files[0]) importJson(event.target.files[0], 'merge'); event.target.value = ''; });
       form.addEventListener('submit', (event) => {
         event.preventDefault();
         const data = { date: dateInput.value, time: timeInput.value, company: companyInput.value.trim(), position: positionInput.value.trim(), status: statusInput.value, next: nextInput.value.trim(), note: noteInput.value.trim() };
         if (!data.company) return companyInput.focus();
         if (editingId) {
           const index = records.findIndex((item) => item.id === editingId);
-          if (index >= 0) records[index] = { ...records[index], ...data };
-        } else records.push({ id: makeId(), ...data });
+          if (index >= 0) records[index] = { ...records[index], ...data, updatedAt: new Date().toISOString() };
+        } else records.push({ id: makeId(), ...data, updatedAt: new Date().toISOString() });
         persist(); render(); closeModal();
       });
       body.addEventListener('click', (event) => {
