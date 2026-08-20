@@ -348,23 +348,117 @@
         const csv = [header, ...rows].map((row) => row.map((cell) => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
         download(`秋招投递进度-${today()}.csv`, '\ufeff' + csv, 'text/csv;charset=utf-8');
       }
+      function isValidCalendarDate(value) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+        const [year, month, day] = value.split('-').map(Number);
+        const parsed = new Date(0);
+        parsed.setUTCHours(0, 0, 0, 0);
+        parsed.setUTCFullYear(year, month - 1, day);
+        return parsed.getUTCFullYear() === year && parsed.getUTCMonth() === month - 1 && parsed.getUTCDate() === day;
+      }
+      function normalizeImportedRecord(item, index, seenIds) {
+        const fail = (reason) => { throw new Error(`第 ${index + 1} 条：${reason}`); };
+        if (!item || typeof item !== 'object' || Array.isArray(item)) fail('记录格式无效');
+        if (typeof item.company !== 'string' || !item.company.trim()) fail('公司不能为空');
+        if (typeof item.date !== 'string' || !isValidCalendarDate(item.date)) fail('日期必须是有效的 YYYY-MM-DD');
+        if (typeof item.status !== 'string' || !statuses.includes(item.status)) fail('进度状态不受支持');
+
+        const optionalFields = [['time', '时间'], ['position', '岗位'], ['next', '下一步'], ['note', '备注'], ['updatedAt', '更新时间']];
+        const normalized = {};
+        optionalFields.forEach(([field, label]) => {
+          const value = item[field];
+          if (value == null) normalized[field] = '';
+          else if (typeof value !== 'string') fail(`${label}必须是文本`);
+          else normalized[field] = value;
+        });
+        if (normalized.time && !/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(normalized.time)) fail('时间必须是有效的 HH:mm');
+
+        let id = item.id;
+        if (id == null || id === '') {
+          do { id = makeId(); } while (seenIds.has(id));
+        } else if (typeof id !== 'string' || !id.trim() || id !== id.trim()) fail('ID 格式无效');
+        if (seenIds.has(id)) fail('ID 重复');
+        seenIds.add(id);
+
+        return {
+          id,
+          date: item.date,
+          time: normalized.time,
+          company: item.company.trim(),
+          position: normalized.position,
+          status: item.status,
+          next: normalized.next,
+          note: normalized.note,
+          updatedAt: normalized.updatedAt || `${item.date}T${normalized.time}`
+        };
+      }
+      function importIssueSummary(issues) {
+        if (!issues.length) return '';
+        const visible = issues.slice(0, 5).join('\n');
+        const remaining = issues.length > 5 ? `\n另有 ${issues.length - 5} 条异常记录。` : '';
+        return `${visible}${remaining}`;
+      }
       function importJson(file, mode = 'replace') {
         const reader = new FileReader();
         reader.onload = () => {
+          let value;
           try {
-            const value = JSON.parse(reader.result);
-            if (!Array.isArray(value)) throw new Error('格式错误');
-            const incoming = value.filter((item) => item && item.company).map(normalizeRecord);
-            if (mode === 'merge') {
-              const result = mergeRecords(records, incoming);
-              records = result.records;
-              persist(); render(); alert(`已合并 ${incoming.length} 条备份：新增 ${result.added} 条，更新 ${result.updated} 条。`);
-            } else {
-              records = incoming;
-              persist(); render(); alert(`已覆盖导入 ${records.length} 条记录。`);
-            }
-          } catch { alert('导入失败：请选择本页面导出的 JSON 备份文件。'); }
+            value = JSON.parse(reader.result);
+          } catch {
+            alert('导入失败：文件不是有效的 JSON。');
+            return;
+          }
+          if (!Array.isArray(value)) {
+            alert('导入失败：备份内容必须是记录数组。');
+            return;
+          }
+          if (!value.length) {
+            alert('导入失败：备份中没有记录。');
+            return;
+          }
+
+          const importedRecords = [];
+          const issues = [];
+          const seenIds = new Set();
+          value.forEach((item, index) => {
+            try { importedRecords.push(normalizeImportedRecord(item, index, seenIds)); }
+            catch (error) { issues.push(error.message); }
+          });
+          if (!importedRecords.length) {
+            alert(`导入失败：没有可导入的有效记录。\n${importIssueSummary(issues)}`);
+            return;
+          }
+
+          const skippedMessage = issues.length ? `，跳过 ${issues.length} 条异常记录` : '';
+          let nextRecords;
+          let successMessage;
+          if (mode === 'merge') {
+            const result = mergeRecords(records, importedRecords);
+            nextRecords = result.records;
+            successMessage = `已合并 ${importedRecords.length} 条有效记录${skippedMessage}：新增 ${result.added} 条，更新 ${result.updated} 条。`;
+          } else {
+            nextRecords = importedRecords;
+            successMessage = `已覆盖导入 ${importedRecords.length} 条有效记录${skippedMessage}。`;
+          }
+
+          if (mode === 'replace' && records.length) {
+            const details = issues.length ? `\n\n${importIssueSummary(issues)}` : '';
+            const confirmed = confirm(`现有 ${records.length} 条记录将被 ${importedRecords.length} 条有效记录替换${skippedMessage}。${details}\n\n确定继续导入吗？`);
+            if (!confirmed) return;
+          }
+
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(nextRecords));
+          } catch {
+            alert('导入失败：无法写入浏览器存储，现有记录未改变。');
+            return;
+          }
+          records = nextRecords;
+          render();
+          const details = issues.length ? `\n${importIssueSummary(issues)}` : '';
+          alert(`${successMessage}${details}`);
         };
+        reader.onerror = () => alert('导入失败：无法读取所选文件。');
         reader.readAsText(file, 'utf-8');
       }
 
@@ -384,7 +478,7 @@
         const backup = JSON.stringify(records, null, 2);
         download(`秋招投递进度备份-${today()}.json`, backup, 'application/json;charset=utf-8');
       });
-      $('#importInput').addEventListener('change', (event) => { if (event.target.files[0] && confirm('覆盖导入会替换当前全部记录，确定继续吗？')) importJson(event.target.files[0]); event.target.value = ''; });
+      $('#importInput').addEventListener('change', (event) => { if (event.target.files[0]) importJson(event.target.files[0]); event.target.value = ''; });
       $('#mergeImportInput').addEventListener('change', (event) => { if (event.target.files[0]) importJson(event.target.files[0], 'merge'); event.target.value = ''; });
       form.addEventListener('submit', (event) => {
         event.preventDefault();
