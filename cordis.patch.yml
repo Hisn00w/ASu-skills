@@ -1,0 +1,13 @@
+# Opt-in ASu filesystem Skill provider for DeepSeek Harness.
+# Anchors the packaged skills/ root at the installed package location (the
+# profile Loader's baseUrl), never as a path relative to the process cwd.
+# This keeps every SKILL.md's relative resource paths (../../assets/...,
+# ../../references/...) resolving exactly as in the Codex/Claude layout,
+# so no skill body needs to change.
+- insert:
+    - id: asu-skill-filesystem
+      name: '@deepseek-ai/dsh-skill-filesystem'
+      config:
+        providerName: asu-skills
+        includeDefaultRoots: false
+        bundledSkillDir: !!js process.getBuiltinModule('node:path').join(process.getBuiltinModule('node:path').dirname(process.getBuiltinModule('node:module').createRequire(baseUrl).resolve('asu-skills/package.json')), 'skills')

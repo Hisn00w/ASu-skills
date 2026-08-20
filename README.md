@@ -293,7 +293,11 @@ asu-skills/
 │   ├── plugin.json              # Claude Code 插件清单
 │   └── marketplace.json         # Claude Code 插件市场清单
 ├── .codex-plugin/
-│   └── plugin.json              # Codex 插件清单
+│   └── plugin.json              # 插件清单
+├── package.json                # DSH 插件包清单（bundle patch 入口）
+├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方
+├── lib/
+│   └── index.js                # DSH 插件入口模块
 ├── skills/
 │   ├── asu/
 │   │   ├── SKILL.md             # /asu 经历酥化
