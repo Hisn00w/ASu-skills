@@ -363,7 +363,7 @@
         if (typeof item.date !== 'string' || !isValidCalendarDate(item.date)) fail('日期必须是有效的 YYYY-MM-DD');
         if (typeof item.status !== 'string' || !statuses.includes(item.status)) fail('进度状态不受支持');
 
-        const optionalFields = [['time', '时间'], ['position', '岗位'], ['next', '下一步'], ['note', '备注']];
+        const optionalFields = [['time', '时间'], ['position', '岗位'], ['next', '下一步'], ['note', '备注'], ['updatedAt', '更新时间']];
         const normalized = {};
         optionalFields.forEach(([field, label]) => {
           const value = item[field];
@@ -388,7 +388,8 @@
           position: normalized.position,
           status: item.status,
           next: normalized.next,
-          note: normalized.note
+          note: normalized.note,
+          updatedAt: normalized.updatedAt || `${item.date}T${normalized.time}`
         };
       }
       function importIssueSummary(issues) {
@@ -397,7 +398,7 @@
         const remaining = issues.length > 5 ? `\n另有 ${issues.length - 5} 条异常记录。` : '';
         return `${visible}${remaining}`;
       }
-      function importJson(file) {
+      function importJson(file, mode = 'replace') {
         const reader = new FileReader();
         reader.onload = () => {
           let value;
@@ -429,22 +430,33 @@
           }
 
           const skippedMessage = issues.length ? `，跳过 ${issues.length} 条异常记录` : '';
-          if (records.length) {
+          let nextRecords;
+          let successMessage;
+          if (mode === 'merge') {
+            const result = mergeRecords(records, importedRecords);
+            nextRecords = result.records;
+            successMessage = `已合并 ${importedRecords.length} 条有效记录${skippedMessage}：新增 ${result.added} 条，更新 ${result.updated} 条。`;
+          } else {
+            nextRecords = importedRecords;
+            successMessage = `已覆盖导入 ${importedRecords.length} 条有效记录${skippedMessage}。`;
+          }
+
+          if (mode === 'replace' && records.length) {
             const details = issues.length ? `\n\n${importIssueSummary(issues)}` : '';
             const confirmed = confirm(`现有 ${records.length} 条记录将被 ${importedRecords.length} 条有效记录替换${skippedMessage}。${details}\n\n确定继续导入吗？`);
             if (!confirmed) return;
           }
 
           try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(importedRecords));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(nextRecords));
           } catch {
             alert('导入失败：无法写入浏览器存储，现有记录未改变。');
             return;
           }
-          records = importedRecords;
+          records = nextRecords;
           render();
           const details = issues.length ? `\n${importIssueSummary(issues)}` : '';
-          alert(`已导入 ${records.length} 条记录${skippedMessage}。${details}`);
+          alert(`${successMessage}${details}`);
         };
         reader.onerror = () => alert('导入失败：无法读取所选文件。');
         reader.readAsText(file, 'utf-8');
@@ -466,7 +478,7 @@
         const backup = JSON.stringify(records, null, 2);
         download(`秋招投递进度备份-${today()}.json`, backup, 'application/json;charset=utf-8');
       });
-      $('#importInput').addEventListener('change', (event) => { if (event.target.files[0] && confirm('覆盖导入会替换当前全部记录，确定继续吗？')) importJson(event.target.files[0]); event.target.value = ''; });
+      $('#importInput').addEventListener('change', (event) => { if (event.target.files[0]) importJson(event.target.files[0]); event.target.value = ''; });
       $('#mergeImportInput').addEventListener('change', (event) => { if (event.target.files[0]) importJson(event.target.files[0], 'merge'); event.target.value = ''; });
       form.addEventListener('submit', (event) => {
         event.preventDefault();
