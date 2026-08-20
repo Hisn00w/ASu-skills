@@ -1,11 +1,17 @@
 ---
 name: asu-resume
-description: 中文求职经历酥化与可编辑简历复刻技能：把真实经历包装成强定位、强证据的简历内容，并基于 ASu 单栏高密度技术简历模板为用户生成专属可编辑 HTML/PDF；当用户输入“/asu-resume”“我要阿酥同款简历”、要求复刻参考简历、制作技术简历、包装 Agent/LLM/互联网项目或写 HR 自我介绍时使用。
+description: 中文同款技术简历制作技能：基于 ASu 单栏高密度技术简历模板，将真实经历酥化后生成或复刻可编辑 HTML/PDF；仅当用户输入“/asu-resume”“我要阿酥同款简历”，或明确要求 ASu 同款、复刻参考简历、生成该模板 HTML/PDF 时使用。单纯要求包装经历、改写项目或写 HR 自我介绍时使用 /asu。
 ---
 
 # /asu-resume：酥化经历并复刻同款简历
 
 用户输入 `/asu-resume` 或“我要阿酥同款简历”时，按 [references/asu-resume-template.md](references/asu-resume-template.md) 的版式规则，将共享资源 [../../assets/asu-resume-template.html](../../assets/asu-resume-template.html) 作为只读母版，复制后生成用户专属可编辑简历。严禁直接修改模板源文件；所有姓名、经历、项目和样式定制只写入新生成的用户副本。模板对应参考图中的单栏、高密度技术简历：顶部身份与联系方式、最右侧证件照预留位、蓝色分区标题、浅灰公司经历条、项目级技术要点和两页连续排版。
+
+## 路由边界
+
+- 只改写经历、项目或 HR 话术：使用 `/asu`；
+- 一般简历制作和模板选择：使用 `/resume`；
+- 明确要求 ASu 同款、模板复刻或对应 HTML/PDF：使用 `/asu-resume`。
 
 ## 工作流程
 

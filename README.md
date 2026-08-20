@@ -95,6 +95,18 @@ $interview 根据我的简历预测面试问题，并通过连续追问检查我
 $offer 把这些招聘邮件整理成秋招投递进度表。
 ```
 
+## 本地校验
+
+修改 SKILL.md、`agents/openai.yaml`、`.codex-plugin/plugin.json` 或新增 skill 后，运行静态校验器确认 frontmatter、元数据与资源引用是否合法：
+
+```bash
+python3 scripts/validate_skills.py
+```
+
+校验内容：SKILL.md 是否存在、frontmatter 是否可解析、`name` 是否与目录名一致、`description` 是否非空且不过长、`agents/openai.yaml` 是否可解析、SKILL.md 引用的本地 references/assets 路径是否存在，以及 `.codex-plugin/plugin.json` 是否为合法 JSON 且指向的资源真实存在。GitHub Actions 会在涉及 `skills/**` 等路径的 PR 上自动运行该校验。
+
+路由回归用例存放在 `tests/skill-routing-cases.yaml`，记录各求职入口的预期路由，供后续 Agent Eval 使用。
+
 ## `/contributor`：做真实的开源贡献
 
 不用一上来重构 Kubernetes。`/contributor` 会根据目标公司和岗位寻找活跃项目，优先扫描 typo、标点、Markdown、formatting、坏链接和 README 小修，先展示候选、拟改动和验证结果；用户明确确认后才 fork、push 和提交 PR。
@@ -320,4 +332,3 @@ asu-skills/
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Hisn00w/ASu-skills&type=timeline&legend=top-left&sealed_token=bjbMfvRN5HhBif26VkNL7fMNZhYEU6NOxOMDWOzZvQnyJjYS5cPBNShexQ_xybTo30fuVzzhrKWq4x4IZAHEFrDesIwfK5iGJONtmrR_3Hhz3B2UFaKxs2iptYBKSxN0TbubpjnmkGaFme25ufww7AXpqptuXSHNK9KAWAP45t26kEa8NXXbLPxqH-5w" />
  </picture>
 </a>
-

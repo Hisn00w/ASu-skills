@@ -26,7 +26,7 @@
 
 1. Fork 仓库，从 `main` 切一个分支，例如 `docs/fix-typo`；
 2. 一个 PR 只改一件事，改动越小，头衔越快到手；
-3. 改 Markdown 就自己预览一遍，改 HTML 模板就在浏览器里打开，确认还能编辑、还能打印成 A4；
+3. 改 Markdown 就自己预览一遍，改 HTML 模板就在浏览器里打开，确认还能编辑、还能打印成 A4； 改 SKILL.md、agents/openai.yaml 或 plugin.json 时运行 `python3 scripts/validate_skills.py`，确认 frontmatter、元数据和资源引用校验通过；
 4. commit 遵循 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)：使用 `feat:`、`fix:`、`docs:` 等英文类型前缀，并用中文写简洁、具体的标题；
 5. 创建 PR 前先完整阅读本文件和 [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md)，逐项完成 PR 模板中的检查清单；
 6. PR 正文写清楚：改了什么、为什么改、怎么验证的；如果有检查项无法完成，必须在 PR 中说明原因和替代验证方式。
