@@ -104,7 +104,11 @@
       <option value="simsun">宋体</option>
       <option value="times">Times New Roman</option>
       <option value="arial">Arial</option>
+      <optgroup label="本地字体" id="localFontGroup"></optgroup>
     </select>
+    <input id="fontFileInput" type="file" accept=".ttf,.otf,.ttc,.woff,.woff2" multiple hidden aria-label="选择本地字体文件">
+    <button class="tool-button history-button" type="button" id="localFontButton" title="读取系统中已安装的字体（需浏览器授权）">本地字体</button>
+    <button class="tool-button history-button" type="button" id="importFontButton" title="导入本地字体文件（TTF / OTF / WOFF / WOFF2）">导入字体</button>
     <label for="fontSize">字号</label>
     <select class="format-select font-size" id="fontSize" title="字号" aria-label="字号">
       <option value="10px">10</option>
@@ -471,8 +475,139 @@
         times: 'Times New Roman, serif',
         arial: 'Arial, sans-serif'
       };
-      document.querySelector('#fontFamily').addEventListener('change', (event) => {
-        runCommand('fontName', fontFamilies[event.target.value]);
+      const fontFamilySelect = document.querySelector('#fontFamily');
+      const localFontGroup = fontFamilySelect ? fontFamilySelect.querySelector('#localFontGroup') : null;
+      const fontFileInput = document.querySelector('#fontFileInput');
+      const localFontButton = document.querySelector('#localFontButton');
+      const importFontButton = document.querySelector('#importFontButton');
+      const localFontValuePrefix = 'local:';
+      const removeLocalFontsValue = '__remove_local_fonts__';
+      const supportsLocalFonts = 'FontFace' in window && 'fonts' in document;
+      const installedFontBlocklist = ['icon', 'emoji', 'symbol', 'wingdings', 'webdings', 'dingbat', 'awesome'];
+      const fontFaces = new Map();
+      let localFonts = [];
+      let installedFontNames = [];
+
+      const registerLocalFont = async (name, dataUrl) => {
+        const fontFace = new FontFace(name, `url(${dataUrl})`);
+        await fontFace.load();
+        const previous = fontFaces.get(name);
+        if (previous) document.fonts.delete(previous);
+        document.fonts.add(fontFace);
+        fontFaces.set(name, fontFace);
+      };
+      const refreshLocalFontOptions = () => {
+        if (!localFontGroup) return;
+        const names = [];
+        installedFontNames.forEach((name) => {
+          if (!names.includes(name)) names.push(name);
+        });
+        localFonts.forEach((font) => {
+          if (!names.includes(font.name)) names.push(font.name);
+        });
+        localFontGroup.innerHTML = '';
+        names.forEach((name) => {
+          const option = document.createElement('option');
+          option.value = localFontValuePrefix + name;
+          option.textContent = name;
+          localFontGroup.appendChild(option);
+        });
+        if (names.length) {
+          const removeOption = document.createElement('option');
+          removeOption.value = removeLocalFontsValue;
+          removeOption.textContent = '移除全部本地字体';
+          localFontGroup.appendChild(removeOption);
+        }
+      };
+      const importFontFile = (file) => new Promise((resolve) => {
+        const name = (file.name || '本地字体').replace(/\.(ttf|otf|ttc|woff2?|sfnt)$/i, '').trim() || '本地字体';
+        const reader = new FileReader();
+        reader.addEventListener('load', async () => {
+          const dataUrl = String(reader.result || '');
+          try {
+            await registerLocalFont(name, dataUrl);
+          } catch (error) {
+            setSaveStatus('字体文件无法解析');
+            resolve();
+            return;
+          }
+          localFonts = localFonts.filter((font) => font.name !== name);
+          localFonts.push({ name, data: dataUrl });
+          setSaveStatus('本地字体已导入（刷新后需重新导入）');
+          resolve();
+        });
+        reader.addEventListener('error', () => {
+          setSaveStatus('字体文件无法读取');
+          resolve();
+        });
+        reader.readAsDataURL(file);
+      });
+      const loadInstalledFonts = async () => {
+        if (typeof window.queryLocalFonts !== 'function') {
+          setSaveStatus('当前浏览器不支持读取本地字体，可用「导入字体」');
+          return;
+        }
+        setSaveStatus('正在读取本地字体...');
+        try {
+          const fonts = await window.queryLocalFonts();
+          const families = new Set();
+          fonts.forEach((font) => {
+            if (!font || typeof font.family !== 'string') return;
+            const family = font.family.trim();
+            if (!family) return;
+            const lower = family.toLowerCase();
+            if (installedFontBlocklist.some((part) => lower.includes(part))) return;
+            families.add(family);
+          });
+          installedFontNames = Array.from(families).sort((a, b) => a.localeCompare(b));
+          refreshLocalFontOptions();
+          setSaveStatus(`已读取 ${installedFontNames.length} 个本地字体`);
+        } catch (error) {
+          setSaveStatus(error && error.name === 'NotAllowedError' ? '已拒绝本地字体读取权限' : '本地字体读取失败');
+        }
+      };
+      const removeAllLocalFonts = () => {
+        fontFaces.forEach((fontFace) => document.fonts.delete(fontFace));
+        fontFaces.clear();
+        localFonts = [];
+        installedFontNames = [];
+        refreshLocalFontOptions();
+        setSaveStatus('已清除本地字体');
+      };
+
+      fontFamilySelect?.addEventListener('change', (event) => {
+        const value = event.target.value;
+        if (value === removeLocalFontsValue) {
+          removeAllLocalFonts();
+          event.target.value = 'simhei';
+          return;
+        }
+        if (value.startsWith(localFontValuePrefix)) {
+          const name = value.slice(localFontValuePrefix.length);
+          runCommand('fontName', `"${name}", "Microsoft YaHei", sans-serif`);
+          return;
+        }
+        runCommand('fontName', fontFamilies[value]);
+      });
+      localFontButton?.addEventListener('mousedown', (event) => event.preventDefault());
+      localFontButton?.addEventListener('click', () => {
+        loadInstalledFonts();
+      });
+      importFontButton?.addEventListener('mousedown', (event) => event.preventDefault());
+      importFontButton?.addEventListener('click', () => {
+        if (!supportsLocalFonts) {
+          setSaveStatus('当前浏览器不支持导入字体文件');
+          return;
+        }
+        fontFileInput?.click();
+      });
+      fontFileInput?.addEventListener('change', async (event) => {
+        const files = Array.from(event.target.files || []);
+        event.target.value = '';
+        if (!files.length) return;
+        setSaveStatus('正在导入字体...');
+        for (const file of files) await importFontFile(file);
+        refreshLocalFontOptions();
       });
 
       const applyInlineStyle = (property, value) => {
