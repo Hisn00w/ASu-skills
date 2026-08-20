@@ -400,33 +400,39 @@
       sheets.forEach((sheet) => sheet.addEventListener('input', scheduleSave));
       window.addEventListener('beforeunload', saveContent);
 
-      const photoSlot = document.querySelector('.profile-photo-slot');
-      const photoInput = photoSlot?.querySelector('.photo-input');
-      const openPhotoPicker = () => photoInput?.click();
-      photoSlot?.addEventListener('click', (event) => {
-        if (event.target !== photoInput) openPhotoPicker();
+      const openPhotoPicker = (slot) => slot?.querySelector('.photo-input')?.click();
+      document.addEventListener('click', (event) => {
+        const slot = event.target.closest?.('.profile-photo-slot');
+        if (!slot) return;
+        const input = slot.querySelector('.photo-input');
+        if (event.target !== input) openPhotoPicker(slot);
       });
-      photoSlot?.addEventListener('keydown', (event) => {
+      document.addEventListener('keydown', (event) => {
+        const slot = event.target.closest?.('.profile-photo-slot');
+        if (!slot) return;
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
-          openPhotoPicker();
+          openPhotoPicker(slot);
         }
       });
-      photoInput?.addEventListener('change', (event) => {
-        const [file] = event.target.files || [];
+      document.addEventListener('change', (event) => {
+        const input = event.target.closest?.('.photo-input');
+        const slot = input?.closest('.profile-photo-slot');
+        if (!input || !slot) return;
+        const [file] = input.files || [];
         if (!file || !file.type.startsWith('image/')) return;
         const reader = new FileReader();
         reader.addEventListener('load', () => {
-          let photo = photoSlot.querySelector('.profile-photo');
+          let photo = slot.querySelector('.profile-photo');
           if (!photo) {
             photo = document.createElement('img');
             photo.className = 'profile-photo';
             photo.alt = '证件照';
-            photoSlot.prepend(photo);
+            slot.prepend(photo);
           }
           photo.src = reader.result;
-          photoSlot.querySelector('.photo-placeholder')?.remove();
-          photoSlot.classList.add('has-photo');
+          slot.querySelector('.photo-placeholder')?.remove();
+          slot.classList.add('has-photo');
           scheduleSave();
         });
         reader.readAsDataURL(file);
