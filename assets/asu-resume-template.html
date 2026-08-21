@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ASu Resume</title>
   <style>
-    @page { size: A4; margin: 0; }
+    @page { size: A4; margin: 7mm 10mm 8mm; }
     :root { --blue: #2458b8; --text: #151515; --muted: #596273; --band: #f2f3f5; }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #fff; }
@@ -23,6 +23,9 @@
     .tool-button { width: 32px; min-width: 32px; padding: 0; border: 1px solid #cbd5e1; background: #f8fafc; color: #334155; cursor: pointer; font-weight: 700; }
     .tool-button:hover, .tool-button.active { border-color: #7296d8; background: #eff6ff; color: #1d4ed8; }
     .history-button { width: auto; min-width: 46px; padding: 0 8px; }
+    .reset-button { height: 32px; padding: 0 10px; border: 1px solid #f0b4b4; border-radius: 5px; background: #fff5f5; color: #b91c1c; cursor: pointer; font: inherit; font-weight: 700; transition: border-color .15s ease, background .15s ease, color .15s ease; }
+    .reset-button:hover { border-color: #dc2626; background: #fee2e2; color: #991b1b; }
+    .reset-button.armed { border-color: #dc2626; background: #dc2626; color: #fff; }
     .save-status { color: #64748b; white-space: nowrap; font-size: 12px; }
     .color-control { display: flex; align-items: center; gap: 4px; height: 32px; padding: 0 5px; border: 1px solid #cbd5e1; border-radius: 5px; background: #fff; cursor: pointer; }
     .color-control input { width: 21px; height: 21px; padding: 0; border: 0; background: transparent; cursor: pointer; }
@@ -41,8 +44,9 @@
       body[data-page-mode="continuous"] .sheet { margin: 0 auto; box-shadow: none; }
     }
     @media print {
-      body[data-page-mode="paged"] .sheet { min-height: 297mm; margin: 0; box-shadow: none; }
-      body[data-page-mode="continuous"] .sheet { min-height: 0; margin: 0; box-shadow: none; }
+      .sheet { padding: 0; width: auto; min-height: 0; }
+      body[data-page-mode="paged"] .sheet { margin: 0; box-shadow: none; }
+      body[data-page-mode="continuous"] .sheet { margin: 0; box-shadow: none; }
     }
     [contenteditable="true"]:focus { outline: 2px solid #b7caf3; outline-offset: 2px; }
     h1 { margin: 0 0 3px; font-family: "Microsoft YaHei", "Arial", sans-serif; font-size: 24pt; line-height: 1.08; font-weight: 700; }
@@ -60,7 +64,7 @@
     .meta-row strong { font-weight: 700; }
     .separator { color: #2d2d2d; padding: 0 5px; }
     .section { margin-top: 8px; }
-    .section-title { margin: 0 0 4px; padding-bottom: 2px; border-bottom: 2px solid var(--blue); color: var(--blue); font-family: "Microsoft YaHei", "Arial", sans-serif; font-size: 18.5pt; line-height: 1.03; font-weight: 700; }
+    .section-title { margin: 0 0 4px; padding-bottom: 2px; border-bottom: 2px solid var(--blue); color: var(--blue); font-family: "Microsoft YaHei", "Arial", sans-serif; font-size: 18.5pt; line-height: 1.03; font-weight: 700; break-after: avoid; }
     .lead { margin: 3px 0 4px; color: #1d448f; font-size: 10.8pt; line-height: 1.35; font-weight: 700; }
     .evidence-link { margin: 2px 0 5px; color: #2458b8; font-size: 11.5pt; font-weight: 700; }
     .evidence-link a { color: inherit; }
@@ -68,15 +72,15 @@
     .evidence-link { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
     .trend-badge { min-width: 135px; padding: 4px 7px; border: 1px solid #7351a3; border-radius: 6px; color: #7351a3; text-align: center; font: 7px/1.25 Arial, sans-serif; }
     .trend-badge strong { font-size: 8px; }
-    .company { display: flex; align-items: center; gap: 7px; min-height: 31px; margin: 6px 0 4px; padding: 5px 8px; border-radius: 6px; background: var(--band); page-break-inside: avoid; }
+    .company { display: flex; align-items: center; gap: 7px; min-height: 31px; margin: 6px 0 4px; padding: 5px 8px; border-radius: 6px; background: var(--band); page-break-inside: avoid; break-inside: avoid; }
     .company-logo { width: 27px; height: 27px; object-fit: contain; flex: 0 0 auto; }
     .company-name { flex: 1; min-width: 0; font-size: 11.2pt; font-weight: 700; }
     .company-meta { color: #202020; font-size: 9.5pt; white-space: nowrap; }
     .education-name .education-major { margin-left: 18px; }
     .project { margin: 3px 0 4px; page-break-inside: avoid; }
-    .project-title { margin: 3px 0 2px; color: #244b9b; font-size: 11.5pt; line-height: 1.12; font-weight: 700; }
+    .project-title { margin: 3px 0 2px; color: #244b9b; font-size: 11.5pt; line-height: 1.12; font-weight: 700; break-after: avoid; }
     ul { margin: 1px 0 3px 17px; padding: 0; }
-    li { margin: 1px 0; }
+    li { margin: 1px 0; break-inside: avoid; }
     li::marker { font-size: .8em; }
     .nested { margin-left: 18px; }
     .nested::marker { content: "○ "; }
@@ -122,6 +126,7 @@
     </select>
     <label class="color-control" title="文字颜色"><span>颜色</span><input id="textColor" type="color" value="#151515" aria-label="文字颜色"></label>
     <button class="tool-button" type="button" data-command="bold" title="加粗"><strong>B</strong></button>
+    <button class="reset-button" type="button" id="resetButton" title="清除所有编辑，恢复模板初始内容">重置</button>
     <span id="saveStatus" class="save-status" role="status" aria-live="polite">自动保存已开启</span>
     <button class="print-button" type="button" onclick="window.print()">打印 / 导出 PDF</button>
   </div>
@@ -356,7 +361,8 @@
         return (hash >>> 0).toString(16);
       };
       const contentStorageKey = `${contentStoragePrefix}-${hashText(window.location.href)}`;
-      const templateHash = hashText(JSON.stringify(sheets.map((sheet) => sheet.innerHTML)));
+      const originalSheets = sheets.map((sheet) => sheet.innerHTML);
+      const templateHash = hashText(JSON.stringify(originalSheets));
       const restoreSavedContent = () => {
         const raw = getStoredValue(contentStorageKey);
         if (!raw) return;
@@ -394,33 +400,39 @@
       sheets.forEach((sheet) => sheet.addEventListener('input', scheduleSave));
       window.addEventListener('beforeunload', saveContent);
 
-      const photoSlot = document.querySelector('.profile-photo-slot');
-      const photoInput = photoSlot?.querySelector('.photo-input');
-      const openPhotoPicker = () => photoInput?.click();
-      photoSlot?.addEventListener('click', (event) => {
-        if (event.target !== photoInput) openPhotoPicker();
+      const openPhotoPicker = (slot) => slot?.querySelector('.photo-input')?.click();
+      document.addEventListener('click', (event) => {
+        const slot = event.target.closest?.('.profile-photo-slot');
+        if (!slot) return;
+        const input = slot.querySelector('.photo-input');
+        if (event.target !== input) openPhotoPicker(slot);
       });
-      photoSlot?.addEventListener('keydown', (event) => {
+      document.addEventListener('keydown', (event) => {
+        const slot = event.target.closest?.('.profile-photo-slot');
+        if (!slot) return;
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
-          openPhotoPicker();
+          openPhotoPicker(slot);
         }
       });
-      photoInput?.addEventListener('change', (event) => {
-        const [file] = event.target.files || [];
+      document.addEventListener('change', (event) => {
+        const input = event.target.closest?.('.photo-input');
+        const slot = input?.closest('.profile-photo-slot');
+        if (!input || !slot) return;
+        const [file] = input.files || [];
         if (!file || !file.type.startsWith('image/')) return;
         const reader = new FileReader();
         reader.addEventListener('load', () => {
-          let photo = photoSlot.querySelector('.profile-photo');
+          let photo = slot.querySelector('.profile-photo');
           if (!photo) {
             photo = document.createElement('img');
             photo.className = 'profile-photo';
             photo.alt = '证件照';
-            photoSlot.prepend(photo);
+            slot.prepend(photo);
           }
           photo.src = reader.result;
-          photoSlot.querySelector('.photo-placeholder')?.remove();
-          photoSlot.classList.add('has-photo');
+          slot.querySelector('.photo-placeholder')?.remove();
+          slot.classList.add('has-photo');
           scheduleSave();
         });
         reader.readAsDataURL(file);
@@ -435,6 +447,56 @@
         applyMode(pageMode.value);
         setStoredValue(modeStorageKey, pageMode.value);
       });
+
+      const resetButton = document.querySelector('#resetButton');
+      const resetEditor = () => {
+        try { localStorage.removeItem(contentStorageKey); } catch (error) { /* 忽略 */ }
+        sheets.forEach((sheet, index) => {
+          sheet.innerHTML = originalSheets[index];
+        });
+        document.querySelectorAll('.profile-photo-slot').forEach((slot) => {
+          const photo = slot.querySelector('.profile-photo');
+          if (photo) photo.remove();
+          if (!slot.querySelector('.photo-placeholder')) {
+            const placeholder = document.createElement('span');
+            placeholder.className = 'photo-placeholder';
+            placeholder.innerHTML = '证件照<br>预留位置';
+            slot.insertBefore(placeholder, slot.querySelector('.photo-input'));
+          }
+          slot.classList.remove('has-photo');
+        });
+        const photoInput = document.querySelector('.photo-input');
+        if (photoInput) photoInput.value = '';
+        setSaveStatus('已恢复初始内容');
+      };
+      if (resetButton) {
+        let armed = false;
+        let disarmTimer = null;
+        const disarm = () => {
+          armed = false;
+          resetButton.classList.remove('armed');
+          resetButton.textContent = '重置';
+          window.clearTimeout(disarmTimer);
+        };
+        resetButton.addEventListener('click', () => {
+          if (!armed) {
+            armed = true;
+            resetButton.classList.add('armed');
+            resetButton.textContent = '再点一次确认重置';
+            window.clearTimeout(disarmTimer);
+            disarmTimer = window.setTimeout(disarm, 3000);
+            return;
+          }
+          disarm();
+          resetEditor();
+        });
+        resetButton.addEventListener('mouseleave', () => {
+          if (armed) disarmTimer = window.setTimeout(disarm, 800);
+        });
+        resetButton.addEventListener('mouseenter', () => {
+          window.clearTimeout(disarmTimer);
+        });
+      }
 
       const editorSelector = '[contenteditable="true"]';
       const getElement = (node) => node && (node.nodeType === 1 ? node : node.parentElement);
