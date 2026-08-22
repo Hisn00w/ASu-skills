@@ -46,3 +46,39 @@ cases:
   - prompt: "按照阿酥模板复刻并输出 HTML"
     expected: asu-resume
     note: 明确复刻模板 + 生成 HTML，命中 /asu-resume。
+
+  - prompt: "帮我在 GitHub 上找一个容易合并的开源仓库，先做一个小 PR"
+    expected: contributor
+    note: 典型 first contribution 请求，命中 /contributor。
+
+  - prompt: "目标岗位是后端开发，帮我扫一些开源项目的 typo 和坏链接机会，展示改动方案后我再确认"
+    expected: contributor
+    note: 展示候选 + 用户确认后提交 PR 的核心流程，命中 /contributor。
+
+  - prompt: "帮我找几个能写进简历的开源小活"
+    expected: contributor
+    note: 边界 case：同时提到「开源小活」与「写进简历」，contributor 的 description 明确包含「把 PR 写进简历」，归 /contributor 而非 /asu。
+
+  - prompt: "根据我的简历和目标岗位，预测面试官大概率会问什么问题"
+    expected: interview
+    note: 面试预测请求，命中 /interview。
+
+  - prompt: "模拟一场压力面，一次只问一个问题，我答得含糊就继续追问"
+    expected: interview
+    note: 模拟面试 / 压力面 + 连续追问，命中 /interview。
+
+  - prompt: "帮我检查简历上的项目经历我自己能不能讲清楚，讲不透的地方标出来"
+    expected: interview
+    note: 边界 case：涉及简历内容，但动作是检查掌握程度而非制作简历文件，归 /interview 而非 /resume。
+
+  - prompt: "把我投递过的公司和当前状态整理成一张求职进度表"
+    expected: offer
+    note: 典型秋招进度管理请求，命中 /offer。
+
+  - prompt: "这封招聘邮件是说我进入面试了吗？帮我判断证据并更新状态"
+    expected: offer
+    note: 招聘邮件状态判断，证据不足时标待确认，命中 /offer。
+
+  - prompt: "简历已经定稿开始投递了，帮我记录每家公司的进展和下一步"
+    expected: offer
+    note: 边界 case：提到简历定稿，但动作是记录投递进展，归 /offer 而非 /resume。
