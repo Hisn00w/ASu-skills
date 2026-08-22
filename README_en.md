@@ -52,6 +52,7 @@ Pick your first entry based on the problem you most need to solve right now:
 | Have experience, but unsure how to match it to a target role | `/asu` |
 | Resume content is settled; need a regular editable resume | `/resume` |
 | Want to recreate the ASu-style high-density technical resume | `/asu-resume` |
+| Interviews coming up; want to predict questions and drill the weak spots | `/interview` |
 | Already applying; need to organize recruiting emails and follow-ups | `/offer` |
 
 You can also combine entries:
