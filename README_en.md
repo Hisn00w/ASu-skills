@@ -32,7 +32,7 @@ ASu is building a Harness project tailored to the job-search journey. We welcome
 
 [Check out the ASu Harness project on GitHub](https://github.com/Hisn00w/Asu)
 
-ASu-skills is now a plugin pack. Installing it provides five individually callable entry points:
+ASu-skills is now a plugin pack. Installing it provides six individually callable entry points:
 
 | Entry          | Purpose                   | Primary deliverables                                              |
 | -------------- | ------------------------ | ----------------------------------------------------------------- |
@@ -40,6 +40,7 @@ ASu-skills is now a plugin pack. Installing it provides five individually callab
 | `/asu`         | Experience Sulishing     | Role targeting, project bullet rewrites, evidence of results, HR opener |
 | `/resume`      | Resume building          | Editable HTML resume, template replication, PDF export            |
 | `/asu-resume`  | ASu-style resume         | Recreates the ASu single-column high-density technical resume, logo assets and PDF |
+| `/interview`   | Interview preparation    | Resume-driven interview predictions, follow-up drilling, and mastery review |
 | `/offer`       | Fall recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
 
 ## Installation
@@ -47,11 +48,11 @@ ASu-skills is now a plugin pack. Installing it provides five individually callab
 The easiest way is to send the GitHub link directly to Codex and ask it to install the plugin:
 
 ```text
-Install the ASu-skills plugin from this GitHub repository and enable the five skills: contributor, asu, resume, asu-resume, offer:
+Install the ASu-skills plugin from this GitHub repository and enable the six skills: contributor, asu, resume, asu-resume, interview, offer:
 https://github.com/Hisn00w/ASu-skills
 ```
 
-After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `asu`, `resume`, `asu-resume`, or `offer` from the command list.
+After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `asu`, `resume`, `asu-resume`, `interview`, or `offer` from the command list.
 
 If your Codex version does not surface skills in the `/` menu, you can also use the official explicit invocation syntax:
 
@@ -60,6 +61,7 @@ $contributor Find open-source contribution candidates for my target role; show m
 $asu Rewrite my internship experience for an AI application engineer role.
 $resume Turn my experience into an editable Chinese HTML resume.(Considering maybe ur not a Manderin speaker,try saying "resume Turn my experience into an editable English HTML resume.")
 $asu-resume Recreate the single-column high-density technical resume from the reference image and output an editable HTML.
+$interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
 $offer Turn these recruiting emails into a fall recruitment application tracker.
 ```
 
@@ -183,7 +185,7 @@ Organize the recruiting emails and screenshots I uploaded into a fall recruitmen
 
 ![Fall recruitment tracker preview](assets/application-tracker-overview.svg)
 
-## How the five entries work together
+## How the six entries work together
 
 Recommended order:
 
@@ -191,7 +193,8 @@ Recommended order:
 2. Use `/asu` to lock in role targeting from the evidence card and your existing experience, and to polish resume phrasing and HR talking points;
 3. Use `/resume` to turn the confirmed copy into an editable resume and export PDF;
 4. When you want the ASu-style resume, use `/asu-resume` to generate the same high-density technical resume;
-5. Use `/offer` to record the status of applications, assessments, interviews, and offers.
+5. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
+6. Use `/offer` to record the status of applications, assessments, interviews, and offers.
 
 You can also state a combined goal in a single request, e.g.: “first use `/contributor` to gather the merged PRs, then `/asu` to rewrite the experience, and finally `/resume` to generate an HTML resume”.
 
