@@ -5,7 +5,7 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills logo">
   <h3>A job-search workflow plugin for Chinese job seekers</h3>
-  <p>Five standalone entry points for open-source contributions, experience Sulishing, resume building, ASu-style resume replication, and fall recruitment tracking.</p>
+  <p>Six standalone entry points for open-source contributions, experience Sulishing, resume building, ASu-style resume replication, interview preparation, and fall recruitment tracking.</p>
 </div>
 
 
