@@ -335,6 +335,10 @@ asu-skills/
 
 欢迎提 Issue 和 PR。[贡献指南](.github/CONTRIBUTING.md)里公开了贡献者职级对照表，说明一个错别字可以换到什么头衔，以及这个头衔在什么时候会失效。
 
+贡献者：
+
+- [Codex](https://chatgpt.com/codex)
+
 ## 致谢
 
 感谢以下小红书博主的公开分享与启发：

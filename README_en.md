@@ -339,6 +339,10 @@ asu-skills/
 
 Issues and PRs are welcome. The [contributing guide](.github/CONTRIBUTING_en.md) publishes the contributor-tier conversion table, showing exactly what title a single typo fix can earn you — and when that title stops working.
 
+Contributors:
+
+- [Codex](https://chatgpt.com/codex)
+
 ## Acknowledgments
 
 Thanks to the following Xiaohongshu(Chinese IG) creators for their public sharing and inspiration:
