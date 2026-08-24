@@ -12,7 +12,7 @@ ASu-skills 是中文求职工作流插件，包含开源贡献、经历酥化、
 - 品牌 Logo 优先使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的 SVG，不自行绘制或使用低清截图。
 - 修改后检查 Markdown 冲突标记、路径、JSON 格式和相关技能的可用性。
 - 合并远程更新时保留双方有效内容；解决冲突后再提交合并结果。
-- 创建 PR 前必须阅读根目录 [`CONTRIBUTING.md`](CONTRIBUTING.md) 和 [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md)，并完成模板中的全部检查项；无法完成的项目必须在 PR 中说明原因和替代验证。
+- 创建 PR 前必须阅读 [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md) 和 [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md)，并完成模板中的全部检查项；无法完成的项目必须在 PR 中说明原因和替代验证。
 
 ## 提交规范
 

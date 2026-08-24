@@ -328,13 +328,16 @@ asu-skills/
 │   ├── icons/                   # Personal & general information SVG icons
 │   └── logos/                   # LobeHub Icons static SVG logos
 ├── references/                  # Reference for organizing recruiting emails
-├── CONTRIBUTING.md              # Contribution guide & contributor tier table
+├── .github/
+│   ├── CONTRIBUTING.md          # Contribution guide & contributor tier table
+│   ├── CONTRIBUTING_en.md       # English contribution guide
+│   └── PULL_REQUEST_TEMPLATE.md # Pull request template
 └── README.md
 ```
 
 ## Contributing
 
-Issues and PRs are welcome. The [contributing guide](CONTRIBUTING_en.md) publishes the contributor-tier conversion table, showing exactly what title a single typo fix can earn you — and when that title stops working.
+Issues and PRs are welcome. The [contributing guide](.github/CONTRIBUTING_en.md) publishes the contributor-tier conversion table, showing exactly what title a single typo fix can earn you — and when that title stops working.
 
 ## Acknowledgments
 

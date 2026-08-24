@@ -26,7 +26,7 @@
 提交 PR 前请完成以下检查。无法完成的项目必须在“验证结果”中说明原因和替代方案。
 
 - [ ] 已阅读根目录 [`AGENTS.md`](../AGENTS.md)
-- [ ] 已阅读根目录 [`CONTRIBUTING.md`](../CONTRIBUTING.md)
+- [ ] 已阅读 [`.github/CONTRIBUTING.md`](CONTRIBUTING.md)
 - [ ] 已按中文 Conventional Commits 规范编写提交信息
 - [ ] 已运行 `git diff --check`
 - [ ] 已检查修改内容中没有 `<<<<<<<`、`=======`、`>>>>>>>` 等冲突标记

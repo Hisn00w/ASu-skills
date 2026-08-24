@@ -324,13 +324,16 @@ asu-skills/
 │   ├── icons/                    # 个人信息与通用信息 SVG 图标
 │   └── logos/                    # LobeHub Icons 静态 SVG Logo
 ├── references/                  # 招聘邮箱整理参考
-├── CONTRIBUTING.md              # 贡献指南与贡献者职级对照表
+├── .github/
+│   ├── CONTRIBUTING.md          # 贡献指南与贡献者职级对照表
+│   ├── CONTRIBUTING_en.md       # English contribution guide
+│   └── PULL_REQUEST_TEMPLATE.md # PR 模板
 └── README.md
 ```
 
 ## 参与贡献
 
-欢迎提 Issue 和 PR。[贡献指南](CONTRIBUTING.md)里公开了贡献者职级对照表，说明一个错别字可以换到什么头衔，以及这个头衔在什么时候会失效。
+欢迎提 Issue 和 PR。[贡献指南](.github/CONTRIBUTING.md)里公开了贡献者职级对照表，说明一个错别字可以换到什么头衔，以及这个头衔在什么时候会失效。
 
 ## 致谢
 

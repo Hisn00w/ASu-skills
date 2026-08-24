@@ -28,7 +28,7 @@ Titles take effect immediately. No merge required.
 2. One PR, one change. The smaller the change, the faster the title;
 3. Preview Markdown changes yourself; for HTML templates, open the file in a browser and confirm it still edits and still prints to A4;
 4. Commit with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): use English type prefixes like `feat:`, `fix:`, `docs:`, with a short, specific title;
-5. Before opening a PR, read this file and [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) in full, and complete every item in the PR template's checklist;
+5. Before opening a PR, read this file and [`PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md) in full, and complete every item in the PR template's checklist;
 6. In the PR description, be clear about: what changed, why, and how it was verified. If you can't complete a checklist item, explain why and offer an alternative verification.
 
 Write the description like a normal human. Leave the Sulishing to `/asu`.
@@ -38,7 +38,7 @@ Write the description like a normal human. Leave the Sulishing to `/asu`.
 Follow this order when opening a PR:
 
 1. Create a feature branch from the latest `main` instead of committing directly to `main`;
-2. Read this file and [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) first;
+2. Read this file and [`PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md) first;
 3. Run the checks relevant to this change — code, skills, Markdown, JSON, HTML, and a browser preview;
 4. Run `git diff --check` and confirm there are no whitespace errors;
 5. Review every file to be committed and confirm there are no conflict markers, secrets, personal data, or unrelated files;
@@ -61,7 +61,7 @@ When resume templates are involved, you must also confirm:
 
 ## Contributions we won't merge
 
-- PRs that ask to remove the “experience must be real” lines. Plenty of people want them gone, but those lines are not a writing-style preference — see [Truthfulness boundaries](README_en.md#truthfulness-boundaries);
+- PRs that ask to remove the “experience must be real” lines. Plenty of people want them gone, but those lines are not a writing-style preference — see [Truthfulness boundaries](../README_en.md#truthfulness-boundaries);
 - Turning `/contributor` into a bulk-sending tool, e.g. “scan every project under an org and auto-open PRs”. That isn't contribution, it's spam. Maintainers will block you, and it won't fit on a resume either;
 - Changes made only to inflate the diff: meaningless line breaks, or swapping correct punctuation for other correct punctuation;
 - Writing real names, phone numbers, emails, internal company info, or recruiting privacy into repo files.
