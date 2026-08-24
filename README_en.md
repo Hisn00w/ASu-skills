@@ -43,7 +43,57 @@ ASu-skills is now a plugin pack. Installing it provides six individually callabl
 | `/interview`   | Interview preparation    | Resume-driven interview predictions, follow-up drilling, and mastery review |
 | `/offer`       | Fall recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
 
+## First time: where to start
+
+Pick your first entry based on the problem you most need to solve right now:
+
+| Situation | Start with |
+| --------- | ---------- |
+| No verifiable projects or collaboration experience yet | `/contributor` |
+| Have experience, but unsure how to match it to a target role | `/asu` |
+| Resume content is settled; need a regular editable resume | `/resume` |
+| Want to recreate the ASu-style high-density technical resume | `/asu-resume` |
+| Interviews coming up; want to predict questions and drill the weak spots | `/interview` |
+| Already applying; need to organize recruiting emails and follow-ups | `/offer` |
+
+You can also combine entries:
+
+- **No internships, want real experience**: use `/contributor` to make role-relevant open-source contributions first, then hand them to `/asu` to turn into verifiable resume statements;
+- **Have projects, ready to apply**: use `/asu` to align with the target role first, then `/resume` or `/asu-resume` to generate the resume;
+- **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/asu` and `/resume` whenever the resume needs an update.
+
 ## Installation
+
+ASu-skills works with both Codex and Claude Code: the repo root has `.codex-plugin/` for Codex and `.claude-plugin/` for Claude Code, sharing the same `skills/`, `assets/`, and `references/`.
+
+### Claude Code
+
+In a Claude Code session, run:
+
+```text
+/plugin marketplace add Hisn00w/ASu-skills
+/plugin install asu-skills@asu
+```
+
+You can also run the equivalent commands in a terminal:
+
+```bash
+claude plugin marketplace add Hisn00w/ASu-skills
+claude plugin install asu-skills@asu
+```
+
+If the install summary says `Run /reload-plugins to activate.`, run `/reload-plugins`; otherwise restart Claude Code. After installation, run `claude plugin details asu-skills` to confirm all six skills are loaded.
+
+Update and uninstall:
+
+```text
+/plugin marketplace update asu
+/plugin uninstall asu-skills
+```
+
+Uninstalling the plugin only removes the plugin cache; it never touches the application tracker you have edited in your project or user directory.
+
+### Codex
 
 The easiest way is to send the GitHub link directly to Codex and ask it to install the plugin:
 
@@ -64,6 +114,18 @@ $asu-resume Recreate the single-column high-density technical resume from the re
 $interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
 $offer Turn these recruiting emails into a fall recruitment application tracker.
 ```
+
+## Local validation
+
+After modifying SKILL.md, `agents/openai.yaml`, `.codex-plugin/plugin.json`, or adding a new skill, run the static validator to confirm that frontmatter, metadata, and resource references are valid:
+
+```bash
+python3 scripts/validate_skills.py
+```
+
+The validator checks: that each SKILL.md exists; that its frontmatter parses; that `name` matches the directory name; that `description` is non-empty and not too long; that `agents/openai.yaml` parses; that local references/assets paths cited in SKILL.md exist; and that `.codex-plugin/plugin.json` is valid JSON pointing to resources that actually exist. GitHub Actions runs this validator automatically on PRs that touch `skills/**` and related paths.
+
+Routing regression cases live in `tests/skill-routing-cases.yaml`, recording the expected routing for each job-search entry, as input for future Agent Evals.
 
 ## `/contributor`: Make real open-source contributions
 
@@ -118,6 +180,7 @@ Supported:
 - 18 Chinese HTML templates;(ask ur agent for a English ver if u like :)
 - A4 single- or two-page layout;
 - In-browser editing of text, photo, fonts, colors, and bold;
+- “Local fonts” reads fonts installed on your system (Chrome 103+, requires browser permission); “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement;
 - Print-to-PDF export;
 - Layout analysis from screenshots: columns, spacing, font size, colors, and pagination;
 - Fictional placeholder photos by default; swap in your own for the real resume.
@@ -146,7 +209,8 @@ The template includes:
 - Phone, email, WeChat, identity, education, and Star icons under `assets/icons/`;
 - OpenAI, Claude, ByteDance, bilibili, and GitHub SVG logos under `assets/logos/`;
 - Continuous A4 two-page layout with in-browser editing and PDF export;
-- An HTML toolbar that toggles between `A4 paginated` and `A4 long-page (unlimited height)`; the paginated mode shows paper shadow, while the long-page mode keeps A4 width and centers the content.
+- An HTML toolbar that toggles between `A4 paginated` and `A4 long-page (unlimited height)`; the paginated mode shows paper shadow, while the long-page mode keeps A4 width and centers the content;
+- The toolbar's “Local fonts” option reads fonts installed on your system (Chrome 103+, requires browser permission), and “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement; select text and apply a font from the “Local fonts” group. Imported fonts last for the current session only and must be re-imported after a refresh.
 
 Typical usage:
 
@@ -157,6 +221,18 @@ Read the resume I provide, recreate the same single-column high-density technica
 ```
 
 When adding new AI, model, platform, or company logos, follow the [LobeHub Icons skill guide](https://lobehub.com/icons/skill.md) and use the SVG/CDN assets from `@lobehub/icons` or `@lobehub/icons-static-svg` — never low-res screenshots or hand-drawn brand icons.
+
+## `/interview`: Stress-test your resume
+
+`/interview` extracts the claims that need verification from your resume and target role, predicts high-probability interview questions, and — asking exactly one question at a time — drills you with follow-up questions to check whether you can clearly explain your individual responsibilities, technical implementation, metric definitions, decision trade-offs, and failure stories. The review flags high-risk wording, knowledge gaps, and resume claims that need more evidence or a softer tone; it never fabricates interview answers for you.
+
+Typical usage:
+
+```text
+/interview grill
+
+Here is my resume; my target role is AI Application Engineer. Start from the highest-risk project and ask me one question at a time; if my answer is vague, keep drilling.
+```
 
 ## `/offer`: Fall recruitment progress management
 
@@ -198,6 +274,10 @@ Recommended order:
 
 You can also state a combined goal in a single request, e.g.: “first use `/contributor` to gather the merged PRs, then `/asu` to rewrite the experience, and finally `/resume` to generate an HTML resume”.
 
+When combining multiple entries, when your materials conflict, or when a resume contains strong claims, you can copy [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) to set up a claim–evidence ledger. It lets open-source contributions, experience rewrites, and resume files share the same facts, confirmation statuses, and personal boundaries; see [`skills/asu/references/claim-evidence-ledger.md`](skills/asu/references/claim-evidence-ledger.md) for the detailed rules.
+
+To see how one person's materials flow through the entries, read the [end-to-end fictional job-search case](docs/end-to-end-fictional-case.md). Starting from course projects and an open-source contribution, it walks through the evidence card, the experience rewrite, the editable resume, and the application tracker, clearly distinguishing completed, in-progress, and to-be-filled items.
+
 ## Truthfulness boundaries
 
 ASu-skills' “Sulishing” means strong positioning, strong evidence, and clear expression — never fabricated experience. Please keep to these rules:
@@ -214,8 +294,15 @@ ASu-skills' “Sulishing” means strong positioning, strong evidence, and clear
 
 ```text
 asu-skills/
+├── .claude-plugin/
+│   ├── plugin.json              # Claude Code plugin manifest
+│   └── marketplace.json         # Claude Code plugin marketplace manifest
 ├── .codex-plugin/
 │   └── plugin.json              # Plugin manifest
+├── package.json                 # DSH plugin pack manifest (bundle patch entry)
+├── cordis.patch.yml             # Registers the DSH filesystem skill provider
+├── lib/
+│   └── index.js                 # DSH plugin entry module
 ├── skills/
 │   ├── asu/
 │   │   ├── SKILL.md             # /asu experience Sulishing
@@ -229,6 +316,9 @@ asu-skills/
 │   ├── asu-resume/
 │   │   ├── SKILL.md             # /asu-resume ASu-style technical resume
 │   │   ├── references/          # Template structure & layout rules
+│   │   └── agents/openai.yaml
+│   ├── interview/
+│   │   ├── SKILL.md             # /interview interview prediction & follow-up drilling
 │   │   └── agents/openai.yaml
 │   └── offer/
 │       ├── SKILL.md             # /offer fall recruitment tracking
