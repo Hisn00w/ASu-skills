@@ -4,6 +4,9 @@
   "description": "中文求职工作流 skills：开源贡献、经历酥化、可编辑简历制作、同款高密度技术简历复刻和秋招进度管理（DeepSeek Harness 插件包）。",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "export:pdf": "node scripts/export-resume-pdf.mjs"
+  },
   "main": "./lib/index.js",
   "exports": {
     ".": "./lib/index.js",
