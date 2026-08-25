@@ -1,0 +1,98 @@
+name: 🐛 缺陷报告
+description: 提交一个 Bug，并附上复现步骤和运行环境
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你花时间报告问题！提交前请先搜索已有 issue，避免重复。信息越完整，越容易定位和修复。
+
+  - type: dropdown
+    attributes:
+      label: 运行环境
+      description: 你在哪个 Agent 环境中遇到该问题？
+      options:
+        - Claude Code
+        - Codex
+        - Cursor
+        - 其他 Agent
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: 相关技能
+      description: 问题与哪个技能相关？
+      options:
+        - /contributor 开源贡献
+        - /asu 经历酥化
+        - /resume 简历制作
+        - /asu-resume 同款简历复刻
+        - /interview 面试预测
+        - /offer 秋招进度管理
+        - 不涉及具体技能
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: 版本信息
+      description: 插件版本和提交号（commit hash），可在 plugin.json 与 git log 中查看。
+      placeholder: "例如：0.3.0 / 4011e67"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 问题描述
+      description: 用一两句话描述发生了什么。
+      placeholder: |
+        例如：用 /resume 导出 PDF 时内容溢出，分页位置不对。
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 复现步骤
+      description: 一步一步描述如何复现，越具体越好。
+      placeholder: |
+        1. 打开 ...
+        2. 输入 ...
+        3. 运行 /xxx ...
+        4. 看到 ...
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 预期行为
+      description: 你期望发生什么？
+      placeholder: "例如：简历应保持在一页 A4 内。"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 实际行为
+      description: 实际发生了什么？附上报错信息、截图或日志。
+      placeholder: "例如：PDF 变成两页，第二页只有一行内容。"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 备注
+      description: 其他想补充的信息（可选）。
+      placeholder: "没有请填写“无”。"
+
+  - type: checkboxes
+    attributes:
+      label: 检查清单
+      description: 在创建 issue 前，请逐项勾选确认。
+      options:
+        - label: 我已在 [Issue 列表](https://github.com/Hisn00w/ASu-skills/issues) 中搜索过相关问题仍无法解决，或该问题从未被报告过
+          required: true
+        - label: 我已阅读并同意本项目的[贡献指南](https://github.com/Hisn00w/ASu-skills/blob/main/.github/CONTRIBUTING.md)
+          required: true
+        - label: （可选）是的，我愿意提交 PR 以帮助修复该问题

@@ -1,0 +1,61 @@
+name: ✨ 功能建议
+description: 提出一个新功能或改进想法
+title: "[Feature]: "
+labels: ["feature request", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢你的想法！请先说明要解决的问题，再说明期望的功能，不用急着写实现方案。
+
+  - type: dropdown
+    attributes:
+      label: 相关技能
+      description: 这个功能与哪个技能相关？
+      options:
+        - /contributor 开源贡献
+        - /asu 经历酥化
+        - /resume 简历制作
+        - /asu-resume 同款简历复刻
+        - /interview 面试预测
+        - /offer 秋招进度管理
+        - 不涉及具体技能
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 要解决的问题
+      description: 你现在遇到了什么困难或不方便？先描述问题本身，不要先写方案。
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 期望的功能
+      description: 你希望新增或改进什么？描述期望的行为即可。
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 实现建议（可选）
+      description: 如果你有实现思路、参考案例或相关资料，可以写在这里。
+      placeholder: "没有请填写“无”。"
+
+  - type: textarea
+    attributes:
+      label: 验收标准（可选）
+      description: 如何判断这个功能做完了？例如“导出的 PDF 应能自动保持在一页内”。
+      placeholder: "没有请填写“无”。"
+
+  - type: checkboxes
+    attributes:
+      label: 检查清单
+      description: 在创建 issue 前，请逐项勾选确认。
+      options:
+        - label: 我已在 [Issue 列表](https://github.com/Hisn00w/ASu-skills/issues) 中搜索过相关问题仍无法解决，或该问题从未被报告过
+          required: true
+        - label: 我已阅读并同意本项目的[贡献指南](https://github.com/Hisn00w/ASu-skills/blob/main/.github/CONTRIBUTING.md)
+          required: true
+        - label: （可选）是的，我愿意提交 PR 以帮助修复该问题

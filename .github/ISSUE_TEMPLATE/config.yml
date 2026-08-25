@@ -1,0 +1,3 @@
+# 是否允许创建空白 issue（模板选择器中显示「打开一个空白 issue」）。
+# 设为 true：开放空白 issue；设为 false：只允许使用下方模板。
+blank_issues_enabled: true
