@@ -40,7 +40,9 @@ Logo 文件统一放在 `../../assets/logos/`，文件名使用小写英文或�
 | 哔哩哔哩        | `../../assets/logos/bilibili-color.svg`  | 哔哩哔哩、B站、Bilibili           |
 | GitHub          | `../../assets/logos/github.svg`          | GitHub、Github、开源仓库          |
 
-新增公司时，优先从 `@lobehub/icons` 的组件或静态 SVG/CDN 获取资源，命名为 `../../assets/logos/<brand>.svg`，再在本表登记别名。素材缺失时显示文字，不要用相似公司的 Logo 代替。
+生成用户专属简历时，每段能够确认品牌的公司或平台经历都应显示 Logo：先复用上表中的共享资源；缺少对应品牌时，从 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 获取官方 SVG，并复制到用户 HTML 同级的 `logos/<brand>.svg`，由 HTML 通过相对路径引用。这样用户移动、预览或导出简历时不依赖仓库目录和网络。只有品牌无法确认或 LobeHub 没有可用资源时才显示纯文字公司条，不要用相似公司的 Logo 代替。
+
+只有需要把新 Logo 沉淀为仓库共享资源时，才将文件命名为 `../../assets/logos/<brand>.svg` 并在本表登记别名；用户专属 Logo 不回写只读母版或共享资源目录。
 
 ## 内容规则
 
