@@ -63,7 +63,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 
 ## 安装
 
-ASu-skills 同时支持 Codex 和 Claude Code：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，两者共用同一套 `skills/`、`assets/` 和 `references/`。
+ASu-skills 同时支持 Codex、Claude Code 和 TraeWork：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，`.trae-plugin/` 供 TraeWork 使用，三者共用同一套 `skills/`、`assets/` 和 `references/`。
 
 ### Claude Code
 
@@ -113,6 +113,16 @@ $asu-resume 根据我的经历复刻参考图中的单栏高密度技术简历�
 $interview 根据我的简历预测面试问题，并通过连续追问检查我是否真的掌握这些经历。
 $offer 把这些招聘邮件整理成秋招投递进度表。
 ```
+
+### TraeWork
+
+TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，六个 skill 会以 `<publisher>:asu-skills:<skill>` 的形式挂在该插件下。
+
+1. 把本仓库整体复制到 TraeWork 插件目录：`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`，保留 `.trae-plugin/plugin.json`、`skills/`、`assets/` 和 `references/`；
+2. 重启 TraeWork，让新插件被重新加载；
+3. 新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume`、`interview` 或 `offer`。
+
+其中 `<publisher>` 是插件目录下的命名空间，可自行指定（如 `local`），`<version>` 为 `plugin.json` 中的版本号。卸载时删除对应插件目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
 
 ## 本地校验
 
@@ -295,6 +305,8 @@ asu-skills/
 │   └── marketplace.json         # Claude Code 插件市场清单
 ├── .codex-plugin/
 │   └── plugin.json              # 插件清单
+├── .trae-plugin/
+│   └── plugin.json              # TraeWork 插件清单
 ├── package.json                # DSH 插件包清单（bundle patch 入口）
 ├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方
 ├── lib/

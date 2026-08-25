@@ -64,7 +64,7 @@ You can also combine entries:
 
 ## Installation
 
-ASu-skills works with both Codex and Claude Code: the repo root has `.codex-plugin/` for Codex and `.claude-plugin/` for Claude Code, sharing the same `skills/`, `assets/`, and `references/`.
+ASu-skills works with Codex, Claude Code, and TraeWork: the repo root has `.codex-plugin/` for Codex, `.claude-plugin/` for Claude Code, and `.trae-plugin/` for TraeWork, all sharing the same `skills/`, `assets/`, and `references/`.
 
 ### Claude Code
 
@@ -114,6 +114,16 @@ $asu-resume Recreate the single-column high-density technical resume from the re
 $interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
 $offer Turn these recruiting emails into a fall recruitment application tracker.
 ```
+
+### TraeWork
+
+TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json` manifest, and the six skills become available under the plugin as `<publisher>:asu-skills:<skill>`.
+
+1. Copy this repository into the TraeWork plugin directory: `~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`, keeping `.trae-plugin/plugin.json`, `skills/`, `assets/`, and `references/`;
+2. Restart TraeWork so the new plugin is reloaded;
+3. Start a new conversation, type `/` in the input box, and pick `contributor`, `asu`, `resume`, `asu-resume`, `interview`, or `offer` from the command list.
+
+`<publisher>` is a namespace you choose under the plugin directory (for example `local`), and `<version>` is the version in `plugin.json`. To uninstall, delete the plugin directory; it never touches the application tracker you have edited in your project or user directory.
 
 ## Local validation
 
@@ -299,6 +309,8 @@ asu-skills/
 │   └── marketplace.json         # Claude Code plugin marketplace manifest
 ├── .codex-plugin/
 │   └── plugin.json              # Plugin manifest
+├── .trae-plugin/
+│   └── plugin.json              # TraeWork plugin manifest
 ├── package.json                 # DSH plugin pack manifest (bundle patch entry)
 ├── cordis.patch.yml             # Registers the DSH filesystem skill provider
 ├── lib/
