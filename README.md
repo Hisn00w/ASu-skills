@@ -346,6 +346,14 @@ asu-skills/
 
 感谢 [LobeHub/lobe-icons](https://github.com/lobehub/lobe-icons) 提供开源品牌图标资源；本插件按其技能说明优先使用 `@lobehub/icons` 及静态 SVG/CDN 资源。
 
+## Contributors
+
+感谢所有为 ASu-skills 做出贡献的人。
+
+<a href="https://github.com/Hisn00w/ASu-skills/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Hisn00w/ASu-skills" alt="Contributors" />
+</a>
+
 ## 开源协议
 
 本项目基于 [MIT License](LICENSE) 发布，可自由使用、修改与分发，欢迎 fork 与 PR。开源治理体系由社区 Owner 主导建设，已实现全链路 License 覆盖率 100%。

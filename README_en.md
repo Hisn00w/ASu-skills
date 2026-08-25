@@ -350,6 +350,14 @@ This plugin has organized, structured, and compliance-adjusted the relevant cont
 
 Thanks to [LobeHub/lobe-icons](https://github.com/lobehub/lobe-icons) for the open-source brand icon resources; following its skill guide, this plugin prefers `@lobehub/icons` and static SVG/CDN assets.
 
+## Contributors
+
+Thanks to everyone who contributes to ASu-skills.
+
+<a href="https://github.com/Hisn00w/ASu-skills/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Hisn00w/ASu-skills" alt="Contributors" />
+</a>
+
 ## License
 
 This project is released under the [MIT License](LICENSE). Free to use, modify, and distribute; forks and PRs are welcome. The open-source governance is led by community Owners, with 100% license coverage across the entire pipeline.
