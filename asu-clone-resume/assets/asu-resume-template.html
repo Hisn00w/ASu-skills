@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>阿酥同款 · 单栏高密度技术简历（只读母版，请另存为副本后编辑）</title>
+<style>
+  :root { --ink:#1f2329; --sub:#5b6168; --line:#e3e6eb; --accent:#2458B8; --bar:#F3F4F6; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Microsoft YaHei","PingFang SC","SimHei",sans-serif; color:var(--ink); background:#f0f2f5; }
+  @media print {
+    @page { size: A4; margin: 11mm; }
+    body { background:#fff; }
+    #toolbar { display:none !important; }
+    .page { box-shadow:none; margin:0; }
+  }
+  #toolbar {
+    position: sticky; top:0; z-index:50; display:flex; gap:8px; align-items:center;
+    padding:8px 14px; background:#fff; border-bottom:1px solid var(--line); font-size:13px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06);
+  }
+  #toolbar button { border:1px solid var(--line); background:#fafbfc; border-radius:6px; padding:5px 10px; cursor:pointer; font-size:13px; }
+  #toolbar button:hover { background:#eef1f5; }
+  #toolbar .spacer { flex:1; }
+  #toolbar .hint { color:var(--sub); font-size:12px; }
+  .page {
+    width: 210mm; min-height: 297mm; margin: 16px auto; background:#fff;
+    padding: 14mm 13mm; box-shadow:0 2px 12px rgba(0,0,0,.12); position:relative;
+  }
+  .top-info { display:flex; justify-content:space-between; align-items:flex-start; }
+  .name { font-size: 22pt; font-weight:800; margin:0; }
+  .contact { color:var(--sub); font-size:10pt; margin-top:4px; line-height:1.6; }
+  .target { margin-top:4px; font-size:11pt; color:var(--accent); font-weight:700; }
+  .photo {
+    width:26mm; height:32mm; border:1px dashed var(--line); border-radius:6px;
+    display:flex; align-items:center; justify-content:center; color:var(--sub); font-size:10pt; cursor:pointer; background:#fafbfc;
+  }
+  .photo img { width:100%; height:100%; object-fit:cover; border-radius:6px; }
+  h2.sec { font-size: 15pt; color:var(--accent); border-bottom:2px solid var(--accent); padding-bottom:3px; margin:16px 0 8px; }
+  .company {
+    background:var(--bar); border-radius:6px; padding:6px 10px; margin:10px 0 4px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .company .logo { width:24px; height:24px; flex:none; color:var(--sub); font-size:10pt; }
+  .company .ct { font-weight:700; font-size:11pt; }
+  .company .cm { color:var(--sub); font-size:9.5pt; margin-left:auto; }
+  .proj { font-size:11.5pt; font-weight:700; color:var(--accent); margin:8px 0 2px; }
+  ul { margin:3px 0 0; padding-left:18px; }
+  li { font-size:10pt; line-height:1.5; margin-bottom:3px; }
+  .editable:focus { outline:1px dashed var(--accent); outline-offset:2px; background:#fbfdff; }
+</style>
+</head>
+<body>
+<div id="toolbar">
+  <button onclick="document.execCommand('bold')">加粗</button>
+  <button onclick="document.execCommand('italic')">斜体</button>
+  <button onclick="document.execCommand('insertUnorderedList')">列表</button>
+  <button onclick="setColor()">颜色</button>
+  <span class="spacer"></span>
+  <span class="hint">先「另存为副本」再编辑 · 打印/另存为 PDF 即成品</span>
+  <button onclick="window.print()">导出 PDF</button>
+</div>
+
+<div class="page" id="page">
+  <div class="top-info">
+    <div>
+      <h1 class="name editable" contenteditable="true">你的姓名</h1>
+      <div class="contact editable" contenteditable="true">
+        电话：138-0000-0000 ｜ 邮箱：you@example.com ｜ 微信：your_wechat<br/>
+        GitHub：github.com/yourname ｜ 学校：某某大学（2026 届）
+      </div>
+      <div class="target editable" contenteditable="true">求职意向：后端 / 数据开发工程师</div>
+    </div>
+    <div class="photo" title="点击上传证件照" onclick="uploadPhoto(this)">证件照</div>
+  </div>
+
+  <h2 class="sec">实习经历</h2>
+  <div class="company">
+    <span class="logo">LOGO</span>
+    <span class="ct editable" contenteditable="true">某某公司 · 数据开发实习生</span>
+    <span class="cm editable" contenteditable="true">2025.06 – 2025.12 ｜ github.com/xxx</span>
+  </div>
+  <div class="proj editable" contenteditable="true">大客户报表与统计系统</div>
+  <ul>
+    <li class="editable" contenteditable="true">负责报表模块的 SQL 取数与聚合逻辑，覆盖多张业务表关联与实洋/码洋口径定义。</li>
+    <li class="editable" contenteditable="true">编写 Python 聚合脚本，按单位+门店+年份汇总，输出分年 Excel，规避幽灵行问题。</li>
+  </ul>
+
+  <h2 class="sec">项目经历</h2>
+  <div class="company">
+    <span class="logo">LOGO</span>
+    <span class="ct editable" contenteditable="true">开源贡献 · contributor</span>
+    <span class="cm editable" contenteditable="true">github.com/xxx/yyy</span>
+  </div>
+  <ul>
+    <li class="editable" contenteditable="true">修复文档与链接问题，PR 已合并，沉淀跨项目文档质量治理经验。</li>
+  </ul>
+
+  <h2 class="sec">校园经历</h2>
+  <ul>
+    <li class="editable" contenteditable="true">【待补：竞赛 / 社团 / 奖项】</li>
+  </ul>
+
+  <h2 class="sec">技能与其他</h2>
+  <div class="editable" contenteditable="true" style="font-size:10pt;line-height:1.6;">
+    语言：SQL、Python、C# ｜ 框架：.NET / ASP.NET、Vue ｜ 数据库：SQL Server ｜ 工具：Git、Excel、 openpyxl
+  </div>
+</div>
+
+<script>
+  function setColor() {
+    var c = prompt('输入颜色（如 #2458B8 或 red）：', '#2458B8');
+    if (c) document.execCommand('foreColor', false, c);
+  }
+  function uploadPhoto(el) {
+    var inp = document.createElement('input'); inp.type='file'; inp.accept='image/*';
+    inp.onchange = function() {
+      var f = inp.files[0]; if(!f) return;
+      var r = new FileReader();
+      r.onload = function(e){ el.innerHTML = '<img src="'+e.target.result+'" alt="photo">'; };
+      r.readAsDataURL(f);
+    };
+    inp.click();
+  }
+</script>
+</body>
+</html>

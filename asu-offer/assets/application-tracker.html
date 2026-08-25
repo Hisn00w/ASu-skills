@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>秋招进度表（可编辑）</title>
+<style>
+  :root { --ink:#1f2329; --sub:#5b6168; --line:#e3e6eb; --accent:#2458B8; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Microsoft YaHei","PingFang SC",sans-serif; color:var(--ink); background:#f5f6f8; padding:18px; }
+  h1 { font-size:18pt; margin:0 0 4px; }
+  .hint { color:var(--sub); font-size:12px; margin-bottom:12px; }
+  .bar { margin-bottom:12px; }
+  .bar button { border:1px solid var(--line); background:#fff; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:13px; }
+  .bar button:hover { background:#eef1f5; }
+  table { width:100%; border-collapse:collapse; background:#fff; box-shadow:0 1px 6px rgba(0,0,0,.08); }
+  th, td { border:1px solid var(--line); padding:8px 10px; font-size:12px; text-align:left; vertical-align:top; }
+  th { background:#f3f4f6; color:var(--ink); font-weight:700; }
+  td[contenteditable="true"]:focus { outline:2px solid var(--accent); background:#fbfdff; }
+  select { border:1px solid var(--line); border-radius:4px; padding:3px 6px; font-size:12px; }
+  .status-已投递 { color:#5b6168; }
+  .status-筛选中 { color:#b06a00; }
+  .status-测评中 { color:#7a4db0; }
+  .status-面试 { color:var(--accent); font-weight:700; }
+  .status-Offer { color:#1a8a3a; font-weight:700; }
+  .status-拒绝 { color:#c0392b; }
+  .status-待确认 { color:#888; }
+</style>
+</head>
+<body>
+<h1>秋招进度表</h1>
+<div class="hint">直接点单元格改内容；状态列用下拉选择；数据自动存本地浏览器。请勿在表中填写密码、验证码、申请编号。</div>
+<div class="bar">
+  <button onclick="addRow()">+ 新增一行</button>
+  <button onclick="exportCsv()">导出 CSV</button>
+  <button onclick="clearAll()">清空</button>
+</div>
+<table id="tracker">
+  <thead>
+    <tr>
+      <th style="width:90px">日期</th>
+      <th style="width:140px">公司</th>
+      <th style="width:140px">岗位</th>
+      <th style="width:110px">状态</th>
+      <th style="width:120px">下一步</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody id="rows">
+    <tr>
+      <td contenteditable="true">2026-08-25</td>
+      <td contenteditable="true">示例公司</td>
+      <td contenteditable="true">后端开发实习</td>
+      <td><select onchange="paint(this)"><option>已投递</option><option>筛选中</option><option>测评中</option><option>面试</option><option>Offer</option><option>拒绝</option><option>待确认</option></select></td>
+      <td contenteditable="true">等待笔试</td>
+      <td contenteditable="true">内推渠道</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  var KEY = 'asu-offer-tracker';
+  function paint(sel){ sel.className = 'status-' + sel.value; }
+  function addRow(){
+    var tb = document.getElementById('rows');
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>' +
+      '<td><select onchange="paint(this)"><option>已投递</option><option>筛选中</option><option>测评中</option><option>面试</option><option>Offer</option><option>拒绝</option><option>待确认</option></select></td>' +
+      '<td contenteditable="true"></td><td contenteditable="true"></td>';
+    tb.appendChild(tr); save();
+  }
+  function save(){
+    var rows = [...document.querySelectorAll('#rows tr')].map(function(tr){
+      var c = tr.querySelectorAll('td');
+      return { d:c[0].innerText, co:c[1].innerText, p:c[2].innerText, s:tr.querySelector('select').value, n:c[4].innerText, m:c[5].innerText };
+    });
+    localStorage.setItem(KEY, JSON.stringify(rows));
+  }
+  function load(){
+    var raw = localStorage.getItem(KEY); if(!raw) return;
+    try {
+      var rows = JSON.parse(raw);
+      var tb = document.getElementById('rows'); tb.innerHTML='';
+      rows.forEach(function(r){
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>' +
+          '<td><select onchange="paint(this)"></select></td><td contenteditable="true"></td><td contenteditable="true"></td>';
+        var c = tr.querySelectorAll('td'); var sel = tr.querySelector('select');
+        ['已投递','筛选中','测评中','面试','Offer','拒绝','待确认'].forEach(function(o){ var op=document.createElement('option'); op.value=o; op.text=o; if(o===r.s)op.selected=true; sel.appendChild(op); });
+        c[0].innerText=r.d; c[1].innerText=r.co; c[2].innerText=r.p; c[4].innerText=r.n; c[5].innerText=r.m;
+        paint(sel); tb.appendChild(tr);
+      });
+    } catch(e){}
+  }
+  function exportCsv(){
+    var rows = [...document.querySelectorAll('#rows tr')].map(function(tr){
+      var c = tr.querySelectorAll('td'); var s = tr.querySelector('select').value;
+      return [c[0].innerText,c[1].innerText,c[2].innerText,s,c[4].innerText,c[5].innerText].map(function(x){ return '"'+String(x).replace(/"/g,'""')+'"'; }).join(',');
+    });
+    var csv = '日期,公司,岗位,状态,下一步,备注\n' + rows.join('\n');
+    var blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8'});
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='秋招进度表.csv'; a.click();
+  }
+  function clearAll(){ if(confirm('确认清空？')){ localStorage.removeItem(KEY); document.getElementById('rows').innerHTML=''; } }
+  document.getElementById('rows').addEventListener('input', save);
+  document.getElementById('rows').addEventListener('change', save);
+  load();
+</script>
+</body>
+</html>
