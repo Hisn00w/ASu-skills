@@ -10,7 +10,8 @@
 //   node scripts/inline-template.mjs --all <输出目录>        # 内联 assets/templates-html/ 下全部壳文件
 //   node scripts/inline-template.mjs --check <基准目录>      # 内联全部壳文件并与基准目录同名文件逐字节比对
 //
-// 零依赖；产物与历史基准逐字节相等是硬约束，改动 frame/ 后请跑 --check 回归。
+// 零依赖；内联是确定性的——交付统一走本脚本即得一致产物，不维护逐字节基准。
+// --check 可对任意基准目录做临时逐字节比对，改动 frame/ 后用于人工自测。
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';

@@ -29,11 +29,9 @@ assets/templates-html/
 node scripts/inline-template.mjs assets/templates-html/01-大厂极简简历模板.html out.html
 # 或一次性内联全部壳文件
 node scripts/inline-template.mjs --all dist/templates
-# 或回归校验：内联产物与历史基准逐字节相等
-node scripts/inline-template.mjs --check <基准目录>
 ```
 
-inline 脚本会把 `frame/base.css` 内联进 `<head>`、注入 `frame/toolbar.html` 与 `frame/editor.js`、移除 `design-preview` 类，产物与重构前**逐字节等价**。
+inline 脚本会把 `frame/base.css` 内联进 `<head>`、注入 `frame/toolbar.html` 与 `frame/editor.js`、移除 `design-preview` 类。内联是确定性的，产物与重构前**逐字节等价**——交付统一走脚本即可，不做手动拼接，也不维护逐字节基准。[scripts/validate_skills.py](../../scripts/validate_skills.py) 只校验结构完整性（`frame/` 三部件存在、壳文件数量 == 18）。
 
 **注意**：壳文件拷出仓库会断链（缺 `frame/`）。请始终交付 inline 之后的文件，不要把壳文件直接交给用户。
 
