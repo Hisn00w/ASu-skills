@@ -1,7 +1,6 @@
 ---
 name: resume
 description: 中文可编辑简历制作技能：根据用户经历选择或复刻模板，生成可编辑 HTML 简历并提供 PDF 导出；当用户输入“/resume”或要求制作、修改、复刻简历文件时使用。
-
 ---
 
 # /resume：制作可编辑简历
@@ -15,13 +14,11 @@ ASu 资源支持两种布局，按以下顺序定位：
 1. Claude Code 安装布局：`../../assets/asu/`；
 2. 仓库插件布局：`../../assets/`。
 
-只有候选目录同时包含 `resume-data-template.json`、`resume-template-editable.html`、`resume-template-two-page.html`、`template-overview.jpg`、`fictional-resume-photo.png`，以及 `templates-html/frame/` 三部件（`base.css` / `toolbar.html` / `editor.js`）与 `templates-html/` 下全部 18 个壳文件时才使用它，避免把其他 skill 的同名目录或不完整安装误判为 ASu 资源：
+只有候选目录同时包含 `resume-data-template.json`、`template-overview.jpg`、`fictional-resume-photo.png`，以及 `templates-html/frame/` 三部件（`base.css` / `toolbar.html` / `editor.js`）与 `templates-html/` 下全部 18 个壳文件时才使用它，避免把其他 skill 的同名目录或不完整安装误判为 ASu 资源：
 
 - `resume-data-template.json`：匿名简历内容结构；
 - `templates-html/frame/`：18 套模板共享的外框（样式 / 顶部工具栏 / 编辑脚本）单一来源；
 - `templates-html/`：18 个中文模板壳文件（纯设计稿，无工具栏与脚本；交付前需经 [scripts/inline-template.mjs](../../scripts/inline-template.mjs) 内联为自包含 HTML）；
-- `resume-template-editable.html`：可编辑模板起点；
-- `resume-template-two-page.html`：双页模板起点；
 - `template-overview.jpg`：模板预览图；
 - `fictional-resume-photo.png`：虚构示例照片，只用于模板演示。
 
