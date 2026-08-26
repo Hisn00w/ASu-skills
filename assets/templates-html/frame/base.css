@@ -151,6 +151,7 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
   .variant-split .photo-frame { position:static; }
   .variant-split .identity { padding-right:0; }
 }
+@page { size: 210mm 297mm; margin: 0; }
 @media print {
   html { background:#fff; }
   body { padding:0 !important; background:#fff; }
