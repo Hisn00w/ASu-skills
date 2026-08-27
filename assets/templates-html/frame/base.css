@@ -47,8 +47,9 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
 .variant-blue-line .section-title { font-weight:800; }
 .variant-blue-line .resume-section:first-of-type { margin-top:16px; }
 .variant-blue-line .resume-header { border-bottom:4px solid var(--rule); }
-.variant-band .section-title { padding:6px 12px; color:#fff; background:linear-gradient(90deg,var(--blue) 0 118px,#edf0f3 118px); border-bottom:0; }
-.variant-band .section-title span:first-child { min-width:95px; }
+.variant-band .section-title { gap:0; padding:0; color:#fff; background:#edf0f3; border-bottom:0; }
+.variant-band .section-title > span:first-child { min-width:95px; padding:6px 12px; background:var(--blue); }
+.variant-band .section-title > .section-en { padding:6px 0 6px 12px; }
 .variant-band .resume-section { margin-top:18px; }
 .variant-english .section-title { text-transform:none; letter-spacing:.01em; }
 .variant-english .section-title span:first-child::after { content:" /"; color:#a9b1bc; }
@@ -58,8 +59,9 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
 .variant-black .section-title { color:#14171a; border-bottom:3px solid #14171a; }
 .variant-black .section-title::before { content:""; width:8px; height:22px; background:#14171a; display:inline-block; margin-right:1px; }
 .variant-ribbon .identity h1 { color:var(--blue); }
-.variant-ribbon .section-title { padding:6px 12px; color:#fff; border:0; background:linear-gradient(90deg,#315f98 0 145px,#eff1f3 145px); }
-.variant-ribbon .section-title span:first-child { min-width:120px; }
+.variant-ribbon .section-title { gap:0; padding:0; color:#fff; border:0; background:#eff1f3; }
+.variant-ribbon .section-title > span:first-child { min-width:120px; padding:6px 12px; background:#315f98; }
+.variant-ribbon .section-title > .section-en { padding:6px 0 6px 12px; }
 .variant-ribbon .entry-head { grid-template-columns:135px minmax(0,1fr) minmax(100px,auto); }
 .variant-compact { font-size:13px; }
 .variant-compact .resume-page { padding:38px 48px 50px; }
@@ -125,6 +127,8 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
 .variant-modern .resume-header { border-bottom:12px solid #e8eef4; }
 .variant-modern .section-title { color:#1e6792; border-bottom:1px solid #77a8c2; }
 .variant-modern .section-title::before { content:"01"; color:#77a8c2; font-size:12px; letter-spacing:.08em; }
+.variant-band.variant-modern .section-title { color:#fff; }
+.variant-band.variant-modern .section-title::before { align-self:stretch; display:flex; align-items:center; padding:6px 0 6px 12px; background:var(--blue); }
 .variant-academic .resume-page { border-top:16px solid #17191b; }
 .variant-academic .section-title { letter-spacing:.04em; }
 .variant-academic .section-en { color:#17191b; }
