@@ -10,7 +10,7 @@
       "name": "asu-skills",
       "source": "./",
       "displayName": "ASu-skills",
-      "description": "用 /contributor、/asu、/resume、/asu-resume、/offer 完成中文求职工作流。",
+      "description": "用 /contributor、/asu、/make-resume、/asu-resume、/offer 完成中文求职工作流。",
       "version": "0.3.0",
       "author": {
         "name": "Hisn0w",

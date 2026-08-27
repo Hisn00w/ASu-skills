@@ -39,7 +39,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 | ---------------- | -------- | --------------------------------------------- |
 | `/contributor` | 开源贡献 | 寻找候选、展示 diff，经确认后提交 PR并把贡献交给 `/asu` |
 | `/asu`         | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白       |
-| `/resume`      | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出          |
+| `/make-resume`      | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出          |
 | `/asu-resume`  | 同款简历 | 复刻 ASu 单栏高密度技术简历、Logo 资源和 PDF  |
 | `/interview`   | 面试准备 | 简历驱动的面试预测、连续追问和掌握度复盘       |
 | `/offer`       | 秋招进度 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪   |
@@ -52,7 +52,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 | -------- | ---------- |
 | 缺少可验证的项目或协作经历 | `/contributor` |
 | 已有经历，但不知道如何匹配目标岗位 | `/asu` |
-| 简历内容已确定，需要制作常规可编辑简历 | `/resume` |
+| 简历内容已确定，需要制作常规可编辑简历 | `/make-resume` |
 | 想复刻 ASu 同款高密度技术简历 | `/asu-resume` |
 | 已约到面试，需要预测问题并查漏补缺 | `/interview` |
 | 已开始投递，需要整理招聘邮件和后续进度 | `/offer` |
@@ -60,8 +60,8 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 也可以组合多个入口：
 
 - **没有实习、想补充真实经历**：先用 `/contributor` 完成与岗位相关的开源贡献，再交给 `/asu` 整理成可核验的简历表述；
-- **已有项目、准备开始投递**：先用 `/asu` 对齐目标岗位，再用 `/resume` 或 `/asu-resume` 生成简历；
-- **已经投递、需要持续跟进**：直接用 `/offer` 整理邮件和状态，简历需要更新时再回到 `/asu` 和 `/resume`。
+- **已有项目、准备开始投递**：先用 `/asu` 对齐目标岗位，再用 `/make-resume` 或 `/asu-resume` 生成简历；
+- **已经投递、需要持续跟进**：直接用 `/offer` 整理邮件和状态，简历需要更新时再回到 `/asu` 和 `/make-resume`。
 
 ## 安装
 
@@ -99,11 +99,11 @@ claude plugin install asu-skills@asu
 最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件：
 
 ```text
-请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、resume、asu-resume、interview、offer 六个 skills：
+请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、make-resume、asu-resume、interview、offer 六个 skills：
 https://github.com/Hisn00w/ASu-skills
 ```
 
-安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume`、`interview` 或 `offer`。
+安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`make-resume`、`asu-resume`、`interview` 或 `offer`。
 
 如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
 
@@ -180,9 +180,9 @@ python3 scripts/validate_skills.py
 
 <img src="assets/hr-intro-example.jpg" width="360" alt="HR 开场示例">
 
-## `/resume`：制作简历
+## `/make-resume`：制作简历
 
-`/resume` 专门负责文件交付。它会根据经历选择模板，或根据用户上传的简历截图复刻布局，最终生成真正可编辑的 HTML，而不是把截图嵌入页面。
+`/make-resume` 专门负责文件交付。它会根据经历选择模板，或根据用户上传的简历截图复刻布局，最终生成真正可编辑的 HTML，而不是把截图嵌入页面。
 
 支持：
 
@@ -197,7 +197,7 @@ python3 scripts/validate_skills.py
 典型用法：
 
 ```text
-/resume
+/make-resume
 
 请根据我提供的教育、实习和项目经历，选择一份适合后端开发岗位的模板，生成可编辑 HTML 简历，并告诉我如何导出 PDF。
 ```
@@ -276,12 +276,12 @@ python3 scripts/validate_skills.py
 
 1. 用 `/contributor` 完成与目标岗位相关的真实开源贡献，并在 PR 合并后生成证据卡；
 2. 用 `/asu` 根据证据卡和已有经历明确目标岗位，整理简历表述和 HR 话术；
-3. 用 `/resume` 把确认后的文字放入可编辑简历并导出 PDF；
+3. 用 `/make-resume` 把确认后的文字放入可编辑简历并导出 PDF；
 4. 需要复刻ASu同款简历时用 `/asu-resume` 生成同款技术简历；
 5. 用 `/interview` 预测问题并通过追问确认简历内容经得住面试；
 6. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
 
-也可以在同一条需求里说明组合目标，例如：“先用 `/contributor` 整理已合并 PR，再用 `/asu` 改写经历，最后用 `/resume` 生成 HTML 简历”。
+也可以在同一条需求里说明组合目标，例如：“先用 `/contributor` 整理已合并 PR，再用 `/asu` 改写经历，最后用 `/make-resume` 生成 HTML 简历”。
 
 组合使用多个入口、材料存在冲突或简历包含强主张时，可以复制 [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) 建立主张—证据账本。它让开源贡献、经历改写和简历文件共享同一份事实、确认状态与个人边界；详细规则见 [`skills/asu/references/claim-evidence-ledger.md`](skills/asu/references/claim-evidence-ledger.md)。
 想看同一个人的材料如何在各入口之间流转，可以阅读[端到端虚构求职案例](docs/end-to-end-fictional-case.md)。案例从课程项目和开源贡献出发，依次展示证据卡、经历改写、可编辑简历和投递进度表，并明确区分已完成、协作中与待补充状态。
@@ -320,8 +320,8 @@ asu-skills/
 │   ├── contributor/
 │   │   ├── SKILL.md             # /contributor 开源贡献
 │   │   └── agents/openai.yaml
-│   ├── resume/
-│   │   ├── SKILL.md             # /resume 简历制作
+│   ├── make-resume/
+│   │   ├── SKILL.md             # /make-resume 简历制作
 │   │   └── agents/openai.yaml
 │   ├── asu-resume/
 │   │   ├── SKILL.md             # /asu-resume 同款技术简历
