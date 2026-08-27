@@ -1,7 +1,6 @@
 ---
 name: resume
 description: 中文可编辑简历制作技能：根据用户经历选择或复刻模板，生成可编辑 HTML 简历并提供 PDF 导出；当用户输入“/resume”或要求制作、修改、复刻简历文件时使用。
-
 ---
 
 # /resume：制作可编辑简历
@@ -15,12 +14,11 @@ ASu 资源支持两种布局，按以下顺序定位：
 1. Claude Code 安装布局：`../../assets/asu/`；
 2. 仓库插件布局：`../../assets/`。
 
-只有候选目录同时包含 `resume-data-template.json`、`resume-template-editable.html`、`resume-template-two-page.html`、`template-overview.jpg`、`fictional-resume-photo.png`，以及 `templates-html/` 下全部 18 个内置模板时才使用它，避免把其他 skill 的同名目录或不完整安装误判为 ASu 资源：
+只有候选目录同时包含 `resume-data-template.json`、`template-overview.jpg`、`fictional-resume-photo.png`，以及 `templates-html/frame/` 三部件（`base.css` / `toolbar.html` / `editor.js`）与 `templates-html/` 下全部 18 个壳文件时才使用它，避免把其他 skill 的同名目录或不完整安装误判为 ASu 资源：
 
 - `resume-data-template.json`：匿名简历内容结构；
-- `templates-html/`：18 个中文 HTML 模板；
-- `resume-template-editable.html`：可编辑模板起点；
-- `resume-template-two-page.html`：双页模板起点；
+- `templates-html/frame/`：18 套模板共享的外框（样式 / 顶部工具栏 / 编辑脚本）单一来源；
+- `templates-html/`：18 个中文模板壳文件（纯设计稿，无工具栏与脚本；交付前需经 [scripts/inline-template.mjs](../../scripts/inline-template.mjs) 内联为自包含 HTML）；
 - `template-overview.jpg`：模板预览图；
 - `fictional-resume-photo.png`：虚构示例照片，只用于模板演示。
 
@@ -38,7 +36,7 @@ ASu 资源支持两种布局，按以下顺序定位：
 1. 先按“输入清单”盘点材料；用户提供主张—证据账本时，按 [账本状态规则](../asu/references/claim-evidence-ledger.md) 读取事实。缺少关键字段时按“缺失字段补问规则”补问，无法补齐时使用 `待补充` 或 `待确认` 占位，不捏造经历。
 2. 如果用户上传 PDF、已有简历、截图、图片或文档，先提取内容并检查布局；截图类输入还要分析栏位、间距、字体层级、颜色、照片位置和分页，再重建为 HTML。
 3. 按“模板选择矩阵”选择模板、页数和风格；内容能在正常字号下形成完整单页时优先单页，不因模板预设第二张页面而扩页。如果资源缺失，启用后备模板并说明限制。
-4. 输出 HTML 文件，保持文字和布局可编辑；工具栏放在页面外并在打印时隐藏。
+4. 输出 HTML 文件，保持文字和布局可编辑；工具栏放在页面外并在打印时隐藏。内置模板以壳文件形式存放（纯设计稿，无工具栏/脚本），交付给用户前必须经 `scripts/inline-template.mjs` 内联成自包含 HTML（含样式、顶部工具栏、编辑脚本），不能直接把壳文件当交付物。
 5. 把 print-preview 作为导出前强制 QA：打开或模拟打印预览，检查分页、双栏、照片比例、长文本溢出、中文字体、打印边距和 A4 纸张效果；再按 [A4 页面平衡与视觉密度 QA](references/page-balance-qa.md) 测量每页内容占用并保存整页截图。发现问题先修复 HTML/CSS 再交付。
 6. 用户需要 PDF 时，按“PDF 导出验收标准”说明浏览器打印设置或导出命令，或按用户要求生成 PDF；不要用截图替代可编辑源文件。
 

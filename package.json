@@ -5,7 +5,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "export:pdf": "node scripts/export-resume-pdf.mjs"
+    "export:pdf": "node scripts/export-resume-pdf.mjs",
+    "build:templates": "node scripts/inline-template.mjs --all dist/templates"
   },
   "main": "./lib/index.js",
   "exports": {

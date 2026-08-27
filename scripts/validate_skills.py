@@ -15,7 +15,10 @@
   6. SKILL.md 中引用的本地 references / assets 路径实际存在
      （仅检查相对路径，跳过 http(s)/mailto/锚点）；
   7. .codex-plugin/plugin.json 是合法 JSON，且 interface.capabilities、
-     skills 字段、icon/logo 等指向的本地资源真实存在。
+     skills 字段、icon/logo 等指向的本地资源真实存在；
+  8. assets/templates-html/ 外框解耦结构完整：frame/ 三部件存在、
+     壳文件数量 == 18。交付产物的一致性由 inline-template.mjs 的确定性
+     内联保证，不做产物与历史基准的比对。
 
 退出码：0 表示全部通过，1 表示存在失败项。
 """
@@ -318,6 +321,36 @@ def check_plugin_manifest(report: Report) -> None:
             )
 
 
+def check_templates(report: Report) -> None:
+    """校验 assets/templates-html/ 的外框解耦结构。
+
+    - frame/ 三部件存在（base.css / toolbar.html / editor.js）；
+    - 壳文件数量 == 18。
+
+    交付产物的一致性由 scripts/inline-template.mjs 的确定性内联保证，
+    不做产物与历史基准的比对。
+    """
+    templates_dir = REPO_ROOT / "assets" / "templates-html"
+    if not templates_dir.is_dir():
+        report.add(False, "templates", "缺少 assets/templates-html/")
+        return
+
+    frame_dir = templates_dir / "frame"
+    for part in ("base.css", "toolbar.html", "editor.js"):
+        report.add(
+            (frame_dir / part).is_file(),
+            "templates",
+            f"frame/{part} 存在",
+        )
+
+    shells = sorted(p.name for p in templates_dir.glob("*.html"))
+    report.add(
+        len(shells) == 18,
+        "templates",
+        f"壳文件数量 == 18（当前 {len(shells)}）",
+    )
+
+
 def main() -> int:
     if not SKILLS_DIR.is_dir():
         print(f"skills 目录不存在：{SKILLS_DIR}", file=sys.stderr)
@@ -335,6 +368,7 @@ def main() -> int:
         check_skill(skill_dir, report)
 
     check_plugin_manifest(report)
+    check_templates(report)
 
     print(report.summary())
     return 0 if report.passed else 1
