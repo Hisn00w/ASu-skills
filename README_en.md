@@ -5,19 +5,35 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills logo">
   <h3>A job-search workflow plugin for Chinese job seekers</h3>
-  <p>Six standalone entry points for open-source contributions, experience Sulishing, resume building, ASu-style resume replication, interview preparation, and fall recruitment tracking.</p>
+  <p>Six standalone entry points for open-source contributions, experience Sulishing, resume building, ASu-style resume replication, interview preparation, and campus recruitment tracking.</p>
 </div>
 
 
-<div align="center">
-  <a href="https://chatgpt.com/codex"><img src="https://img.shields.io/badge/Build%20with-EVERYONE-59B390?logo=openai&logoColor=white" alt="Build with Everyone"></a>
-  <a href="https://github.com/Hisn00w/ASu-skills/stargazers"><img src="https://img.shields.io/github/stars/Hisn00w/ASu-skills" alt="GitHub Stars"></a>
+<div align="left">
+  <a href="README_en.md">English</a> | <a href="README.md">中文</a>
+</div>
+
+<br>
+
+<div align="left">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Hisn00w/ASu-skills?logo=github" alt="License: MIT"></a>
+  <img src="assets/claude-code-badge.svg" alt="Claude Code">
+  <img src="assets/chatgpt-badge.svg" alt="ChatGPT">
+  <img src="assets/opencode-badge.svg" alt="OpenCode">
+  <img src="assets/deepseek-badge.svg" alt="DeepSeek">
+  <img src="assets/traework-badge.svg" alt="TraeWork">
+</div>
+
+<div align="left">
+  <a href="https://deepwiki.com/Hisn00w/ASu-skills"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
   <a href="https://www.dsh.so/artifact/asu-skills"><img src="https://www.dsh.so/badge/asu-skills.svg" alt="dsh.so security"></a>
   <a href="https://www.dsh.so/artifact/asu-skills"><img src="https://www.dsh.so/badge/install/asu-skills.svg" alt="dsh.so install"></a>
 </div>
-<div align="center">
-  <a href="README_en.md"><img src="https://img.shields.io/badge/English-README-11A683" alt="English"></a>
-  <a href="README.md"><img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-README-59B390" alt="Chinese"></a>
+
+<br>
+
+<div align="left">
+  <a href="https://trendshift.io/repositories/139058?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-139058" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/139058/daily" alt="Hisn00w%2FASu-skills | Trendshift" width="250" height="55"></a>
 </div>
 
 ## The ASu-style Resume
@@ -43,7 +59,7 @@ ASu-skills is now a plugin pack. Installing it provides six individually callabl
 | `/make-resume`      | Resume building          | Editable HTML resume, template replication, PDF export            |
 | `/asu-resume`  | ASu-style resume         | Recreates the ASu single-column high-density technical resume, logo assets and PDF |
 | `/interview`   | Interview preparation    | Resume-driven interview predictions, follow-up drilling, and mastery review |
-| `/offer`       | Fall recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
+| `/offer`       | Campus recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
 
 ## First time: where to start
 
@@ -114,7 +130,7 @@ $asu Rewrite my internship experience for an AI application engineer role.
 $resume Turn my experience into an editable Chinese HTML resume.(Considering maybe ur not a Manderin speaker,try saying "resume Turn my experience into an editable English HTML resume.")
 $asu-resume Recreate the single-column high-density technical resume from the reference image and output an editable HTML.
 $interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
-$offer Turn these recruiting emails into a fall recruitment application tracker.
+$offer Turn these recruiting emails into a campus recruitment application tracker.
 ```
 
 ### TraeWork
@@ -246,7 +262,7 @@ Typical usage:
 Here is my resume; my target role is AI Application Engineer. Start from the highest-risk project and ask me one question at a time; if my answer is vague, keep drilling.
 ```
 
-## `/offer`: Fall recruitment progress management
+## `/offer`: Campus recruitment progress management
 
 `/offer` turns information from job boards, emails, chat records, and screenshots into an application funnel, logging by default:
 
@@ -266,12 +282,12 @@ Typical usage:
 ```text
 /offer
 
-Organize the recruiting emails and screenshots I uploaded into a fall recruitment tracker, merge duplicate applications, and list the next step for each company.
+Organize the recruiting emails and screenshots I uploaded into a campus recruitment tracker, merge duplicate applications, and list the next step for each company.
 ```
 
 ### Tracker preview
 
-![Fall recruitment tracker preview](assets/application-tracker-overview.svg)
+![Campus recruitment tracker preview](assets/application-tracker-overview.svg)
 
 ## How the six entries work together
 
@@ -335,7 +351,7 @@ asu-skills/
 │   │   ├── SKILL.md             # /interview interview prediction & follow-up drilling
 │   │   └── agents/openai.yaml
 │   └── offer/
-│       ├── SKILL.md             # /offer fall recruitment tracking
+│       ├── SKILL.md             # /offer campus recruitment tracking
 │       └── agents/openai.yaml
 ├── assets/                      # Templates, images, tracker, and example resources
 │   ├── asu-resume-template.html # Read-only master for the ASu-style editable resume

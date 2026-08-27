@@ -5,25 +5,34 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills 图标">
   <h3>中文求职工作流插件</h3>
-  <p>用六个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻、面试准备和秋招进度管理。</p>
+  <p>用六个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻、面试准备和校招进度管理。</p>
 </div>
 
-<div align="right">
-  <a href="https://github.com/Hisn00w/ASu-skills/stargazers"><img src="https://img.shields.io/github/stars/Hisn00w/ASu-skills" alt="GitHub Stars"></a>
+<div align="left">
+  <a href="README_en.md">English</a> | <a href="README.md">中文</a>
 </div>
 
-<div align="center">
-  <a href="README_en.md"><img src="https://img.shields.io/badge/English-README-11A683" alt="English"></a>
-  <a href="README.md"><img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-README-59B390" alt="中文"></a>
+<br>
+
+<div align="left">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Hisn00w/ASu-skills?logo=github" alt="License: MIT"></a>
+  <img src="assets/claude-code-badge.svg" alt="Claude Code">
+  <img src="assets/chatgpt-badge.svg" alt="ChatGPT">
+  <img src="assets/opencode-badge.svg" alt="OpenCode">
+  <img src="assets/deepseek-badge.svg" alt="DeepSeek">
+  <img src="assets/traework-badge.svg" alt="TraeWork">
 </div>
 
-<div align="center">
-  <a href="https://trendshift.io/repositories/139058?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-139058" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/139058/daily" alt="Hisn00w%2FASu-skills | Trendshift" width="250" height="55"></a>
-</div>
-
-<div align="center">
+<div align="left">
+  <a href="https://deepwiki.com/Hisn00w/ASu-skills"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
   <a href="https://www.dsh.so/artifact/asu-skills"><img src="https://www.dsh.so/badge/asu-skills.svg" alt="dsh.so security"></a>
   <a href="https://www.dsh.so/artifact/asu-skills"><img src="https://www.dsh.so/badge/install/asu-skills.svg" alt="dsh.so install"></a>
+</div>
+
+<br>
+
+<div align="left">
+  <a href="https://trendshift.io/repositories/139058?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-139058" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/139058/daily" alt="Hisn00w%2FASu-skills | Trendshift" width="250" height="55"></a>
 </div>
 
 ## 阿酥同款简历
@@ -49,7 +58,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 | `/make-resume`      | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出          |
 | `/asu-resume`  | 同款简历 | 复刻 ASu 单栏高密度技术简历、Logo 资源和 PDF  |
 | `/interview`   | 面试准备 | 简历驱动的面试预测、连续追问和掌握度复盘       |
-| `/offer`       | 秋招进度 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪   |
+| `/offer`       | 校招进度 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪   |
 
 ## 第一次使用：从哪个入口开始
 
@@ -120,7 +129,7 @@ $asu 请把我的实习经历改写成适合 AI 应用工程师岗位的版本�
 $resume 根据我的经历制作一份可编辑的中文 HTML 简历。
 $asu-resume 根据我的经历复刻参考图中的单栏高密度技术简历，并输出可编辑 HTML。
 $interview 根据我的简历预测面试问题，并通过连续追问检查我是否真的掌握这些经历。
-$offer 把这些招聘邮件整理成秋招投递进度表。
+$offer 把这些招聘邮件整理成校招投递进度表。
 ```
 
 ### TraeWork
@@ -250,7 +259,7 @@ python3 scripts/validate_skills.py
 这是我的简历，目标岗位是 AI 应用工程师。请从最高风险的项目开始，一次问我一个问题；如果我的回答含糊，就继续追问。
 ```
 
-## `/offer`：秋招进度管理
+## `/offer`：校招进度管理
 
 `/offer` 把招聘网站、邮件、聊天记录和截图中的信息整理成求职漏斗，默认记录：
 
@@ -270,12 +279,12 @@ python3 scripts/validate_skills.py
 ```text
 /offer
 
-请把我上传的招聘邮件和截图整理成秋招进度表，合并重复投递，并列出每家公司下一步要做什么。
+请把我上传的招聘邮件和截图整理成校招进度表，合并重复投递，并列出每家公司下一步要做什么。
 ```
 
 ### 进度表预览
 
-![秋招进度表预览](assets/application-tracker-overview.svg)
+![校招进度表预览](assets/application-tracker-overview.svg)
 
 ## 六个入口如何配合
 
@@ -338,7 +347,7 @@ asu-skills/
 │   │   ├── SKILL.md             # /interview 面试预测与连续追问
 │   │   └── agents/openai.yaml
 │   └── offer/
-│       ├── SKILL.md             # /offer 秋招进度
+│       ├── SKILL.md             # /offer 校招进度
 │       └── agents/openai.yaml
 ├── assets/                      # 模板、图片、进度表和示例资源
 │   ├── asu-resume-template.html # ASu 同款可编辑简历起点
