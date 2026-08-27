@@ -1,7 +1,7 @@
 {
   "name": "asu-skills",
   "displayName": "ASu-skills",
-  "description": "中文求职工作流：开源贡献、经历酥化、简历制作、同款技术简历复刻和秋招进度管理。",
+  "description": "中文求职工作流：开源贡献、项目导学面经、经历酥化、简历制作、同款技术简历复刻、面试准备和秋招进度管理。",
   "version": "0.3.0",
   "author": {
     "name": "Hisn0w",
@@ -11,7 +11,10 @@
   "repository": "https://github.com/Hisn00w/ASu-skills",
   "license": "MIT",
   "keywords": [
+    "project-guide",
+    "project-analysis",
     "resume",
+    "interview",
     "job-search",
     "career",
     "open-source",

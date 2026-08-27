@@ -5,7 +5,13 @@ on:
     paths:
       - 'skills/**'
       - '.codex-plugin/**'
+      - '.trae-plugin/**'
+      - '.claude-plugin/**'
+      - '.opencode-plugin/**'
+      - 'package.json'
       - 'scripts/validate_skills.py'
+      - 'scripts/project_guide.py'
+      - 'tests/**'
       - 'tests/skill-routing-cases.yaml'
       - '.github/workflows/validate-skills.yml'
   push:
@@ -14,7 +20,13 @@ on:
     paths:
       - 'skills/**'
       - '.codex-plugin/**'
+      - '.trae-plugin/**'
+      - '.claude-plugin/**'
+      - '.opencode-plugin/**'
+      - 'package.json'
       - 'scripts/validate_skills.py'
+      - 'scripts/project_guide.py'
+      - 'tests/**'
       - 'tests/skill-routing-cases.yaml'
 
 permissions:
@@ -35,3 +47,6 @@ jobs:
 
       - name: Run skill validator
         run: python3 scripts/validate_skills.py
+
+      - name: Run unit tests
+        run: python3 -m unittest discover -s tests -v

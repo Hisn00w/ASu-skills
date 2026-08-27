@@ -5,7 +5,7 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills 图标">
   <h3>中文求职工作流插件</h3>
-  <p>用六个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻、面试准备和秋招进度管理。</p>
+  <p>用七个独立入口完成开源贡献、项目导学面经、经历酥化、简历制作、同款简历复刻、面试准备和秋招进度管理。</p>
 </div>
 
 <div align="center">
@@ -33,11 +33,12 @@ ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 
 
 [前往 GitHub 查看 ASu Harness 工程](https://github.com/Hisn00w/Asu)
 
-ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的入口：
+ASu-skills 现在是一个插件包。安装后会提供七个可单独调用的入口：
 
 | 入口             | 用途     | 主要交付                                      |
 | ---------------- | -------- | --------------------------------------------- |
 | `/contributor` | 开源贡献 | 寻找候选、展示 diff，经确认后提交 PR并把贡献交给 `/asu` |
+| `/project-guide` | 项目导学面经 | 基于项目仓库生成 `导学-{简称}.md`、`面经-{简称}.md` 和交接摘要 |
 | `/asu`         | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白       |
 | `/make-resume`      | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出          |
 | `/asu-resume`  | 同款简历 | 复刻 ASu 单栏高密度技术简历、Logo 资源和 PDF  |
@@ -51,6 +52,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 | 当前情况 | 建议先使用 |
 | -------- | ---------- |
 | 缺少可验证的项目或协作经历 | `/contributor` |
+| 已有项目仓库，需要梳理源码阅读路径和面试口播 | `/project-guide` |
 | 已有经历，但不知道如何匹配目标岗位 | `/asu` |
 | 简历内容已确定，需要制作常规可编辑简历 | `/make-resume` |
 | 想复刻 ASu 同款高密度技术简历 | `/asu-resume` |
@@ -60,7 +62,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 也可以组合多个入口：
 
 - **没有实习、想补充真实经历**：先用 `/contributor` 完成与岗位相关的开源贡献，再交给 `/asu` 整理成可核验的简历表述；
-- **已有项目、准备开始投递**：先用 `/asu` 对齐目标岗位，再用 `/make-resume` 或 `/asu-resume` 生成简历；
+- **已有项目、准备开始投递**：先用 `/project-guide` 梳理项目学习路径和面经，再用 `/asu` 对齐目标岗位，最后用 `/make-resume` 或 `/asu-resume` 生成简历；
 - **已经投递、需要持续跟进**：直接用 `/offer` 整理邮件和状态，简历需要更新时再回到 `/asu` 和 `/make-resume`。
 
 ## 安装
@@ -83,7 +85,7 @@ claude plugin marketplace add Hisn00w/ASu-skills
 claude plugin install asu-skills@asu
 ```
 
-安装摘要提示 `Run /reload-plugins to activate.` 时执行 `/reload-plugins`，否则重启 Claude Code。安装后可用 `claude plugin details asu-skills` 确认六个 skill 都已加载。
+安装摘要提示 `Run /reload-plugins to activate.` 时执行 `/reload-plugins`，否则重启 Claude Code。安装后可用 `claude plugin details asu-skills` 确认七个 skill 都已加载。
 
 更新与卸载：
 
@@ -99,17 +101,18 @@ claude plugin install asu-skills@asu
 最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件：
 
 ```text
-请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、make-resume、asu-resume、interview、offer 六个 skills：
+请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、project-guide、asu、make-resume、asu-resume、interview、offer 七个 skills：
 https://github.com/Hisn00w/ASu-skills
 ```
 
-安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`make-resume`、`asu-resume`、`interview` 或 `offer`。
+安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`project-guide`、`asu`、`make-resume`、`asu-resume`、`interview` 或 `offer`。
 
 如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
 
 ```text
 $contributor 根据我的目标岗位寻找开源贡献候选，先展示 diff；我确认后再提 PR，并在合并后交给 /asu 酥化。
 $asu 请把我的实习经历改写成适合 AI 应用工程师岗位的版本。
+$project-guide 基于当前项目生成导学和面经，并整理可交接给 /asu 与 /interview 的证据摘要。
 $resume 根据我的经历制作一份可编辑的中文 HTML 简历。
 $asu-resume 根据我的经历复刻参考图中的单栏高密度技术简历，并输出可编辑 HTML。
 $interview 根据我的简历预测面试问题，并通过连续追问检查我是否真的掌握这些经历。
@@ -118,23 +121,23 @@ $offer 把这些招聘邮件整理成秋招投递进度表。
 
 ### TraeWork
 
-TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，六个 skill 会以 `<publisher>:asu-skills:<skill>` 的形式挂在该插件下。
+TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，七个 skill 会以 `<publisher>:asu-skills:<skill>` 的形式挂在该插件下。
 
 1. 把本仓库整体复制到 TraeWork 插件目录：`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`，保留 `.trae-plugin/plugin.json`、`skills/`、`assets/` 和 `references/`；
 2. 重启 TraeWork，让新插件被重新加载；
-3. 新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume`、`interview` 或 `offer`。
+3. 新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`project-guide`、`asu`、`resume`、`asu-resume`、`interview` 或 `offer`。
 
 其中 `<publisher>` 是插件目录下的命名空间，可自行指定（如 `local`），`<version>` 为 `plugin.json` 中的版本号。卸载时删除对应插件目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
 
 ## 本地校验
 
-修改 SKILL.md、`agents/openai.yaml`、`.codex-plugin/plugin.json` 或新增 skill 后，运行静态校验器确认 frontmatter、元数据与资源引用是否合法：
+修改 SKILL.md、`agents/openai.yaml`、插件清单或新增 skill 后，运行静态校验器确认 frontmatter、元数据与资源引用是否合法：
 
 ```bash
 python3 scripts/validate_skills.py
 ```
 
-校验内容：SKILL.md 是否存在、frontmatter 是否可解析、`name` 是否与目录名一致、`description` 是否非空且不过长、`agents/openai.yaml` 是否可解析、SKILL.md 引用的本地 references/assets 路径是否存在，以及 `.codex-plugin/plugin.json` 是否为合法 JSON 且指向的资源真实存在。GitHub Actions 会在涉及 `skills/**` 等路径的 PR 上自动运行该校验。
+校验内容：SKILL.md 是否存在、frontmatter 是否可解析、`name` 是否与目录名一致、`description` 是否非空且不过长、`agents/openai.yaml` 是否可解析、SKILL.md 引用的本地 references/assets 路径是否存在，以及 Codex、TraeWork、Claude Code、OpenCode 插件清单是否为合法 JSON 并覆盖必要入口。GitHub Actions 会在涉及 `skills/**` 等路径的 PR 上自动运行该校验。
 
 路由回归用例存放在 `tests/skill-routing-cases.yaml`，记录各求职入口的预期路由，供后续 Agent Eval 使用。
 
@@ -153,6 +156,20 @@ python3 scripts/validate_skills.py
 技术栈：TypeScript、React、Python
 每周可投入：4 小时
 先帮我做 3 个容易合并的小 PR，再补 1 个能在面试里展开的技术贡献。
+```
+
+## `/project-guide`：项目导学面经
+
+`/project-guide` 面向已有项目仓库或项目材料，负责生成两份可落盘的 Markdown：`导学-{简称}.md` 和 `面经-{简称}.md`。它会把源码阅读路径、技术亮点、设计取舍、STAR 口播和源码证据索引整理成面试前可复习的材料，并在结尾给出可交给 `/asu` 的项目事实摘要，以及可交给 `/interview` 的高风险 Claim 清单。
+
+典型用法：
+
+```text
+/project-guide
+
+简称：智能BI
+项目描述：这是一个基于 React、Node.js 和大模型 API 的数据问答项目，我负责查询编排、结果可视化和异常兜底。
+求职方向：前端 / AI 应用
 ```
 
 ## `/asu`：经历酥化
@@ -270,18 +287,19 @@ python3 scripts/validate_skills.py
 
 ![秋招进度表预览](assets/application-tracker-overview.svg)
 
-## 六个入口如何配合
+## 七个入口如何配合
 
 推荐按照下面的顺序使用：
 
 1. 用 `/contributor` 完成与目标岗位相关的真实开源贡献，并在 PR 合并后生成证据卡；
-2. 用 `/asu` 根据证据卡和已有经历明确目标岗位，整理简历表述和 HR 话术；
-3. 用 `/make-resume` 把确认后的文字放入可编辑简历并导出 PDF；
-4. 需要复刻ASu同款简历时用 `/asu-resume` 生成同款技术简历；
-5. 用 `/interview` 预测问题并通过追问确认简历内容经得住面试；
-6. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
+2. 用 `/project-guide` 把已有项目仓库整理成导学、面经和可追问证据；
+3. 用 `/asu` 根据证据卡和已有经历明确目标岗位，整理简历表述和 HR 话术；
+4. 用 `/make-resume` 把确认后的文字放入可编辑简历并导出 PDF；
+5. 需要复刻 ASu 同款简历时用 `/asu-resume` 生成同款技术简历；
+6. 用 `/interview` 预测问题并通过追问确认简历内容经得住面试；
+7. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
 
-也可以在同一条需求里说明组合目标，例如：“先用 `/contributor` 整理已合并 PR，再用 `/asu` 改写经历，最后用 `/make-resume` 生成 HTML 简历”。
+也可以在同一条需求里说明组合目标，例如：“先用 `/project-guide` 生成项目导学和面经，再用 `/asu` 改写经历，最后用 `/make-resume` 生成 HTML 简历”。
 
 组合使用多个入口、材料存在冲突或简历包含强主张时，可以复制 [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) 建立主张—证据账本。它让开源贡献、经历改写和简历文件共享同一份事实、确认状态与个人边界；详细规则见 [`skills/asu/references/claim-evidence-ledger.md`](skills/asu/references/claim-evidence-ledger.md)。
 想看同一个人的材料如何在各入口之间流转，可以阅读[端到端虚构求职案例](docs/end-to-end-fictional-case.md)。案例从课程项目和开源贡献出发，依次展示证据卡、经历改写、可编辑简历和投递进度表，并明确区分已完成、协作中与待补充状态。
@@ -319,6 +337,9 @@ asu-skills/
 │   │   └── agents/openai.yaml
 │   ├── contributor/
 │   │   ├── SKILL.md             # /contributor 开源贡献
+│   │   └── agents/openai.yaml
+│   ├── project-guide/
+│   │   ├── SKILL.md             # /project-guide 项目导学面经
 │   │   └── agents/openai.yaml
 │   ├── make-resume/
 │   │   ├── SKILL.md             # /make-resume 简历制作
