@@ -41,7 +41,7 @@ cp -r skills/* ~/.config/opencode/skills/
 | 用户意图 | 触发词 |
 |---------|--------|
 | 经历酥化 | /asu、我要酥化、改写经历 |
-| 简历制作 | /resume、做简历、同款简历 |
+| 简历制作 | /make-resume、做简历、同款简历 |
 | 面试准备 | /interview、面试预测、模拟面试 |
 | 求职进度 | /offer、秋招进度 |
 | 开源贡献 | /contributor、找 PR 机会 |

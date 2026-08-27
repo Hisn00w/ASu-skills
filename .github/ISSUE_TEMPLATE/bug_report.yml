@@ -27,7 +27,7 @@ body:
       options:
         - /contributor 开源贡献
         - /asu 经历酥化
-        - /resume 简历制作
+        - /make-resume 简历制作
         - /asu-resume 同款简历复刻
         - /interview 面试预测
         - /offer 秋招进度管理
@@ -48,7 +48,7 @@ body:
       label: 问题描述
       description: 用一两句话描述发生了什么。
       placeholder: |
-        例如：用 /resume 导出 PDF 时内容溢出，分页位置不对。
+        例如：用 /make-resume 导出 PDF 时内容溢出，分页位置不对。
     validations:
       required: true
 

@@ -7,7 +7,7 @@ description: GitHub 开源贡献辅助技能：根据目标公司和岗位寻找
 
 完成这条流水线：
 
-`/contributor → /asu → /resume → /offer`
+`/contributor → /asu → /make-resume → /offer`
 
 不用一上来重构 Kubernetes。一个 typo、一处坏链接、一次 README 修正，都可以是开源生涯的里程碑式开端。
 
@@ -72,7 +72,7 @@ PR 本体保持短小正常，默认包含：
 
 > 用 /asu 把下面的 GitHub 贡献酥化成适合【目标岗位】的项目经历、2—3 条简历要点和 HR 开场白。可以突出跨项目协作、文档质量、开发者体验、问题发现与闭环能力，但保留真实 PR 链接和合并状态。
 
-用户准备继续使用 `/asu`、`/resume` 或 `/asu-resume` 时，同时按 [主张—证据账本](../asu/references/claim-evidence-ledger.md) 新增一条记录：原始事实保存实际修改，证据保存 PR 链接、review/CI 和合并状态，个人边界写明文档、测试、代码或其他真实贡献范围。未合并 PR 的状态保持“待确认”或候选表述“协作中”。
+用户准备继续使用 `/asu`、`/make-resume` 或 `/asu-resume` 时，同时按 [主张—证据账本](../asu/references/claim-evidence-ledger.md) 新增一条记录：原始事实保存实际修改，证据保存 PR 链接、review/CI 和合并状态，个人边界写明文档、测试、代码或其他真实贡献范围。未合并 PR 的状态保持“待确认”或候选表述“协作中”。
 
 ## 最后一道边界
 

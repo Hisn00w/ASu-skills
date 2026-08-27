@@ -182,12 +182,12 @@ Q：你在项目中为什么选择这套方案？
 ## 与其他 Skills 配合
 
 - 简历定位、经历改写和事实证据需要加强时 → `/asu`；
-- 需要生成或修改 HTML / PDF 简历时 → `/resume`；
+- 需要生成或修改 HTML / PDF 简历时 → `/make-resume`；
 - 需要复刻 ASu 单栏技术简历时 → `/asu-resume`；
 - 面试后的投递、面试或 Offer 状态需要记录时 → `/offer`。
 
 推荐流程：
 
-`/contributor → /asu → /resume 或 /asu-resume → /interview → /offer`
+`/contributor → /asu → /make-resume 或 /asu-resume → /interview → /offer`
 
 `/asu` 可以让真实经历表达得更强，`/interview` 要确认这些表达真的接得住。简历是写给 HR 的，追问是留给事实的。
