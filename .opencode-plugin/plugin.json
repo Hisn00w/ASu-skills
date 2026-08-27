@@ -1,7 +1,7 @@
-﻿{
+{
   "name": "asu-skills",
   "version": "0.3.0",
-  "description": "中文求职工作流插件：开源贡献、经历酥化、简历制作、同款简历复刻、面试准备和秋招进度管理。",
+  "description": "中文求职工作流插件：开源贡献、项目导学面经、经历酥化、简历制作、同款简历复刻、面试准备和秋招进度管理。",
   "author": {
     "name": "Hisn0w",
     "url": "https://github.com/Hisn00w"
@@ -14,6 +14,7 @@
     "path": "./skills",
     "entries": [
       {"name": "contributor", "description": "开源贡献：寻找目标岗位匹配的开源贡献机会"},
+      {"name": "project-interview", "description": "项目导学面经：基于项目仓库生成导学和面经双文件"},
       {"name": "asu", "description": "经历酥化：把真实经历重组为岗位定位、简历要点、HR开场白"},
       {"name": "make-resume", "description": "简历制作：生成可编辑 HTML 简历并提供 PDF 导出"},
       {"name": "asu-resume", "description": "同款技术简历：复刻单栏高密度技术简历"},
@@ -30,13 +31,13 @@
         "1. 克隆仓库到本地",
         "2. 将 skills/ 目录下所有文件夹复制到 OpenCode 的 skills 目录（通常为 E:\\Cache\\skills\\ 或 ~/.config/opencode/skills/）",
         "3. 重启 OpenCode 或执行 /reload-plugins",
-        "4. 使用 /asu、/make-resume、/interview 等触发词调用"
+        "4. 使用 /project-interview、/asu、/make-resume、/interview 等触发词调用"
       ],
       "en": [
         "1. Clone the repository locally",
         "2. Copy all folders under skills/ to OpenCode skills directory (usually E:\\Cache\\skills\\ or ~/.config/opencode/skills/)",
         "3. Restart OpenCode or execute /reload-plugins",
-        "4. Trigger with /asu, /make-resume, /interview etc."
+        "4. Trigger with /project-interview, /asu, /make-resume, /interview etc."
       ]
     }
   }

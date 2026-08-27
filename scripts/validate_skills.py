@@ -2,7 +2,7 @@
 """ASu-skills 静态校验器。
 
 扫描仓库内的 skills 目录，对每个 skill 做确定性静态检查，并对
-.codex-plugin/plugin.json 做合法性校验。不依赖任何第三方库，所有检查
+插件清单做合法性校验。不依赖任何第三方库，所有检查
 都能给出确定的 Pass/Fail 结论，适合在 CI 中无条件信任。
 
 校验范围（第一层，仅做黑盒确定的检查）：
@@ -14,8 +14,8 @@
   5. agents/openai.yaml 存在且可解析为合法 YAML（最小子集：key: value）；
   6. SKILL.md 中引用的本地 references / assets 路径实际存在
      （仅检查相对路径，跳过 http(s)/mailto/锚点）；
-  7. .codex-plugin/plugin.json 是合法 JSON，且 interface.capabilities、
-     skills 字段、icon/logo 等指向的本地资源真实存在；
+  7. .codex-plugin/.trae-plugin/.claude-plugin/.opencode-plugin 清单是合法 JSON，
+     且关键字段、入口列表与本地资源引用有效；
   8. assets/templates-html/ 外框解耦结构完整：frame/ 三部件存在、
      壳文件数量 == 18。交付产物的一致性由 inline-template.mjs 的确定性
      内联保证，不做产物与历史基准的比对。
@@ -30,11 +30,15 @@ import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Optional, Tuple, Union
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SKILLS_DIR = REPO_ROOT / "skills"
-PLUGIN_MANIFEST = REPO_ROOT / ".codex-plugin" / "plugin.json"
+CODEX_PLUGIN_MANIFEST = REPO_ROOT / ".codex-plugin" / "plugin.json"
+TRAE_PLUGIN_MANIFEST = REPO_ROOT / ".trae-plugin" / "plugin.json"
+CLAUDE_PLUGIN_MANIFEST = REPO_ROOT / ".claude-plugin" / "plugin.json"
+CLAUDE_MARKETPLACE_MANIFEST = REPO_ROOT / ".claude-plugin" / "marketplace.json"
+OPENCODE_PLUGIN_MANIFEST = REPO_ROOT / ".opencode-plugin" / "plugin.json"
 
 DESCRIPTION_MAX_LEN = 500
 
@@ -130,7 +134,7 @@ def parse_frontmatter(text: str) -> Tuple[dict, str]:
 # 极简 agents/openai.yaml 解析
 # --------------------------------------------------------------------------- #
 #
-# openai.yaml 同样只用了 `key: value` 形式（参见仓库内现有 5 个文件）。
+# openai.yaml 同样只用了 `key: value` 形式（参见仓库内现有文件）。
 # 复用 frontmatter 解析器即可覆盖；若文件使用更复杂结构，会以解析失败处理。
 # --------------------------------------------------------------------------- #
 
@@ -254,56 +258,94 @@ def check_skill(skill_dir: Path, report: Report) -> None:
             )
 
 
-def check_plugin_manifest(report: Report) -> None:
-    if not PLUGIN_MANIFEST.is_file():
-        report.add(False, "", "缺少 .codex-plugin/plugin.json")
-        return
-    report.add(True, "", ".codex-plugin/plugin.json 存在")
-
+def read_json_manifest(
+    path: Path,
+    label: str,
+    report: Report,
+) -> Optional[Union[dict, list]]:
+    if not path.is_file():
+        report.add(False, "", f"缺少 {label}")
+        return None
+    report.add(True, "", f"{label} 存在")
     try:
-        manifest = json.loads(PLUGIN_MANIFEST.read_text(encoding="utf-8"))
+        manifest = json.loads(path.read_text(encoding="utf-8-sig"))
     except json.JSONDecodeError as exc:
-        report.add(False, "", f"plugin.json 非合法 JSON：{exc}")
-        return
+        report.add(False, "", f"{label} 非合法 JSON：{exc}")
+        return None
     except UnicodeDecodeError as exc:
-        report.add(False, "", f"plugin.json 非 UTF-8 编码：{exc}")
+        report.add(False, "", f"{label} 非 UTF-8 编码：{exc}")
+        return None
+    report.add(True, "", f"{label} 为合法 JSON")
+    return manifest
+
+
+def check_manifest_description_mentions(
+    manifest: dict,
+    label: str,
+    required_terms: List[str],
+    report: Report,
+) -> None:
+    blob = json.dumps(manifest, ensure_ascii=False)
+    missing = [term for term in required_terms if term not in blob]
+    if missing:
+        report.add(False, "", f"{label} 未包含必要入口或关键词：" + ", ".join(missing))
+    else:
+        report.add(True, "", f"{label} 包含必要入口或关键词")
+
+
+def check_skill_plugin_manifest(
+    path: Path,
+    label: str,
+    report: Report,
+    required_default_prompt: Optional[str] = None,
+) -> None:
+    manifest = read_json_manifest(path, label, report)
+    if manifest is None:
         return
-    report.add(True, "", "plugin.json 为合法 JSON")
 
     if not isinstance(manifest, dict):
-        report.add(False, "", "plugin.json 顶层不是对象")
+        report.add(False, "", f"{label} 顶层不是对象")
         return
 
     name = manifest.get("name")
     if not name:
-        report.add(False, "", "plugin.json 缺少 name 字段")
+        report.add(False, "", f"{label} 缺少 name 字段")
     else:
-        report.add(True, "", f"plugin.json name={name!r}")
+        report.add(True, "", f"{label} name={name!r}")
 
     skills_field = manifest.get("skills", "")
     if isinstance(skills_field, str) and skills_field:
         skills_dir = REPO_ROOT / skills_field
         if skills_dir.is_dir():
-            report.add(True, "", f"plugin.json skills 指向存在的目录（{skills_field}）")
+            report.add(True, "", f"{label} skills 指向存在的目录（{skills_field}）")
         else:
             report.add(
                 False,
                 "",
-                f"plugin.json skills 指向的目录不存在：{skills_field}",
+                f"{label} skills 指向的目录不存在：{skills_field}",
             )
     else:
-        report.add(False, "", "plugin.json 缺少 skills 字段")
+        report.add(False, "", f"{label} 缺少 skills 字段")
 
     interface = manifest.get("interface", {})
     if not isinstance(interface, dict):
-        report.add(False, "", "plugin.json interface 不是对象")
+        report.add(False, "", f"{label} interface 不是对象")
         return
 
     capabilities = interface.get("capabilities", [])
     if isinstance(capabilities, list) and capabilities:
-        report.add(True, "", f"interface.capabilities={capabilities}")
+        report.add(True, "", f"{label} interface.capabilities={capabilities}")
     else:
-        report.add(False, "", "interface.capabilities 为空或非列表")
+        report.add(False, "", f"{label} interface.capabilities 为空或非列表")
+
+    if required_default_prompt:
+        default_prompt = interface.get("defaultPrompt", [])
+        if isinstance(default_prompt, list) and any(
+            required_default_prompt in str(item) for item in default_prompt
+        ):
+            report.add(True, "", f"{label} defaultPrompt 包含 {required_default_prompt}")
+        else:
+            report.add(False, "", f"{label} defaultPrompt 未包含 {required_default_prompt}")
 
     # icon / logo 等指向的本地资源应真实存在
     for icon_field in ("composerIcon", "logo"):
@@ -312,13 +354,61 @@ def check_plugin_manifest(report: Report) -> None:
             continue
         resolved = (REPO_ROOT / icon_path).resolve()
         if resolved.exists():
-            report.add(True, "", f"interface.{icon_field} 指向存在的资源（{icon_path}）")
+            report.add(True, "", f"{label} interface.{icon_field} 指向存在的资源（{icon_path}）")
         else:
             report.add(
                 False,
                 "",
-                f"interface.{icon_field} 指向不存在的资源：{icon_path}",
+                f"{label} interface.{icon_field} 指向不存在的资源：{icon_path}",
             )
+
+
+def check_claude_manifest(path: Path, label: str, report: Report) -> None:
+    manifest = read_json_manifest(path, label, report)
+    if manifest is None:
+        return
+    if not isinstance(manifest, dict):
+        report.add(False, "", f"{label} 顶层不是对象")
+        return
+    check_manifest_description_mentions(manifest, label, ["project-interview", "interview"], report)
+
+
+def check_opencode_manifest(skill_dirs: List[Path], report: Report) -> None:
+    label = ".opencode-plugin/plugin.json"
+    manifest = read_json_manifest(OPENCODE_PLUGIN_MANIFEST, label, report)
+    if manifest is None:
+        return
+    if not isinstance(manifest, dict):
+        report.add(False, "", f"{label} 顶层不是对象")
+        return
+
+    skills = manifest.get("skills", {})
+    if not isinstance(skills, dict):
+        report.add(False, "", f"{label} skills 不是对象")
+        return
+
+    skills_path = skills.get("path")
+    if isinstance(skills_path, str) and (REPO_ROOT / skills_path).is_dir():
+        report.add(True, "", f"{label} skills.path 指向存在的目录（{skills_path}）")
+    else:
+        report.add(False, "", f"{label} skills.path 缺失或指向不存在的目录")
+
+    entries = skills.get("entries", [])
+    if not isinstance(entries, list):
+        report.add(False, "", f"{label} skills.entries 不是列表")
+        return
+
+    entry_names = {
+        entry.get("name")
+        for entry in entries
+        if isinstance(entry, dict) and isinstance(entry.get("name"), str)
+    }
+    expected_names = {skill_dir.name for skill_dir in skill_dirs}
+    missing = sorted(expected_names - entry_names)
+    if missing:
+        report.add(False, "", f"{label} skills.entries 缺少：" + ", ".join(missing))
+    else:
+        report.add(True, "", f"{label} skills.entries 覆盖全部 skill")
 
 
 def check_templates(report: Report) -> None:
@@ -367,7 +457,25 @@ def main() -> int:
     for skill_dir in skill_dirs:
         check_skill(skill_dir, report)
 
-    check_plugin_manifest(report)
+    check_skill_plugin_manifest(
+        CODEX_PLUGIN_MANIFEST,
+        ".codex-plugin/plugin.json",
+        report,
+        required_default_prompt="/project-interview",
+    )
+    check_skill_plugin_manifest(
+        TRAE_PLUGIN_MANIFEST,
+        ".trae-plugin/plugin.json",
+        report,
+        required_default_prompt="/project-interview",
+    )
+    check_claude_manifest(CLAUDE_PLUGIN_MANIFEST, ".claude-plugin/plugin.json", report)
+    check_claude_manifest(
+        CLAUDE_MARKETPLACE_MANIFEST,
+        ".claude-plugin/marketplace.json",
+        report,
+    )
+    check_opencode_manifest(skill_dirs, report)
     check_templates(report)
 
     print(report.summary())
