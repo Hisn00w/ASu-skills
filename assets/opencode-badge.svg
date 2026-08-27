@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="92" height="20" role="img" aria-label="OpenCode">
+  <title>OpenCode</title>
+  <clipPath id="r"><rect width="92" height="20" rx="3"/></clipPath>
+  <g clip-path="url(#r)">
+    <rect width="24" height="20" fill="#555"/>
+    <rect x="24" width="68" height="20" fill="#1f6feb"/>
+  </g>
+  <!-- OpenCode logo path reused from LobeHub/lobe-icons (MIT). -->
+  <g transform="translate(5 3) scale(.583333)" fill="#fff">
+    <path d="M16 6H8v12h8V6zm4 16H4V2h16v20z"/>
+  </g>
+  <g fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="110" text-anchor="middle" text-rendering="geometricPrecision">
+    <text x="580" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="560">OpenCode</text>
+    <text x="580" y="140" transform="scale(.1)" textLength="560">OpenCode</text>
+  </g>
+</svg>

@@ -9,6 +9,10 @@ on:
       - '.claude-plugin/**'
       - '.opencode-plugin/**'
       - 'package.json'
+      - 'assets/templates-html/**'
+      - 'scripts/inline-template.mjs'
+      - 'scripts/export-resume-pdf.mjs'
+      - 'lib/**'
       - 'scripts/validate_skills.py'
       - 'scripts/project_guide.py'
       - 'tests/**'
@@ -24,6 +28,10 @@ on:
       - '.claude-plugin/**'
       - '.opencode-plugin/**'
       - 'package.json'
+      - 'assets/templates-html/**'
+      - 'scripts/inline-template.mjs'
+      - 'scripts/export-resume-pdf.mjs'
+      - 'lib/**'
       - 'scripts/validate_skills.py'
       - 'scripts/project_guide.py'
       - 'tests/**'
@@ -50,3 +58,20 @@ jobs:
 
       - name: Run unit tests
         run: python3 -m unittest discover -s tests -v
+        
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.19.0'
+
+      - name: Check JavaScript syntax
+        run: |
+          node --check lib/index.js
+          node --check scripts/inline-template.mjs
+          node --check scripts/export-resume-pdf.mjs
+
+      - name: Build all resume templates
+        run: node scripts/inline-template.mjs --all "$RUNNER_TEMP/templates"
+
+      - name: Check package contents
+        run: npm pack --dry-run
