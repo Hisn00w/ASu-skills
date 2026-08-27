@@ -36,8 +36,8 @@ cases:
     note: HR 自我介绍，归 /asu。
 
   - prompt: "帮我做一份普通后端简历"
-    expected: resume
-    note: 一般简历制作与模板选择，归 /resume。
+    expected: make-resume
+    note: 一般简历制作与模板选择，归 /make-resume。
 
   - prompt: "我要阿酥同款简历"
     expected: asu-resume
@@ -69,7 +69,7 @@ cases:
 
   - prompt: "帮我检查简历上的项目经历我自己能不能讲清楚，讲不透的地方标出来"
     expected: interview
-    note: 边界 case：涉及简历内容，但动作是检查掌握程度而非制作简历文件，归 /interview 而非 /resume。
+    note: 边界 case：涉及简历内容，但动作是检查掌握程度而非制作简历文件，归 /interview 而非 /make-resume。
 
   - prompt: "把我投递过的公司和当前状态整理成一张求职进度表"
     expected: offer
@@ -81,4 +81,4 @@ cases:
 
   - prompt: "简历已经定稿开始投递了，帮我记录每家公司的进展和下一步"
     expected: offer
-    note: 边界 case：提到简历定稿，但动作是记录投递进展，归 /offer 而非 /resume。
+    note: 边界 case：提到简历定稿，但动作是记录投递进展，归 /offer 而非 /make-resume。

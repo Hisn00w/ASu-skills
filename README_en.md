@@ -40,7 +40,7 @@ ASu-skills is now a plugin pack. Installing it provides six individually callabl
 | -------------- | ------------------------ | ----------------------------------------------------------------- |
 | `/contributor` | Open-source contributions | Finds candidates, shows diffs, submits a PR after your confirmation, and hands the contribution to `/asu` |
 | `/asu`         | Experience Sulishing     | Role targeting, project bullet rewrites, evidence of results, HR opener |
-| `/resume`      | Resume building          | Editable HTML resume, template replication, PDF export            |
+| `/make-resume`      | Resume building          | Editable HTML resume, template replication, PDF export            |
 | `/asu-resume`  | ASu-style resume         | Recreates the ASu single-column high-density technical resume, logo assets and PDF |
 | `/interview`   | Interview preparation    | Resume-driven interview predictions, follow-up drilling, and mastery review |
 | `/offer`       | Fall recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
@@ -53,7 +53,7 @@ Pick your first entry based on the problem you most need to solve right now:
 | --------- | ---------- |
 | No verifiable projects or collaboration experience yet | `/contributor` |
 | Have experience, but unsure how to match it to a target role | `/asu` |
-| Resume content is settled; need a regular editable resume | `/resume` |
+| Resume content is settled; need a regular editable resume | `/make-resume` |
 | Want to recreate the ASu-style high-density technical resume | `/asu-resume` |
 | Interviews coming up; want to predict questions and drill the weak spots | `/interview` |
 | Already applying; need to organize recruiting emails and follow-ups | `/offer` |
@@ -61,8 +61,8 @@ Pick your first entry based on the problem you most need to solve right now:
 You can also combine entries:
 
 - **No internships, want real experience**: use `/contributor` to make role-relevant open-source contributions first, then hand them to `/asu` to turn into verifiable resume statements;
-- **Have projects, ready to apply**: use `/asu` to align with the target role first, then `/resume` or `/asu-resume` to generate the resume;
-- **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/asu` and `/resume` whenever the resume needs an update.
+- **Have projects, ready to apply**: use `/asu` to align with the target role first, then `/make-resume` or `/asu-resume` to generate the resume;
+- **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/asu` and `/make-resume` whenever the resume needs an update.
 
 ## Installation
 
@@ -100,11 +100,11 @@ Uninstalling the plugin only removes the plugin cache; it never touches the appl
 The easiest way is to send the GitHub link directly to Codex and ask it to install the plugin:
 
 ```text
-Install the ASu-skills plugin from this GitHub repository and enable the six skills: contributor, asu, resume, asu-resume, interview, offer:
+Install the ASu-skills plugin from this GitHub repository and enable the six skills: contributor, asu, make-resume, asu-resume, interview, offer:
 https://github.com/Hisn00w/ASu-skills
 ```
 
-After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `asu`, `resume`, `asu-resume`, `interview`, or `offer` from the command list.
+After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `asu`, `make-resume`, `asu-resume`, `interview`, or `offer` from the command list.
 
 If your Codex version does not surface skills in the `/` menu, you can also use the official explicit invocation syntax:
 
@@ -183,9 +183,9 @@ Based on my internship and project experience below, give me a steady framing an
 
 <img src="assets/hr-intro-example.jpg" width="360" alt="Example HR opener">
 
-## `/resume`: Build a resume
+## `/make-resume`: Build a resume
 
-`/resume` handles the deliverables. It picks a template based on your experience, or replicates the layout from a resume screenshot you upload — and it always produces a genuinely editable HTML, never an image of the original embedded in a page.
+`/make-resume` handles the deliverables. It picks a template based on your experience, or replicates the layout from a resume screenshot you upload — and it always produces a genuinely editable HTML, never an image of the original embedded in a page.
 
 Supported:
 
@@ -200,7 +200,7 @@ Supported:
 Typical usage:
 
 ```text
-/resume
+/make-resume
 
 Using the education, internship, and project experience I provide, pick a template suited to a back-end developer role, generate an editable HTML resume, and tell me how to export it as PDF.
 ```
@@ -279,12 +279,12 @@ Recommended order:
 
 1. Use `/contributor` to make real open-source contributions relevant to your target role, and generate an evidence card once the PR merges;
 2. Use `/asu` to lock in role targeting from the evidence card and your existing experience, and to polish resume phrasing and HR talking points;
-3. Use `/resume` to turn the confirmed copy into an editable resume and export PDF;
+3. Use `/make-resume` to turn the confirmed copy into an editable resume and export PDF;
 4. When you want the ASu-style resume, use `/asu-resume` to generate the same high-density technical resume;
 5. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
 6. Use `/offer` to record the status of applications, assessments, interviews, and offers.
 
-You can also state a combined goal in a single request, e.g.: “first use `/contributor` to gather the merged PRs, then `/asu` to rewrite the experience, and finally `/resume` to generate an HTML resume”.
+You can also state a combined goal in a single request, e.g.: “first use `/contributor` to gather the merged PRs, then `/asu` to rewrite the experience, and finally `/make-resume` to generate an HTML resume”.
 
 When combining multiple entries, when your materials conflict, or when a resume contains strong claims, you can copy [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) to set up a claim–evidence ledger. It lets open-source contributions, experience rewrites, and resume files share the same facts, confirmation statuses, and personal boundaries; see [`skills/asu/references/claim-evidence-ledger.md`](skills/asu/references/claim-evidence-ledger.md) for the detailed rules.
 
@@ -324,8 +324,8 @@ asu-skills/
 │   ├── contributor/
 │   │   ├── SKILL.md             # /contributor open-source contributions
 │   │   └── agents/openai.yaml
-│   ├── resume/
-│   │   ├── SKILL.md             # /resume resume building
+│   ├── make-resume/
+│   │   ├── SKILL.md             # /make-resume resume building
 │   │   └── agents/openai.yaml
 │   ├── asu-resume/
 │   │   ├── SKILL.md             # /asu-resume ASu-style technical resume
