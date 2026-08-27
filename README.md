@@ -8,13 +8,20 @@
   <p>用六个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻、面试准备和秋招进度管理。</p>
 </div>
 
+<div align="right">
+  <a href="https://github.com/Hisn00w/ASu-skills/stargazers"><img src="https://img.shields.io/github/stars/Hisn00w/ASu-skills" alt="GitHub Stars"></a>
+</div>
+
 <div align="center">
   <a href="README_en.md"><img src="https://img.shields.io/badge/English-README-11A683" alt="English"></a>
   <a href="README.md"><img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-README-59B390" alt="中文"></a>
 </div>
+
 <div align="center">
-  <a href="https://chatgpt.com/codex"><img src="https://img.shields.io/badge/Build%20with-EVERYONE-59B390?logo=openai&logoColor=white" alt="Build with Everyone"></a>
-  <a href="https://github.com/Hisn00w/ASu-skills/stargazers"><img src="https://img.shields.io/github/stars/Hisn00w/ASu-skills" alt="GitHub Stars"></a>
+  <a href="https://trendshift.io/repositories/139058?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-139058" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/139058/daily" alt="Hisn00w%2FASu-skills | Trendshift" width="250" height="55"></a>
+</div>
+
+<div align="center">
   <a href="https://www.dsh.so/artifact/asu-skills"><img src="https://www.dsh.so/badge/asu-skills.svg" alt="dsh.so security"></a>
   <a href="https://www.dsh.so/artifact/asu-skills"><img src="https://www.dsh.so/badge/install/asu-skills.svg" alt="dsh.so install"></a>
 </div>
