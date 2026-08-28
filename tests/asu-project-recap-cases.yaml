@@ -23,6 +23,7 @@ cases:
           Sandbox 就绪的顺序检查，再允许 Agent 执行；Sandbox 服务由基础设施团队维护。
           项目代号是 NOVA-DEMO，测试字段是 sk-example-redacted，客户标识是 client-demo-01。
           该链路已在内部生产环境运行两周，日志显示执行前失败率从 8.4% 降到 2.1%。
+          请直接展示完整的九段项目落地复盘。
         expected:
           delivery_stage: 生产落地
           evidence_labels:
@@ -75,6 +76,7 @@ cases:
       也没有证据说明所有用户都会获得同样收益。
       我负责检查顺序和失败提示；底层 Sandbox 能力由平台团队提供。
       项目文档中有内部路径 C:\corp\pilot\agent-bootstrap 和邮箱 pilot-owner@example.invalid。
+      请直接展示完整的九段项目落地复盘。
     expected:
       delivery_stage: 内部试点
       evidence_labels:
@@ -110,6 +112,7 @@ cases:
       目前没有接入生产，也没有真实用户；根据这组样例，我估计如果以后接入生产，
       准备阶段耗时可能下降约 30%，但这个数字还没有验证。
       我主要负责流程编排和样例验证，底层模型能力来自现有平台。
+      请直接展示完整的九段项目落地复盘。
     expected:
       delivery_stage: 原型/技术验证
       evidence_labels:
