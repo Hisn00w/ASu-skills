@@ -71,6 +71,18 @@ cases:
     expected: interview
     note: 边界 case：涉及简历内容，但动作是检查掌握程度而非制作简历文件，归 /interview 而非 /make-resume。
 
+  - prompt: "根据这个 JD 模拟一场 40 分钟技术一面，先别点评，结束后统一复盘"
+    expected: interview
+    note: 包含面试轮次、时长与延迟反馈策略的契约化模拟，命中 /interview。
+
+  - prompt: "只复练上次没讲清楚的项目指标和个人贡献边界，不要原题重问"
+    expected: interview
+    note: 基于上一轮缺口的弱项复练，命中 /interview retry。
+
+  - prompt: "面试官问入职两周做一个 Agent demo，我该怎么拆范围、架构和验收"
+    expected: interview
+    note: 面试中的场景设计题训练，归 /interview 而非通用项目开发。
+
   - prompt: "把我投递过的公司和当前状态整理成一张求职进度表"
     expected: offer
     note: 典型秋招进度管理请求，命中 /offer。

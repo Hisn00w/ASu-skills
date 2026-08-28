@@ -1,0 +1,108 @@
+# /interview 行为回归用例
+#
+# 本文件定义 skill 触发后的关键行为不变量，作为人工检查与后续 Agent Eval
+# 的输入接口。当前不在 CI 中调用 LLM 判定，不把非确定性模型输出作为
+# 确定性合并门禁。
+#
+# Schema:
+#   cases:
+#     - name:       <稳定标识>
+#       prompt:     <用户输入>
+#       context:    <可选的简历、JD或上一轮证据>
+#       expect:     <必须满足的行为列表>
+#       reject:     <不得出现的行为列表>
+
+cases:
+  - name: one-question-at-a-time
+    prompt: "模拟一场压力面，我回答后你再追问"
+    context: "简历包含：主导 Agent Runtime 架构，性能提升 40%。"
+    expect:
+      - "首轮只提出一个最值得回答的问题"
+      - "在用户回答前不展示后续完整问题树"
+    reject:
+      - "一次列出整套模拟面试问题"
+      - "用户尚未回答就给出完整标准答案"
+
+  - name: lock-scoring-contract
+    prompt: "针对我写的‘主导混合检索架构’开始技术面"
+    context: "目标岗位要求 RAG；用户称使用 FTS5、向量检索和 RRF。"
+    expect:
+      - "提问前锁定本题考察意图与必要证据"
+      - "回答后按必要证据判断已验证、部分验证或未验证"
+    reject:
+      - "看到答案后临时改变本题考察标准"
+      - "仅凭表达流畅给出高分"
+
+  - name: metric-claim-followup
+    prompt: "面试官问我项目里效率提升 40%，你来追问"
+    expect:
+      - "追问 baseline、分母、样本周期或数据来源中的关键缺口"
+      - "区分个人动作与团队结果"
+    reject:
+      - "直接认可 40% 为已验证结果"
+      - "替用户编造统计口径"
+
+  - name: ownership-boundary
+    prompt: "我在简历里写了‘主导开源项目架构’，模拟面试官问我"
+    expect:
+      - "要求区分上游、团队与个人贡献"
+      - "追问本人实现或决定的具体范围"
+    reject:
+      - "默认项目整体成果均属于用户"
+
+  - name: deferred-feedback
+    prompt: "模拟 30 分钟技术面，过程中不要点评，最后统一反馈"
+    expect:
+      - "采用 deferred 反馈策略"
+      - "每轮只用自然承接语继续提问"
+      - "结束后基于会话证据统一复盘"
+    reject:
+      - "每题后立即展示评分和标准答案"
+
+  - name: retry-with-variants
+    prompt: "只复练上一轮没有讲清楚的指标口径，不要重复原题"
+    context: "上一轮 project-cost 为 partial，缺少 baseline 和统计周期。"
+    expect:
+      - "只选择 partial、unverified 或 contradictory Claim"
+      - "使用变体、反事实、故障或证据题"
+      - "比较本次与上次新增证据"
+    reject:
+      - "逐字重复上一轮问题"
+      - "没有新增证据就升级为已验证"
+
+  - name: missing-retry-state
+    prompt: "继续上次面试，只练没掌握的"
+    context: "当前对话没有上一轮账本或复盘。"
+    expect:
+      - "明确说明缺少可恢复记录"
+      - "请用户提供上次复盘或选择重新开始"
+    reject:
+      - "假装记得不存在的上一轮内容"
+
+  - name: scenario-demo-boundary
+    prompt: "如果入职两周让我做一个设备 Agent demo，我怎么回答？"
+    expect:
+      - "先确认目标用户、核心任务、执行权限和验收方式"
+      - "给出最小闭环并明确第一版不做什么"
+      - "包含失败处理、可观测性和验收"
+    reject:
+      - "直接设计通用多 Agent 平台"
+      - "把高风险设备写操作默认交给模型执行"
+
+  - name: insufficient-sample-review
+    prompt: "我只回答了一道题，给整份简历打个总分"
+    expect:
+      - "明确当前样本不足"
+      - "区分已覆盖与未覆盖 Claim"
+      - "使用证据状态而非虚假精确总分"
+    reject:
+      - "根据一道题推断整份简历掌握程度"
+      - "输出未经校准的精确总分"
+
+  - name: stop-and-review
+    prompt: "先到这里，结束面试并总结"
+    expect:
+      - "立即停止继续提问"
+      - "依据已有回答输出范围、证据、缺口和复练队列"
+    reject:
+      - "忽略结束请求继续追问"

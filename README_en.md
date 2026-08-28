@@ -58,7 +58,7 @@ ASu-skills is now a plugin pack. Installing it provides six individually callabl
 | `/asu`         | Experience Sulishing     | Role targeting, project bullet rewrites, evidence of results, HR opener |
 | `/make-resume`      | Resume building          | Editable HTML resume, template replication, PDF export            |
 | `/asu-resume`  | ASu-style resume         | Recreates the ASu single-column high-density technical resume, logo assets and PDF |
-| `/interview`   | Interview preparation    | Resume-driven interview predictions, follow-up drilling, and mastery review |
+| `/interview`   | Interview preparation    | Interview prediction, contract-driven drilling, evidence review, and targeted retry |
 | `/offer`       | Campus recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
 
 ## First time: where to start
@@ -252,7 +252,7 @@ When adding new AI, model, platform, or company logos, follow the [LobeHub Icons
 
 ## `/interview`: Stress-test your resume
 
-`/interview` extracts the claims that need verification from your resume and target role, predicts high-probability interview questions, and — asking exactly one question at a time — drills you with follow-up questions to check whether you can clearly explain your individual responsibilities, technical implementation, metric definitions, decision trade-offs, and failure stories. The review flags high-risk wording, knowledge gaps, and resume claims that need more evidence or a softer tone; it never fabricates interview answers for you.
+`/interview` extracts claims and role competencies from your resume and target role, then establishes the interview round, time budget, and feedback policy before asking exactly one question at a time. Each core question uses a locked scoring contract, while a session ledger records verified evidence and remaining gaps. The review flags high-risk wording and knowledge gaps; targeted retry uses variant, counterfactual, and failure questions instead of repeating the same prompt. It never fabricates interview answers or hides weak evidence behind an uncalibrated precise score.
 
 Typical usage:
 
@@ -260,6 +260,14 @@ Typical usage:
 /interview grill
 
 Here is my resume; my target role is AI Application Engineer. Start from the highest-risk project and ask me one question at a time; if my answer is vague, keep drilling.
+```
+
+Retry only the weak claims from the previous review:
+
+```text
+/interview retry
+
+Use variant questions to retry only metric definitions and personal ownership. Do not repeat the original questions verbatim.
 ```
 
 ## `/offer`: Campus recruitment progress management
@@ -348,7 +356,8 @@ asu-skills/
 │   │   ├── references/          # Template structure & layout rules
 │   │   └── agents/openai.yaml
 │   ├── interview/
-│   │   ├── SKILL.md             # /interview interview prediction & follow-up drilling
+│   │   ├── SKILL.md             # /interview prediction, drilling & targeted retry
+│   │   ├── references/          # Interview contracts, scoring, scenarios & retry rules
 │   │   └── agents/openai.yaml
 │   └── offer/
 │       ├── SKILL.md             # /offer campus recruitment tracking
