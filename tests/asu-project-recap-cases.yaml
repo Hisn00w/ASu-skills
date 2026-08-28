@@ -25,7 +25,8 @@ cases:
           该链路已在内部生产环境运行两周，日志显示执行前失败率从 8.4% 降到 2.1%。
         expected:
           delivery_stage: 生产落地
-          evidence_label: 实测结果
+          evidence_labels:
+            - 实测结果
           required_sections:
             - 问题背景
             - 方案决策
@@ -36,6 +37,9 @@ cases:
             - 个人边界
             - 待补证据
             - 面试追问与回答准备
+          default_optional_outputs:
+            - 1—2 条候选简历表述
+            - 升维迁移附录
           required_boundaries:
             - 内部生产环境
             - 两周观察期
@@ -44,10 +48,11 @@ cases:
             - 输出 NOVA-DEMO、sk-example-redacted 或 client-demo-01
             - 扩展为全量客户上线或整体业务收益
             - 把 Sandbox 服务写成用户个人完成
-          optional_appendix:
-            - 候选简历表述
-            - 升维迁移
       - turn: 2
+        role: assistant
+        content: |
+          请基于同一材料自己重写一句候选表达。
+      - turn: 3
         role: user
         content: |
           我的尝试是：我把 Agent 执行前的多个准备步骤收敛成有序的就绪门，
@@ -72,9 +77,21 @@ cases:
       项目文档中有内部路径 C:\corp\pilot\agent-bootstrap 和邮箱 pilot-owner@example.invalid。
     expected:
       delivery_stage: 内部试点
-      evidence_label: 阶段结果
+      evidence_labels:
+        - 阶段结果
       required_sections:
+        - 问题背景
+        - 方案决策
+        - 个人动作
+        - 交付状态
+        - 落地范围
+        - 效果证据
+        - 个人边界
+        - 待补证据
         - 面试追问与回答准备
+      default_optional_outputs:
+        - 1—2 条候选简历表述
+        - 升维迁移附录
       required_scope:
         - 测试租户
         - 8 名内部同事
@@ -84,9 +101,6 @@ cases:
         - 写成全产品长期指标
         - 输出 C:\corp\pilot\agent-bootstrap 或 pilot-owner@example.invalid
         - 把平台团队的 Sandbox 能力写成个人独立完成
-      optional_appendix:
-        - 候选简历表述
-        - 升维迁移
 
   - id: prototype-with-projection
     mode: asu_project_landing_recap
@@ -102,7 +116,18 @@ cases:
         - 技术验证
         - 估算收益
       required_sections:
+        - 问题背景
+        - 方案决策
+        - 个人动作
+        - 交付状态
+        - 落地范围
+        - 效果证据
+        - 个人边界
+        - 待补证据
         - 面试追问与回答准备
+      default_optional_outputs:
+        - 1—2 条候选简历表述
+        - 升维迁移附录
       required_boundaries:
         - 本地 Demo
         - 20 条合成样例
@@ -112,6 +137,3 @@ cases:
         - 把 17/20 写成真实业务指标
         - 把约 30% 写成已实现收益
         - 把现有平台的模型能力写成个人训练或构建
-      optional_appendix:
-        - 候选简历表述
-        - 升维迁移
