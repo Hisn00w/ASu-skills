@@ -1,0 +1,5 @@
+interface:
+  display_name: "阿酥复盘"
+  short_description: "用阿酥的方式复盘对话"
+  default_prompt: "/asu-recap 用阿酥的方式复盘刚才这段对话。"
+
