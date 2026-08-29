@@ -41,6 +41,77 @@ DESCRIPTION_MAX_LEN = 500
 
 FRONTMATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 MARKDOWN_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+
+INLINE_CODE_RE = re.compile(r"`([^`]+)`")
+RESOURCE_PATH_RE = re.compile(
+    r"(?<![\w@])(?:\.\.?/|[\w.-]+/)*[\w.-]+\.(?:html?|svg|png|jpe?g|gif|json|js|mjs|css|ya?ml|md)"
+    r"(?:#[^\s)]+)?",
+    re.IGNORECASE,
+)
+RESOURCE_EXTENSIONS = {
+    ".css", ".gif", ".html", ".htm", ".jpeg", ".jpg", ".js", ".json",
+    ".md", ".mjs", ".png", ".svg", ".yaml", ".yml",
+}
+IGNORED_DOCUMENT_BASENAMES = {"AGENTS.md", "AI_POLICY.md", "CONTRIBUTING.md"}
+
+
+def extract_documented_resource_paths(text: str) -> List[str]:
+    targets: List[str] = []
+
+    def add(raw_target: str) -> None:
+        target = raw_target.strip().split("#", 1)[0].rstrip(".,;:")
+        if (not target or is_remote_or_anchor(target) or target.startswith("@")
+                or any(marker in target for marker in ("<", ">", "{", "}", "*"))):
+            return
+        if Path(target).suffix.lower() not in RESOURCE_EXTENSIONS:
+            return
+        if Path(target).name in IGNORED_DOCUMENT_BASENAMES or target in targets:
+            return
+        targets.append(target)
+
+    for match in MARKDOWN_LINK_RE.finditer(text):
+        add(match.group(1))
+    for match in INLINE_CODE_RE.finditer(text):
+        for resource_match in RESOURCE_PATH_RE.finditer(match.group(1)):
+            add(resource_match.group(0))
+    return targets
+
+
+def resolve_documented_resource(skill_dir: Path, target: str) -> Path:
+    target = target.split("#", 1)[0]
+    repo_root = REPO_ROOT.resolve()
+    path = Path(target)
+    if path.is_absolute():
+        return path
+    if "/" in target or "\\" in target or target.startswith((".", "..")):
+        skill_path = (skill_dir / target).resolve()
+        if skill_path.is_file():
+            return skill_path
+        repo_path = (repo_root / target).resolve()
+        if repo_path.is_file():
+            return repo_path
+        return skill_path
+    for root_name in ("assets", "references", "scripts", "lib"):
+        root = repo_root / root_name
+        if root.is_dir():
+            matches = sorted(root.rglob(target))
+            if matches:
+                return matches[0].resolve()
+    return (repo_root / target).resolve()
+
+
+def check_documented_resources(skill_dir: Path, report: Report, text: str) -> None:
+    targets = extract_documented_resource_paths(text)
+    if not targets:
+        report.add(True, skill_dir.name, "SKILL.md 无明确的本地资源文件引用（跳过资源检查）")
+        return
+    missing = [target for target in targets
+               if not resolve_documented_resource(skill_dir, target).is_file()]
+    if missing:
+        report.add(False, skill_dir.name, "SKILL.md 记录的资源文件不存在：" + ", ".join(missing))
+    else:
+        report.add(True, skill_dir.name, f"SKILL.md 记录的 {len(targets)} 个资源文件均存在")
+
 REMOTE_RE = re.compile(r"^(?:https?|mailto):", re.IGNORECASE)
 
 
@@ -336,6 +407,8 @@ def check_skill(skill_dir: Path, report: Report) -> None:
                 f"SKILL.md 的 {len(local_links)} 个本地引用路径均存在",
             )
 
+
+    check_documented_resources(skill_dir, report, text)
 
 def check_plugin_manifest(report: Report) -> None:
     if not PLUGIN_MANIFEST.is_file():
