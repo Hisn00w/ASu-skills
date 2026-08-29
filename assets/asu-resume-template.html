@@ -47,12 +47,15 @@
       .sheet { padding: 0; width: auto; min-height: 0; }
       body[data-page-mode="paged"] .sheet { margin: 0; box-shadow: none; }
       body[data-page-mode="continuous"] .sheet { margin: 0; box-shadow: none; }
+      .profile-photo-slot { border-color: transparent; background: transparent; cursor: default; }
+      .profile-photo-slot::after, .profile-photo-slot .photo-placeholder { display: none !important; }
     }
     [contenteditable="true"]:focus { outline: 2px solid #b7caf3; outline-offset: 2px; }
     h1 { margin: 0 0 3px; font-family: "Microsoft YaHei", "Arial", sans-serif; font-size: 24pt; line-height: 1.08; font-weight: 700; }
     .header-grid { display: grid; grid-template-columns: minmax(0, 1fr) 28mm; gap: 8mm; align-items: start; }
     .profile-photo-slot { position: relative; width: 28mm; height: 36mm; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px dashed #a8adb7; background: #fafafa; color: #8b919c; font: 9pt/1.2 Arial, sans-serif; text-align: center; cursor: pointer; }
-    .profile-photo-slot:hover, .profile-photo-slot:focus-visible { border-color: #2458b8; outline: none; }
+    .profile-photo-slot.has-photo { border-color: transparent; background: transparent; }
+    .profile-photo-slot:not(.has-photo):hover, .profile-photo-slot:not(.has-photo):focus-visible { border-color: #2458b8; outline: none; }
     .profile-photo-slot::after { content: "点击上传"; position: absolute; inset: auto 0 0; padding: 4px 2px; background: rgba(36, 88, 184, .88); color: #fff; font: 8pt/1.2 Arial, "Microsoft YaHei", sans-serif; opacity: 0; transition: opacity .15s ease; }
     .profile-photo-slot:hover::after, .profile-photo-slot:focus-visible::after { opacity: 1; }
     .profile-photo-slot.has-photo::after { content: "点击替换"; }
@@ -128,6 +131,7 @@
     <button class="tool-button" type="button" data-command="bold" title="加粗"><strong>B</strong></button>
     <button class="reset-button" type="button" id="resetButton" title="清除所有编辑，恢复模板初始内容">重置</button>
     <span id="saveStatus" class="save-status" role="status" aria-live="polite">自动保存已开启</span>
+    <button class="tool-button" type="button" id="saveHtmlButton">保存 HTML</button>
     <button class="print-button" type="button" onclick="window.print()">打印 / 导出 PDF</button>
   </div>
 
@@ -636,6 +640,67 @@
         refreshLocalFontOptions();
         setSaveStatus('已清除本地字体');
       };
+
+      const suggestedHtmlName = () => {
+        const currentName = decodeURIComponent(window.location.pathname.split('/').pop() || '');
+        if (/\.html?$/i.test(currentName)) return currentName;
+        const safeTitle = (document.title || 'asu-resume').replace(/[\\/:*?"<>|]+/g, '-').trim();
+        return `${safeTitle || 'asu-resume'}.html`;
+      };
+      const serializeHtml = () => {
+        const clone = document.documentElement.cloneNode(true);
+        const clonedStatus = clone.querySelector('#saveStatus');
+        if (clonedStatus) clonedStatus.textContent = '自动保存已开启';
+        if (localFonts.length) {
+          let fontStyle = clone.querySelector('style[data-saved-local-fonts]');
+          if (!fontStyle) {
+            fontStyle = document.createElement('style');
+            fontStyle.setAttribute('data-saved-local-fonts', '');
+            clone.querySelector('head')?.appendChild(fontStyle);
+          }
+          fontStyle.textContent = localFonts.map((font) => {
+            const name = font.name.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+            return `@font-face{font-family:"${name}";src:url(${font.data})}`;
+          }).join('\n');
+        }
+        return '<!doctype html>\n' + clone.outerHTML;
+      };
+      const downloadHtml = (html, name) => {
+        const url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = name;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      };
+      const saveHtml = async () => {
+        saveContent();
+        const html = serializeHtml();
+        const name = suggestedHtmlName();
+        if (typeof window.showSaveFilePicker === 'function') {
+          try {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: name,
+              types: [{ description: 'HTML 文件', accept: { 'text/html': ['.html', '.htm'] } }]
+            });
+            const writable = await handle.createWritable();
+            await writable.write(new Blob([html], { type: 'text/html;charset=utf-8' }));
+            await writable.close();
+            setSaveStatus('HTML 已保存到本地');
+            return;
+          } catch (error) {
+            if (error?.name === 'AbortError') {
+              setSaveStatus('已取消保存');
+              return;
+            }
+          }
+        }
+        downloadHtml(html, name);
+        setSaveStatus('已下载 HTML 副本');
+      };
+      document.querySelector('#saveHtmlButton')?.addEventListener('click', saveHtml);
 
       fontFamilySelect?.addEventListener('change', (event) => {
         const value = event.target.value;

@@ -5,8 +5,15 @@
   const colorInput = document.querySelector('[data-action="color"]');
   const boldButton = document.querySelector('[data-action="bold"]');
   const photoButton = document.querySelector('[data-action="photo"]');
+  const saveButton = document.querySelector('[data-action="save"]');
   const pdfButton = document.querySelector('[data-action="pdf"]');
   const photoInput = document.querySelector('[data-photo-input]');
+  const photoImage = document.querySelector('.photo-frame img');
+  const photoFrame = photoImage?.closest('.photo-frame');
+  const initialPhotoSource = photoImage?.getAttribute('src') || '';
+  if (photoFrame && initialPhotoSource && !/fictional-resume-photo\.png(?:[?#].*)?$/i.test(initialPhotoSource)) {
+    photoFrame.classList.add('has-photo');
+  }
   let savedRange = null;
   document.addEventListener('selectionchange', () => {
     const selection = window.getSelection();
@@ -37,7 +44,13 @@
     const file = event.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => { const image = document.querySelector('.photo-frame img'); if (image) image.src = reader.result; };
+    reader.onload = () => {
+      const image = photoImage;
+      if (!image) return;
+      image.src = reader.result;
+      image.closest('.photo-frame')?.classList.add('has-photo');
+      setToolStatus('照片已替换');
+    };
     reader.readAsDataURL(file);
   });
   const localFontGroup = fontSelect ? fontSelect.querySelector('[data-local-font-group]') : null;
@@ -146,6 +159,72 @@
     setToolStatus('已清除本地字体');
   };
 
+  const suggestedHtmlName = () => {
+    const currentName = decodeURIComponent(window.location.pathname.split('/').pop() || '');
+    if (/\.html?$/i.test(currentName)) return currentName;
+    const safeTitle = (document.title || 'resume').replace(/[\\/:*?"<>|]+/g, '-').trim();
+    return `${safeTitle || 'resume'}.html`;
+  };
+  const serializeHtml = () => {
+    const clone = document.documentElement.cloneNode(true);
+    const clonedRoot = clone.querySelector('.resume-page');
+    const clonedEditButton = clone.querySelector('[data-action="edit"]');
+    const clonedToolbarTitle = clone.querySelector('.toolbar-title');
+    if (clonedRoot) {
+      clonedRoot.setAttribute('contenteditable', 'false');
+      clonedRoot.classList.remove('is-editing');
+    }
+    if (clonedEditButton) clonedEditButton.textContent = '编辑';
+    if (clonedToolbarTitle) clonedToolbarTitle.textContent = 'HTML 简历';
+    if (localFonts.length) {
+      let fontStyle = clone.querySelector('style[data-saved-local-fonts]');
+      if (!fontStyle) {
+        fontStyle = document.createElement('style');
+        fontStyle.setAttribute('data-saved-local-fonts', '');
+        clone.querySelector('head')?.appendChild(fontStyle);
+      }
+      fontStyle.textContent = localFonts.map((font) => {
+        const name = font.name.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+        return `@font-face{font-family:"${name}";src:url(${font.data})}`;
+      }).join('\n');
+    }
+    return '<!doctype html>\n' + clone.outerHTML;
+  };
+  const downloadHtml = (html, name) => {
+    const url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const saveHtml = async () => {
+    const html = serializeHtml();
+    const name = suggestedHtmlName();
+    if (typeof window.showSaveFilePicker === 'function') {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: name,
+          types: [{ description: 'HTML 文件', accept: { 'text/html': ['.html', '.htm'] } }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(new Blob([html], { type: 'text/html;charset=utf-8' }));
+        await writable.close();
+        setToolStatus('HTML 已保存到本地');
+        return;
+      } catch (error) {
+        if (error?.name === 'AbortError') {
+          setToolStatus('已取消保存');
+          return;
+        }
+      }
+    }
+    downloadHtml(html, name);
+    setToolStatus('已下载 HTML 副本');
+  };
+
   fontSelect?.addEventListener('change', () => {
     const value = fontSelect.value;
     if (value === removeLocalFontsValue) {
@@ -177,5 +256,6 @@
   });
   colorInput?.addEventListener('input', () => applyFormat('foreColor', colorInput.value));
   boldButton?.addEventListener('click', () => applyFormat('bold'));
+  saveButton?.addEventListener('click', saveHtml);
   pdfButton?.addEventListener('click', () => window.print());
 })();

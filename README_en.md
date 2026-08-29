@@ -208,6 +208,7 @@ Supported:
 - 18 Chinese HTML templates;(ask ur agent for a English ver if u like :)
 - A4 single- or two-page layout;
 - In-browser editing of text, photo, fonts, colors, and bold;
+- Save the current edits as a local HTML file;
 - “Local fonts” reads fonts installed on your system (Chrome 103+, requires browser permission); “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement;
 - Print-to-PDF export;
 - Layout analysis from screenshots: columns, spacing, font size, colors, and pagination;
@@ -232,13 +233,13 @@ Using the education, internship, and project experience I provide, pick a templa
 The template includes:
 
 - Identity, contact info, public links, and education in the header;
-- A reserved photo slot in the top-right; the personal info section uses SVG icons, no emoji;
+- A reserved photo slot in the top-right; its editing placeholder is hidden after a photo is selected and in print; the personal info section uses SVG icons, no emoji;
 - Blue section headings, light-gray company bars, and dense project bullets;
 - Phone, email, WeChat, identity, education, and Star icons under `assets/icons/`;
 - OpenAI, Claude, ByteDance, bilibili, and GitHub SVG logos under `assets/logos/`;
-- Continuous A4 two-page layout with in-browser editing and PDF export;
+- Continuous A4 two-page layout with in-browser editing, local HTML saving, and PDF export;
 - An HTML toolbar that toggles between `A4 paginated` and `A4 long-page (unlimited height)`; the paginated mode shows paper shadow, while the long-page mode keeps A4 width and centers the content;
-- The toolbar's “Local fonts” option reads fonts installed on your system (Chrome 103+, requires browser permission), and “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement; select text and apply a font from the “Local fonts” group. Imported fonts last for the current session only and must be re-imported after a refresh.
+- The toolbar's “Local fonts” option reads fonts installed on your system (Chrome 103+, requires browser permission), and “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement; select text and apply a font from the “Local fonts” group. Imported fonts last for the current session until saved; “Save HTML” embeds them into the new file.
 
 Typical usage:
 
