@@ -47,7 +47,7 @@ ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 
 
 <img src="assets/harness-update.png" alt="ASu Harness 工程更新" width="560" />
 
-[前往 GitHub 查看 ASu Harness 工程](https://github.com/Hisn00w/Asu)
+[前往 GitHub 查看 ASu Harness 工程](https://github.com/Hisn00w/ASu-skills)
 
 ASu-skills 现在是一个插件包。安装后会提供七个可单独调用的入口：
 

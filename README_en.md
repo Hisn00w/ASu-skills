@@ -48,7 +48,7 @@ ASu is building a Harness project tailored to the job-search journey. We welcome
 
 <img src="assets/harness-update.png" alt="ASu Harness project update" width="560" />
 
-[Check out the ASu Harness project on GitHub](https://github.com/Hisn00w/Asu)
+[Check out the ASu Harness project on GitHub](https://github.com/Hisn00w/ASu-skills)
 
 ASu-skills is now a plugin pack. Installing it provides seven individually callable entry points:
 
