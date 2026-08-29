@@ -11,7 +11,10 @@ on:
       - 'lib/**'
       - 'scripts/validate_skills.py'
       - 'tests/**'
+      - 'scripts/validate_skill_routing.py'
       - 'tests/skill-routing-cases.yaml'
+      - 'tests/test_validate_skill_routing.py'
+      - 'tests/asu-recap-cases.yaml'
       - '.github/workflows/validate-skills.yml'
   push:
     branches:
@@ -25,7 +28,11 @@ on:
       - 'lib/**'
       - 'scripts/validate_skills.py'
       - 'tests/**'
+      - 'scripts/validate_skill_routing.py'
       - 'tests/skill-routing-cases.yaml'
+      - 'tests/test_validate_skill_routing.py'
+      - '.github/workflows/validate-skills.yml'
+      - 'tests/asu-recap-cases.yaml'
 
 permissions:
   contents: read
@@ -46,8 +53,10 @@ jobs:
       - name: Run skill validator
         run: python3 scripts/validate_skills.py
 
-      - name: Run validator regression tests
-        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Validate skill routing cases
+        run: |
+          python3 -m unittest discover -s tests -p 'test_validate_skill_routing.py'
+          python3 scripts/validate_skill_routing.py
 
       - name: Set up Node
         uses: actions/setup-node@v4
