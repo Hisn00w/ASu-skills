@@ -1,0 +1,4 @@
+interface:
+  display_name: "project-guide"
+  short_description: "基于项目仓库生成导学和面经双文件"
+  default_prompt: "用 /project-guide 基于当前项目生成 导学-{简称}.md 和 面经-{简称}.md，并整理可交接给 /asu 与 /interview 的证据摘要。"

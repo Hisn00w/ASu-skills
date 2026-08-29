@@ -5,11 +5,16 @@ on:
     paths:
       - 'skills/**'
       - '.codex-plugin/**'
+      - '.trae-plugin/**'
+      - '.claude-plugin/**'
+      - '.opencode-plugin/**'
+      - 'package.json'
       - 'assets/templates-html/**'
       - 'scripts/inline-template.mjs'
       - 'scripts/export-resume-pdf.mjs'
       - 'lib/**'
       - 'scripts/validate_skills.py'
+      - 'scripts/project_guide.py'
       - 'tests/**'
       - 'scripts/validate_skill_routing.py'
       - 'tests/skill-routing-cases.yaml'
@@ -22,11 +27,16 @@ on:
     paths:
       - 'skills/**'
       - '.codex-plugin/**'
+      - '.trae-plugin/**'
+      - '.claude-plugin/**'
+      - '.opencode-plugin/**'
+      - 'package.json'
       - 'assets/templates-html/**'
       - 'scripts/inline-template.mjs'
       - 'scripts/export-resume-pdf.mjs'
       - 'lib/**'
       - 'scripts/validate_skills.py'
+      - 'scripts/project_guide.py'
       - 'tests/**'
       - 'scripts/validate_skill_routing.py'
       - 'tests/skill-routing-cases.yaml'
@@ -53,11 +63,13 @@ jobs:
       - name: Run skill validator
         run: python3 scripts/validate_skills.py
 
+      - name: Run unit tests
+        run: python3 -m unittest discover -s tests -v
+
       - name: Validate skill routing cases
         run: |
           python3 -m unittest discover -s tests -p 'test_validate_skill_routing.py'
           python3 scripts/validate_skill_routing.py
-
       - name: Set up Node
         uses: actions/setup-node@v4
         with:

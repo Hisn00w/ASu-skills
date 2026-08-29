@@ -31,6 +31,10 @@ cases:
     expected: asu
     note: 包装经历 + HR 话术，原与 asu-resume 重叠的边界，现归 /asu。
 
+  - prompt: "只帮我把项目经历改成简历 bullet 和 HR 开场白"
+    expected: asu
+    note: 项目经历改写为求职表达，但不要求生成项目导学或面经双文件，归 /asu。
+
   - prompt: "帮我写一段发给 HR 的自我介绍"
     expected: asu
     note: HR 自我介绍，归 /asu。
@@ -38,6 +42,10 @@ cases:
   - prompt: "帮我做一份普通后端简历"
     expected: make-resume
     note: 一般简历制作与模板选择，归 /make-resume。
+
+  - prompt: "帮我做一份包含这个项目的可编辑 HTML 简历"
+    expected: make-resume
+    note: 目标是简历文件交付，归 /make-resume，而不是项目导学。
 
   - prompt: "我要阿酥同款简历"
     expected: asu-resume
@@ -63,6 +71,10 @@ cases:
     expected: interview
     note: 面试预测请求，命中 /interview。
 
+  - prompt: "检查我简历上的项目经历我自己能不能讲清楚"
+    expected: interview
+    note: 基于既有简历做掌握度检查，归 /interview，而不是生成导学文件。
+
   - prompt: "模拟一场压力面，一次只问一个问题，我答得含糊就继续追问"
     expected: interview
     note: 模拟面试 / 压力面 + 连续追问，命中 /interview。
@@ -70,6 +82,18 @@ cases:
   - prompt: "帮我检查简历上的项目经历我自己能不能讲清楚，讲不透的地方标出来"
     expected: interview
     note: 边界 case：涉及简历内容，但动作是检查掌握程度而非制作简历文件，归 /interview 而非 /make-resume。
+
+  - prompt: "基于这个项目生成导学和面经"
+    expected: project-guide
+    note: 明确要求项目导学 + 面经双文件，命中 /project-guide。
+
+  - prompt: "帮我分析这个仓库的技术亮点和源码阅读路径"
+    expected: project-guide
+    note: 源码阅读路径和技术亮点属于项目导学，命中 /project-guide。
+
+  - prompt: "把这个项目整理成能面试复述的 STAR 题库"
+    expected: project-guide
+    note: 从项目材料生成 STAR 面试题库，命中 /project-guide。
 
   - prompt: "根据这个 JD 模拟一场 40 分钟技术一面，先别点评，结束后统一复盘"
     expected: interview
