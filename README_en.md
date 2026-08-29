@@ -256,7 +256,7 @@ The template includes:
 - A reserved photo slot in the top-right; the personal info section uses SVG icons, no emoji;
 - Blue section headings, light-gray company bars, and dense project bullets;
 - Phone, email, WeChat, identity, education, and Star icons under `assets/icons/`;
-- OpenAI, Claude, ByteDance, bilibili, and GitHub SVG logos under `assets/logos/`;
+- Brand SVG logos maintained by the actual contents of `assets/logos/`;
 - Continuous A4 two-page layout with in-browser editing and PDF export;
 - An HTML toolbar that toggles between `A4 paginated` and `A4 long-page (unlimited height)`; the paginated mode shows paper shadow, while the long-page mode keeps A4 width and centers the content;
 - The toolbar's “Local fonts” option reads fonts installed on your system (Chrome 103+, requires browser permission), and “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement; select text and apply a font from the “Local fonts” group. Imported fonts last for the current session only and must be re-imported after a refresh.
