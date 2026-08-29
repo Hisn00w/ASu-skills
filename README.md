@@ -156,7 +156,7 @@ python3 scripts/validate_skills.py
 
 校验内容：SKILL.md 是否存在、frontmatter 是否可解析、`name` 是否与目录名一致、`description` 是否非空且不过长、`agents/openai.yaml` 是否可解析、SKILL.md 引用的本地 references/assets 路径是否存在，以及 `.codex-plugin/plugin.json` 是否为合法 JSON 且指向的资源真实存在。GitHub Actions 会在涉及 `skills/**` 等路径的 PR 上自动运行该校验。
 
-路由回归用例存放在 `tests/skill-routing-cases.yaml`，记录各求职入口的预期路由，供后续 Agent Eval 使用。
+路由回归用例存放在 `tests/skill-routing-cases.yaml`，记录各求职入口的预期路由，既作为后续 Agent Eval 的输入接口，也由 GitHub Actions 执行不调用 LLM 的确定性 schema 校验。校验会检查 YAML 结构、用例字段、重复 prompt，以及 `expected` 是否对应 `skills/` 下的实际目录；它不判断 prompt 的语义路由结果。
 
 ## `/contributor`：做真实的开源贡献
 
