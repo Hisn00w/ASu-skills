@@ -1,14 +1,15 @@
 {
   "name": "asu-skills",
   "version": "0.3.0",
-  "description": "中文求职工作流 skills：开源贡献、项目导学面经、经历酥化、可编辑简历制作、同款高密度技术简历复刻和秋招进度管理（DeepSeek Harness 插件包）。",
+  "description": "中文求职工作流 skills：开源贡献、AI 编程对话复盘、项目导学面经、经历酥化、可编辑简历制作、同款高密度技术简历复刻和秋招进度管理（DeepSeek Harness 插件包）。",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "export:pdf": "node scripts/export-resume-pdf.mjs",
     "build:templates": "node scripts/inline-template.mjs --all dist/templates",
     "validate:skills": "python3 scripts/validate_skills.py",
-    "test": "python3 -m unittest discover -s tests -v"
+    "test:python": "python3 -m unittest discover -s tests -v",
+    "test": "node --test"
   },
   "main": "./lib/index.js",
   "exports": {
@@ -29,6 +30,7 @@
     "dsh-plugin",
     "deepseek-harness",
     "agent-skill",
+    "asu-recap",
     "project-guide",
     "project-analysis",
     "resume",

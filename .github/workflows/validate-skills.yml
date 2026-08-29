@@ -16,7 +16,10 @@ on:
       - 'scripts/validate_skills.py'
       - 'scripts/project_guide.py'
       - 'tests/**'
+      - 'scripts/validate_skill_routing.py'
       - 'tests/skill-routing-cases.yaml'
+      - 'tests/test_validate_skill_routing.py'
+      - 'tests/asu-recap-cases.yaml'
       - '.github/workflows/validate-skills.yml'
   push:
     branches:
@@ -35,7 +38,11 @@ on:
       - 'scripts/validate_skills.py'
       - 'scripts/project_guide.py'
       - 'tests/**'
+      - 'scripts/validate_skill_routing.py'
       - 'tests/skill-routing-cases.yaml'
+      - 'tests/test_validate_skill_routing.py'
+      - '.github/workflows/validate-skills.yml'
+      - 'tests/asu-recap-cases.yaml'
 
 permissions:
   contents: read
@@ -58,7 +65,11 @@ jobs:
 
       - name: Run unit tests
         run: python3 -m unittest discover -s tests -v
-        
+
+      - name: Validate skill routing cases
+        run: |
+          python3 -m unittest discover -s tests -p 'test_validate_skill_routing.py'
+          python3 scripts/validate_skill_routing.py
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
