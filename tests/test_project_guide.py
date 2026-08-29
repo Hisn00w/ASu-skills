@@ -71,6 +71,12 @@ class ProjectGuideTests(unittest.TestCase):
         self.assertIn("/asu", prompt)
         self.assertIn("/interview", prompt)
         self.assertIn("``\u200b`", prompt)
+        self.assertIn("Bullet few-shot（仅学习结构，不复制素材）", prompt)
+        self.assertIn("**通用支柱名：**", prompt)
+        self.assertIn("**分层容错：**", prompt)
+        self.assertIn("接入缓存和重试，优化接口请求", prompt)
+        self.assertIn("RunManager", prompt)
+        self.assertIn("结果写可验证的架构变化或真实指标", prompt)
 
     def test_main_check_prints_json_output(self):
         description = (
