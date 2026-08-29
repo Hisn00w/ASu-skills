@@ -5,7 +5,7 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills 图标">
   <h3>中文求职工作流插件</h3>
-  <p>用六个独立入口完成开源贡献、经历酥化、简历制作、同款简历复刻、面试准备和校招进度管理。</p>
+  <p>用七个独立入口完成开源贡献、对话复盘、经历酥化、简历制作、同款简历复刻、面试准备和校招进度管理。</p>
 </div>
 
 <div align="left">
@@ -49,11 +49,12 @@ ASu 正在建设一套面向求职场景的 Harness 工程，欢迎通过 Issue 
 
 [前往 GitHub 查看 ASu Harness 工程](https://github.com/Hisn00w/Asu)
 
-ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的入口：
+ASu-skills 现在是一个插件包。安装后会提供七个可单独调用的入口：
 
 | 入口             | 用途     | 主要交付                                      |
 | ---------------- | -------- | --------------------------------------------- |
 | `/contributor` | 开源贡献 | 寻找候选、展示 diff，经确认后提交 PR并把贡献交给 `/asu` |
+| `/asu-recap`   | 对话复盘 | 把 AI 编程对话和交付记录整理为可核验的九段证据链 |
 | `/asu`         | 经历酥化 | 岗位定位、项目改写、成果证据、HR 开场白       |
 | `/make-resume`      | 简历制作 | 可编辑 HTML 简历、模板复刻、PDF 导出          |
 | `/asu-resume`  | 同款简历 | 复刻 ASu 单栏高密度技术简历、Logo 资源和 PDF  |
@@ -67,6 +68,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 | 当前情况 | 建议先使用 |
 | -------- | ---------- |
 | 缺少可验证的项目或协作经历 | `/contributor` |
+| 有 AI 编程对话或交付记录，需要还原事实与证据 | `/asu-recap` |
 | 已有经历，但不知道如何匹配目标岗位 | `/asu` |
 | 简历内容已确定，需要制作常规可编辑简历 | `/make-resume` |
 | 想复刻 ASu 同款高密度技术简历 | `/asu-resume` |
@@ -76,6 +78,7 @@ ASu-skills 现在是一个插件包。安装后会提供六个可单独调用的
 也可以组合多个入口：
 
 - **没有实习、想补充真实经历**：先用 `/contributor` 完成与岗位相关的开源贡献，再交给 `/asu` 整理成可核验的简历表述；
+- **有 AI 项目记录、需要梳理事实**：先用 `/asu-recap` 区分个人动作、交付阶段与效果证据，再决定是否交给 `/asu` 转成求职表达；
 - **已有项目、准备开始投递**：先用 `/asu` 对齐目标岗位，再用 `/make-resume` 或 `/asu-resume` 生成简历；
 - **已经投递、需要持续跟进**：直接用 `/offer` 整理邮件和状态，简历需要更新时再回到 `/asu` 和 `/make-resume`。
 
@@ -99,7 +102,7 @@ claude plugin marketplace add Hisn00w/ASu-skills
 claude plugin install asu-skills@asu
 ```
 
-安装摘要提示 `Run /reload-plugins to activate.` 时执行 `/reload-plugins`，否则重启 Claude Code。安装后可用 `claude plugin details asu-skills` 确认六个 skill 都已加载。
+安装摘要提示 `Run /reload-plugins to activate.` 时执行 `/reload-plugins`，否则重启 Claude Code。安装后可用 `claude plugin details asu-skills` 确认七个 skill 都已加载。
 
 更新与卸载：
 
@@ -115,18 +118,19 @@ claude plugin install asu-skills@asu
 最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件：
 
 ```text
-请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu、make-resume、asu-resume、interview、offer 六个 skills：
+请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、asu-recap、asu、make-resume、asu-resume、interview、offer 七个 skills：
 https://github.com/Hisn00w/ASu-skills
 ```
 
-安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu`、`make-resume`、`asu-resume`、`interview` 或 `offer`。
+安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`asu-recap`、`asu`、`make-resume`、`asu-resume`、`interview` 或 `offer`。
 
 如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
 
 ```text
 $contributor 根据我的目标岗位寻找开源贡献候选，先展示 diff；我确认后再提 PR，并在合并后交给 /asu 酥化。
+$asu-recap 把这段 AI 编程对话复盘为可核验的项目证据链，区分个人动作、交付阶段和效果证据。
 $asu 请把我的实习经历改写成适合 AI 应用工程师岗位的版本。
-$resume 根据我的经历制作一份可编辑的中文 HTML 简历。
+$make-resume 根据我的经历制作一份可编辑的中文 HTML 简历。
 $asu-resume 根据我的经历复刻参考图中的单栏高密度技术简历，并输出可编辑 HTML。
 $interview 根据我的简历预测面试问题，并通过连续追问检查我是否真的掌握这些经历。
 $offer 把这些招聘邮件整理成校招投递进度表。
@@ -134,11 +138,11 @@ $offer 把这些招聘邮件整理成校招投递进度表。
 
 ### TraeWork
 
-TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，六个 skill 会以 `<publisher>:asu-skills:<skill>` 的形式挂在该插件下。
+TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，七个 skill 会以 `<publisher>:asu-skills:<skill>` 的形式挂在该插件下。
 
 1. 把本仓库整体复制到 TraeWork 插件目录：`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`，保留 `.trae-plugin/plugin.json`、`skills/`、`assets/` 和 `references/`；
 2. 重启 TraeWork，让新插件被重新加载；
-3. 新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`asu`、`resume`、`asu-resume`、`interview` 或 `offer`。
+3. 新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`asu-recap`、`asu`、`make-resume`、`asu-resume`、`interview` 或 `offer`。
 
 其中 `<publisher>` 是插件目录下的命名空间，可自行指定（如 `local`），`<version>` 为 `plugin.json` 中的版本号。卸载时删除对应插件目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
 
@@ -247,6 +251,18 @@ python3 scripts/validate_skills.py
 
 获取新增 AI、模型、平台或公司 Logo 时，优先遵循 [LobeHub Icons 技能说明](https://lobehub.com/icons/skill.md)，使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的 SVG/CDN 资源，不使用低清截图或自行绘制品牌图标。
 
+## `/asu-recap`：把 AI 编程对话还原成证据链
+
+`/asu-recap` 用于复盘 AI 编程对话、项目交付记录和落地证据。它按问题背景、方案决策、个人动作、交付状态、落地范围、效果证据、个人边界、待补证据和面试追问九段整理材料，并默认对密钥、邮箱、客户标识和内部路径等敏感信息做泛化处理。
+
+典型用法：
+
+```text
+/asu-recap
+
+请把这段 AI 编程对话整理为可核验的项目证据链，区分我的动作、AI 完成的部分、交付阶段和效果证据。
+```
+
 ## `/interview`：把简历问穿
 
 `/interview` 从简历和目标岗位中提取需要验证的 Claim，预测高概率面试问题，并通过一次只问一个问题的连续追问，检查用户是否讲得清个人职责、技术实现、指标口径、决策取舍和失败案例。复盘时会标出高风险表述、知识缺口和需要补证据或降低强度的简历内容，不替用户编造面试答案。
@@ -286,16 +302,17 @@ python3 scripts/validate_skills.py
 
 ![校招进度表预览](assets/application-tracker-overview.svg)
 
-## 六个入口如何配合
+## 七个入口如何配合
 
 推荐按照下面的顺序使用：
 
 1. 用 `/contributor` 完成与目标岗位相关的真实开源贡献，并在 PR 合并后生成证据卡；
-2. 用 `/asu` 根据证据卡和已有经历明确目标岗位，整理简历表述和 HR 话术；
-3. 用 `/make-resume` 把确认后的文字放入可编辑简历并导出 PDF；
-4. 需要复刻ASu同款简历时用 `/asu-resume` 生成同款技术简历；
-5. 用 `/interview` 预测问题并通过追问确认简历内容经得住面试；
-6. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
+2. 有 AI 编程对话或交付记录时，用 `/asu-recap` 还原项目事实、个人边界和证据缺口；
+3. 用 `/asu` 根据证据卡和已有经历明确目标岗位，整理简历表述和 HR 话术；
+4. 用 `/make-resume` 把确认后的文字放入可编辑简历并导出 PDF；
+5. 需要复刻ASu同款简历时用 `/asu-resume` 生成同款技术简历；
+6. 用 `/interview` 预测问题并通过追问确认简历内容经得住面试；
+7. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
 
 也可以在同一条需求里说明组合目标，例如：“先用 `/contributor` 整理已合并 PR，再用 `/asu` 改写经历，最后用 `/make-resume` 生成 HTML 简历”。
 
@@ -335,6 +352,9 @@ asu-skills/
 │   │   └── agents/openai.yaml
 │   ├── contributor/
 │   │   ├── SKILL.md             # /contributor 开源贡献
+│   │   └── agents/openai.yaml
+│   ├── asu-recap/
+│   │   ├── SKILL.md             # /asu-recap AI 编程对话复盘
 │   │   └── agents/openai.yaml
 │   ├── make-resume/
 │   │   ├── SKILL.md             # /make-resume 简历制作

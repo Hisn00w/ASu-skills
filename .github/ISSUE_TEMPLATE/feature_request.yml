@@ -14,6 +14,7 @@ body:
       description: 这个功能与哪个技能相关？
       options:
         - /contributor 开源贡献
+        - /asu-recap 对话复盘
         - /asu 经历酥化
         - /make-resume 简历制作
         - /asu-resume 同款简历复刻

@@ -11,6 +11,7 @@ on:
       - 'lib/**'
       - 'scripts/validate_skills.py'
       - 'tests/skill-routing-cases.yaml'
+      - 'tests/asu-recap-cases.yaml'
       - '.github/workflows/validate-skills.yml'
   push:
     branches:
@@ -24,6 +25,7 @@ on:
       - 'lib/**'
       - 'scripts/validate_skills.py'
       - 'tests/skill-routing-cases.yaml'
+      - 'tests/asu-recap-cases.yaml'
 
 permissions:
   contents: read
