@@ -236,7 +236,7 @@ python3 scripts/validate_skills.py
 - 顶部最右侧预留证件照位置，个人信息区使用 SVG 图标，不使用 Emoji；
 - 蓝色分区标题、浅灰公司条和高密度项目要点；
 - `assets/icons/` 中的电话、邮箱、微信、身份、教育和 Star 图标；
-- `assets/logos/` 中的 OpenAI、Claude、ByteDance、bilibili、GitHub SVG Logo；
+- `assets/logos/` 中按实际目录维护的品牌 SVG Logo；
 - A4 两页连续排版、浏览器编辑和 PDF 导出。
 - HTML 工具栏可切换 `A4 分页` 或 `A4 长页（不限高度）`，分页模式带纸张阴影，长页模式保持 A4 宽度并居中。
 - 工具栏「本地字体」可读取系统中已安装的字体（Chrome 103+，需浏览器授权），「导入字体」可读取本地字体文件（TTF/OTF/WOFF/WOFF2）作为补充，选中文字后从「本地字体」分组应用；导入的字体仅本次会话有效，刷新后需重新导入。
