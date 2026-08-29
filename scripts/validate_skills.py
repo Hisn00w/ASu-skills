@@ -12,8 +12,8 @@
   4. description 非空、长度合理（<= 500 字符，避免 description 过长导致
      命令菜单截断或路由混乱）；
   5. agents/openai.yaml 存在且可解析为合法 YAML（最小子集：key: value）；
-  6. SKILL.md 中引用的本地 references / assets 路径实际存在
-     （仅检查相对路径，跳过 http(s)/mailto/锚点）；
+  6. SKILL.md 中引用或记录的本地 references / assets 路径实际存在
+     （支持 Markdown 链接和明确的文件名，跳过 http(s)/mailto/锚点/示例占位符）；
   7. .codex-plugin/plugin.json 是合法 JSON，且 interface.capabilities、
      skills 字段、icon/logo 等指向的本地资源真实存在；
   8. assets/templates-html/ 外框解耦结构完整：frame/ 三部件存在、
@@ -40,7 +40,18 @@ DESCRIPTION_MAX_LEN = 500
 
 FRONTMATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 MARKDOWN_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
+INLINE_CODE_RE = re.compile(r"`([^`]+)`")
+RESOURCE_PATH_RE = re.compile(
+    r"(?<![\w@])(?:\.\.?/|[\w.-]+/)*[\w.-]+\.(?:html?|svg|png|jpe?g|gif|json|js|mjs|css|ya?ml|md)"
+    r"(?:#[^\s)]+)?",
+    re.IGNORECASE,
+)
 REMOTE_RE = re.compile(r"^(?:https?|mailto):", re.IGNORECASE)
+RESOURCE_EXTENSIONS = {
+    ".css", ".gif", ".html", ".htm", ".jpeg", ".jpg", ".js", ".json",
+    ".md", ".mjs", ".png", ".svg", ".yaml", ".yml",
+}
+IGNORED_DOCUMENT_BASENAMES = {"AGENTS.md", "AI_POLICY.md", "CONTRIBUTING.md"}
 
 
 @dataclass
@@ -161,6 +172,77 @@ def resolve_local_link(skill_dir: Path, target: str) -> Path:
     return (skill_dir / target).resolve()
 
 
+def extract_documented_resource_paths(text: str) -> List[str]:
+    """提取 SKILL.md 中明确写出的本地资源文件名。"""
+    targets: List[str] = []
+
+    def add(raw_target: str) -> None:
+        target = raw_target.strip().split("#", 1)[0].rstrip(".,;:")
+        if (
+            not target
+            or is_remote_or_anchor(target)
+            or target.startswith("@")
+            or any(marker in target for marker in ("<", ">", "{", "}", "*"))
+        ):
+            return
+        if Path(target).suffix.lower() not in RESOURCE_EXTENSIONS:
+            return
+        if Path(target).name in IGNORED_DOCUMENT_BASENAMES:
+            return
+        if target not in targets:
+            targets.append(target)
+
+    for match in MARKDOWN_LINK_RE.finditer(text):
+        add(match.group(1))
+    for match in INLINE_CODE_RE.finditer(text):
+        for resource_match in RESOURCE_PATH_RE.finditer(match.group(1)):
+            add(resource_match.group(0))
+    return targets
+
+
+def resolve_documented_resource(skill_dir: Path, target: str) -> Path:
+    """解析资源引用，兼容仓库级路径和共享资源目录中的裸文件名。"""
+    target = target.split("#", 1)[0]
+    repo_root = REPO_ROOT.resolve()
+    path = Path(target)
+    if path.is_absolute():
+        return path
+    if "/" in target or "\\" in target or target.startswith((".", "..")):
+        skill_path = (skill_dir / target).resolve()
+        if skill_path.is_file():
+            return skill_path
+        repo_path = (repo_root / target).resolve()
+        if repo_path.is_file():
+            return repo_path
+        return skill_path
+
+    for root_name in ("assets", "references", "scripts", "lib"):
+        root = repo_root / root_name
+        if root.is_dir():
+            matches = sorted(root.rglob(target))
+            if matches:
+                return matches[0].resolve()
+    return (repo_root / target).resolve()
+
+
+def check_documented_resources(skill_dir: Path, report: Report, text: str) -> None:
+    """校验 SKILL.md 中以文件形式记录的本地资源引用。"""
+    targets = extract_documented_resource_paths(text)
+    if not targets:
+        report.add(True, skill_dir.name, "SKILL.md 无明确的本地资源文件引用（跳过资源检查）")
+        return
+
+    missing = [
+        target
+        for target in targets
+        if not resolve_documented_resource(skill_dir, target).is_file()
+    ]
+    if missing:
+        report.add(False, skill_dir.name, "SKILL.md 记录的资源文件不存在：" + ", ".join(missing))
+    else:
+        report.add(True, skill_dir.name, f"SKILL.md 记录的 {len(targets)} 个资源文件均存在")
+
+
 def check_skill(skill_dir: Path, report: Report) -> None:
     skill_name = skill_dir.name
     skill_md = skill_dir / "SKILL.md"
@@ -252,6 +334,8 @@ def check_skill(skill_dir: Path, report: Report) -> None:
                 skill_name,
                 f"SKILL.md 的 {len(local_links)} 个本地引用路径均存在",
             )
+
+    check_documented_resources(skill_dir, report, text)
 
 
 def check_plugin_manifest(report: Report) -> None:

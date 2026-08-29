@@ -10,6 +10,7 @@ on:
       - 'scripts/export-resume-pdf.mjs'
       - 'lib/**'
       - 'scripts/validate_skills.py'
+      - 'tests/**'
       - 'tests/skill-routing-cases.yaml'
       - '.github/workflows/validate-skills.yml'
   push:
@@ -23,6 +24,7 @@ on:
       - 'scripts/export-resume-pdf.mjs'
       - 'lib/**'
       - 'scripts/validate_skills.py'
+      - 'tests/**'
       - 'tests/skill-routing-cases.yaml'
 
 permissions:
@@ -43,6 +45,9 @@ jobs:
 
       - name: Run skill validator
         run: python3 scripts/validate_skills.py
+
+      - name: Run validator regression tests
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
 
       - name: Set up Node
         uses: actions/setup-node@v4
