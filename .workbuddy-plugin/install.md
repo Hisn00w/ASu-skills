@@ -37,7 +37,7 @@ description: 中文求职经历酥化技能：……
 ### 方式一：Bash（macOS / Linux）
 
 ```bash
-bash workbuddy/install.sh
+bash .workbuddy-plugin/install.sh
 ```
 
 ### 方式二：PowerShell（Windows）
@@ -45,8 +45,8 @@ bash workbuddy/install.sh
 在仓库根目录打开 PowerShell：
 
 ```powershell
-pwsh workbuddy/install.ps1
-# 或直接：.\workbuddy\install.ps1
+pwsh .workbuddy-plugin/install.ps1
+# 或直接：.\.workbuddy-plugin\install.ps1
 ```
 
 > Windows 软链需要「开发者模式」或管理员权限。脚本会自动尝试软链，失败则回退为复制（copy），不影响使用。
