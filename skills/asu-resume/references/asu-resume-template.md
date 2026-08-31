@@ -28,21 +28,13 @@
 - 证件照：右上角预留框支持点击选择本地图片，已有照片时再次点击即可替换；占位框仅在尚未上传照片的编辑状态显示，上传照片后和打印时隐藏边框与提示。
 - 页面密度：按 [`/make-resume` 页面平衡规则](../../make-resume/references/page-balance-qa.md) 测量每张 `.sheet`；优先通过内容重排和结构合并消除大面积空白，不靠缩小到难读或添加装饰填充。
 
-## Logo 资源库
+## Logo 资源
 
-Logo 文件统一放在 `../../assets/logos/`，文件名使用小写英文或品牌英文名，和简历内容解耦。获取 AI、模型、平台或公司 Logo 时，优先遵循 [LobeHub Icons 技能说明](https://lobehub.com/icons/skill.md)，使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的 SVG/CDN 资源。
+共享 Logo 统一放在 `../../assets/logos/`，文件名使用小写英文或品牌英文名，并与简历内容解耦。这里不维护固定的品牌清单：生成简历时应以该目录中实际存在的 SVG 文件为准，避免文档列出的文件名与共享资源发生漂移。获取 AI、模型、平台或公司 Logo 时，优先遵循 [LobeHub Icons 技能说明](https://lobehub.com/icons/skill.md)，使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的 SVG/CDN 资源。
 
-| 简历名称        | 文件                                       | 匹配别名                          |
-| --------------- | ------------------------------------------ | --------------------------------- |
-| OpenAI          | `../../assets/logos/openai.svg`           | OpenAI、GPT、OpenAI API           |
-| Claude          | `../../assets/logos/claude.svg`           | Claude、Anthropic、Claude API     |
-| 抖音 / 字节跳动 | `../../assets/logos/bytedance-color.svg` | 抖音、字节跳动、ByteDance、TikTok |
-| 哔哩哔哩        | `../../assets/logos/bilibili-color.svg`  | 哔哩哔哩、B站、Bilibili           |
-| GitHub          | `../../assets/logos/github.svg`          | GitHub、Github、开源仓库          |
+生成用户专属简历时，先检查共享目录中的实际文件，并仅为能够确认的品牌匹配 Logo；目录中没有对应资源时，从 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 获取官方 SVG，并复制到用户 HTML 同级的 `logos/<brand>.svg`，由 HTML 通过相对路径引用。这样用户移动、预览或导出简历时不依赖仓库目录和网络。只有品牌无法确认或 LobeHub 没有可用资源时才显示纯文字公司条，不要用相似公司的 Logo 代替。
 
-生成用户专属简历时，每段能够确认品牌的公司或平台经历都应显示 Logo：先复用上表中的共享资源；缺少对应品牌时，从 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 获取官方 SVG，并复制到用户 HTML 同级的 `logos/<brand>.svg`，由 HTML 通过相对路径引用。这样用户移动、预览或导出简历时不依赖仓库目录和网络。只有品牌无法确认或 LobeHub 没有可用资源时才显示纯文字公司条，不要用相似公司的 Logo 代替。
-
-只有需要把新 Logo 沉淀为仓库共享资源时，才将文件命名为 `../../assets/logos/<brand>.svg` 并在本表登记别名；用户专属 Logo 不回写只读母版或共享资源目录。
+只有需要把新 Logo 沉淀为仓库共享资源时，才将文件命名为 `../../assets/logos/<brand>.svg`；用户专属 Logo 不回写只读母版或共享资源目录。
 
 ## 内容规则
 

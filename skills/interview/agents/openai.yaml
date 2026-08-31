@@ -1,4 +1,4 @@
 interface:
   display_name: "interview"
-  short_description: "根据简历预测面试问题并逐层追问"
-  default_prompt: "用 /interview 根据我的简历和目标岗位预测面试问题，并通过一次一个问题的连续追问检查我是否真正掌握这些经历。"
+  short_description: "根据简历与岗位进行证据化模拟面试和弱项复练"
+  default_prompt: "使用 $interview 根据我的简历和目标岗位模拟一场技术面试，一次问一个问题，结束后按证据复盘并安排弱项复练。"

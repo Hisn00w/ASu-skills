@@ -5,12 +5,14 @@ on:
     paths:
       - 'skills/**'
       - '.codex-plugin/**'
+      - '.trae-plugin/**'
+      - '.claude-plugin/**'
+      - '.opencode-plugin/**'
+      - 'package.json'
       - 'assets/templates-html/**'
-      - 'scripts/inline-template.mjs'
-      - 'scripts/export-resume-pdf.mjs'
       - 'lib/**'
-      - 'scripts/validate_skills.py'
-      - 'tests/skill-routing-cases.yaml'
+      - 'scripts/**'
+      - 'tests/**'
       - '.github/workflows/validate-skills.yml'
   push:
     branches:
@@ -18,12 +20,15 @@ on:
     paths:
       - 'skills/**'
       - '.codex-plugin/**'
+      - '.trae-plugin/**'
+      - '.claude-plugin/**'
+      - '.opencode-plugin/**'
+      - 'package.json'
       - 'assets/templates-html/**'
-      - 'scripts/inline-template.mjs'
-      - 'scripts/export-resume-pdf.mjs'
       - 'lib/**'
-      - 'scripts/validate_skills.py'
-      - 'tests/skill-routing-cases.yaml'
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/validate-skills.yml'
 
 permissions:
   contents: read
@@ -44,10 +49,16 @@ jobs:
       - name: Run skill validator
         run: python3 scripts/validate_skills.py
 
+      - name: Run unit tests
+        run: python3 -m unittest discover -s tests -v
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '22.19.0'
+
+      - name: Run JavaScript tests
+        run: node --test
 
       - name: Check JavaScript syntax
         run: |
