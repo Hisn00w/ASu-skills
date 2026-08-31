@@ -18,6 +18,7 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
 .contact-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:5px 20px; color:#424b56; }
 .contact-grid span { white-space:normal; }
 .photo-frame { width:118px; height:148px; justify-self:end; border:1px solid #cbd4de; padding:4px; background:#fff; }
+.photo-frame.has-photo { border-color:transparent; padding:0; }
 .photo-frame img { width:100%; height:100%; object-fit:cover; display:block; }
 .resume-section { margin-top:22px; break-inside:auto; }
 .section-title { display:flex; align-items:baseline; gap:9px; margin:0 0 11px; padding:0 0 6px; color:var(--blue); font-size:21px; line-height:1.18; border-bottom:2px solid var(--rule); }
@@ -161,6 +162,7 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
   body { padding:0 !important; background:#fff; font-family:Arial, "Microsoft YaHei", "Noto Sans CJK SC", "SimSun", "SimHei", "PingFang SC", "Hiragino Sans GB", sans-serif; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .resume-toolbar { display:none !important; }
   .resume-page { width:100%; min-height:auto; margin:0; padding:10mm 12mm 10mm; box-shadow:none; font-family:inherit; }
+  .photo-frame { border-color:transparent; padding:0; }
   .variant-compact .resume-page { padding:10mm 12mm 10mm; }
   body:not(.variant-two-page) { font-size:11.5px; line-height:1.36; }
   body:not(.variant-two-page) .resume-section { margin-top:12px; }

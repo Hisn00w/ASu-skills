@@ -1,4 +1,4 @@
-﻿# OpenCode 安装指南
+# OpenCode 安装指南
 
 ## 方法 1：自动安装（推荐）
 
@@ -8,7 +8,7 @@ git clone https://github.com/Hisn00w/ASu-skills.git
 cd ASu-skills
 
 # 运行安装脚本
-python scripts/install-opencode.py
+python .opencode-plugin/install-opencode.py
 ```
 
 ## 方法 2：手动安装
@@ -46,6 +46,8 @@ cp -r skills/* ~/.config/opencode/skills/
 | 求职进度 | /offer、秋招进度 |
 | 简历投递填写 | /job-apply、自动填写招聘网站申请表 |
 | 开源贡献 | /contributor、找 PR 机会 |
+| 对话复盘 | /asu-recap、复盘 AI 编程对话 |
+| 项目导学面经 | /project-guide、项目导学、生成面经 |
 | 同款简历 | /asu-resume、阿酥同款简历 |
 
 ## 注意事项
