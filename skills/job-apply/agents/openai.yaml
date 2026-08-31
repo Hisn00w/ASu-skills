@@ -1,0 +1,4 @@
+interface:
+  display_name: "job-apply"
+  short_description: "使用浏览器填写求职申请表并在提交前核对"
+  default_prompt: "用 /job-apply 打开招聘网站，读取我确认的简历资料，逐项填写求职申请表；遇到敏感信息、文件上传和最终提交前先向我确认。"

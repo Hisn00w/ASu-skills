@@ -5,37 +5,35 @@
   <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/%E4%B8%AD%E6%96%87-%E8%B4%A1%E7%8C%AE%E6%8C%87%E5%8D%97-59B390?style=for-the-badge" alt="贡献指南"></a>
 </div>
 
-Every contributor to this repo gets the Sulish treatment.
+Contributions via Issues and Pull Requests are welcome. To keep collaboration quality high, please read and follow these guidelines before submitting a change.
 
-Recently, issues have been flooded with people “asking to hitch a contributor title”. We decided to stop answering one by one and simply publish the conversion rules.
+## Submitting changes
 
-## Contributor tier table
+1. Fork this repository and create a dedicated branch from `main`, named after the change, e.g. `docs/fix-typo`;
+2. One Pull Request per change; keep every change focused and well-scoped;
+3. Run the checks relevant to your change before submitting:
+   - Preview Markdown changes locally;
+   - Open HTML templates in a browser and confirm they edit, save, and export to A4;
+   - When touching `SKILL.md`, `agents/openai.yaml`, plugin manifests, or adding a new skill, run `python3 scripts/validate_skills.py` from the repository root and confirm frontmatter, metadata, and resource references pass validation;
+4. Commit with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): use English type prefixes such as `feat:`, `fix:`, `docs:`, with a short, specific title;
+5. Before opening a Pull Request, read this file and [`PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md) in full, and complete every item in the template's checklist;
+6. The Pull Request description should state what changed, why, and how it was verified. If you cannot complete a checklist item, explain why and offer an alternative verification.
 
-| What you actually do                             | Your title              | How it reads on a resume                                      |
-| ------------------------------------------------ | ----------------------- | ------------------------------------------------------------- |
-| Star the repo                                    | Early Adopter           | Deeply involved in building the open-source community's early ecosystem |
-| File an empty issue                              | Community Contributor   | Led user needs discovery and drove product direction           |
-| Fix a typo                                       | **Main Contributor**    | Led the documentation quality governance initiative as a main contributor |
-| Fix a broken link                                | Core Maintainer         | Owned developer-experience, raising link availability to 100% |
-| Add a resume template                            | Genius Girl / Genius Boy | Independently designed and shipped the core job-search workflow system |
-| Change a punctuation mark and change it back     | Tech Lead               | Led technical solution reviews, balancing long-term gains and iteration costs |
+## Local validation
 
-Titles take effect immediately. No merge required.
+After modifying `SKILL.md`, `agents/openai.yaml`, plugin manifests, or adding a new skill, run the static validator from the repository root:
 
-## How to contribute
+```bash
+python3 scripts/validate_skills.py
+```
 
-1. Fork the repo and cut a branch from `main`, e.g. `docs/fix-typo`;
-2. One PR, one change. The smaller the change, the faster the title;
-3. Preview Markdown changes yourself; for HTML templates, open the file in a browser and confirm it still edits and still prints to A4;
-4. Commit with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): use English type prefixes like `feat:`, `fix:`, `docs:`, with a short, specific title;
-5. Before opening a PR, read this file and [`PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md) in full, and complete every item in the PR template's checklist;
-6. In the PR description, be clear about: what changed, why, and how it was verified. If you can't complete a checklist item, explain why and offer an alternative verification.
+The validator checks that each `SKILL.md` exists; its frontmatter parses; `name` matches the directory name; `description` is non-empty and not too long; `agents/openai.yaml` parses; local `references/assets` paths cited in `SKILL.md` exist; and the Codex, TraeWork, Claude Code, and OpenCode plugin manifests are valid JSON covering the required entries. GitHub Actions runs this validator automatically on Pull Requests that touch `skills/**` and related paths.
 
-Write the description like a normal human. Leave the Sulishing to `/asu`.
+Routing regression cases live in `tests/skill-routing-cases.yaml`. GitHub Actions validates their YAML structure, fields, duplicate prompts, and whether `expected` maps to an actual directory under `skills/`, without calling an LLM; it does not judge the semantic routing result.
 
 ## Pull Request flow
 
-Follow this order when opening a PR:
+Follow this order when opening a Pull Request:
 
 1. Create a feature branch from the latest `main` instead of committing directly to `main`;
 2. Read this file and [`PULL_REQUEST_TEMPLATE.md`](PULL_REQUEST_TEMPLATE.md) first;
@@ -43,7 +41,7 @@ Follow this order when opening a PR:
 4. Run `git diff --check` and confirm there are no whitespace errors;
 5. Review every file to be committed and confirm there are no conflict markers, secrets, personal data, or unrelated files;
 6. Commit in the repo's Chinese Conventional Commits style, e.g. `docs: 新增贡献指南和 PR 模板`;
-7. Open the PR and fill in the template completely. Every checklist item must be checked; anything you truly can't complete must be explained in the PR description;
+7. Open the Pull Request and fill in the template completely. Every checklist item must be checked; anything you truly cannot complete must be explained in the description;
 8. If there are merge conflicts, resolve them, re-run the checks, and only then request review.
 
 When resume templates are involved, you must also confirm:
@@ -52,33 +50,16 @@ When resume templates are involved, you must also confirm:
 - New images and logos use in-repo relative paths and follow the repo's existing asset guidelines;
 - The HTML edits and saves in a browser, and correctly exports as A4 paginated or unlimited-height output.
 
-## Contributions we genuinely love
+## Welcomed contributions
 
-- Typos, punctuation, formatting, and broken links in the README and `SKILL.md` files;
+- Typos, punctuation, formatting, and broken-link fixes in the README and `SKILL.md` files;
 - New resume templates — they must be editable and printable, and must never embed a screenshot as the page;
-- Real feedback after running the seven skills, **including what didn't work** — that's more useful than success stories;
-- Making the seven skills load in other agent environments.
+- Real feedback after running each skill, **including what didn't work** — that is more valuable than success stories;
+- Making the skills load in other agent environments.
 
 ## Contributions we won't merge
 
-- PRs that ask to remove the “experience must be real” lines. Plenty of people want them gone, but those lines are not a writing-style preference — see [Truthfulness boundaries](../README_en.md#truthfulness-boundaries);
-- Turning `/contributor` into a bulk-sending tool, e.g. “scan every project under an org and auto-open PRs”. That isn't contribution, it's spam. Maintainers will block you, and it won't fit on a resume either;
+- Pull Requests that ask to remove the “experience must be real” lines. Such clauses are not a writing-style preference — see [Truthfulness boundaries](../README_en.md#truthfulness-boundaries);
+- Turning `/contributor` into a bulk-sending tool, e.g. “scan every project under an org and auto-open Pull Requests”. That is not contribution but bulk harassment; maintainers will block you, and it will not fit on a resume either;
 - Changes made only to inflate the diff: meaningless line breaks, or swapping correct punctuation for other correct punctuation;
 - Writing real names, phone numbers, emails, internal company info, or recruiting privacy into repo files.
-
-## AntiSulish
-
-The table above is valid inside this repo. Outside it, the effect wears off — usually right around the second question of your interview.
-
-The real conversion table:
-
-| What you wrote                    | After AntiSulish      |
-| --------------------------------- | --------------------- |
-| main contributor                  | fixed a typo          |
-| led X system-building             | added one file        |
-| 100% coverage                     | had one test case     |
-| deeply involved in agent architecture | was mostly writing something else |
-
-Sulishing gets you past an HR keyword filter, but not past follow-up questions from people who know their stuff. So: **pick any title you like, but describe the actions honestly.** When someone asks about details, you'd better have that diff in hand.
-
-You're welcome to come hitch a contributor title. Just bring one real fix.

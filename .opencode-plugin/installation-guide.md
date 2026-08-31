@@ -44,6 +44,7 @@ cp -r skills/* ~/.config/opencode/skills/
 | 简历制作 | /make-resume、做简历、同款简历 |
 | 面试准备 | /interview、面试预测、模拟面试 |
 | 求职进度 | /offer、秋招进度 |
+| 简历投递填写 | /job-apply、自动填写招聘网站申请表 |
 | 开源贡献 | /contributor、找 PR 机会 |
 | 同款简历 | /asu-resume、阿酥同款简历 |
 

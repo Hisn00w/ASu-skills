@@ -5,7 +5,7 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills logo">
   <h3>A job-search workflow plugin for Chinese job seekers</h3>
-  <p>Eight standalone entry points for open-source contributions, AI coding conversation review, project interview prep, experience Sulishing, resume building, ASu-style resume replication, interview preparation, and campus recruitment tracking.</p>
+  <p>Nine standalone entry points for open-source contributions, AI coding conversation review, project interview prep, experience Sulishing, resume building, ASu-style resume replication, job-application autofill, interview preparation, and campus recruitment tracking.</p>
 </div>
 
 
@@ -36,11 +36,29 @@
   <a href="https://trendshift.io/repositories/139058?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-139058" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/139058/daily" alt="Hisn00w%2FASu-skills | Trendshift" width="250" height="55"></a>
 </div>
 
-## The ASu-style Resume
+## Contents
 
-Type “**I want an ASu-style resume**” and the plugin builds yours. Both AI-assisted and manual editing are supported.
-
-<img src="assets/asu-resume-editor.png" alt="ASu-style resume editor" width="900" />
+- [Harness Project Update](#a-harness-project-update)
+- [Installation](#installation)
+- [First time: where to start](#first-time-where-to-start)
+- [Nine skills](#how-the-nine-entries-work-together)
+  - [`/contributor`: Make real open-source contributions](#contributor-make-real-open-source-contributions)
+  - [`/project-guide`: Project Study Notes And Interview Answers](#project-guide-project-study-notes-and-interview-answers)
+  - [`/asu`: Sulish your experience](#asu-sulish-your-experience)
+  - [`/make-resume`: Build a resume](#make-resume-build-a-resume)
+  - [`/asu-resume`: Recreate the ASu-style high-density technical resume](#asu-resume-recreate-the-asu-style-high-density-technical-resume)
+  - [`/asu-recap`: Turn AI coding conversations into evidence chains](#asu-recap-turn-ai-coding-conversations-into-evidence-chains)
+  - [`/interview`: Stress-test your resume](#interview-stress-test-your-resume)
+  - [`/offer`: Campus recruitment progress management](#offer-campus-recruitment-progress-management)
+  - [`/job-apply`: Job-application autofill](#job-apply-job-application-autofill)
+- [How the nine entries work together](#how-the-nine-entries-work-together)
+- [Truthfulness boundaries](#truthfulness-boundaries)
+- [File structure](#file-structure)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
+- [Contributors](#contributors)
+- [License](#license)
+- [Star History](#star-history)
 
 ## A Harness Project Update
 
@@ -50,7 +68,7 @@ ASu is building a Harness project tailored to the job-search journey. We welcome
 
 [Check out the ASu Harness project on GitHub](https://github.com/Hisn00w/ASu-skills)
 
-ASu-skills is now a plugin pack. Installing it provides eight individually callable entry points:
+ASu-skills is now a plugin pack. Installing it provides nine individually callable entry points:
 
 | Entry          | Purpose                   | Primary deliverables                                              |
 | -------------- | ------------------------ | ----------------------------------------------------------------- |
@@ -60,34 +78,38 @@ ASu-skills is now a plugin pack. Installing it provides eight individually calla
 | `/asu`         | Experience Sulishing     | Role targeting, project bullet rewrites, evidence of results, HR opener |
 | `/make-resume`      | Resume building          | Editable HTML resume, template replication, PDF export            |
 | `/asu-resume`  | ASu-style resume         | Recreates the ASu single-column high-density technical resume, logo assets and PDF |
+| `/job-apply`   | Job-application autofill | Connects to a browser, fills an application, and stops for review before submission |
 | `/interview`   | Interview preparation    | Interview prediction, contract-driven drilling, evidence review, and targeted retry |
 | `/offer`       | Campus recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
-
-## First time: where to start
-
-Pick your first entry based on the problem you most need to solve right now:
-
-| Situation | Start with |
-| --------- | ---------- |
-| No verifiable projects or collaboration experience yet | `/contributor` |
-| Have AI coding conversations or delivery records that need evidence review | `/asu-recap` |
-| Have a project repository and need a code-reading path plus interview talking points | `/project-guide` |
-| Have experience, but unsure how to match it to a target role | `/asu` |
-| Resume content is settled; need a regular editable resume | `/make-resume` |
-| Want to recreate the ASu-style high-density technical resume | `/asu-resume` |
-| Interviews coming up; want to predict questions and drill the weak spots | `/interview` |
-| Already applying; need to organize recruiting emails and follow-ups | `/offer` |
-
-You can also combine entries:
-
-- **No internships, want real experience**: use `/contributor` to make role-relevant open-source contributions first, then hand them to `/asu` to turn into verifiable resume statements;
-- **Have AI project records, need to establish the facts**: use `/asu-recap` to separate personal actions, delivery stage, and evidence of impact before deciding whether to hand the result to `/asu`;
-- **Have projects, ready to apply**: use `/project-guide` to turn the repository into study notes and interview answers, then use `/asu` to align with the target role and `/make-resume` or `/asu-resume` to generate the resume;
-- **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/asu` and `/make-resume` whenever the resume needs an update.
 
 ## Installation
 
 ASu-skills works with Codex, Claude Code, and TraeWork: the repo root has `.codex-plugin/` for Codex, `.claude-plugin/` for Claude Code, and `.trae-plugin/` for TraeWork, all sharing the same `skills/`, `assets/`, and `references/`.
+
+### Codex
+
+The easiest way is to send the GitHub link directly to Codex and ask it to install the plugin:
+
+```text
+Install the ASu-skills plugin from this GitHub repository and enable the nine skills: contributor, asu-recap, project-guide, asu, make-resume, asu-resume, job-apply, interview, offer:
+https://github.com/Hisn00w/ASu-skills
+```
+
+After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `asu-recap`, `project-guide`, `asu`, `make-resume`, `asu-resume`, `job-apply`, `interview`, or `offer` from the command list.
+
+If your Codex version does not surface skills in the `/` menu, you can also use the official explicit invocation syntax:
+
+```text
+$contributor Find open-source contribution candidates for my target role; show me the diffs first. I'll confirm before you open the PR, and hand the merged contribution to /asu for Sulishing.
+$asu-recap Turn this AI coding conversation into a verifiable project evidence chain, separating my actions, the delivery stage, and evidence of impact.
+$asu Rewrite my internship experience for an AI application engineer role.
+$project-guide Generate project study notes and interview answers from the current repository, with handoff evidence for /asu and /interview.
+$make-resume Turn my experience into an editable Chinese HTML resume.(Considering maybe ur not a Manderin speaker,try saying "make-resume Turn my experience into an editable English HTML resume.")
+$asu-resume Recreate the single-column high-density technical resume from the reference image and output an editable HTML.
+$job-apply Use my confirmed resume data to fill the current job application in a connected browser, then stop for my review before submission.
+$interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
+$offer Turn these recruiting emails into a campus recruitment application tracker.
+```
 
 ### Claude Code
 
@@ -105,7 +127,7 @@ claude plugin marketplace add Hisn00w/ASu-skills
 claude plugin install asu-skills@asu
 ```
 
-If the install summary says `Run /reload-plugins to activate.`, run `/reload-plugins`; otherwise restart Claude Code. After installation, run `claude plugin details asu-skills` to confirm all eight skills are loaded.
+If the install summary says `Run /reload-plugins to activate.`, run `/reload-plugins`; otherwise restart Claude Code. After installation, run `claude plugin details asu-skills` to confirm all nine skills are loaded.
 
 Update and uninstall:
 
@@ -116,51 +138,41 @@ Update and uninstall:
 
 Uninstalling the plugin only removes the plugin cache; it never touches the application tracker you have edited in your project or user directory.
 
-### Codex
-
-The easiest way is to send the GitHub link directly to Codex and ask it to install the plugin:
-
-```text
-Install the ASu-skills plugin from this GitHub repository and enable the eight skills: contributor, asu-recap, project-guide, asu, make-resume, asu-resume, interview, offer:
-https://github.com/Hisn00w/ASu-skills
-```
-
-After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `asu-recap`, `project-guide`, `asu`, `make-resume`, `asu-resume`, `interview`, or `offer` from the command list.
-
-If your Codex version does not surface skills in the `/` menu, you can also use the official explicit invocation syntax:
-
-```text
-$contributor Find open-source contribution candidates for my target role; show me the diffs first. I'll confirm before you open the PR, and hand the merged contribution to /asu for Sulishing.
-$asu-recap Turn this AI coding conversation into a verifiable project evidence chain, separating my actions, the delivery stage, and evidence of impact.
-$asu Rewrite my internship experience for an AI application engineer role.
-$project-guide Generate project study notes and interview answers from the current repository, with handoff evidence for /asu and /interview.
-$make-resume Turn my experience into an editable Chinese HTML resume.(Considering maybe ur not a Manderin speaker,try saying "make-resume Turn my experience into an editable English HTML resume.")
-$asu-resume Recreate the single-column high-density technical resume from the reference image and output an editable HTML.
-$interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
-$offer Turn these recruiting emails into a campus recruitment application tracker.
-```
-
 ### TraeWork
 
-TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json` manifest, and the eight skills become available under the plugin as `<publisher>:asu-skills:<skill>`.
+TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json` manifest, and the nine skills become available under the plugin as `<publisher>:asu-skills:<skill>`.
 
 1. Copy this repository into the TraeWork plugin directory: `~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`, keeping `.trae-plugin/plugin.json`, `skills/`, `assets/`, and `references/`;
 2. Restart TraeWork so the new plugin is reloaded;
-3. Start a new conversation, type `/` in the input box, and pick `contributor`, `asu-recap`, `project-guide`, `asu`, `make-resume`, `asu-resume`, `interview`, or `offer` from the command list.
+3. Start a new conversation, type `/` in the input box, and pick `contributor`, `asu-recap`, `project-guide`, `asu`, `make-resume`, `asu-resume`, `job-apply`, `interview`, or `offer` from the command list.
 
 `<publisher>` is a namespace you choose under the plugin directory (for example `local`), and `<version>` is the version in `plugin.json`. To uninstall, delete the plugin directory; it never touches the application tracker you have edited in your project or user directory.
 
-## Local validation
+For contributor checks, tests, and the PR workflow, see the [contributing guide](.github/CONTRIBUTING_en.md).
 
-After modifying SKILL.md, `agents/openai.yaml`, plugin manifests, or adding a new skill, run the static validator to confirm that frontmatter, metadata, and resource references are valid:
+## First time: where to start
 
-```bash
-python3 scripts/validate_skills.py
-```
+Pick your first entry based on the problem you most need to solve right now:
 
-The validator checks: that each SKILL.md exists; that its frontmatter parses; that `name` matches the directory name; that `description` is non-empty and not too long; that `agents/openai.yaml` parses; that local references/assets paths cited in SKILL.md exist; and that the Codex, TraeWork, Claude Code, and OpenCode plugin manifests are valid JSON covering the required entries. GitHub Actions runs this validator automatically on PRs that touch `skills/**` and related paths.
+| Situation | Start with |
+| --------- | ---------- |
+| No verifiable projects or collaboration experience yet | `/contributor` |
+| Have AI coding conversations or delivery records that need evidence review | `/asu-recap` |
+| Have a project repository and need a code-reading path plus interview talking points | `/project-guide` |
+| Have experience, but unsure how to match it to a target role | `/asu` |
+| Resume content is settled; need a regular editable resume | `/make-resume` |
+| Want to recreate the ASu-style high-density technical resume | `/asu-resume` |
+| Have a job URL and need to fill its application form | `/job-apply` |
+| Interviews coming up; want to predict questions and drill the weak spots | `/interview` |
+| Already applying; need to organize recruiting emails and follow-ups | `/offer` |
 
-Routing regression cases live in `tests/skill-routing-cases.yaml`, recording the expected routing for each job-search entry, as input for future Agent Evals.
+You can also combine entries:
+
+- **No internships, want real experience**: use `/contributor` to make role-relevant open-source contributions first, then hand them to `/asu` to turn into verifiable resume statements;
+- **Have AI project records, need to establish the facts**: use `/asu-recap` to separate personal actions, delivery stage, and evidence of impact before deciding whether to hand the result to `/asu`;
+- **Have projects, ready to apply**: use `/project-guide` to turn the repository into study notes and interview answers, then use `/asu` to align with the target role and `/make-resume` or `/asu-resume` to generate the resume;
+- **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/asu` and `/make-resume` whenever the resume needs an update.
+- **Ready to fill an application form**: use `/job-apply` with a connected browser for one specific role, then use `/offer` to record the application status.
 
 ## `/contributor`: Make real open-source contributions
 
@@ -250,6 +262,8 @@ Using the education, internship, and project experience I provide, pick a templa
 
 `/asu-resume` recreates the single-column technical resume from the reference image — ideal for new grads, interns, and AI / Agent / LLM roles. You can also trigger the same skill by typing “I want an ASu-style resume”. It first Sulishes your real experience against the target role, then uses the template as a read-only master to generate your own editable HTML. Screenshots are never embedded into the resume, and the template source file is never modified.
 
+<img src="assets/asu-resume-editor.png" alt="ASu-style resume editor" width="900" />
+
 The template includes:
 
 - Identity, contact info, public links, and education in the header;
@@ -330,7 +344,31 @@ Organize the recruiting emails and screenshots I uploaded into a campus recruitm
 
 ![Campus recruitment tracker preview](assets/application-tracker-overview.svg)
 
-## How the eight entries work together
+## `/job-apply`: Job-application autofill
+
+`/job-apply` uses confirmed resume data to fill one specific recruitment or application form. It supports page inspection, field mapping, text input, dropdowns, resume/portfolio uploads, and a final pre-submission review. It stops before the final submit button by default; asking to “fill my resume” does not imply permission to submit an application.
+
+<img src="assets/job-apply-form-example.png" alt="Campus recruitment application form example" width="900" />
+
+### Connect a browser with Kimi WebBridge
+
+**Before using `/job-apply`, install and enable a browser-control extension and confirm that it is connected to the corresponding browser-control service.** ASu does not read or fill a recruitment page until the extension and connection have been checked.
+
+To operate a Chrome or Edge browser where you are already signed in, install and enable the official [Kimi WebBridge](https://www.kimi.com/products/kimi-webbridge). It connects a browser extension, a local daemon, and the Chrome DevTools Protocol; login sessions and page content stay on the local machine.
+
+If you use ChatGPT/Codex browser control, you can instead install and enable the [ChatGPT browser extension (Microsoft Edge Add-ons)](https://microsoftedge.microsoft.com/addons/detail/chatgpt/odlomjlbamekndcpllcnffbgeohgkmjh) (the Chrome Web Store listing has been removed; use Edge Add-ons), then follow the browser-control setup shown in the host application. Choose either connection method; installing both is unnecessary.
+
+### Typical usage
+
+```text
+/job-apply
+
+Use my confirmed resume to open this job application, fill the fields and resume attachment that can be verified, ask me about anything missing, and stop before submission for my review.
+```
+
+The user must handle passwords, SMS/email codes, MFA, passkeys, and CAPTCHAs. ASu separately confirms personal-data input, file uploads, and final submission; it does not read cookies, tokens, or password storage, and does not bypass anti-bot or access controls.
+
+## How the nine entries work together
 
 Recommended order:
 
@@ -340,8 +378,9 @@ Recommended order:
 4. Use `/asu` to lock in role targeting from the evidence card and your existing experience, and to polish resume phrasing and HR talking points;
 5. Use `/make-resume` to turn the confirmed copy into an editable resume and export PDF;
 6. When you want the ASu-style resume, use `/asu-resume` to generate the same high-density technical resume;
-7. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
-8. Use `/offer` to record the status of applications, assessments, interviews, and offers.
+7. Use `/job-apply` to connect a browser, fill one specific application, and review it before submission;
+8. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
+9. Use `/offer` to record the status of applications, assessments, interviews, and offers.
 
 You can also state a combined goal in a single request, e.g.: “first use `/project-guide` to generate project study notes and interview answers, then `/asu` to rewrite the experience, and finally `/make-resume` to generate an HTML resume”.
 
@@ -400,16 +439,22 @@ asu-skills/
 │   │   ├── SKILL.md             # /interview prediction, drilling & targeted retry
 │   │   ├── references/          # Interview contracts, scoring, scenarios & retry rules
 │   │   └── agents/openai.yaml
-│   └── offer/
+│   ├── offer/
 │       ├── SKILL.md             # /offer campus recruitment tracking
 │       └── agents/openai.yaml
+│   └── job-apply/
+│       ├── SKILL.md             # /job-apply job-application autofill
+│       ├── references/          # Kimi WebBridge connection and safety rules
+│       └── agents/openai.yaml
+├── scripts/
+│   └── kimi-webbridge.mjs       # Kimi WebBridge local HTTP client
 ├── assets/                      # Templates, images, tracker, and example resources
 │   ├── asu-resume-template.html # Read-only master for the ASu-style editable resume
 │   ├── icons/                   # Personal & general information SVG icons
 │   └── logos/                   # LobeHub Icons static SVG logos
 ├── references/                  # Reference for organizing recruiting emails
 ├── .github/
-│   ├── CONTRIBUTING.md          # Contribution guide & contributor tier table
+│   ├── CONTRIBUTING.md          # Contribution guide
 │   ├── CONTRIBUTING_en.md       # English contribution guide
 │   └── PULL_REQUEST_TEMPLATE.md # Pull request template
 └── README.md
@@ -417,7 +462,7 @@ asu-skills/
 
 ## Contributing
 
-Issues and PRs are welcome. The [contributing guide](.github/CONTRIBUTING_en.md) publishes the contributor-tier conversion table, showing exactly what title a single typo fix can earn you — and when that title stops working.
+Issues and PRs are welcome. See the [contributing guide](.github/CONTRIBUTING_en.md), or browse the repository's [Pull Requests](https://github.com/Hisn00w/ASu-skills/pulls).
 
 ## Acknowledgments
 
@@ -429,6 +474,8 @@ Thanks to the following Xiaohongshu(Chinese IG) creators for their public sharin
 This plugin has organized, structured, and compliance-adjusted the relevant content and turned it into a reusable job-search workflow.
 
 Thanks to [LobeHub/lobe-icons](https://github.com/lobehub/lobe-icons) for the open-source brand icon resources; following its skill guide, this plugin prefers `@lobehub/icons` and static SVG/CDN assets.
+
+Thanks to [Kimi WebBridge](https://www.kimi.com/products/kimi-webbridge) for the local browser-connection capability that lets `/job-apply` drive a browser you are already signed into via the Chrome DevTools Protocol, keeping login sessions and page content on your machine.
 
 ## Contributors
 

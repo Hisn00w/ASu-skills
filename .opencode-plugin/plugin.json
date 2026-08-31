@@ -1,7 +1,7 @@
 {
   "name": "asu-skills",
   "version": "0.3.0",
-  "description": "中文求职工作流插件：开源贡献、对话复盘、项目导学面经、经历酥化、简历制作、同款简历复刻、面试准备和秋招进度管理。",
+  "description": "中文求职工作流插件：开源贡献、对话复盘、项目导学面经、经历酥化、简历制作、同款简历复刻、简历投递填写、面试准备和秋招进度管理。",
   "author": {
     "name": "Hisn0w",
     "url": "https://github.com/Hisn00w"
@@ -9,7 +9,7 @@
   "homepage": "https://github.com/Hisn00w/ASu-skills",
   "repository": "https://github.com/Hisn00w/ASu-skills",
   "license": "MIT",
-  "keywords": ["resume", "interview", "job-search", "career", "open-source", "contributor", "chinese", "asu"],
+  "keywords": ["resume", "interview", "job-search", "job-application", "browser-automation", "career", "open-source", "contributor", "chinese", "asu"],
   "skills": {
     "path": "./skills",
     "entries": [
@@ -19,6 +19,7 @@
       {"name": "asu", "description": "经历酥化：把真实经历重组为岗位定位、简历要点、HR开场白"},
       {"name": "make-resume", "description": "简历制作：生成可编辑 HTML 简历并提供 PDF 导出"},
       {"name": "asu-resume", "description": "同款技术简历：复刻单栏高密度技术简历"},
+      {"name": "job-apply", "description": "简历投递填写：通过已连接的浏览器填写申请并在提交前核对"},
       {"name": "interview", "description": "面试预测：简历驱动的面试问题预测与连续追问"},
       {"name": "offer", "description": "秋招进度管理：记录投递、面试、offer 状态"}
     ]
@@ -32,13 +33,13 @@
         "1. 克隆仓库到本地",
         "2. 将 skills/ 目录下所有文件夹复制到 OpenCode 的 skills 目录（通常为 E:\\Cache\\skills\\ 或 ~/.config/opencode/skills/）",
         "3. 重启 OpenCode 或执行 /reload-plugins",
-        "4. 使用 /project-guide、/asu、/make-resume、/interview 等触发词调用"
+        "4. 使用 /project-guide、/asu、/make-resume、/job-apply、/interview 等触发词调用"
       ],
       "en": [
         "1. Clone the repository locally",
         "2. Copy all folders under skills/ to OpenCode skills directory (usually E:\\Cache\\skills\\ or ~/.config/opencode/skills/)",
         "3. Restart OpenCode or execute /reload-plugins",
-        "4. Trigger with /project-guide, /asu, /make-resume, /interview etc."
+        "4. Trigger with /project-guide, /asu, /make-resume, /job-apply, /interview etc."
       ]
     }
   }

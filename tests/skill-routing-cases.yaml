@@ -118,3 +118,11 @@ cases:
   - prompt: "简历已经定稿开始投递了，帮我记录每家公司的进展和下一步"
     expected: offer
     note: 边界 case：提到简历定稿，但动作是记录投递进展，归 /offer 而非 /make-resume。
+
+  - prompt: "请打开这个招聘链接，用我的简历填写申请表，先不要提交"
+    expected: job-apply
+    note: 典型浏览器填写求职申请请求，命中 /job-apply。
+
+  - prompt: "帮我把当前网页的姓名、教育经历和项目经历填好，最后停在提交前"
+    expected: job-apply
+    note: 明确要求操作当前网页并停在提交前，归 /job-apply 而非 /offer。
