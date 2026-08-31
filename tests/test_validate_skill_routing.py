@@ -28,7 +28,7 @@ class ValidateSkillRoutingTests(unittest.TestCase):
             REPO_ROOT / "skills",
         )
 
-        self.assertEqual(case_count, 24)
+        self.assertEqual(case_count, 26)
         self.assertEqual(errors, [])
 
     def test_accepts_bom_and_quoted_colon(self):
