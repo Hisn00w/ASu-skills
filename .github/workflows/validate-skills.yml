@@ -10,16 +10,9 @@ on:
       - '.opencode-plugin/**'
       - 'package.json'
       - 'assets/templates-html/**'
-      - 'scripts/inline-template.mjs'
-      - 'scripts/export-resume-pdf.mjs'
       - 'lib/**'
-      - 'scripts/validate_skills.py'
-      - 'scripts/project_guide.py'
+      - 'scripts/**'
       - 'tests/**'
-      - 'scripts/validate_skill_routing.py'
-      - 'tests/skill-routing-cases.yaml'
-      - 'tests/test_validate_skill_routing.py'
-      - 'tests/asu-recap-cases.yaml'
       - '.github/workflows/validate-skills.yml'
   push:
     branches:
@@ -32,17 +25,10 @@ on:
       - '.opencode-plugin/**'
       - 'package.json'
       - 'assets/templates-html/**'
-      - 'scripts/inline-template.mjs'
-      - 'scripts/export-resume-pdf.mjs'
       - 'lib/**'
-      - 'scripts/validate_skills.py'
-      - 'scripts/project_guide.py'
+      - 'scripts/**'
       - 'tests/**'
-      - 'scripts/validate_skill_routing.py'
-      - 'tests/skill-routing-cases.yaml'
-      - 'tests/test_validate_skill_routing.py'
       - '.github/workflows/validate-skills.yml'
-      - 'tests/asu-recap-cases.yaml'
 
 permissions:
   contents: read
@@ -66,14 +52,13 @@ jobs:
       - name: Run unit tests
         run: python3 -m unittest discover -s tests -v
 
-      - name: Validate skill routing cases
-        run: |
-          python3 -m unittest discover -s tests -p 'test_validate_skill_routing.py'
-          python3 scripts/validate_skill_routing.py
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: '22.19.0'
+
+      - name: Run JavaScript tests
+        run: node --test
 
       - name: Check JavaScript syntax
         run: |
