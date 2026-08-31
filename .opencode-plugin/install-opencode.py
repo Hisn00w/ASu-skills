@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 ASu-skills OpenCode 安装脚本
 自动将 skills/ 目录复制到 OpenCode 的 skills 目录
@@ -65,7 +65,7 @@ def install_skills(skills_dir, source_dir):
     print(f"📦 安装 ASu-skills 到: {target}")
 
     # 要安装的 skills
-    skill_names = ["contributor", "asu", "make-resume", "asu-resume", "interview", "offer"]
+    skill_names = ["contributor", "asu-recap", "project-guide", "asu", "make-resume", "asu-resume", "interview", "offer"]
 
     for skill_name in skill_names:
         src = source / skill_name
@@ -87,7 +87,7 @@ def install_skills(skills_dir, source_dir):
 
     print()
     print("✅ 安装完成！请重启 OpenCode 或执行 /reload-plugins")
-    print("   使用触发词：/asu  /make-resume  /interview  /offer  /contributor")
+    print("   使用触发词：/contributor  /asu-recap  /project-guide  /asu  /make-resume  /asu-resume  /interview  /offer")
     return True
 
 def main():

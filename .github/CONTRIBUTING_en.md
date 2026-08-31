@@ -56,8 +56,8 @@ When resume templates are involved, you must also confirm:
 
 - Typos, punctuation, formatting, and broken links in the README and `SKILL.md` files;
 - New resume templates — they must be editable and printable, and must never embed a screenshot as the page;
-- Real feedback after running the seven skills, **including what didn't work** — that's more useful than success stories;
-- Making the seven skills load in other agent environments.
+- Real feedback after running the eight skills, **including what didn't work** — that's more useful than success stories;
+- Making the eight skills load in other agent environments.
 
 ## Contributions we won't merge
 

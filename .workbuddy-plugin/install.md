@@ -2,7 +2,7 @@
 
 本目录提供**轻量安装脚本**，把 ASu-skills 原版 `skills/` 桥接到 WorkBuddy 的用户技能目录，**不修改原技能、不改动 LICENSE / README**。
 
-> 适用场景：WorkBuddy 用户想直接复用本仓库已有的 6 个中文求职技能（`asu` / `contributor` / `resume` / `asu-resume` / `interview` / `offer`），而无需等待完整移植。
+> 适用场景：WorkBuddy 用户想直接复用本仓库已有的 8 个中文求职技能（`contributor` / `asu-recap` / `project-guide` / `asu` / `make-resume` / `asu-resume` / `interview` / `offer`），而无需等待完整移植。
 
 ## 前置条件
 
@@ -53,10 +53,10 @@ pwsh .workbuddy-plugin/install.ps1
 
 ### 方式三：手动复制
 
-把仓库 `skills/` 下的 6 个目录整体复制到 `~/.workbuddy/skills/`：
+把仓库 `skills/` 下的 8 个目录整体复制到 `~/.workbuddy/skills/`：
 
 ```bash
-cp -r skills/asu skills/contributor skills/resume skills/asu-resume skills/interview skills/offer "$HOME/.workbuddy/skills/"
+cp -r skills/contributor skills/asu-recap skills/project-guide skills/asu skills/make-resume skills/asu-resume skills/interview skills/offer "$HOME/.workbuddy/skills/"
 ```
 
 ## 验证
@@ -70,14 +70,15 @@ cp -r skills/asu skills/contributor skills/resume skills/asu-resume skills/inter
 删除 `~/.workbuddy/skills/` 下对应的软链 / 目录即可：
 
 ```bash
-rm -rf "$HOME/.workbuddy/skills/asu" "$HOME/.workbuddy/skills/contributor" \
-       "$HOME/.workbuddy/skills/resume" "$HOME/.workbuddy/skills/asu-resume" \
+rm -rf "$HOME/.workbuddy/skills/contributor" "$HOME/.workbuddy/skills/asu-recap" \
+       "$HOME/.workbuddy/skills/project-guide" "$HOME/.workbuddy/skills/asu" \
+       "$HOME/.workbuddy/skills/make-resume" "$HOME/.workbuddy/skills/asu-resume" \
        "$HOME/.workbuddy/skills/interview" "$HOME/.workbuddy/skills/offer"
 ```
 
 ## 已知限制
 
-- 原版 `resume` / `asu-resume` 依赖仓库 `assets/` 下的二进制 HTML 模板与图片资源；WorkBuddy 加载技能后，若需要这些模板，请从本仓库 `assets/` 手动取用，或参考上游文档。
+- 原版 `make-resume` / `asu-resume` 依赖仓库 `assets/` 下的二进制 HTML 模板与图片资源；WorkBuddy 加载技能后，若需要这些模板，请从本仓库 `assets/` 手动取用，或参考上游文档。
 - 本入口仅做目录桥接，不对技能内容做 WorkBuddy 专属改写；如需深度适配，请移步独立的 WorkBuddy 移植版仓库。
 - 软链方式下，WorkBuddy 技能会实时跟随本仓库 `skills/` 的更新；复制方式下需手动重新复制。
 
