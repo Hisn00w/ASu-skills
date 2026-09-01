@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#071326">
+    <meta name="description" content="ASu-skills：面向中文求职场景的 AI Agent 技能工具箱，把经历、证据、简历和投递进度串成一条可核验的工作流。">
+    <meta property="og:title" content="ASu-skills · 中文求职工作流插件">
+    <meta property="og:description" content="把真实经历，变成可验证的竞争力。">
+    <meta property="og:image" content="../assets/asu-skills-overview-landscape.png">
+    <title>ASu-skills · 中文求职工作流插件</title>
+    <link rel="icon" href="../assets/asu-circle.png" type="image/png">
+    <link rel="stylesheet" href="styles.css?v=2">
+    <script defer src="script.js?v=2"></script>
+  </head>
+  <body>
+    <div class="page-glow page-glow--one" aria-hidden="true"></div>
+    <div class="page-glow page-glow--two" aria-hidden="true"></div>
+
+    <header class="site-header" id="top">
+      <div class="container nav-wrap">
+        <a class="brand" href="#top" aria-label="ASu-skills 首页">
+          <img src="../assets/asu-circle.png" alt="" width="36" height="36">
+          <span>ASu<span class="brand-mark">·</span>skills</span>
+        </a>
+
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span></span><span></span><span></span>
+          <span class="sr-only">打开导航</span>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="主导航">
+          <a href="#skills">能力入口</a>
+          <a href="#workflow">工作流</a>
+          <a href="#preview">预览</a>
+          <a href="#install">安装</a>
+          <a class="nav-github" href="https://github.com/Hisn00w/ASu-skills" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          <button class="theme-toggle" type="button" aria-label="切换浅色模式" title="切换浅色模式">☼</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section-pad">
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow"><span class="eyebrow-dot"></span>中文求职工作流插件</p>
+            <h1>把真实经历，<br><em>变成可验证的竞争力。</em></h1>
+            <p class="hero-lede">从开源贡献、项目复盘到简历制作、面试追问和校招跟进，用九个独立入口，把求职过程拆成清晰、可执行、可核验的工作流。</p>
+
+            <div class="hero-actions">
+              <a class="button button--primary" href="#install">开始使用 <span aria-hidden="true">→</span></a>
+              <a class="button button--quiet" href="https://github.com/Hisn00w/ASu-skills" target="_blank" rel="noopener noreferrer">查看仓库 <span aria-hidden="true">↗</span></a>
+            </div>
+
+            <div class="platform-row" aria-label="支持的平台">
+              <span class="platform-label">支持</span>
+              <img src="../assets/claude-code-badge.svg" alt="Claude Code">
+              <img src="../assets/chatgpt-badge.svg" alt="ChatGPT">
+              <img src="../assets/opencode-badge.svg" alt="OpenCode">
+              <img src="../assets/deepseek-badge.svg" alt="DeepSeek">
+              <img src="../assets/traework-badge.svg" alt="TraeWork">
+            </div>
+
+            <div class="hero-proof">
+              <div><strong>9</strong><span>独立入口</span></div>
+              <div><strong>1</strong><span>求职闭环</span></div>
+              <div><strong>MIT</strong><span>开源协议</span></div>
+            </div>
+          </div>
+
+          <div class="hero-visual reveal reveal--delay" aria-label="ASu-skills 工作流概览">
+            <div class="visual-orbit visual-orbit--one" aria-hidden="true"></div>
+            <div class="visual-orbit visual-orbit--two" aria-hidden="true"></div>
+            <div class="hero-image-shell">
+              <div class="window-bar"><span></span><span></span><span></span><small>asu-skills / workflow</small></div>
+              <img src="../assets/asu-skills-overview-landscape.png" alt="ASu-skills 面向求职的 AI Agent 技能工具箱概览">
+            </div>
+            <div class="floating-note floating-note--top"><span class="note-icon">01</span><span>证据优先</span></div>
+            <div class="floating-note floating-note--bottom"><span class="note-icon note-icon--gold">✦</span><span>表达更有底气</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad section-pad--tight" id="skills">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">从一个入口开始</p>
+            <h2>九个技能，覆盖求职的关键节点</h2>
+            <p>每个入口都可以独立使用，也可以根据你的阶段组合起来。</p>
+          </div>
+
+          <div class="skill-grid">
+            <a class="skill-card skill-card--cyan reveal" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#contributor做真实的开源贡献">
+              <span class="card-index">01</span><span class="card-command">/contributor</span>
+              <h3>开源贡献</h3><p>寻找范围清晰的问题，准备可验证的真实贡献。</p><span class="card-arrow">↗</span>
+            </a>
+            <a class="skill-card skill-card--violet reveal reveal--delay-1" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#asu-recap把-ai-编程对话还原成证据链">
+              <span class="card-index">02</span><span class="card-command">/asu-recap</span>
+              <h3>对话复盘</h3><p>把 AI 编程对话还原成个人动作与交付证据链。</p><span class="card-arrow">↗</span>
+            </a>
+            <a class="skill-card skill-card--gold reveal reveal--delay-2" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#project-guide项目导学面经">
+              <span class="card-index">03</span><span class="card-command">/project-guide</span>
+              <h3>项目导学面经</h3><p>从源码阅读路径出发，整理亮点、取舍和追问材料。</p><span class="card-arrow">↗</span>
+            </a>
+            <a class="skill-card skill-card--pink reveal" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#asu经历酥化">
+              <span class="card-index">04</span><span class="card-command">/asu</span>
+              <h3>经历酥化</h3><p>对齐目标岗位，提炼职责、结果和 HR 开场白。</p><span class="card-arrow">↗</span>
+            </a>
+            <a class="skill-card skill-card--blue reveal reveal--delay-1" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#make-resume制作简历">
+              <span class="card-index">05</span><span class="card-command">/make-resume</span>
+              <h3>简历制作</h3><p>生成真正可编辑的 HTML 简历，并支持 PDF 导出。</p><span class="card-arrow">↗</span>
+            </a>
+            <a class="skill-card skill-card--cyan reveal reveal--delay-2" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#asu-resume复刻同款高密度技术简历">
+              <span class="card-index">06</span><span class="card-command">/asu-resume</span>
+              <h3>同款简历复刻</h3><p>基于只读母版，复刻单栏高密度技术简历。</p><span class="card-arrow">↗</span>
+            </a>
+            <a class="skill-card skill-card--gold reveal" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#job-apply简历投递填写">
+              <span class="card-index">07</span><span class="card-command">/job-apply</span>
+              <h3>简历投递填写</h3><p>连接浏览器填写申请表，始终停在提交前核对。</p><span class="card-arrow">↗</span>
+            </a>
+            <a class="skill-card skill-card--violet reveal reveal--delay-1" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#interview把简历问穿">
+              <span class="card-index">08</span><span class="card-command">/interview</span>
+              <h3>面试准备</h3><p>通过契约化追问，确认每个简历 Claim 都讲得清。</p><span class="card-arrow">↗</span>
+            </a>
+            <a class="skill-card skill-card--pink reveal reveal--delay-2" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#offer校招进度管理">
+              <span class="card-index">09</span><span class="card-command">/offer</span>
+              <h3>校招进度</h3><p>记录投递、测评、面试、Offer 和招聘邮件状态。</p><span class="card-arrow">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad" id="workflow">
+        <div class="container workflow-layout">
+          <div class="section-heading reveal">
+            <p class="eyebrow">A clear path forward</p>
+            <h2>从经历到 Offer，<br>每一步都有证据。</h2>
+            <p>ASu 不替你编造一个更漂亮的故事，而是帮你把真实做过的事讲得准确、清楚、经得住追问。</p>
+            <a class="text-link" href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md#事实边界">了解事实边界 <span aria-hidden="true">→</span></a>
+          </div>
+
+          <div class="workflow-list">
+            <div class="workflow-item reveal">
+              <div class="workflow-number">01</div><div><h3>发现证据</h3><p>从开源贡献、项目仓库和 AI 编程记录里，确认真正做过的动作。</p></div>
+            </div>
+            <div class="workflow-item reveal reveal--delay-1">
+              <div class="workflow-number">02</div><div><h3>酥化表达</h3><p>围绕目标岗位重组经历，补齐职责边界、技术方案和结果证据。</p></div>
+            </div>
+            <div class="workflow-item reveal reveal--delay-2">
+              <div class="workflow-number">03</div><div><h3>生成材料</h3><p>把确认后的内容放进可编辑简历，并准备项目导学与面试材料。</p></div>
+            </div>
+            <div class="workflow-item reveal reveal--delay-3">
+              <div class="workflow-number">04</div><div><h3>面试与跟进</h3><p>用追问验证表达，用进度表管理投递，让每一次反馈都能回流。</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad section-pad--preview" id="preview">
+        <div class="container">
+          <div class="section-heading section-heading--row reveal">
+            <div><p class="eyebrow">Built for real work</p><h2>不只是文字，更是能交付的工具</h2></div>
+            <p>从可编辑简历到投递进度表，重要产物都能落盘、复查和继续修改。</p>
+          </div>
+          <div class="preview-grid">
+            <figure class="preview-card preview-card--large reveal">
+              <div class="preview-label"><span>01</span> 可编辑简历</div>
+              <img src="../assets/asu-resume-editor.png" alt="ASu 同款可编辑简历编辑器预览">
+              <figcaption>保留内容的可编辑性，而不是把截图当成最终结果。</figcaption>
+            </figure>
+            <figure class="preview-card reveal reveal--delay-1">
+              <div class="preview-label"><span>02</span> 投递进度</div>
+              <img src="../assets/application-tracker-overview.svg" alt="校招投递进度表预览">
+              <figcaption>把邮件、截图和聊天记录整理成下一步行动。</figcaption>
+            </figure>
+            <figure class="preview-card reveal reveal--delay-2">
+              <div class="preview-label"><span>03</span> 模板选择</div>
+              <img src="../assets/template-overview.jpg" alt="简历模板预览">
+              <figcaption>根据岗位和经历，选择更适合你的表达载体。</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-pad section-pad--install" id="install">
+        <div class="container install-panel reveal">
+          <div class="install-intro">
+            <p class="eyebrow">Ready when you are</p>
+            <h2>现在就开始整理<br><em>你的下一份机会。</em></h2>
+            <p>把仓库链接交给支持的 AI 编程工具，或者先阅读 README，选择最适合当前阶段的入口。</p>
+            <div class="install-links">
+              <a href="https://github.com/Hisn00w/ASu-skills/blob/main/README.md">阅读中文 README <span aria-hidden="true">→</span></a>
+              <a href="https://github.com/Hisn00w/ASu-skills/blob/main/README_en.md">Read in English <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="install-cards">
+            <div class="install-card">
+              <div class="install-card-head"><span class="install-icon">⌘</span><div><strong>Codex</strong><small>直接发送仓库链接</small></div><button class="copy-button" type="button" data-copy="请从这个 GitHub 仓库安装 ASu-skills 插件：\nhttps://github.com/Hisn00w/ASu-skills">复制</button></div>
+              <pre><code>请从这个 GitHub 仓库安装 ASu-skills 插件：
+https://github.com/Hisn00w/ASu-skills</code></pre>
+            </div>
+            <div class="install-card">
+              <div class="install-card-head"><span class="install-icon install-icon--violet">✦</span><div><strong>Claude Code / TraeWork</strong><small>安装后重新加载 skills</small></div><button class="copy-button" type="button" data-copy="https://github.com/Hisn00w/ASu-skills">复制</button></div>
+              <pre><code>https://github.com/Hisn00w/ASu-skills</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="principles section-pad section-pad--tight">
+        <div class="container principles-grid">
+          <div class="principle-card reveal"><span class="principle-symbol principle-symbol--truth" aria-hidden="true"><i></i></span><h3>真实</h3><p>不编造职位、公司、技术栈或数据，明确标注待补证据。</p></div>
+          <div class="principle-card reveal reveal--delay-1"><span class="principle-symbol principle-symbol--clear" aria-hidden="true"><i></i></span><h3>清晰</h3><p>区分团队成果与个人贡献，让每个结论都有上下文。</p></div>
+          <div class="principle-card reveal reveal--delay-2"><span class="principle-symbol principle-symbol--deliver" aria-hidden="true">↗</span><h3>可交付</h3><p>输出可以继续编辑、验证、打印和复用的真实文件。</p></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-wrap">
+        <a class="brand" href="#top"><img src="../assets/asu-circle.png" alt="" width="30" height="30"><span>ASu<span class="brand-mark">·</span>skills</span></a>
+        <p>把真实经历，变成可验证的竞争力。</p>
+        <div class="footer-links"><a href="https://github.com/Hisn00w/ASu-skills" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://deepwiki.com/Hisn00w/ASu-skills" target="_blank" rel="noopener noreferrer">DeepWiki ↗</a><a href="https://github.com/Hisn00w/ASu-skills/blob/main/LICENSE">MIT License</a></div>
+        <p class="copyright">© <span id="year">2026</span> ASu-skills</p>
+      </div>
+    </footer>
+  </body>
+</html>
