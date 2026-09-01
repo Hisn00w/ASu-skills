@@ -33,6 +33,10 @@
   <a href="https://trendshift.io/repositories/139058?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-139058" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/139058/daily" alt="Hisn00w%2FASu-skills | Trendshift" width="250" height="55"></a>
 </div>
 
+<p align="center">
+  <img src="assets/asu-skills-overview-landscape.png" alt="ASu-skills 九个技能总览" width="1100">
+</p>
+
 ## 目录
 
 - [安装](#安装)
@@ -164,9 +168,9 @@ TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，九�
 
 ## `/contributor`：做真实的开源贡献
 
-不用一上来重构 Kubernetes。`/contributor` 会根据目标公司和岗位寻找活跃项目，优先扫描 typo、标点、Markdown、formatting、坏链接和 README 小修，先展示候选、拟改动和验证结果；用户明确确认后才 fork、push 和提交 PR。
+`/contributor` 帮用户根据目标岗位、技术栈或指定方向寻找合适的 GitHub 项目与真实问题，先核对维护迹象、贡献规则、issue/PR 状态和重复风险，再准备独立分支上的最小改动与验证结果；经用户逐项确认后才 fork、push 和提交 PR，并跟踪 CI、review 和合并状态。
 
-小改动也可以有大叙事：一个错字是文档质量治理，一处坏链接是开发者体验优化，多个仓库就是跨项目协作闭环。PR 本身保持正常，合并后再把真实链接和数据交给 `/asu` 酥化；没合并的就写“协作中”。
+它适合从范围清晰、能够客观验证的文档、示例、测试或小型代码问题开始。未合并的 PR 记录为“已提交”或“协作中”，只有 GitHub 页面显示已合并且项目明确说明采用范围时，才使用更强的成果表述。
 
 典型用法：
 
@@ -176,7 +180,7 @@ TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，九�
 目标岗位：AI 应用工程师
 技术栈：TypeScript、React、Python
 每周可投入：4 小时
-先帮我做 3 个容易合并的小 PR，再补 1 个能在面试里展开的技术贡献。
+先帮我找 3 个有证据支撑、范围清晰且能够验证的候选问题；先展示仓库、issue、拟改动、验证方式和完整 diff，我确认后再逐个提交 PR。
 ```
 
 ## `/project-guide`：项目导学面经
