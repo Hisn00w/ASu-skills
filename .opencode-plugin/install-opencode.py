@@ -3,11 +3,25 @@
 ASu-skills OpenCode 安装脚本
 自动将 skills/ 目录复制到 OpenCode 的 skills 目录
 """
+import argparse
 import os
-import sys
-import shutil
 import platform
+import shutil
 from pathlib import Path
+
+
+SKILL_NAMES = (
+    "contributor",
+    "asu-recap",
+    "project-guide",
+    "asu",
+    "make-resume",
+    "asu-resume",
+    "job-apply",
+    "interview",
+    "offer",
+)
+
 
 def find_opencode_skills_dir():
     """查找 OpenCode skills 目录"""
@@ -53,60 +67,79 @@ def find_opencode_skills_dir():
 
     return None
 
+
 def install_skills(skills_dir, source_dir):
     """将 skills 复制到目标目录"""
     source = Path(source_dir)
     target = Path(skills_dir)
 
-    if not source.exists():
-        print(f"❌ 源目录不存在: {source}")
+    if not source.is_dir():
+        print(f"[ERROR] 源目录不存在: {source}")
         return False
 
-    print(f"📦 安装 ASu-skills 到: {target}")
+    try:
+        target.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        print(f"[ERROR] 无法创建 OpenCode skills 目录: {target} ({exc})")
+        return False
 
-    # 要安装的 skills
-    skill_names = ["contributor", "asu-recap", "project-guide", "asu", "make-resume", "asu-resume", "job-apply", "interview", "offer"]
+    print(f"[INFO] 安装 ASu-skills 到: {target}")
 
-    for skill_name in skill_names:
+    for skill_name in SKILL_NAMES:
         src = source / skill_name
         dst = target / skill_name
 
-        if not src.exists():
-            print(f"   ⚠️  跳过 {skill_name}（源目录不存在）")
+        if not src.is_dir():
+            print(f"[WARN] 跳过 {skill_name}（源目录不存在）")
             continue
 
         if dst.exists():
-            # 检查是否已安装
-            print(f"   ⚠️  {skill_name} 已存在，覆盖安装")
+            print(f"[WARN] {skill_name} 已存在，覆盖安装")
 
-        # 复制
-        if dst.exists():
-            shutil.rmtree(dst)
-        shutil.copytree(src, dst)
-        print(f"   ✅ {skill_name}")
+        try:
+            if dst.exists():
+                shutil.rmtree(dst)
+            shutil.copytree(src, dst)
+        except OSError as exc:
+            print(f"[ERROR] 安装 {skill_name} 失败: {exc}")
+            return False
+        print(f"[OK] {skill_name}")
 
     print()
-    print("✅ 安装完成！请重启 OpenCode 或执行 /reload-plugins")
+    print("[OK] 安装完成！请重启 OpenCode 或执行 /reload-plugins")
     print("   使用触发词：/contributor  /asu-recap  /project-guide  /asu  /make-resume  /asu-resume  /job-apply  /interview  /offer")
     return True
 
-def main():
+
+def build_parser():
+    parser = argparse.ArgumentParser(
+        description="将 ASu-skills 安装到 OpenCode skills 目录。",
+    )
+    parser.add_argument(
+        "--target",
+        type=Path,
+        help="显式指定 OpenCode skills 目录；未提供时自动查找。",
+    )
+    return parser
+
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
     script_dir = Path(__file__).parent
     source_dir = script_dir.parent / "skills"
 
-    # 查找 OpenCode skills 目录
-    skills_dir = find_opencode_skills_dir()
+    if args.target is not None:
+        skills_dir = args.target.expanduser()
+    else:
+        skills_dir = find_opencode_skills_dir()
 
     if not skills_dir:
-        print("❌ 未找到 OpenCode skills 目录")
+        print("[ERROR] 未找到 OpenCode skills 目录")
         print("   请手动指定目录：python install-opencode.py --target /path/to/skills")
-        sys.exit(1)
+        return 1
 
-    # 检查是否指定了目标目录
-    if len(sys.argv) > 2 and sys.argv[1] == "--target":
-        skills_dir = Path(sys.argv[2])
+    return 0 if install_skills(skills_dir, source_dir) else 1
 
-    install_skills(skills_dir, source_dir)
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
