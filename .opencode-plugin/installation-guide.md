@@ -11,6 +11,18 @@ cd ASu-skills
 python .opencode-plugin/install-opencode.py
 ```
 
+如果 OpenCode 使用自定义 skills 目录，或自动查找失败，可以显式指定安装位置：
+
+```bash
+# Windows
+python .opencode-plugin/install-opencode.py --target "D:\OpenCode\skills"
+
+# macOS / Linux
+python .opencode-plugin/install-opencode.py --target /custom/opencode/skills
+```
+
+`--target` 优先于自动查找；指定目录不存在时，安装脚本会自动创建。路径中包含空格时请使用引号。
+
 ## 方法 2：手动安装
 
 ```bash
