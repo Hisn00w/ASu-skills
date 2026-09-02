@@ -1,4 +1,4 @@
 interface:
   display_name: "interview"
-  short_description: "根据简历与岗位进行证据化模拟面试和弱项复练"
-  default_prompt: "使用 $interview 根据我的简历和目标岗位模拟一场技术面试，一次问一个问题，结束后按证据复盘并安排弱项复练。"
+  short_description: "制定学习计划并进行证据化模拟面试和弱项复练"
+  default_prompt: "使用 $interview 根据我的面试时间、简历和目标岗位制定准备计划，完成第一轮复习后一次问一个问题，并按证据复盘弱项。"
