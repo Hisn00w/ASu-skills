@@ -37,7 +37,7 @@ test('make-resume delivery HTML includes local save and photo-frame states', () 
   assert.match(result.stdout, /showSaveFilePicker/);
 });
 
-test('asu-resume template saves HTML and hides the photo placeholder when appropriate', () => {
+test('make-resume default ASu template saves HTML and hides the photo placeholder when appropriate', () => {
   const html = read('assets', 'asu-resume-template.html');
 
   assert.match(html, /id="saveHtmlButton"[^>]*>保存 HTML</);

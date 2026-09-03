@@ -1,6 +1,0 @@
-interface:
-  display_name: "ASu-resume"
-  short_description: "酥化经历并复刻高密度技术简历模板"
-  icon_small: "../../assets/asu-circle.png"
-  icon_large: "../../assets/asu-circle.png"
-  default_prompt: "使用 $asu-resume，根据我的经历复刻同款中文技术简历，输出可编辑 HTML，并生成一段可直接发给 HR 的自我介绍。"

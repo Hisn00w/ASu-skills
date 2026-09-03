@@ -53,14 +53,13 @@ cp -r skills/* ~/.config/opencode/skills/
 | 用户意图 | 触发词 |
 |---------|--------|
 | 经历酥化 | /asu、我要酥化、改写经历 |
-| 简历制作 | /make-resume、做简历、同款简历 |
+| 简历制作 | /make-resume、做简历、同款简历、指定模板 |
 | 面试准备 | /interview、面试预测、模拟面试 |
 | 求职进度 | /offer、秋招进度 |
 | 简历投递填写 | /job-apply、自动填写招聘网站申请表 |
 | 开源贡献 | /contributor、找 PR 机会 |
 | 对话复盘 | /asu-recap、复盘 AI 编程对话 |
 | 项目导学面经 | /project-guide、项目导学、生成面经 |
-| 同款简历 | /asu-resume、阿酥同款简历 |
 
 ## 注意事项
 

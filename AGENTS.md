@@ -2,12 +2,12 @@
 
 ## 项目说明
 
-ASu-skills 是中文求职工作流插件，包含开源贡献、经历酥化、简历制作、同款简历复刻和秋招进度管理等入口。
+ASu-skills 是中文求职工作流插件，包含开源贡献、经历酥化、简历制作和秋招进度管理等入口。所有简历文件制作统一使用 `/make-resume`：默认采用 ASu 模板，用户也可以指定其他模板。
 
 ## 修改规则
 
 - 修改前先检查当前分支、工作区状态和远程更新。
-- `assets/asu-resume-template.html` 是同款简历只读母版。生成用户专属简历时复制模板，不直接修改母版。
+- `assets/asu-resume-template.html` 是 `/make-resume` 的默认只读母版。生成用户专属简历时复制模板，不直接修改母版。
 - README 中的图片使用仓库内相对路径，图片资源放在 `assets/` 下。
 - 品牌 Logo 优先使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的 SVG，不自行绘制或使用低清截图。
 - 修改后检查 Markdown 冲突标记、路径、JSON 格式和相关技能的可用性。

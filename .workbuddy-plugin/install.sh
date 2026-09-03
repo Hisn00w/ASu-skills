@@ -6,7 +6,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$REPO_ROOT/skills"
 DST="${HOME}/.workbuddy/skills"
-SKILLS=(contributor asu-recap project-guide asu make-resume asu-resume interview offer)
+SKILLS=(contributor asu-recap project-guide asu make-resume interview offer)
 
 mkdir -p "$DST"
 
@@ -22,4 +22,4 @@ done
 
 echo ""
 echo "Done. 重启 WorkBuddy（或刷新技能列表）后即可触发："
-echo "  contributor / asu-recap / project-guide / asu / make-resume / asu-resume / interview / offer"
+echo "  contributor / asu-recap / project-guide / asu / make-resume / interview / offer"

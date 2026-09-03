@@ -29,7 +29,7 @@ cases:
 
   - prompt: "帮我把 Agent 项目包装一下，顺便写 HR 开场白"
     expected: asu
-    note: 包装经历 + HR 话术，原与 asu-resume 重叠的边界，现归 /asu。
+    note: 包装经历 + HR 话术，现归 /asu；只有文件制作才归 /make-resume。
 
   - prompt: "只帮我把项目经历改成简历 bullet 和 HR 开场白"
     expected: asu
@@ -48,12 +48,12 @@ cases:
     note: 目标是简历文件交付，归 /make-resume，而不是项目导学。
 
   - prompt: "我要阿酥同款简历"
-    expected: asu-resume
-    note: 明确"阿酥同款"，命中 /asu-resume。
+    expected: make-resume
+    note: 明确"阿酥同款"，使用 /make-resume 的默认 ASu 模板。
 
   - prompt: "按照阿酥模板复刻并输出 HTML"
-    expected: asu-resume
-    note: 明确复刻模板 + 生成 HTML，命中 /asu-resume。
+    expected: make-resume
+    note: 明确复刻模板 + 生成 HTML，统一命中 /make-resume。
 
   - prompt: "帮我在 GitHub 上找一个容易合并的开源仓库，先做一个小 PR"
     expected: contributor
