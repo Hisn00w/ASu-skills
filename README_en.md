@@ -36,6 +36,10 @@
   <a href="https://trendshift.io/repositories/139058?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-139058" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/139058/daily" alt="Hisn00w%2FASu-skills | Trendshift" width="250" height="55"></a>
 </div>
 
+<p align="center">
+  <img src="assets/asu-skills-overview-landscape-v2.png" alt="ASu-skills overview of eight skills" width="1100">
+</p>
+
 ## Contents
 
 - [Harness Project Update](#a-harness-project-update)
@@ -318,6 +322,13 @@ Organize the recruiting emails and screenshots I uploaded into a campus recruitm
 ![Campus recruitment tracker preview](assets/application-tracker-overview.svg)
 
 ## `/job-apply`: Job-application autofill
+
+**Important: this project forbids abusing the skills for mass applications, harassing HR, or sending generic, exaggerated opening messages. Use only real experience and tailor communication moderately to the specific role; piling up GitHub stars, over-packaging experience, and sending the result without review can alienate HR and damage the reputation of both the candidate and the project. `/job-apply` is only for one specific application explicitly confirmed by the user; it never bypasses confirmation, submits applications in bulk, or sends unreviewed messages on the user's behalf.**
+
+<div align="center">
+  <img src="assets/hr-opening-warning.jpg" alt="Example of an HR-rejected templated job-application opener" width="560">
+  <p><em>Negative example: templated and exaggerated opening messages can cause a negative reaction. Do not copy this style.</em></p>
+</div>
 
 `/job-apply` uses confirmed resume data to fill one specific recruitment or application form. It supports page inspection, field mapping, text input, dropdowns, resume/portfolio uploads, and a final pre-submission review. It stops before the final submit button by default; asking to “fill my resume” does not imply permission to submit an application.
 

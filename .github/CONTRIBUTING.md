@@ -31,6 +31,17 @@ python3 scripts/validate_skills.py
 
 路由回归用例存放在 `tests/skill-routing-cases.yaml`，记录各求职入口的预期路由，由 GitHub Actions 执行不调用 LLM 的确定性 schema 校验。校验会检查 YAML 结构、用例字段、重复 prompt，以及 `expected` 是否对应 `skills/` 下的实际目录；它不判断 prompt 的语义路由结果。
 
+## 禁止无实质内容的提交
+
+本项目不接受仅为产生 diff 或“刷贡献记录”的无效提交。除非改动修复了明确的问题、满足渲染或格式规范，或与同一 Pull Request 中的功能改动直接相关，否则禁止：
+
+- 仅把正确标点替换成另一种正确标点；
+- 仅删除或添加空格、空行、换行、缩进；
+- 仅调整不影响内容和渲染结果的排版；
+- 通过机械化批量替换制造大量无关改动。
+
+如果确实发现标点、空格或格式问题，请在 Pull Request 中说明复现位置、实际影响和验证方式；没有明确影响的微小改动不要单独提交。
+
 ## Pull Request 提交流程
 
 创建 Pull Request 时请遵循以下顺序：
@@ -52,7 +63,7 @@ python3 scripts/validate_skills.py
 
 ## 欢迎的贡献
 
-- README 与 `SKILL.md` 中的 typo、标点、格式与坏链接修正；
+- README 与 `SKILL.md` 中会影响理解、渲染或链接访问的 typo、标点、格式与坏链接修正；
 - 新的简历模板，要求可编辑、可打印、不以截图充当页面；
 - 完整运行各 skill 后的真实反馈，包括未成功的部分——此类反馈比成功案例更具价值；
 - 让各 skill 在其他 agent 环境中正常加载。
