@@ -7,7 +7,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 $src      = Join-Path $repoRoot 'skills'
 $dst      = Join-Path $env:USERPROFILE '.workbuddy\skills'
-$skills   = @('contributor', 'asu-recap', 'project-guide', 'asu', 'make-resume', 'interview', 'offer')
+$skills   = @('contributor', 'evidence-recap', 'project-guide', 'great-resume', 'make-resume', 'interview', 'offer')
 
 New-Item -ItemType Directory -Force -Path $dst | Out-Null
 
@@ -37,4 +37,4 @@ foreach ($s in $skills) {
 
 Write-Host ""
 Write-Host "Done. 重启 WorkBuddy（或刷新技能列表）后即可触发："
-Write-Host "  contributor / asu-recap / project-guide / asu / make-resume / interview / offer"
+Write-Host "  contributor / evidence-recap / project-guide / great-resume / make-resume / interview / offer"

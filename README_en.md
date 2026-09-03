@@ -5,7 +5,7 @@
 <div align="center">
   <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills logo">
   <h3>A job-search workflow plugin for Chinese job seekers</h3>
-  <p>Eight standalone entry points for open-source contributions, AI coding conversation review, project interview prep, experience Sulishing, resume building, job-application autofill, interview preparation, and campus recruitment tracking.</p>
+  <p>Eight standalone entry points for open-source contributions, AI coding conversation review, project interview prep, resume improvement, resume building, job-application autofill, interview preparation, and campus recruitment tracking.</p>
 </div>
 
 
@@ -44,9 +44,9 @@
 - [Eight skills](#how-the-eight-entries-work-together)
   - [`/contributor`: Make real open-source contributions](#contributor-make-real-open-source-contributions)
   - [`/project-guide`: Project Study Notes And Interview Answers](#project-guide-project-study-notes-and-interview-answers)
-  - [`/asu`: Sulish your experience](#asu-sulish-your-experience)
+  - [`/great-resume`: Improve your experience](#great-resume-improve-your-experience)
   - [`/make-resume`: Build a resume](#make-resume-build-a-resume)
-  - [`/asu-recap`: Turn AI coding conversations into evidence chains](#asu-recap-turn-ai-coding-conversations-into-evidence-chains)
+  - [`/evidence-recap`: Turn AI coding conversations into evidence chains](#evidence-recap-turn-ai-coding-conversations-into-evidence-chains)
   - [`/interview`: Stress-test your resume](#interview-stress-test-your-resume)
   - [`/offer`: Campus recruitment progress management](#offer-campus-recruitment-progress-management)
   - [`/job-apply`: Job-application autofill](#job-apply-job-application-autofill)
@@ -71,10 +71,10 @@ ASu-skills is now a plugin pack. Installing it provides eight individually calla
 
 | Entry          | Purpose                   | Primary deliverables                                              |
 | -------------- | ------------------------ | ----------------------------------------------------------------- |
-| `/contributor` | Open-source contributions | Finds candidates, shows diffs, submits a PR after your confirmation, and hands the contribution to `/asu` |
-| `/asu-recap`   | Conversation review      | Turns AI coding conversations and delivery records into a verifiable nine-part evidence chain |
+| `/contributor` | Open-source contributions | Finds candidates, shows diffs, submits a PR after your confirmation, and hands the contribution to `/great-resume` |
+| `/evidence-recap` | Conversation review      | Turns AI coding conversations and delivery records into a verifiable nine-part evidence chain |
 | `/project-guide` | Project interview prep | Generates `导学-{short-name}.md`, `面经-{short-name}.md`, and handoff evidence from a project repository |
-| `/asu`         | Experience Sulishing     | Role targeting, project bullet rewrites, evidence of results, HR opener |
+| `/great-resume` | Resume improvement       | Role targeting, project bullet rewrites, evidence of results, HR opener |
 | `/make-resume`      | Resume building          | Defaults to the ASu template, supports custom templates, editable HTML resume and PDF export |
 | `/job-apply`   | Job-application autofill | Connects to a browser, fills an application, and stops for review before submission |
 | `/interview`   | Interview preparation    | Interview prediction, contract-driven drilling, evidence review, and targeted retry |
@@ -89,19 +89,19 @@ ASu-skills works with Codex, Claude Code, and TraeWork: the repo root has `.code
 The easiest way is to send the GitHub link directly to Codex and ask it to install the plugin:
 
 ```text
-Install the ASu-skills plugin from this GitHub repository and enable the eight skills: contributor, asu-recap, project-guide, asu, make-resume, job-apply, interview, offer:
+Install the ASu-skills plugin from this GitHub repository and enable the eight skills: contributor, evidence-recap, project-guide, great-resume, make-resume, job-apply, interview, offer:
 https://github.com/Hisn00w/ASu-skills
 ```
 
-After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `asu-recap`, `project-guide`, `asu`, `make-resume`, `job-apply`, `interview`, or `offer` from the command list.
+After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-apply`, `interview`, or `offer` from the command list.
 
 If your Codex version does not surface skills in the `/` menu, you can also use the official explicit invocation syntax:
 
 ```text
-$contributor Find open-source contribution candidates for my target role; show me the diffs first. I'll confirm before you open the PR, and hand the merged contribution to /asu for Sulishing.
-$asu-recap Turn this AI coding conversation into a verifiable project evidence chain, separating my actions, the delivery stage, and evidence of impact.
-$asu Rewrite my internship experience for an AI application engineer role.
-$project-guide Generate project study notes and interview answers from the current repository, with handoff evidence for /asu and /interview.
+$contributor Find open-source contribution candidates for my target role; show me the diffs first. I'll confirm before you open the PR, and hand the merged contribution to /great-resume for resume improvement.
+$evidence-recap Turn this AI coding conversation into a verifiable project evidence chain, separating my actions, the delivery stage, and evidence of impact.
+$great-resume Rewrite my internship experience for an AI application engineer role.
+$project-guide Generate project study notes and interview answers from the current repository, with handoff evidence for /great-resume and /interview.
 $make-resume Turn my experience into an editable Chinese HTML resume. Use the ASu template by default, or use another template if I specify one.
 $job-apply Use my confirmed resume data to fill the current job application in a connected browser, then stop for my review before submission.
 $interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
@@ -141,7 +141,7 @@ TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json`
 
 1. Copy this repository into the TraeWork plugin directory: `~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`, keeping `.trae-plugin/plugin.json`, `skills/`, `assets/`, and `references/`;
 2. Restart TraeWork so the new plugin is reloaded;
-3. Start a new conversation, type `/` in the input box, and pick `contributor`, `asu-recap`, `project-guide`, `asu`, `make-resume`, `job-apply`, `interview`, or `offer` from the command list.
+3. Start a new conversation, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-apply`, `interview`, or `offer` from the command list.
 
 `<publisher>` is a namespace you choose under the plugin directory (for example `local`), and `<version>` is the version in `plugin.json`. To uninstall, delete the plugin directory; it never touches the application tracker you have edited in your project or user directory.
 
@@ -154,9 +154,9 @@ Pick your first entry based on the problem you most need to solve right now:
 | Situation | Start with |
 | --------- | ---------- |
 | No verifiable projects or collaboration experience yet | `/contributor` |
-| Have AI coding conversations or delivery records that need evidence review | `/asu-recap` |
+| Have AI coding conversations or delivery records that need evidence review | `/evidence-recap` |
 | Have a project repository and need a code-reading path plus interview talking points | `/project-guide` |
-| Have experience, but unsure how to match it to a target role | `/asu` |
+| Have experience, but unsure how to match it to a target role | `/great-resume` |
 | Resume content is settled; need a regular editable resume | `/make-resume` |
 | Want to recreate the ASu-style high-density technical resume | `/make-resume` (default template) |
 | Have a job URL and need to fill its application form | `/job-apply` |
@@ -165,17 +165,17 @@ Pick your first entry based on the problem you most need to solve right now:
 
 You can also combine entries:
 
-- **No internships, want real experience**: use `/contributor` to make role-relevant open-source contributions first, then hand them to `/asu` to turn into verifiable resume statements;
-- **Have AI project records, need to establish the facts**: use `/asu-recap` to separate personal actions, delivery stage, and evidence of impact before deciding whether to hand the result to `/asu`;
-- **Have projects, ready to apply**: use `/project-guide` to turn the repository into study notes and interview answers, then use `/asu` to align with the target role and `/make-resume` to generate the resume; it defaults to the ASu template but accepts a specified template;
-- **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/asu` and `/make-resume` whenever the resume needs an update.
+- **No internships, want real experience**: use `/contributor` to make role-relevant open-source contributions first, then hand them to `/great-resume` to turn into verifiable resume statements;
+- **Have AI project records, need to establish the facts**: use `/evidence-recap` to separate personal actions, delivery stage, and evidence of impact before deciding whether to hand the result to `/great-resume`;
+- **Have projects, ready to apply**: use `/project-guide` to turn the repository into study notes and interview answers, then use `/great-resume` to align with the target role and `/make-resume` to generate the resume; it defaults to the ASu template but accepts a specified template;
+- **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/great-resume` and `/make-resume` whenever the resume needs an update.
 - **Ready to fill an application form**: use `/job-apply` with a connected browser for one specific role, then use `/offer` to record the application status.
 
 ## `/contributor`: Make real open-source contributions
 
 You don't need to start by refactoring Kubernetes. `/contributor` finds active projects that match your target company and role, prioritizing typos, punctuation, Markdown, formatting, broken links, and small README fixes. It shows candidates, proposed changes, and verification results first; it only forks, pushes, and opens a PR after you explicitly confirm.
 
-Small changes can still tell a big story: a typo fix is documentation quality governance, a broken-link fix is developer-experience optimization, and touching multiple repositories is a cross-project collaboration loop. Keep the PR itself normal; once merged, hand the real links and data to `/asu` for Sulishing. Anything unmerged simply goes down as “collaborating”.
+Small changes can still tell a big story: a typo fix is documentation quality governance, a broken-link fix is developer-experience optimization, and touching multiple repositories is a cross-project collaboration loop. Keep the PR itself normal; once merged, hand the real links and data to `/great-resume` for resume improvement. Anything unmerged simply goes down as “collaborating”.
 
 Typical usage:
 
@@ -190,7 +190,7 @@ Start with 3 small PRs that are easy to merge, then add 1 technical contribution
 
 ## `/project-guide`: Project Study Notes And Interview Answers
 
-`/project-guide` works from an existing project repository or project materials and generates two Markdown files: `导学-{short-name}.md` and `面经-{short-name}.md`. It turns code-reading paths, technical highlights, design trade-offs, STAR answers, and source evidence into interview preparation material, then summarizes handoff evidence for `/asu` and high-risk claims for `/interview`.
+`/project-guide` works from an existing project repository or project materials and generates two Markdown files: `导学-{short-name}.md` and `面经-{short-name}.md`. It turns code-reading paths, technical highlights, design trade-offs, STAR answers, and source evidence into interview preparation material, then summarizes handoff evidence for `/great-resume` and high-risk claims for `/interview`.
 
 Typical usage:
 
@@ -202,9 +202,9 @@ Project description: This is a React, Node.js, and LLM API based data Q&A projec
 Target role: Front-end / AI application
 ```
 
-## `/asu`: Sulish your experience
+## `/great-resume`: Improve your experience
 
-> **Sulish（酥化）** — a brand term coined from “ASu” + “polish”: reshaping your real experience so it reads sharp, confident, and aligned with your target role — strong positioning, strong evidence, and clear expression. Never fabrication.
+> **Great-resume** — improving your real experience so it reads sharp, confident, and aligned with your target role through strong positioning, strong evidence, and clear expression. Never fabrication.
 
 Suitable for:
 
@@ -219,7 +219,7 @@ For best results, provide the target role, job description, current resume, proj
 Typical usage:
 
 ```text
-/asu
+/great-resume
 
 Target role: AI Application Engineer
 Based on my internship and project experience below, give me a steady framing and a bold framing, rewrite the resume bullets, and draft an opener to send to HR.
@@ -258,14 +258,14 @@ Using the education, internship, and project experience I provide, pick a templa
 
 ![Resume template preview](assets/template-overview.jpg)
 
-## `/asu-recap`: Turn AI coding conversations into evidence chains
+## `/evidence-recap`: Turn AI coding conversations into evidence chains
 
-`/asu-recap` reviews AI coding conversations, project delivery records, and implementation evidence. It organizes the material into nine parts: problem context, solution decisions, personal actions, delivery status, rollout scope, evidence of impact, ownership boundaries, missing evidence, and interview follow-ups. Sensitive details such as secrets, email addresses, customer identifiers, and internal paths are generalized by default.
+`/evidence-recap` reviews AI coding conversations, project delivery records, and implementation evidence. It organizes the material into nine parts: problem context, solution decisions, personal actions, delivery status, rollout scope, evidence of impact, ownership boundaries, missing evidence, and interview follow-ups. Sensitive details such as secrets, email addresses, customer identifiers, and internal paths are generalized by default.
 
 Typical usage:
 
 ```text
-/asu-recap
+/evidence-recap
 
 Turn this AI coding conversation into a verifiable project evidence chain. Separate my actions, the AI's work, the delivery stage, and evidence of impact.
 ```
@@ -346,23 +346,23 @@ The user must handle passwords, SMS/email codes, MFA, passkeys, and CAPTCHAs. AS
 Recommended order:
 
 1. Use `/contributor` to make real open-source contributions relevant to your target role, and generate an evidence card once the PR merges;
-2. When you have AI coding conversations or delivery records, use `/asu-recap` to recover project facts, ownership boundaries, and evidence gaps;
+2. When you have AI coding conversations or delivery records, use `/evidence-recap` to recover project facts, ownership boundaries, and evidence gaps;
 3. Use `/project-guide` to turn an existing project repository into study notes, interview answers, and source evidence;
-4. Use `/asu` to lock in role targeting from the evidence card and your existing experience, and to polish resume phrasing and HR talking points;
+4. Use `/great-resume` to lock in role targeting from the evidence card and your existing experience, and to improve resume phrasing and HR talking points;
 5. Use `/make-resume` to turn the confirmed copy into an editable resume and export PDF;
 6. Use `/job-apply` to connect a browser, fill one specific application, and review it before submission;
 7. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
 8. Use `/offer` to record the status of applications, assessments, interviews, and offers.
 
-You can also state a combined goal in a single request, e.g.: “first use `/project-guide` to generate project study notes and interview answers, then `/asu` to rewrite the experience, and finally `/make-resume` to generate an HTML resume”.
+You can also state a combined goal in a single request, e.g.: “first use `/project-guide` to generate project study notes and interview answers, then `/great-resume` to improve the experience, and finally `/make-resume` to generate an HTML resume”.
 
-When combining multiple entries, when your materials conflict, or when a resume contains strong claims, you can copy [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) to set up a claim–evidence ledger. It lets open-source contributions, experience rewrites, and resume files share the same facts, confirmation statuses, and personal boundaries; see [`skills/asu/references/claim-evidence-ledger.md`](skills/asu/references/claim-evidence-ledger.md) for the detailed rules.
+When combining multiple entries, when your materials conflict, or when a resume contains strong claims, you can copy [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) to set up a claim–evidence ledger. It lets open-source contributions, experience improvements, and resume files share the same facts, confirmation statuses, and personal boundaries; see [`skills/great-resume/references/claim-evidence-ledger.md`](skills/great-resume/references/claim-evidence-ledger.md) for the detailed rules.
 
 To see how one person's materials flow through the entries, read the [end-to-end fictional job-search case](docs/end-to-end-fictional-case.md). Starting from course projects and an open-source contribution, it walks through the evidence card, the experience rewrite, the editable resume, and the application tracker, clearly distinguishing completed, in-progress, and to-be-filled items.
 
 ## Truthfulness boundaries
 
-ASu-skills' “Sulishing” means strong positioning, strong evidence, and clear expression — never fabricated experience. Please keep to these rules:
+ASu-skills' “great-resume” approach means strong positioning, strong evidence, and clear expression — never fabricated experience. Please keep to these rules:
 
 - Keep real titles, companies, dates, and education;
 - Distinguish team results from personal contributions;
@@ -388,14 +388,14 @@ asu-skills/
 ├── lib/
 │   └── index.js                 # DSH plugin entry module
 ├── skills/
-│   ├── asu/
-│   │   ├── SKILL.md             # /asu experience Sulishing
+│   ├── great-resume/
+│   │   ├── SKILL.md             # /great-resume experience improvement
 │   │   └── agents/openai.yaml
 │   ├── contributor/
 │   │   ├── SKILL.md             # /contributor open-source contributions
 │   │   └── agents/openai.yaml
-│   ├── asu-recap/
-│   │   ├── SKILL.md             # /asu-recap AI coding conversation review
+│   ├── evidence-recap/
+│   │   ├── SKILL.md             # /evidence-recap AI coding conversation review
 │   │   └── agents/openai.yaml
 │   ├── project-guide/
 │   │   ├── SKILL.md             # /project-guide project study notes and interview answers

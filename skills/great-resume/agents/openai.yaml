@@ -1,0 +1,4 @@
+interface:
+  display_name: "great-resume"
+  short_description: "提升经历并生成 HR 开场白"
+  default_prompt: "用 /great-resume 提升我的真实经历，定位目标岗位并生成中文简历要点和 HR 开场白。"

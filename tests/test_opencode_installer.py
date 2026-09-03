@@ -61,7 +61,7 @@ class OpenCodeInstallerTests(unittest.TestCase):
 
             self.assertEqual(exit_code, 0)
             find_target.assert_called_once_with()
-            self.assertTrue((target / "asu" / "SKILL.md").is_file())
+            self.assertTrue((target / "great-resume" / "SKILL.md").is_file())
 
     def test_missing_auto_discovery_returns_failure(self):
         stdout = io.StringIO()

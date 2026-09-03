@@ -14,8 +14,8 @@ body:
       description: 这个功能与哪个技能相关？
       options:
         - /contributor 开源贡献
-        - /asu-recap 对话复盘
-        - /asu 经历酥化
+        - /evidence-recap 证据复盘
+        - /great-resume 简历提升
         - /make-resume 简历制作
         - /interview 面试预测
         - /offer 秋招进度管理

@@ -2,7 +2,7 @@
 
 本目录提供**轻量安装脚本**，把 ASu-skills 原版 `skills/` 桥接到 WorkBuddy 的用户技能目录，**不修改原技能、不改动 LICENSE / README**。
 
-> 适用场景：WorkBuddy 用户想直接复用本仓库已有的 7 个中文求职技能（`contributor` / `asu-recap` / `project-guide` / `asu` / `make-resume` / `interview` / `offer`），而无需等待完整移植。
+> 适用场景：WorkBuddy 用户想直接复用本仓库已有的 7 个中文求职技能（`contributor` / `evidence-recap` / `project-guide` / `great-resume` / `make-resume` / `interview` / `offer`），而无需等待完整移植。
 
 ## 前置条件
 
@@ -17,16 +17,16 @@
 
 ```yaml
 ---
-name: asu
-description: 中文求职经历酥化技能：……
+name: great-resume
+description: 中文求职经历提升技能：……
 ---
 ```
 
-`name` + `description` 是 WorkBuddy 技能的标准字段，**可直接被 WorkBuddy 识别并触发**（例如对用户说"帮我把经历酥化一下"会匹配 `asu`）。
+`name` + `description` 是 WorkBuddy 技能的标准字段，**可直接被 WorkBuddy 识别并触发**（例如对用户说"帮我把经历提升一下"会匹配 `great-resume`）。
 
 以下原版特性属于 Claude Code / Codex 专属，WorkBuddy 会忽略，不影响基础触发：
 
-- 正文中的 `/asu`、`/make-resume`、`/offer` 等 slash 调用语法
+- 正文中的 `/great-resume`、`/make-resume`、`/offer` 等 slash 调用语法
 - 各技能下的 `agents/openai.yaml`
 - `.claude-plugin/`、`.codex-plugin/` 插件清单
 
@@ -56,7 +56,7 @@ pwsh .workbuddy-plugin/install.ps1
 把仓库 `skills/` 下的 7 个目录整体复制到 `~/.workbuddy/skills/`：
 
 ```bash
-cp -r skills/contributor skills/asu-recap skills/project-guide skills/asu skills/make-resume skills/interview skills/offer "$HOME/.workbuddy/skills/"
+cp -r skills/contributor skills/evidence-recap skills/project-guide skills/great-resume skills/make-resume skills/interview skills/offer "$HOME/.workbuddy/skills/"
 ```
 
 ## 验证
@@ -70,8 +70,8 @@ cp -r skills/contributor skills/asu-recap skills/project-guide skills/asu skills
 删除 `~/.workbuddy/skills/` 下对应的软链 / 目录即可：
 
 ```bash
-rm -rf "$HOME/.workbuddy/skills/contributor" "$HOME/.workbuddy/skills/asu-recap" \
-       "$HOME/.workbuddy/skills/project-guide" "$HOME/.workbuddy/skills/asu" \
+rm -rf "$HOME/.workbuddy/skills/contributor" "$HOME/.workbuddy/skills/evidence-recap" \
+       "$HOME/.workbuddy/skills/project-guide" "$HOME/.workbuddy/skills/great-resume" \
        "$HOME/.workbuddy/skills/make-resume" \
        "$HOME/.workbuddy/skills/interview" "$HOME/.workbuddy/skills/offer"
 ```

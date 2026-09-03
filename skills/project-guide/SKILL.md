@@ -1,6 +1,6 @@
 ---
 name: project-guide
-description: 中文项目导学与项目面经技能：基于本地项目仓库、项目描述或技术材料，生成 导学-{简称}.md 与 面经-{简称}.md，并整理可交接给 /asu 和 /interview 的事实摘要；当用户输入“/project-guide”、要求项目导学、项目分析、项目复盘、源码阅读路径、项目面经或 STAR 题库时使用。
+description: 中文项目导学与项目面经技能：基于本地项目仓库、项目描述或技术材料，生成 导学-{简称}.md 与 面经-{简称}.md，并整理可交接给 /great-resume 和 /interview 的事实摘要；当用户输入“/project-guide”、要求项目导学、项目分析、项目复盘、源码阅读路径、项目面经或 STAR 题库时使用。
 ---
 
 # /project-guide：项目导学 + 项目面经
@@ -10,7 +10,7 @@ description: 中文项目导学与项目面经技能：基于本地项目仓库�
 ## 路由边界
 
 - 需要从项目仓库或项目材料生成学习路径、源码阅读顺序、项目亮点、项目面经成稿：使用 `/project-guide`。
-- 只需要把经历改成简历 bullet、岗位定位或 HR 开场白：使用 `/asu`。
+- 只需要把经历改成简历 bullet、岗位定位或 HR 开场白：使用 `/great-resume`。
 - 已经有简历，需要模拟面试、预测问题或逐轮追问掌握度：使用 `/interview`。
 - 需要生成可编辑 HTML/PDF 简历：使用 `/make-resume`；未指定模板时默认使用 ASu 模板，也可以在请求中指定其他模板。
 - 需要寻找开源贡献候选、准备 diff 或提交 PR：使用 `/contributor`。
@@ -148,7 +148,7 @@ python3 scripts/project_guide.py build-prompt --short-name "智能BI" --descript
 
 生成两个文件后，在最终回复中附两段交接摘要：
 
-### 交给 /asu 的项目事实摘要
+### 交给 /great-resume 的项目事实摘要
 
 包括：
 

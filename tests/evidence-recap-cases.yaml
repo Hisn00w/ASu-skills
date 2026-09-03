@@ -1,4 +1,4 @@
-# /asu-recap 脱敏行为契约用例
+# /evidence-recap 脱敏行为契约用例
 #
 # 本文件用于人工前向评估与后续自动化接入准备。
 # 当前不调用模型，也不作为确定性 CI 门禁。
@@ -6,7 +6,7 @@
 
 cases:
   - id: production-with-evidence-and-learning
-    expected: asu-recap
+    expected: evidence-recap
     delivery_stage: 生产落地
     conversation:
       - role: 用户
@@ -47,7 +47,7 @@ cases:
       - 把复盘反馈重新扩写成完整答案
 
   - id: pilot-with-limited-scope
-    expected: asu-recap
+    expected: evidence-recap
     delivery_stage: 内部试点
     prompt: |
       请复盘“云雀助手”的内部试点：只在测试租户开放给 8 名内部用户，
@@ -75,7 +75,7 @@ cases:
       - 默认提供升维迁移，并保留团队与个人的责任边界
 
   - id: prototype-with-estimate
-    expected: asu-recap
+    expected: evidence-recap
     delivery_stage: 原型验证
     prompt: |
       请复盘我做的“北辰检索器”本地原型：用 20 条合成样例验证了 17 条，

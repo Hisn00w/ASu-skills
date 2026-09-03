@@ -1,4 +1,0 @@
-interface:
-  display_name: "asu"
-  short_description: "酥化经历并生成 HR 开场白"
-  default_prompt: "用 /asu 酥化我的真实经历，定位目标岗位并生成中文简历要点和 HR 开场白。"

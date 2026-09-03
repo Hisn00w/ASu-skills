@@ -68,7 +68,7 @@ class ProjectGuideTests(unittest.TestCase):
         self.assertIn("/project-guide", prompt)
         self.assertIn("导学-{简称}.md", prompt)
         self.assertIn("面经-{简称}.md", prompt)
-        self.assertIn("/asu", prompt)
+        self.assertIn("/great-resume", prompt)
         self.assertIn("/interview", prompt)
         self.assertIn("``\u200b`", prompt)
         self.assertIn("Bullet few-shot（仅学习结构，不复制素材）", prompt)

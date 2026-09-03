@@ -1,0 +1,4 @@
+interface:
+  display_name: "evidence-recap"
+  short_description: "把开发对话整理为证据链"
+  default_prompt: "使用 /evidence-recap，把刚才这段对话整理为可核验的项目证据链。"

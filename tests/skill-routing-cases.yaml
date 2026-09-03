@@ -24,20 +24,20 @@
 
 cases:
   - prompt: "帮我酥化这段实习经历"
-    expected: asu
-    note: 典型经历酥化请求，命中 /asu。
+    expected: great-resume
+    note: 典型经历提升请求，命中 /great-resume。
 
   - prompt: "帮我把 Agent 项目包装一下，顺便写 HR 开场白"
-    expected: asu
-    note: 包装经历 + HR 话术，现归 /asu；只有文件制作才归 /make-resume。
+    expected: great-resume
+    note: 包装经历 + HR 话术，现归 /great-resume；只有文件制作才归 /make-resume。
 
   - prompt: "只帮我把项目经历改成简历 bullet 和 HR 开场白"
-    expected: asu
-    note: 项目经历改写为求职表达，但不要求生成项目导学或面经双文件，归 /asu。
+    expected: great-resume
+    note: 项目经历改写为求职表达，但不要求生成项目导学或面经双文件，归 /great-resume。
 
   - prompt: "帮我写一段发给 HR 的自我介绍"
-    expected: asu
-    note: HR 自我介绍，归 /asu。
+    expected: great-resume
+    note: HR 自我介绍，归 /great-resume。
 
   - prompt: "帮我做一份普通后端简历"
     expected: make-resume
@@ -65,7 +65,7 @@ cases:
 
   - prompt: "帮我找几个能写进简历的开源小活"
     expected: contributor
-    note: 边界 case：同时提到「开源小活」与「写进简历」，contributor 的 description 明确包含「把 PR 写进简历」，归 /contributor 而非 /asu。
+    note: 边界 case：同时提到「开源小活」与「写进简历」，contributor 的 description 明确包含「把 PR 写进简历」，归 /contributor 而非 /great-resume。
 
   - prompt: "根据我的简历和目标岗位，预测面试官大概率会问什么问题"
     expected: interview

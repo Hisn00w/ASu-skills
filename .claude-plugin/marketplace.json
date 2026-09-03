@@ -10,7 +10,7 @@
       "name": "asu-skills",
       "source": "./",
       "displayName": "ASu-skills",
-      "description": "用 /contributor、/asu-recap、/project-guide、/asu、/make-resume、/job-apply、/interview、/offer 完成中文求职工作流。",
+      "description": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-apply、/interview、/offer 完成中文求职工作流。",
       "version": "0.3.0",
       "author": {
         "name": "Hisn0w",
@@ -32,7 +32,8 @@
         "open-source",
         "contributor",
         "chinese",
-        "asu"
+        "great-resume",
+        "evidence-recap"
       ]
     }
   ]

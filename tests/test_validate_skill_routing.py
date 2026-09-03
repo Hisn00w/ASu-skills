@@ -10,7 +10,7 @@ from scripts.validate_skill_routing import REPO_ROOT, validate_routing_cases
 
 class ValidateSkillRoutingTests(unittest.TestCase):
     def validate_fixture(
-        self, yaml_text: str, skill_names: tuple[str, ...] = ("asu",)
+        self, yaml_text: str, skill_names: tuple[str, ...] = ("great-resume",)
     ) -> tuple[int, list[str]]:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
@@ -36,9 +36,9 @@ class ValidateSkillRoutingTests(unittest.TestCase):
             root = Path(temp_dir)
             cases_file = root / "cases.yaml"
             skills_dir = root / "skills"
-            (skills_dir / "asu").mkdir(parents=True)
+            (skills_dir / "great-resume").mkdir(parents=True)
             cases_file.write_text(
-                '\ufeffcases:\n  - prompt: "What: now?"\n    expected: asu\n',
+                '\ufeffcases:\n  - prompt: "What: now?"\n    expected: great-resume\n',
                 encoding="utf-8",
             )
             self.assertEqual(validate_routing_cases(cases_file, skills_dir), (1, []))
@@ -49,7 +49,7 @@ class ValidateSkillRoutingTests(unittest.TestCase):
             cases:
               - prompt: first
                 prompt: second
-                expected: asu
+                expected: great-resume
             """
         )
 
@@ -60,10 +60,10 @@ class ValidateSkillRoutingTests(unittest.TestCase):
             """
             cases:
               - prompt: "same prompt"
-                expected: asu
+                expected: great-resume
                 extra: unsupported
               - prompt: " same prompt "
-                expected: ASU
+                expected: GREAT-RESUME
                 note: ""
             """
         )
@@ -91,7 +91,7 @@ class ValidateSkillRoutingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             skills_dir = root / "skills"
-            (skills_dir / "asu").mkdir(parents=True)
+            (skills_dir / "great-resume").mkdir(parents=True)
             missing_count, missing_errors = validate_routing_cases(
                 root / "missing.yaml", skills_dir
             )
@@ -110,7 +110,7 @@ class ValidateSkillRoutingTests(unittest.TestCase):
             cases:
               - prompt: |
                   multi-line prompt
-                expected: asu
+                expected: great-resume
             """
         )
         self.assertTrue(any("unsupported non-scalar" in error for error in errors))

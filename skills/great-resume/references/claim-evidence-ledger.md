@@ -1,6 +1,6 @@
 # 主张—证据账本
 
-主张—证据账本用于让 `/contributor`、`/asu` 和 `/make-resume` 共享同一份事实基线。它解决的是跨 Skill 交接时证据来源、个人边界和确认状态容易丢失的问题，不是新的数据库或评分系统。
+主张—证据账本用于让 `/contributor`、`/great-resume` 和 `/make-resume` 共享同一份事实基线。它解决的是跨 Skill 交接时证据来源、个人边界和确认状态容易丢失的问题，不是新的数据库或评分系统。
 
 可复制 [../../../assets/career-claim-ledger-template.json](../../../assets/career-claim-ledger-template.json) 作为起点。账本应保存在用户指定的求职材料目录，不回写插件模板。
 
@@ -71,7 +71,7 @@ python3 scripts/validate_claim_ledger.py /path/to/career-claim-ledger.json
 
 PR 提交或合并后新增事实记录，保存仓库、PR 链接、状态、实际修改和验证方式。未合并 PR 的候选表述必须写“协作中”，不能写“被采用”。
 
-### `/asu`
+### `/great-resume`
 
 读取 `source_fact`、证据和边界，生成 `candidate_wording`。发现来源冲突时将状态设为 `待确认`，不能选择更有利的版本。强主张必须填入能够回答追问的 `interview_details`。
 
