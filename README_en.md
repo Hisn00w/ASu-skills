@@ -326,7 +326,7 @@ Organize the recruiting emails and screenshots I uploaded into a campus recruitm
 **Important: this project forbids abusing the skills for mass applications, harassing HR, or sending generic, exaggerated opening messages. Use only real experience and tailor communication moderately to the specific role; piling up GitHub stars, over-packaging experience, and sending the result without review can alienate HR and damage the reputation of both the candidate and the project. `/job-apply` is only for one specific application explicitly confirmed by the user; it never bypasses confirmation, submits applications in bulk, or sends unreviewed messages on the user's behalf.**
 
 <div align="center">
-  <img src="assets/hr-opening-warning.jpg" alt="Example of an HR-rejected templated job-application opener" width="560">
+  <img src="assets/hr-opening-warning.jpg" alt="Example of an HR-rejected templated job-application opener" width="420">
   <p><em>Negative example: templated and exaggerated opening messages can cause a negative reaction. Do not copy this style.</em></p>
 </div>
 

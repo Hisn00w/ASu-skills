@@ -312,7 +312,7 @@ TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，八�
 **重要提醒：本项目禁止滥用技能批量投递、骚扰 HR，或发送千篇一律、夸大包装的开场白。请只基于真实经历，针对具体岗位进行适度、个性化沟通；堆砌 GitHub Star、过度包装经历并直接发送的文案，容易引起 HR 反感，也可能损害求职者和项目的信誉。`/job-apply` 只用于用户明确确认的单个职位申请，技能不会绕过确认、批量提交，也不会代替用户发送未经审核的消息。**
 
 <div align="center">
-  <img src="assets/hr-opening-warning.jpg" alt="HR 反感模板化求职开场白示例" width="560">
+  <img src="assets/hr-opening-warning.jpg" alt="HR 反感模板化求职开场白示例" width="420">
   <p><em>反面示例：模板化、夸大式开场白容易引起反感，请勿照搬。</em></p>
 </div>
 
