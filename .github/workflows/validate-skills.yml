@@ -62,9 +62,9 @@ jobs:
 
       - name: Check JavaScript syntax
         run: |
-          node --check lib/index.js
-          node --check scripts/inline-template.mjs
-          node --check scripts/export-resume-pdf.mjs
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+          done < <(find lib scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
 
       - name: Build all resume templates
         run: node scripts/inline-template.mjs --all "$RUNNER_TEMP/templates"
