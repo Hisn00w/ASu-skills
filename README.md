@@ -1,7 +1,7 @@
 # ASu-skills
 
 <div align="center">
-  <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills 图标">
+  <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills 图标" style="border-radius: 50%; object-fit: cover;">
   <h3>中文求职工作流插件</h3>
   <p>用八个独立入口完成开源贡献、证据复盘、项目导学面经、简历提升、简历制作、简历投递填写、面试准备和校招进度管理。</p>
 </div>

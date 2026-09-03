@@ -3,7 +3,7 @@
 
 
 <div align="center">
-  <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills logo">
+  <img src="assets/asu-circle.png" width="180" height="180" alt="ASu-skills logo" style="border-radius: 50%; object-fit: cover;">
   <h3>A job-search workflow plugin for Chinese job seekers</h3>
   <p>Eight standalone entry points for open-source contributions, AI coding conversation review, project interview prep, resume improvement, resume building, job-application autofill, interview preparation, and campus recruitment tracking.</p>
 </div>
