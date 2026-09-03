@@ -12,24 +12,12 @@
 
 <br>
 
-<div align="left">
+<div align="center">
   <a href="LICENSE"><img src="https://img.shields.io/github/license/Hisn00w/ASu-skills?logo=github" alt="License: MIT"></a>
-  <img src="assets/claude-code-badge.svg" alt="Claude Code">
-  <img src="assets/chatgpt-badge.svg" alt="ChatGPT">
-  <img src="assets/opencode-badge.svg" alt="OpenCode">
-  <img src="assets/deepseek-badge.svg" alt="DeepSeek">
-  <img src="assets/traework-badge.svg" alt="TraeWork">
-</div>
-
-<div align="left">
   <a href="https://deepwiki.com/Hisn00w/ASu-skills"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
   <a href="https://www.dsh.so/artifact/asu-skills"><img src="https://www.dsh.so/badge/asu-skills.svg" alt="dsh.so security"></a>
   <a href="https://www.dsh.so/artifact/asu-skills"><img src="https://www.dsh.so/badge/install/asu-skills.svg" alt="dsh.so install"></a>
-</div>
-
-<br>
-
-<div align="left">
+  <br>
   <a href="https://trendshift.io/repositories/139058?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-139058" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/139058/daily" alt="Hisn00w%2FASu-skills | Trendshift" width="250" height="55"></a>
 </div>
 
