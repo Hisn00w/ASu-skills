@@ -71,6 +71,14 @@ cases:
     expected: interview
     note: 面试预测请求，命中 /interview。
 
+  - prompt: "我三天后有初级 C++ 面试，每晚只能准备两小时，请根据 JD 和简历安排学习计划"
+    expected: interview
+    note: 面试时间、可用窗口与岗位材料驱动的 Prepare 请求，命中 /interview。
+
+  - prompt: "明天下午技术面，先帮我讲 Linux 和网络基础，学完以后再模拟"
+    expected: interview
+    note: 临近面试的专题教学请求，应保持 Prepare，达到检查点后再进入 Grill。
+
   - prompt: "检查我简历上的项目经历我自己能不能讲清楚"
     expected: interview
     note: 基于既有简历做掌握度检查，归 /interview，而不是生成导学文件。
