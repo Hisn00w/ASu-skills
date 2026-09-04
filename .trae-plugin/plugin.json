@@ -1,7 +1,7 @@
 {
   "name": "asu-skills",
   "version": "0.3.0",
-  "description": "中文求职工作流：开源贡献、证据复盘、项目导学面经、简历提升、同款技术简历制作、简历投递填写、面试准备和秋招进度管理。",
+  "description": "中文求职工作流：开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备和秋招进度管理。",
   "author": {
     "name": "Hisn0w",
     "url": "https://github.com/Hisn00w"
@@ -9,12 +9,12 @@
   "homepage": "https://github.com/Hisn00w/ASu-skills",
   "repository": "https://github.com/Hisn00w/ASu-skills",
   "license": "MIT",
-  "keywords": ["resume", "interview", "job-search", "job-application", "browser-automation", "career", "open-source", "contributor", "chinese", "great-resume", "evidence-recap"],
+  "keywords": ["resume", "interview", "job-search", "job-match", "job-application", "browser-automation", "career", "open-source", "contributor", "chinese", "great-resume", "evidence-recap"],
   "skills": "./skills/",
   "interface": {
     "displayName": "ASu-skills",
-    "shortDescription": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-apply、/interview、/offer 完成中文求职工作流",
-    "longDescription": "ASu-skills 将开源贡献、AI 编程对话复盘、项目导学面经、简历提升、中文简历制作、简历投递填写、面试准备和秋招进度管理拆成八个可单独调用的 TraeWork skill，挂在同一个 asu-skills 插件下。",
+    "shortDescription": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer 完成中文求职工作流",
+    "longDescription": "ASu-skills 将开源贡献、AI 编程对话复盘、项目导学面经、简历提升、中文简历制作、岗位匹配、简历投递填写、面试准备和秋招进度管理拆成九个可单独调用的 TraeWork skill，挂在同一个 asu-skills 插件下。",
     "developerName": "Hisn0w",
     "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],
@@ -25,6 +25,7 @@
       "用 /project-guide 基于项目仓库生成导学和面经。",
       "用 /great-resume 提升我的经历并生成 HR 开场白。",
       "用 /make-resume 默认基于 ASu 模板制作可编辑 HTML 简历，也可以指定其他模板。",
+      "用 /job-match 对照目标 JD 与真实经历，判断岗位匹配和证据缺口。",
       "用 /job-apply 通过已连接的浏览器填写求职申请，并在提交前核对。",
       "用 /interview 根据简历预测面试问题并通过连续追问检查掌握程度。",
       "用 /offer 记录我的秋招投递和进度。"
