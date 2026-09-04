@@ -5,7 +5,7 @@
 <div align="center">
   <img src="assets/asu-avatar-circle.png" width="180" height="180" alt="ASu-skills logo">
   <h3>A job-search workflow plugin for Chinese job seekers</h3>
-  <p>Eight standalone entry points for open-source contributions, AI coding conversation review, project interview prep, resume improvement, resume building, job-application autofill, interview preparation, and campus recruitment tracking.</p>
+  <p>Nine standalone entry points for open-source contributions, AI coding conversation review, project interview prep, resume improvement, resume building, job matching, job-application autofill, interview preparation, and campus recruitment tracking.</p>
 </div>
 
 
@@ -25,7 +25,9 @@
 </div>
 
 <p align="center">
-  <img src="assets/asu-skills-overview-landscape-v2.png" alt="ASu-skills overview of eight skills" width="1100">
+  <img src="assets/asu-skills-overview-landscape-v2.png" alt="ASu-skills partial workflow overview" width="1100">
+  <br>
+  <sub>Selected entries are shown here; see below for the complete list of nine.</sub>
 </p>
 
 ## Contents
@@ -33,7 +35,7 @@
 - [Harness Project Update](#a-harness-project-update)
 - [Installation](#installation)
 - [First time: where to start](#first-time-where-to-start)
-- [Eight skills](#how-the-eight-entries-work-together)
+- [Nine skills](#how-the-nine-entries-work-together)
   - [`/contributor`: Make real open-source contributions](#contributor-make-real-open-source-contributions)
   - [`/project-guide`: Project Study Notes And Interview Answers](#project-guide-project-study-notes-and-interview-answers)
   - [`/great-resume`: Improve your experience](#great-resume-improve-your-experience)
@@ -41,8 +43,9 @@
   - [`/evidence-recap`: Turn AI coding conversations into evidence chains](#evidence-recap-turn-ai-coding-conversations-into-evidence-chains)
   - [`/interview`: Stress-test your resume](#interview-stress-test-your-resume)
   - [`/offer`: Campus recruitment progress management](#offer-campus-recruitment-progress-management)
+  - [`/job-match`: Job-match analysis](#job-match-job-match-analysis)
   - [`/job-apply`: Job-application autofill](#job-apply-job-application-autofill)
-- [How the eight entries work together](#how-the-eight-entries-work-together)
+- [How the nine entries work together](#how-the-nine-entries-work-together)
 - [Truthfulness boundaries](#truthfulness-boundaries)
 - [File structure](#file-structure)
 - [Contributing](#contributing)
@@ -59,7 +62,7 @@ ASu is building a Harness project tailored to the job-search journey. We welcome
 
 [Check out the ASu Harness project on GitHub](https://github.com/Hisn00w/ASu-skills)
 
-ASu-skills is now a plugin pack. Installing it provides eight individually callable entry points:
+ASu-skills is now a plugin pack. Installing it provides nine individually callable entry points:
 
 | Entry          | Purpose                   | Primary deliverables                                              |
 | -------------- | ------------------------ | ----------------------------------------------------------------- |
@@ -68,6 +71,7 @@ ASu-skills is now a plugin pack. Installing it provides eight individually calla
 | `/project-guide` | Project interview prep | Generates `导学-{short-name}.md`, `面经-{short-name}.md`, and handoff evidence from a project repository |
 | `/great-resume` | Resume improvement       | Role targeting, project bullet rewrites, evidence of results, HR opener |
 | `/make-resume`      | Resume building          | Defaults to the ASu template, supports custom templates, editable HTML resume and PDF export |
+| `/job-match`   | Job matching | Compares a JD with verified experience and returns an evidence matrix, hard constraints, and an application recommendation |
 | `/job-apply`   | Job-application autofill | Connects to a browser, fills an application, and stops for review before submission |
 | `/interview`   | Interview preparation    | Interview prediction, contract-driven drilling, evidence review, and targeted retry |
 | `/offer`       | Campus recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
@@ -81,11 +85,11 @@ ASu-skills works with Codex, Claude Code, and TraeWork: the repo root has `.code
 The easiest way is to send the GitHub link directly to Codex and ask it to install the plugin:
 
 ```text
-Install the ASu-skills plugin from this GitHub repository and enable the eight skills: contributor, evidence-recap, project-guide, great-resume, make-resume, job-apply, interview, offer:
+Install the ASu-skills plugin from this GitHub repository and enable the nine skills: contributor, evidence-recap, project-guide, great-resume, make-resume, job-match, job-apply, interview, offer:
 https://github.com/Hisn00w/ASu-skills
 ```
 
-After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-apply`, `interview`, or `offer` from the command list.
+After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-match`, `job-apply`, `interview`, or `offer` from the command list.
 
 If your Codex version does not surface skills in the `/` menu, you can also use the official explicit invocation syntax:
 
@@ -95,6 +99,7 @@ $evidence-recap Turn this AI coding conversation into a verifiable project evide
 $great-resume Rewrite my internship experience for an AI application engineer role.
 $project-guide Generate project study notes and interview answers from the current repository, with handoff evidence for /great-resume and /interview.
 $make-resume Turn my experience into an editable Chinese HTML resume. Use the ASu template by default, or use another template if I specify one.
+$job-match Compare the target JD with my resume and identify evidence matches, real gaps, and whether I should apply.
 $job-apply Use my confirmed resume data to fill the current job application in a connected browser, then stop for my review before submission.
 $interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
 $offer Turn these recruiting emails into a campus recruitment application tracker.
@@ -116,7 +121,7 @@ claude plugin marketplace add Hisn00w/ASu-skills
 claude plugin install asu-skills@asu
 ```
 
-If the install summary says `Run /reload-plugins to activate.`, run `/reload-plugins`; otherwise restart Claude Code. After installation, run `claude plugin details asu-skills` to confirm all eight skills are loaded.
+If the install summary says `Run /reload-plugins to activate.`, run `/reload-plugins`; otherwise restart Claude Code. After installation, run `claude plugin details asu-skills` to confirm all nine skills are loaded.
 
 Update and uninstall:
 
@@ -129,11 +134,11 @@ Uninstalling the plugin only removes the plugin cache; it never touches the appl
 
 ### TraeWork
 
-TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json` manifest, and the eight skills become available under the plugin as `<publisher>:asu-skills:<skill>`.
+TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json` manifest, and the nine skills become available under the plugin as `<publisher>:asu-skills:<skill>`.
 
 1. Copy this repository into the TraeWork plugin directory: `~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`, keeping `.trae-plugin/plugin.json`, `skills/`, `assets/`, and `references/`;
 2. Restart TraeWork so the new plugin is reloaded;
-3. Start a new conversation, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-apply`, `interview`, or `offer` from the command list.
+3. Start a new conversation, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-match`, `job-apply`, `interview`, or `offer` from the command list.
 
 `<publisher>` is a namespace you choose under the plugin directory (for example `local`), and `<version>` is the version in `plugin.json`. To uninstall, delete the plugin directory; it never touches the application tracker you have edited in your project or user directory.
 
@@ -151,6 +156,7 @@ Pick your first entry based on the problem you most need to solve right now:
 | Have experience, but unsure how to match it to a target role | `/great-resume` |
 | Resume content is settled; need a regular editable resume | `/make-resume` |
 | Want to recreate the ASu-style high-density technical resume | `/make-resume` (default template) |
+| Have a JD and resume; need to assess fit and evidence gaps | `/job-match` |
 | Have a job URL and need to fill its application form | `/job-apply` |
 | Interviews coming up; want to predict questions and drill the weak spots | `/interview` |
 | Already applying; need to organize recruiting emails and follow-ups | `/offer` |
@@ -160,6 +166,7 @@ You can also combine entries:
 - **No internships, want real experience**: use `/contributor` to make role-relevant open-source contributions first, then hand them to `/great-resume` to turn into verifiable resume statements;
 - **Have AI project records, need to establish the facts**: use `/evidence-recap` to separate personal actions, delivery stage, and evidence of impact before deciding whether to hand the result to `/great-resume`;
 - **Have projects, ready to apply**: use `/project-guide` to turn the repository into study notes and interview answers, then use `/great-resume` to align with the target role and `/make-resume` to generate the resume; it defaults to the ASu template but accepts a specified template;
+- **Have a resume and a specific JD, need an application decision**: use `/job-match` to separate verified matches, presentation gaps, and real gaps; hand confirmed presentation gaps to `/great-resume` when rewriting is needed;
 - **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/great-resume` and `/make-resume` whenever the resume needs an update.
 - **Ready to fill an application form**: use `/job-apply` with a connected browser for one specific role, then use `/offer` to record the application status.
 
@@ -309,6 +316,20 @@ Organize the recruiting emails and screenshots I uploaded into a campus recruitm
 
 ![Campus recruitment tracker preview](assets/application-tracker-overview.svg)
 
+## `/job-match`: Job-match analysis
+
+`/job-match` separates a target JD into hard constraints, core capabilities, and preferred qualifications, then compares each item with the user's verified resume, experience, or claim–evidence ledger. It distinguishes verified matches, presentation gaps, insufficient evidence, real gaps, and unknowns instead of inventing a precise score from keyword overlap.
+
+Its default output includes a requirement–evidence matrix, hard constraints, up to five priority improvements, and an explainable recommendation: apply, apply after adding evidence, apply cautiously, or do not prioritize. The analysis does not edit a resume, fill a web form, or submit an application.
+
+Typical usage:
+
+```text
+/job-match
+
+Compare this JD with my resume. For each requirement, identify verified evidence, presentation gaps, and capability gaps, then tell me whether the role is worth applying to. Do not rewrite my resume yet.
+```
+
 ## `/job-apply`: Job-application autofill
 
 **Important: this project forbids abusing the skills for mass applications, harassing HR, or sending generic, exaggerated opening messages. Use only real experience and tailor communication moderately to the specific role; piling up GitHub stars, over-packaging experience, and sending the result without review can alienate HR and damage the reputation of both the candidate and the project. `/job-apply` is only for one specific application explicitly confirmed by the user; it never bypasses confirmation, submits applications in bulk, or sends unreviewed messages on the user's behalf.**
@@ -340,7 +361,7 @@ Use my confirmed resume to open this job application, fill the fields and resume
 
 The user must handle passwords, SMS/email codes, MFA, passkeys, and CAPTCHAs. ASu separately confirms personal-data input, file uploads, and final submission; it does not read cookies, tokens, or password storage, and does not bypass anti-bot or access controls.
 
-## How the eight entries work together
+## How the nine entries work together
 
 Recommended order:
 
@@ -349,9 +370,10 @@ Recommended order:
 3. Use `/project-guide` to turn an existing project repository into study notes, interview answers, and source evidence;
 4. Use `/great-resume` to lock in role targeting from the evidence card and your existing experience, and to improve resume phrasing and HR talking points;
 5. Use `/make-resume` to turn the confirmed copy into an editable resume and export PDF;
-6. Use `/job-apply` to connect a browser, fill one specific application, and review it before submission;
-7. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
-8. Use `/offer` to record the status of applications, assessments, interviews, and offers.
+6. Use `/job-match` to compare a specific JD with verified evidence, hard constraints, and application priority;
+7. Use `/job-apply` to connect a browser, fill one specific application, and review it before submission;
+8. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
+9. Use `/offer` to record the status of applications, assessments, interviews, and offers.
 
 You can also state a combined goal in a single request, e.g.: “first use `/project-guide` to generate project study notes and interview answers, then `/great-resume` to improve the experience, and finally `/make-resume` to generate an HTML resume”.
 
@@ -401,6 +423,9 @@ asu-skills/
 │   │   └── agents/openai.yaml
 │   ├── make-resume/
 │   │   ├── SKILL.md             # /make-resume resume building
+│   │   └── agents/openai.yaml
+│   ├── job-match/
+│   │   ├── SKILL.md             # /job-match job-match analysis
 │   │   └── agents/openai.yaml
 │   ├── interview/
 │   │   ├── SKILL.md             # /interview prediction, drilling & targeted retry

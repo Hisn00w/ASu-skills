@@ -123,6 +123,18 @@ cases:
     expected: job-apply
     note: 典型浏览器填写求职申请请求，命中 /job-apply。
 
+  - prompt: "对照这个 JD 和我的简历，告诉我哪些要求有证据、哪些是真实缺口"
+    expected: job-match
+    note: 要求生成 JD 与现有证据的匹配结论，命中 /job-match。
+
+  - prompt: "这个岗位值得投吗？不要改简历，先列出硬性门槛和证据不足项"
+    expected: job-match
+    note: 边界 case：只做投递决策与证据分析，不要求 /great-resume 改写。
+
+  - prompt: "比较这份职位描述和我的项目经历，给出要求—证据矩阵"
+    expected: job-match
+    note: 明确要求 JD 证据矩阵，命中 /job-match，而不是 /interview。
+
   - prompt: "帮我把当前网页的姓名、教育经历和项目经历填好，最后停在提交前"
     expected: job-apply
     note: 明确要求操作当前网页并停在提交前，归 /job-apply 而非 /offer。

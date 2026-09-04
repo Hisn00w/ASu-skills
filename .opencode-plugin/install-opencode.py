@@ -16,6 +16,7 @@ SKILL_NAMES = (
     "project-guide",
     "great-resume",
     "make-resume",
+    "job-match",
     "job-apply",
     "interview",
     "offer",
@@ -106,7 +107,7 @@ def install_skills(skills_dir, source_dir):
 
     print()
     print("[OK] 安装完成！请重启 OpenCode 或执行 /reload-plugins")
-    print("   使用触发词：/contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-apply  /interview  /offer")
+    print("   使用触发词：/contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-match  /job-apply  /interview  /offer")
     return True
 
 
