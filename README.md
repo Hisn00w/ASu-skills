@@ -62,7 +62,7 @@ ASu-skills 现在是一个插件包。安装后会提供八个可单独调用的
 
 ## 安装
 
-ASu-skills 同时支持 Codex、Claude Code 和 TraeWork：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，`.trae-plugin/` 供 TraeWork 使用，三者共用同一套 `skills/`、`assets/` 和 `references/`。
+ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Google Antigravity：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，`.trae-plugin/` 供 TraeWork 使用，`.antigravity-plugin/` 供 Google Antigravity 使用，各平台共用同一套 `skills/`、`assets/` 和 `references/`。
 
 ### Codex
 
@@ -124,6 +124,23 @@ TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，八�
 3. 新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-apply`、`interview` 或 `offer`。
 
 其中 `<publisher>` 是插件目录下的命名空间，可自行指定（如 `local`），`<version>` 为 `plugin.json` 中的版本号。卸载时删除对应插件目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
+
+### Google Antigravity
+
+Antigravity 原生支持插件包（Plugin Bundle）和全局技能自动发现：
+
+1. **方式一：全局插件安装（推荐）**
+   把本仓库复制到 Antigravity 插件目录，保留 `.antigravity-plugin/plugin.json`、`skills/`、`assets/` 和 `references/`：
+   ```bash
+   mkdir -p ~/.gemini/config/plugins/asu-skills
+   cp -R . ~/.gemini/config/plugins/asu-skills/
+   ```
+2. **方式二：全局技能直接导入**
+   直接将 `skills/` 下的八个目录复制或链接到全局技能目录：
+   ```bash
+   cp -R skills/* ~/.gemini/config/skills/
+   ```
+3. 重启 Antigravity IDE 或新建对话，在输入框中输入 `/`，即可从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-apply`、`interview` 或 `offer`。
 
 开发者请参阅 [贡献指南](.github/CONTRIBUTING.md)，其中包含本地校验、测试命令和 PR 提交流程。
 

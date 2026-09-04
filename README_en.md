@@ -74,7 +74,7 @@ ASu-skills is now a plugin pack. Installing it provides eight individually calla
 
 ## Installation
 
-ASu-skills works with Codex, Claude Code, and TraeWork: the repo root has `.codex-plugin/` for Codex, `.claude-plugin/` for Claude Code, and `.trae-plugin/` for TraeWork, all sharing the same `skills/`, `assets/`, and `references/`.
+ASu-skills works with Codex, Claude Code, TraeWork, and Google Antigravity: the repo root has `.codex-plugin/` for Codex, `.claude-plugin/` for Claude Code, `.trae-plugin/` for TraeWork, and `.antigravity-plugin/` for Google Antigravity, all sharing the same `skills/`, `assets/`, and `references/`.
 
 ### Codex
 
@@ -136,6 +136,23 @@ TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json`
 3. Start a new conversation, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-apply`, `interview`, or `offer` from the command list.
 
 `<publisher>` is a namespace you choose under the plugin directory (for example `local`), and `<version>` is the version in `plugin.json`. To uninstall, delete the plugin directory; it never touches the application tracker you have edited in your project or user directory.
+
+### Google Antigravity
+
+Antigravity natively supports plugin bundles and individual skill discovery:
+
+1. **Option 1: Global Plugin Installation (Recommended)**:
+   Copy this repository into the Antigravity plugins directory: `~/.gemini/config/plugins/asu-skills/`, keeping `.antigravity-plugin/plugin.json`, `skills/`, `assets/`, and `references/`:
+   ```bash
+   mkdir -p ~/.gemini/config/plugins/asu-skills
+   cp -R . ~/.gemini/config/plugins/asu-skills/
+   ```
+2. **Option 2: Direct Skills Import**:
+   Copy or link the eight directories in `skills/` to your global skills directory:
+   ```bash
+   cp -R skills/* ~/.gemini/config/skills/
+   ```
+3. Restart Antigravity IDE or start a new conversation. Type `/` in the input box to pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-apply`, `interview`, or `offer`.
 
 For contributor checks, tests, and the PR workflow, see the [contributing guide](.github/CONTRIBUTING_en.md).
 
