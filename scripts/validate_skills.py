@@ -104,15 +104,32 @@ def resolve_documented_resource(skill_dir: Path, target: str) -> Path:
     return (repo_root / target).resolve()
 
 
+def is_repository_file(path: Path) -> bool:
+    """Return whether a resolved file is contained by the repository."""
+    repo_root = REPO_ROOT.resolve()
+    try:
+        path.resolve().relative_to(repo_root)
+    except ValueError:
+        return False
+    return path.is_file()
+
+
 def check_documented_resources(skill_dir: Path, report: Report, text: str) -> None:
     targets = extract_documented_resource_paths(text)
     if not targets:
         report.add(True, skill_dir.name, "SKILL.md 无明确的本地资源文件引用（跳过资源检查）")
         return
-    missing = [target for target in targets
-               if not resolve_documented_resource(skill_dir, target).is_file()]
+    missing = [
+        target
+        for target in targets
+        if not is_repository_file(resolve_documented_resource(skill_dir, target))
+    ]
     if missing:
-        report.add(False, skill_dir.name, "SKILL.md 记录的资源文件不存在：" + ", ".join(missing))
+        report.add(
+            False,
+            skill_dir.name,
+            "SKILL.md 记录的资源文件不存在或位于仓库外：" + ", ".join(missing),
+        )
     else:
         report.add(True, skill_dir.name, f"SKILL.md 记录的 {len(targets)} 个资源文件均存在")
 
@@ -311,10 +328,14 @@ def check_openai_interface(skill_dir: Path, skill_name: str, manifest: dict, rep
             report.add(False, skill_name, f"agents/openai.yaml interface.{field_name} 必须是非空字符串")
             continue
         resolved = (skill_dir / value).resolve()
-        if resolved.is_file():
+        if is_repository_file(resolved):
             report.add(True, skill_name, f"agents/openai.yaml interface.{field_name} 指向存在的资源（{value}）")
         else:
-            report.add(False, skill_name, f"agents/openai.yaml interface.{field_name} 指向不存在的资源：{value}")
+            report.add(
+                False,
+                skill_name,
+                f"agents/openai.yaml interface.{field_name} 指向不存在或位于仓库外的资源：{value}",
+            )
 
 
 def check_skill(skill_dir: Path, report: Report) -> None:

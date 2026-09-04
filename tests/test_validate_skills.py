@@ -73,6 +73,28 @@ class OpenAIInterfaceTests(unittest.TestCase):
 
         self.assertTrue(all(result.ok for result in results))
 
+    def test_rejects_icon_outside_repository(self):
+        outside_icon = self.skill_dir / "icon.png"
+        outside_icon.write_bytes(b"png")
+        skill_dir = self.skill_dir / "repo" / "skills" / "example"
+        skill_dir.mkdir(parents=True)
+        relative_icon = "../../../icon.png"
+        manifest = {
+            "interface": {
+                "display_name": "Example",
+                "short_description": "A skill",
+                "default_prompt": "Run the skill",
+                "icon_small": relative_icon,
+            }
+        }
+
+        report = Report()
+        with patch.object(validate_skills, "REPO_ROOT", self.skill_dir / "repo"):
+            validate_skills.check_openai_interface(skill_dir, "example", manifest, report)
+
+        self.assertFalse(report.passed)
+        self.assertTrue(any("位于仓库外" in result.message for result in report.results))
+
 
 class DocumentedResourceTests(unittest.TestCase):
     def test_extracts_inline_resource_files_but_skips_examples_and_directories(self):
@@ -108,6 +130,23 @@ class DocumentedResourceTests(unittest.TestCase):
                 validate_skills.check_documented_resources(skill_dir, report, text)
             self.assertTrue(report.passed)
             self.assertIn("1 个资源文件均存在", report.results[0].message)
+
+    def test_rejects_existing_resource_outside_repository(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            repo_root = root / "repo"
+            skill_dir = repo_root / "skills" / "example"
+            skill_dir.mkdir(parents=True)
+            (root / "outside.html").write_text("<html>", encoding="utf-8")
+            text = "The skill requires `../../../outside.html`."
+            report = validate_skills.Report()
+
+            with patch.object(validate_skills, "REPO_ROOT", repo_root):
+                validate_skills.check_documented_resources(skill_dir, report, text)
+
+            self.assertFalse(report.passed)
+            self.assertIn("../../../outside.html", report.results[0].message)
+            self.assertIn("位于仓库外", report.results[0].message)
 
 
 if __name__ == "__main__":
