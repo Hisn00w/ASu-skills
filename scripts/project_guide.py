@@ -115,6 +115,17 @@ def load_json(path: Path) -> dict[str, Any]:
     return data
 
 
+def read_json_text(payload: dict[str, Any], key: str, alias: Optional[str] = None) -> str:
+    if key not in payload and alias is not None:
+        key = alias
+    value = payload.get(key)
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        raise ValueError(f"JSON field '{key}' must be a string or null")
+    return value.strip()
+
+
 def build_prompt(
     description: str,
     short_name: Optional[str] = None,
@@ -231,7 +242,7 @@ def command_check(args: argparse.Namespace) -> int:
 
 
 def command_build_prompt(args: argparse.Namespace) -> int:
-    description = args.description or ""
+    description = (args.description or "").strip()
     short_name = args.short_name or ""
     tech = args.tech or ""
     role = args.role or ""
@@ -240,14 +251,14 @@ def command_build_prompt(args: argparse.Namespace) -> int:
     if args.json_file:
         try:
             payload = load_json(Path(args.json_file))
+            description = read_json_text(payload, "description")
+            short_name = read_json_text(payload, "short_name", "简称")
+            tech = read_json_text(payload, "tech_stack", "tech")
+            role = read_json_text(payload, "role_focus", "role")
+            extra = read_json_text(payload, "extra")
         except (OSError, json.JSONDecodeError, ValueError) as exc:
             print(f"Error loading JSON: {exc}", file=sys.stderr)
             return 1
-        description = str(payload.get("description", "")).strip()
-        short_name = str(payload.get("short_name", payload.get("简称", ""))).strip()
-        tech = str(payload.get("tech_stack", payload.get("tech", ""))).strip()
-        role = str(payload.get("role_focus", payload.get("role", ""))).strip()
-        extra = str(payload.get("extra", "")).strip()
 
     try:
         short_name = validate_short_name(short_name)
