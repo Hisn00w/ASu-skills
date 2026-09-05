@@ -38,7 +38,7 @@ description: GitHub 开源贡献辅助技能：围绕目标岗位和技术栈发
 ## 贡献工作流
 
 1. 在 GitHub 搜索与目标岗位、技术栈或用户指定方向匹配，且有近期维护迹象并允许外部贡献的项目。优先检查项目主页、默认分支活动、许可证、`CONTRIBUTING`、issue/PR 状态和明确的贡献入口；此阶段只读，不 fork、不 push。
-2. 从 issue、讨论、README、docs、examples、tests 和代码注释中寻找真实、范围清晰且能够在本地验证的问题。优先处理用户可以复现、项目确实需要、又不会牵涉大范围设计的改动；同时搜索 open/closed issue、PR、提交历史和必要的 blame，避免撞车。
+2. 从 issue、讨论、README、docs、examples、tests 和代码注释中寻找真实、范围清晰且能够在本地验证的问题。优先处理用户可以复现、项目确实需要、又不会牵涉大范围设计的改动；同时搜索提交历史和必要的 blame，确认上游默认分支尚未修复。撞车判定以目标 issue 的 linked PR（`gh api repos/<owner>/<repo>/issues/<N>/timeline`）和 open PR 全量标题（`gh pr list --state open`）为准，关键词搜索仅作补充，候选较多或标题含糊时再按拟改文件路径过滤；发现相同问题或相同方案的 PR 即按第 3 步降级或丢弃。
 3. 快速看一遍 `CONTRIBUTING` 和仓库里的代理说明；如果规则明确禁止 typo-only、drive-by documentation 或当前拟议的 PR 类型，标记为 `ineligible` 并丢弃，不进入待确认候选清单。如果规则要求先 claim issue、取得 maintainer approval 或先开 issue，则标记为 `blocked`，写明待满足的前置条件；在条件满足前不创建分支或 patch。只有项目规则不允许或目标明显不匹配时才使用 `ineligible`；满足前置条件本身如需外部写操作，也必须按第 5 步逐项确认。否则形成候选清单，写明目标仓库、问题、拟修改文件、验证方式和潜在影响。
    为了让候选可以横向比较，记录 issue 创建时间、最近实质更新、当前状态、assignees、评论中的认领、相关 open/closed PR 以及当前上游代码证据。issue 时间较久、已有明确认领或相同方案的 PR、尚未取得仓库建议的 approval/assignment，或需要 GPU/专有服务才能复现或验证时，可适当降低优先级并标注风险。
 4. 每个候选在准备本地改动或 patch 前，都从当前上游基线创建独立专用分支；不得修改默认分支，也不得把下一份补丁堆叠到已有 PR 分支。随后在该分支上实际应用拟议的最小改动或 patch。提交前先检查仓库的 `CONTRIBUTING`、`.github/workflows/`、项目级工具配置以及项目级的 pre-commit 配置（存在时），根据仓库实际配置确定与当前改动相关的验证命令，再运行可执行的测试、lint、格式、构建或链接检查，并记录结果；纯文档小修至少检查 diff 和 Markdown，然后把完整 diff 展示给用户。
