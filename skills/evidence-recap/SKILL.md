@@ -1,6 +1,6 @@
 ---
 name: evidence-recap
-description: 当用户运行 /evidence-recap 或 $evidence-recap，或明确要求复盘人工智能编程对话、项目交付记录和落地证据时使用。
+description: 把 AI 编程对话和项目交付材料复盘为可核验的九段证据链，区分问题、决策、个人动作、交付阶段、效果证据与责任边界。当用户运行 /evidence-recap、$evidence-recap，或明确要求复盘 AI 编程过程、交付记录、落地状态和证据缺口时使用；仅需简历改写、源码导学或模拟面试时不使用。
 ---
 
 # /evidence-recap：证据复盘
@@ -99,4 +99,3 @@ description: 当用户运行 /evidence-recap 或 $evidence-recap，或明确要�
 - 是否完成隐私泛化；
 - 升维迁移是否默认加入；
 - 候选简历表述是否只在用户提出相应需求后出现。
-

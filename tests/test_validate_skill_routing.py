@@ -28,7 +28,7 @@ class ValidateSkillRoutingTests(unittest.TestCase):
             REPO_ROOT / "skills",
         )
 
-        self.assertEqual(case_count, 26)
+        self.assertEqual(case_count, 29)
         self.assertEqual(errors, [])
 
     def test_accepts_bom_and_quoted_colon(self):
@@ -86,6 +86,25 @@ class ValidateSkillRoutingTests(unittest.TestCase):
             errors,
             ["cases[1].expected references missing directory skills/offer/"],
         )
+
+    def test_rejects_skills_without_routing_cases(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            cases_file = root / "cases.yaml"
+            skills_dir = root / "skills"
+            for skill_name in ("great-resume", "evidence-recap"):
+                skill_dir = skills_dir / skill_name
+                skill_dir.mkdir(parents=True)
+                (skill_dir / "SKILL.md").write_text("# Skill\n", encoding="utf-8")
+            cases_file.write_text(
+                "cases:\n  - prompt: improve my resume\n    expected: great-resume\n",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                validate_routing_cases(cases_file, skills_dir),
+                (1, ["skills without routing cases: ['evidence-recap']"]),
+            )
 
     def test_rejects_missing_file_and_invalid_collection_shapes(self):
         with tempfile.TemporaryDirectory() as temp_dir:

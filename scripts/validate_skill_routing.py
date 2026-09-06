@@ -4,7 +4,8 @@
 The repository intentionally keeps this validator dependency-free.  It parses
 only the documented, deliberately small schema used by
 ``tests/skill-routing-cases.yaml`` and rejects YAML constructs outside that
-schema rather than silently accepting them.
+schema rather than silently accepting them.  It also requires every skill with
+a ``SKILL.md`` entrypoint to have at least one routing case.
 """
 
 from __future__ import annotations
@@ -177,6 +178,19 @@ def _format_keys(keys: set[Any]) -> str:
     return "[" + ", ".join(sorted(repr(key) for key in keys)) + "]"
 
 
+def _discover_skill_names(skills_dir: Path) -> tuple[set[str], list[str]]:
+    """Return skill directories that contain the required SKILL.md entrypoint."""
+    try:
+        skill_names = {
+            path.name
+            for path in skills_dir.iterdir()
+            if path.is_dir() and (path / "SKILL.md").is_file()
+        }
+    except OSError as exc:
+        return set(), [f"cannot list {skills_dir}: {exc}"]
+    return skill_names, []
+
+
 def validate_routing_cases(cases_file: Path, skills_dir: Path) -> tuple[int, list[str]]:
     """Return the number of cases and all deterministic validation errors."""
     document, errors = _load_cases(cases_file)
@@ -205,6 +219,7 @@ def validate_routing_cases(cases_file: Path, skills_dir: Path) -> tuple[int, lis
         return 0, errors
 
     seen_prompts: dict[str, int] = {}
+    covered_skills: set[str] = set()
     for index, case in enumerate(cases, start=1):
         prefix = f"cases[{index}]"
         if not isinstance(case, dict):
@@ -248,6 +263,8 @@ def validate_routing_cases(cases_file: Path, skills_dir: Path) -> tuple[int, lis
             errors.append(
                 f"{prefix}.expected references missing directory skills/{expected}/"
             )
+        else:
+            covered_skills.add(expected)
 
         if "note" in case:
             note = case["note"]
@@ -255,6 +272,14 @@ def validate_routing_cases(cases_file: Path, skills_dir: Path) -> tuple[int, lis
                 errors.append(f"{prefix}.note must be a string when present")
             elif not note.strip():
                 errors.append(f"{prefix}.note must not be empty when present")
+
+    skill_names, discovery_errors = _discover_skill_names(skills_dir)
+    errors.extend(discovery_errors)
+    uncovered_skills = skill_names - covered_skills
+    if uncovered_skills:
+        errors.append(
+            "skills without routing cases: " + _format_keys(uncovered_skills)
+        )
 
     return len(cases), errors
 

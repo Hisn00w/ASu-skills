@@ -21,15 +21,16 @@
 
 ## 本地校验
 
-修改 `SKILL.md`、`agents/openai.yaml`、插件清单或新增 skill 后，请在仓库根目录运行静态校验器：
+修改 `SKILL.md`、`agents/openai.yaml`、插件清单或新增 skill 后，请在仓库根目录运行技能与路由校验器：
 
 ```bash
 python3 scripts/validate_skills.py
+python3 scripts/validate_skill_routing.py
 ```
 
 校验内容包括：`SKILL.md` 是否存在、frontmatter 是否可解析、`name` 是否与目录名一致、`description` 是否非空且不过长、`agents/openai.yaml` 是否可解析、`SKILL.md` 引用的本地 `references/assets` 路径是否存在，以及 Codex、TraeWork、Claude Code、OpenCode 插件清单是否为合法 JSON 并覆盖必要入口。GitHub Actions 会在涉及 `skills/**` 等路径的 Pull Request 上自动运行该校验。
 
-路由回归用例存放在 `tests/skill-routing-cases.yaml`，记录各求职入口的预期路由，由 GitHub Actions 执行不调用 LLM 的确定性 schema 校验。校验会检查 YAML 结构、用例字段、重复 prompt，以及 `expected` 是否对应 `skills/` 下的实际目录；它不判断 prompt 的语义路由结果。
+路由回归用例存放在 `tests/skill-routing-cases.yaml`，记录各求职入口的预期路由，由 GitHub Actions 执行不调用 LLM 的确定性 schema 校验。校验会检查 YAML 结构、用例字段、重复 prompt、`expected` 是否对应 `skills/` 下的实际目录，以及每个包含 `SKILL.md` 的 skill 是否至少有一条路由用例；它不判断 prompt 的语义路由结果。
 
 ## 禁止无实质内容的提交
 

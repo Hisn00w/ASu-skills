@@ -21,15 +21,16 @@ Contributions via Issues and Pull Requests are welcome. To keep collaboration qu
 
 ## Local validation
 
-After modifying `SKILL.md`, `agents/openai.yaml`, plugin manifests, or adding a new skill, run the static validator from the repository root:
+After modifying `SKILL.md`, `agents/openai.yaml`, plugin manifests, or adding a new skill, run the skill and routing validators from the repository root:
 
 ```bash
 python3 scripts/validate_skills.py
+python3 scripts/validate_skill_routing.py
 ```
 
 The validator checks that each `SKILL.md` exists; its frontmatter parses; `name` matches the directory name; `description` is non-empty and not too long; `agents/openai.yaml` parses; local `references/assets` paths cited in `SKILL.md` exist; and the Codex, TraeWork, Claude Code, and OpenCode plugin manifests are valid JSON covering the required entries. GitHub Actions runs this validator automatically on Pull Requests that touch `skills/**` and related paths.
 
-Routing regression cases live in `tests/skill-routing-cases.yaml`. GitHub Actions validates their YAML structure, fields, duplicate prompts, and whether `expected` maps to an actual directory under `skills/`, without calling an LLM; it does not judge the semantic routing result.
+Routing regression cases live in `tests/skill-routing-cases.yaml`. GitHub Actions validates their YAML structure, fields, duplicate prompts, whether `expected` maps to an actual directory under `skills/`, and whether every skill containing `SKILL.md` has at least one routing case, without calling an LLM; it does not judge the semantic routing result.
 
 ## Pull Request flow
 

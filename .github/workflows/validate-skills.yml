@@ -49,6 +49,9 @@ jobs:
       - name: Run skill validator
         run: python3 scripts/validate_skills.py
 
+      - name: Run skill routing validator
+        run: python3 scripts/validate_skill_routing.py
+
       - name: Run unit tests
         run: python3 -m unittest discover -s tests -v
 
