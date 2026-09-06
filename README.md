@@ -421,7 +421,7 @@ asu-skills/
 感谢以下小红书博主的公开分享与启发：
 
 - [**阿酥在coding**](https://xhslink.cn/m/2LHuLJZ30b2)：关于 Coding 面试经验的分享；
-- [**Hi Mr Lonely**](https://xhslink.cn/m/3kVQDyUJ6of)：关于简历包装与求职表达的分享。
+- [**酥化而登仙**](https://xhslink.cn/m/3kVQDyUJ6of)：关于简历包装与求职表达的分享。
 
 本插件对相关内容进行了整理、结构化和合规化改写，用于形成可复用的求职工作流。
 

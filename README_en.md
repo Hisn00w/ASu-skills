@@ -436,7 +436,7 @@ Issues and PRs are welcome. See the [contributing guide](.github/CONTRIBUTING_en
 Thanks to the following Xiaohongshu(Chinese IG) creators for their public sharing and inspiration:
 
 - [**阿酥在coding**](https://xhslink.cn/m/2LHuLJZ30b2): sharing on Coding interview experience;
-- [**Hi Mr Lonely**](https://xhslink.cn/m/3kVQDyUJ6of): sharing on resume presentation and job-search communication.
+- [**酥化而登仙**](https://xhslink.cn/m/3kVQDyUJ6of): sharing on resume presentation and job-search communication.
 
 This plugin has organized, structured, and compliance-adjusted the relevant content and turned it into a reusable job-search workflow.
 
