@@ -15,6 +15,7 @@
  *   - .workbuddy-plugin/install.sh / install.ps1 的技能数组、数量文案与输出
  *   - .workbuddy-plugin/install.md 的目录清单区
  *   - README.md / README_en.md 的入口总览区
+ *   - docs/index.html 的入口数量、标题与技能卡片
  *   - .github/ISSUE_TEMPLATE/*.yml 的“相关技能”选项
  *   - 输出统一以 LF 为行尾；--check 不受工作区 CRLF 检出影响
  */
@@ -32,6 +33,12 @@ const enNum = (n) => (['zero','one','two','three','four','five','six','seven','e
 const joinCn = (list) => (list.length <= 1 ? list.join('') : list.slice(0, -1).join('、') + '和' + list[list.length - 1]);
 const uniq = (xs) => [...new Set(xs)];
 const json = (obj) => JSON.stringify(obj, null, 2) + '\n';
+const escapeHtml = (value) => String(value)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
 
 function withRegion(text, id, kind, body) {
   const open = kind === 'html' ? '<!-- catalog:' + id + ':begin -->' : '# catalog:' + id + ':begin';
@@ -180,6 +187,23 @@ function readmeBlock(lang) {
   return [head, '', header, sep].concat(rows).join(NL);
 }
 
+function docsHeroLede() {
+  return '            <p class="hero-lede">从开源贡献、证据复盘到简历制作、岗位匹配、面试追问和校招跟进，用' + zhNum(entries.length) + '个独立入口，把求职过程拆成清晰、可执行、可核验的工作流。</p>';
+}
+
+function docsSkillCards() {
+  return entries.map((e, index) => {
+    const delay = index % 3 === 0 ? '' : ' reveal--delay-' + (index % 3);
+    const href = registry.repository + '/blob/main/README.md#' + e.site.readmeAnchor;
+    return [
+      '            <a class="skill-card skill-card--' + escapeHtml(e.site.color) + ' reveal' + delay + '" href="' + escapeHtml(href) + '">',
+      '              <span class="card-index">' + String(index + 1).padStart(2, '0') + '</span><span class="card-command">/' + escapeHtml(e.name) + '</span>',
+      '              <h3>' + escapeHtml(e.site.title) + '</h3><p>' + escapeHtml(e.site.description) + '</p><span class="card-arrow">↗</span>',
+      '            </a>',
+    ].join(NL);
+  }).join(NL);
+}
+
 function wbIntro() {
   const listed = wbNames.map((n) => '`' + n + '`').join(' / ');
   const lines = ['> 适用场景：WorkBuddy 用户想直接复用本仓库已有的 ' + wbNames.length + ' 个可桥接中文求职技能（' + listed + '），而无需等待完整移植。'];
@@ -229,6 +253,10 @@ const regionTargets = [
   { rel: '.workbuddy-plugin/install.md', kind: 'html', id: 'wb.md.uninstall', body: wbUninstall() },
   { rel: 'README.md', kind: 'html', id: 'readme.zh.intro', body: readmeBlock('zh') },
   { rel: 'README_en.md', kind: 'html', id: 'readme.en.intro', body: readmeBlock('en') },
+  { rel: 'docs/index.html', kind: 'html', id: 'docs.hero.lede', body: docsHeroLede() },
+  { rel: 'docs/index.html', kind: 'html', id: 'docs.hero.count', body: '              <div><strong>' + entries.length + '</strong><span>独立入口</span></div>' },
+  { rel: 'docs/index.html', kind: 'html', id: 'docs.skills.heading', body: '            <h2>' + zhNum(entries.length) + '个技能，覆盖求职的关键节点</h2>' },
+  { rel: 'docs/index.html', kind: 'html', id: 'docs.skills.cards', body: docsSkillCards() },
   { rel: '.github/ISSUE_TEMPLATE/bug_report.yml', kind: 'hash', id: 'issue.bug.options', body: entries.map((e) => '        - /' + e.name + ' ' + e.zh.menuLabel).join(NL) },
   { rel: '.github/ISSUE_TEMPLATE/feature_request.yml', kind: 'hash', id: 'issue.feature.options', body: entries.map((e) => '        - /' + e.name + ' ' + e.zh.menuLabel).join(NL) },
 ];
@@ -247,10 +275,11 @@ const seen = new Set();
 for (const e of entries) {
   if (seen.has(e.name)) problems.push('registry 存在重复入口: ' + e.name);
   seen.add(e.name);
-  for (const field of ['zh.menuLabel', 'zh.prompt', 'zh.opencodeDetail', 'zh.deliverables', 'en.menu', 'en.deliverables']) {
+  for (const field of ['zh.menuLabel', 'zh.prompt', 'zh.opencodeDetail', 'zh.deliverables', 'en.menu', 'en.deliverables', 'site.title', 'site.description', 'site.color', 'site.readmeAnchor']) {
     const [a, b] = field.split('.');
     if (!e[a] || typeof e[a][b] !== 'string' || !e[a][b].trim()) problems.push('entry ' + e.name + ' 缺少 ' + field);
   }
+  if (e.site && !['cyan', 'violet', 'gold', 'pink', 'blue'].includes(e.site.color)) problems.push('entry ' + e.name + ' 的 site.color 不受支持');
   if (e.excludeFrom && !Object.keys(e.excludeFrom).every((h) => h === 'workbuddy')) problems.push('entry ' + e.name + ' 的 excludeFrom 含未知宿主');
 }
 for (const t of regionTargets) {
