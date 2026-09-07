@@ -69,7 +69,7 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 | --- | --- | --- |
 | `/contributor` | Open-source contributions | Finds candidates, shows diffs, submits a PR after your confirmation, and hands the contribution to `/great-resume` |
 | `/evidence-recap` | Conversation review | Turns AI coding conversations and delivery records into a verifiable nine-part evidence chain |
-| `/project-guide` | Project interview prep | Generates `导学-{short-name}.md`, `面经-{short-name}.md`, and handoff evidence from a project repository |
+| `/project-guide` | Project interview prep | Creates `tutorial.md` and `practice.md` on demand, or project study notes, interview answers, and handoff evidence |
 | `/great-resume` | Resume improvement | Role targeting, project bullet rewrites, evidence of results, HR opener |
 | `/make-resume` | Resume building | Defaults to the ASu template, supports custom templates, editable HTML resume and PDF export |
 | `/job-match` | Job matching | Compares a JD with verified experience and returns an evidence matrix, hard constraints, and an application recommendation |
@@ -154,7 +154,7 @@ Pick your first entry based on the problem you most need to solve right now:
 | --------- | ---------- |
 | No verifiable projects or collaboration experience yet | `/contributor` |
 | Have AI coding conversations or delivery records that need evidence review | `/evidence-recap` |
-| Have a project repository and need a code-reading path plus interview talking points | `/project-guide` |
+| Have a project repository and need source lessons, a reading path, or interview talking points | `/project-guide` |
 | Have experience, but unsure how to match it to a target role | `/great-resume` |
 | Resume content is settled; need a regular editable resume | `/make-resume` |
 | Want to recreate the ASu-style high-density technical resume | `/make-resume` (default template) |
@@ -191,7 +191,7 @@ Start with 3 small PRs that are easy to merge, then add 1 technical contribution
 
 ## `/project-guide`: Project Study Notes And Interview Answers
 
-`/project-guide` works from an existing project repository or project materials and generates two Markdown files: `导学-{short-name}.md` and `面经-{short-name}.md`. It turns code-reading paths, technical highlights, design trade-offs, STAR answers, and source evidence into interview preparation material, then summarizes handoff evidence for `/great-resume` and high-risk claims for `/interview`.
+`/project-guide` works from an existing project repository or project materials. For systematic source learning, it first designs an outline in `tutorial.md`, then expands selected lessons and creates matching questions in `practice.md` on demand. For job-search preparation, it generates `导学-{short-name}.md` and `面经-{short-name}.md` with reading paths, technical highlights, design trade-offs, STAR answers, and source evidence.
 
 Typical usage:
 
@@ -201,6 +201,8 @@ Typical usage:
 Short name: BI
 Project description: This is a React, Node.js, and LLM API based data Q&A project. I owned query orchestration, result visualization, and graceful fallback.
 Target role: Front-end / AI application
+
+You can also ask it to design a source-reading course outline first, without expanding every lesson, then request lesson 1 or its matching comprehension questions later.
 ```
 
 ## `/great-resume`: Improve your experience

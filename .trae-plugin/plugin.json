@@ -44,7 +44,7 @@
     "defaultPrompt": [
       "用 /contributor 寻找与目标岗位匹配的开源贡献机会。",
       "用 /evidence-recap 把 AI 编程对话和交付记录整理为可核验的项目证据链。",
-      "用 /project-guide 基于项目仓库生成导学和面经。",
+      "用 /project-guide 基于项目仓库生成源码课程、导学和面经。",
       "用 /great-resume 提升我的经历并生成 HR 开场白。",
       "用 /make-resume 默认基于 ASu 模板制作可编辑 HTML 简历，也可以指定其他模板。",
       "用 /job-match 对照目标 JD 与真实经历，判断岗位匹配和证据缺口。",
