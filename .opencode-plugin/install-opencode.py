@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ASu-skills OpenCode 安装脚本
-自动将 skills/ 目录复制到 OpenCode 的 skills 目录
+自动安装 skills/ 以及 make-resume、offer 依赖的共享资源
 """
 import argparse
 import os
@@ -74,7 +74,7 @@ def find_opencode_skills_dir():
 
 
 def install_skills(skills_dir, source_dir):
-    """将 skills 复制到目标目录"""
+    """将 skills 与共享资源复制到 OpenCode 配置目录。"""
     source = Path(source_dir)
     target = Path(skills_dir)
 
@@ -109,6 +109,25 @@ def install_skills(skills_dir, source_dir):
             print(f"[ERROR] 安装 {skill_name} 失败: {exc}")
             return False
         print(f"[OK] {skill_name}")
+
+    resource_root = target.parent
+    for resource_name in ("assets", "references"):
+        src = source.parent / resource_name
+        dst = resource_root / resource_name / "asu"
+
+        if not src.is_dir():
+            print(f"[ERROR] 共享资源目录不存在: {src}")
+            return False
+
+        try:
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            if dst.exists():
+                shutil.rmtree(dst)
+            shutil.copytree(src, dst)
+        except OSError as exc:
+            print(f"[ERROR] 安装共享资源 {resource_name} 失败: {exc}")
+            return False
+        print(f"[OK] {resource_name}/asu")
 
     print()
     print("[OK] 安装完成！请重启 OpenCode 或执行 /reload-plugins")
