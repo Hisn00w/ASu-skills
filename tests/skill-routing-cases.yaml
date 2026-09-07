@@ -20,7 +20,8 @@
 #   - 每条 case 只对应一个明确的 expected skill；
 #   - 边界 case（两个 skill description 都可能匹配）优先收录，用于压测
 #     description 的路由区分度；
-#   - expected 必须是 skills/ 下实际存在的目录名。
+#   - expected 必须是 skills/ 下实际存在的目录名；
+#   - 每个包含 SKILL.md 的 skill 至少有一条 case，新增入口时同步补齐。
 
 cases:
   - prompt: "帮我酥化这段实习经历"
@@ -38,6 +39,18 @@ cases:
   - prompt: "帮我写一段发给 HR 的自我介绍"
     expected: great-resume
     note: HR 自我介绍，归 /great-resume。
+
+  - prompt: "复盘刚才这段 AI 编程对话，把问题、决策、我的动作和验收证据串起来"
+    expected: evidence-recap
+    note: 明确要求从 AI 编程过程还原可核验交付证据，命中 /evidence-recap。
+
+  - prompt: "先别改简历，判断这个 Agent demo 是生产落地、内部试点还是技术验证，并列出待补证据"
+    expected: evidence-recap
+    note: 边界 case：目标是核验交付阶段和证据缺口，而非改写求职表达，归 /evidence-recap 而非 /great-resume。
+
+  - prompt: "这份项目记录里哪些是实测结果、哪些只是估算？也帮我划清个人和团队贡献"
+    expected: evidence-recap
+    note: 效果证据分类与个人责任边界属于 /evidence-recap。
 
   - prompt: "帮我做一份普通后端简历"
     expected: make-resume

@@ -9,7 +9,12 @@
 ._*
 Icon?
 
+# Python 缓存
+__pycache__/
+*.py[cod]
+
 # 构建产物
 dist/
+
 # 临时文件
 temp/
