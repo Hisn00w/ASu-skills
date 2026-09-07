@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 ASu-skills OpenCode 安装脚本
 自动将 skills/ 目录复制到 OpenCode 的 skills 目录
@@ -10,16 +10,22 @@ import shutil
 from pathlib import Path
 
 
+# catalog:opencode.skills:begin
 SKILL_NAMES = (
     "contributor",
     "evidence-recap",
     "project-guide",
     "great-resume",
     "make-resume",
+    "job-match",
     "job-apply",
     "interview",
     "offer",
 )
+# catalog:opencode.skills:end
+# catalog:opencode.echo:begin
+TRIGGER_WORDS = "/contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-match  /job-apply  /interview  /offer"
+# catalog:opencode.echo:end
 
 
 def find_opencode_skills_dir():
@@ -106,7 +112,7 @@ def install_skills(skills_dir, source_dir):
 
     print()
     print("[OK] 安装完成！请重启 OpenCode 或执行 /reload-plugins")
-    print("   使用触发词：/contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-apply  /interview  /offer")
+    print("   使用触发词：" + TRIGGER_WORDS)
     return True
 
 

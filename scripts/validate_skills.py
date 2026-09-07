@@ -40,6 +40,7 @@ TRAE_PLUGIN_MANIFEST = REPO_ROOT / ".trae-plugin" / "plugin.json"
 CLAUDE_PLUGIN_MANIFEST = REPO_ROOT / ".claude-plugin" / "plugin.json"
 CLAUDE_MARKETPLACE_MANIFEST = REPO_ROOT / ".claude-plugin" / "marketplace.json"
 OPENCODE_PLUGIN_MANIFEST = REPO_ROOT / ".opencode-plugin" / "plugin.json"
+REGISTRY_MANIFEST = REPO_ROOT / "skills.registry.json"
 
 DESCRIPTION_MAX_LEN = 500
 
@@ -588,6 +589,53 @@ def check_opencode_manifest(skill_dirs: List[Path], report: Report) -> None:
         report.add(True, "", f"{label} skills.entries 覆盖全部 skill")
 
 
+def check_registry(skill_dirs: List[Path], report: Report) -> None:
+    """校验 skills.registry.json：入口名唯一、必备字段齐全、与 skills/ 目录一一对应。"""
+    label = "skills.registry.json"
+    manifest = read_json_manifest(REGISTRY_MANIFEST, label, report)
+    if manifest is None:
+        return
+    if not isinstance(manifest, dict):
+        report.add(False, "", f"{label} 顶层不是对象")
+        return
+    entries = manifest.get("entries")
+    if not isinstance(entries, list) or not entries:
+        report.add(False, "", f"{label} 缺少非空 entries 列表")
+        return
+    seen = set()
+    actual: set = set()
+    for index, entry in enumerate(entries, start=1):
+        if not isinstance(entry, dict):
+            report.add(False, "", f"{label} entries[{index}] 不是对象")
+            continue
+        name = entry.get("name")
+        if not isinstance(name, str) or not name:
+            report.add(False, "", f"{label} entries[{index}] 缺少 name")
+            continue
+        if name in seen:
+            report.add(False, "", f"{label} 重复入口: {name}")
+        seen.add(name)
+        actual.add(name)
+        zh = entry.get("zh")
+        en = entry.get("en")
+        for field in ("menuLabel", "prompt", "opencodeDetail", "deliverables"):
+            value = (zh or {}).get(field) if isinstance(zh, dict) else None
+            if not isinstance(value, str) or not value.strip():
+                report.add(False, "", f"{label} 入口 {name} 缺少 zh.{field}")
+        for field in ("menu", "deliverables"):
+            value = (en or {}).get(field) if isinstance(en, dict) else None
+            if not isinstance(value, str) or not value.strip():
+                report.add(False, "", f"{label} 入口 {name} 缺少 en.{field}")
+    expected = {d.name for d in skill_dirs}
+    if expected != actual:
+        report.add(
+            False,
+            "",
+            f"{label} 与 skills/ 目录不一致：registry 多出={sorted(actual - expected)}，目录多出={sorted(expected - actual)}",
+        )
+    else:
+        report.add(True, "", f"{label} 覆盖全部 {len(actual)} 个 skill")
+
 def check_templates(report: Report) -> None:
     """校验 assets/templates-html/ 的外框解耦结构。
 
@@ -653,6 +701,7 @@ def main() -> int:
         report,
     )
     check_opencode_manifest(skill_dirs, report)
+    check_registry(skill_dirs, report)
     check_templates(report)
 
     print(report.summary())

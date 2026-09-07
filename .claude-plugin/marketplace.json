@@ -8,10 +8,7 @@
   "plugins": [
     {
       "name": "asu-skills",
-      "source": "./",
-      "displayName": "ASu-skills",
-      "description": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-apply、/interview、/offer 完成中文求职工作流。",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": {
         "name": "Hisn0w",
         "url": "https://github.com/Hisn00w"
@@ -19,22 +16,29 @@
       "homepage": "https://github.com/Hisn00w/ASu-skills",
       "repository": "https://github.com/Hisn00w/ASu-skills",
       "license": "MIT",
-      "category": "Productivity",
       "keywords": [
-        "project-guide",
-        "project-analysis",
         "resume",
-        "interview",
         "job-search",
+        "job-match",
         "job-application",
         "browser-automation",
         "career",
         "open-source",
-        "contributor",
         "chinese",
+        "project-analysis",
+        "contributor",
+        "evidence-recap",
+        "project-guide",
         "great-resume",
-        "evidence-recap"
-      ]
+        "make-resume",
+        "job-apply",
+        "interview",
+        "offer"
+      ],
+      "source": "./",
+      "displayName": "ASu-skills",
+      "description": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer 完成中文求职工作流。",
+      "category": "Productivity"
     }
   ]
 }

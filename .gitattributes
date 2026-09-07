@@ -1,0 +1,14 @@
+# 由 scripts/sync-skill-catalog.mjs 生成/维护的文本文件：统一 LF 存储与检出
+# （避免 Windows core.autocrlf 在检出时改写为 CRLF，造成同步/对账噪音）
+.codex-plugin/*.json text eol=lf
+.trae-plugin/*.json text eol=lf
+.claude-plugin/*.json text eol=lf
+.opencode-plugin/*.json text eol=lf
+package.json text eol=lf
+.opencode-plugin/install-opencode.py text eol=lf
+.workbuddy-plugin/*.sh text eol=lf
+.workbuddy-plugin/*.ps1 text eol=lf
+.workbuddy-plugin/*.md text eol=lf
+.github/ISSUE_TEMPLATE/*.yml text eol=lf
+README.md text eol=lf
+README_en.md text eol=lf

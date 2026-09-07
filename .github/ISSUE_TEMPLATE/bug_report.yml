@@ -25,12 +25,17 @@ body:
       label: 相关技能
       description: 问题与哪个技能相关？
       options:
+# catalog:issue.bug.options:begin
         - /contributor 开源贡献
         - /evidence-recap 证据复盘
+        - /project-guide 项目导学面经
         - /great-resume 简历提升
         - /make-resume 简历制作
-        - /interview 面试预测
-        - /offer 秋招进度管理
+        - /job-match 岗位匹配
+        - /job-apply 简历投递填写
+        - /interview 面试准备
+        - /offer 校招进度管理
+# catalog:issue.bug.options:end
         - 不涉及具体技能
     validations:
       required: true

@@ -66,6 +66,7 @@ cp -r skills/* "$HOME/.config/opencode/skills/"
 |---------|--------|
 | 简历提升 | /great-resume、我要酥化、改写经历 |
 | 简历制作 | /make-resume、做简历、同款简历、指定模板 |
+| 岗位匹配 | /job-match、JD 匹配、简历差距、是否值得投递 |
 | 面试准备 | /interview、面试预测、模拟面试 |
 | 求职进度 | /offer、秋招进度 |
 | 简历投递填写 | /job-apply、自动填写招聘网站申请表 |

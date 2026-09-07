@@ -8,6 +8,7 @@ on:
       - '.trae-plugin/**'
       - '.claude-plugin/**'
       - '.opencode-plugin/**'
+      - 'skills.registry.json'
       - 'package.json'
       - 'assets/templates-html/**'
       - 'lib/**'
@@ -23,6 +24,7 @@ on:
       - '.trae-plugin/**'
       - '.claude-plugin/**'
       - '.opencode-plugin/**'
+      - 'skills.registry.json'
       - 'package.json'
       - 'assets/templates-html/**'
       - 'lib/**'
@@ -49,9 +51,6 @@ jobs:
       - name: Run skill validator
         run: python3 scripts/validate_skills.py
 
-      - name: Run skill routing validator
-        run: python3 scripts/validate_skill_routing.py
-
       - name: Run unit tests
         run: python3 -m unittest discover -s tests -v
 
@@ -59,6 +58,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.19.0'
+
+      - name: Check skill catalog sync
+        run: node scripts/sync-skill-catalog.mjs --check
 
       - name: Run JavaScript tests
         run: node --test

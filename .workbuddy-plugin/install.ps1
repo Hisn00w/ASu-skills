@@ -1,5 +1,7 @@
 # ASu-skills → WorkBuddy 轻量安装入口（Windows / PowerShell）
-# 把仓库原版 skills/ 下 8 个技能桥接到 $HOME/.workbuddy/skills/
+# catalog:wb.ps1.header:begin
+# 把仓库原版 skills/ 下可桥接的 8 个技能桥接到 $HOME/.workbuddy/skills/
+# catalog:wb.ps1.header:end
 # 优先软链；Windows 软链需开发者模式或管理员权限，失败则回退为复制。
 
 $ErrorActionPreference = 'Stop'
@@ -7,7 +9,9 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 $src      = Join-Path $repoRoot 'skills'
 $dst      = Join-Path $env:USERPROFILE '.workbuddy\skills'
-$skills   = @('contributor', 'evidence-recap', 'project-guide', 'great-resume', 'make-resume', 'interview', 'offer')
+# catalog:wb.ps1.skills:begin
+$skills   = @('contributor', 'evidence-recap', 'project-guide', 'great-resume', 'make-resume', 'job-match', 'interview', 'offer')
+# catalog:wb.ps1.skills:end
 
 New-Item -ItemType Directory -Force -Path $dst | Out-Null
 
@@ -35,6 +39,8 @@ foreach ($s in $skills) {
     }
 }
 
+# catalog:wb.ps1.echo:begin
 Write-Host ""
 Write-Host "Done. 重启 WorkBuddy（或刷新技能列表）后即可触发："
-Write-Host "  contributor / evidence-recap / project-guide / great-resume / make-resume / interview / offer"
+Write-Host "  contributor / evidence-recap / project-guide / great-resume / make-resume / job-match / interview / offer"
+# catalog:wb.ps1.echo:end

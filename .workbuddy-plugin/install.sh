@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
+# catalog:wb.sh.header:begin
 # ASu-skills → WorkBuddy 轻量安装入口（macOS / Linux）
-# 把仓库原版 skills/ 下 8 个技能软链到 ~/.workbuddy/skills/
+# 把仓库原版 skills/ 下可桥接的 8 个技能软链到 ~/.workbuddy/skills/
+# catalog:wb.sh.header:end
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$REPO_ROOT/skills"
 DST="${HOME}/.workbuddy/skills"
-SKILLS=(contributor evidence-recap project-guide great-resume make-resume interview offer)
+# catalog:wb.sh.skills:begin
+SKILLS=(contributor evidence-recap project-guide great-resume make-resume job-match interview offer)
+# catalog:wb.sh.skills:end
 
 mkdir -p "$DST"
 
@@ -20,6 +24,8 @@ for s in "${SKILLS[@]}"; do
   fi
 done
 
+# catalog:wb.sh.echo:begin
 echo ""
 echo "Done. 重启 WorkBuddy（或刷新技能列表）后即可触发："
-echo "  contributor / evidence-recap / project-guide / great-resume / make-resume / interview / offer"
+echo "  contributor / evidence-recap / project-guide / great-resume / make-resume / job-match / interview / offer"
+# catalog:wb.sh.echo:end
