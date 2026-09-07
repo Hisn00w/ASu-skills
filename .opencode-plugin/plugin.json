@@ -78,13 +78,13 @@
         "1. 克隆仓库到本地",
         "2. 将 skills/ 目录下所有文件夹复制到 OpenCode 的 skills 目录（通常为 E:\\Cache\\skills\\ 或 ~/.config/opencode/skills/）",
         "3. 重启 OpenCode 或执行 /reload-plugins",
-        "4. 使用 /project-guide、/great-resume、/make-resume、/job-apply、/interview 等触发词调用"
+        "4. 使用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer 等触发词调用"
       ],
       "en": [
         "1. Clone the repository locally",
         "2. Copy all folders under skills/ to OpenCode skills directory (usually E:\\Cache\\skills\\ or ~/.config/opencode/skills/)",
         "3. Restart OpenCode or execute /reload-plugins",
-        "4. Trigger with /project-guide, /great-resume, /make-resume, /job-apply, /interview etc."
+        "4. Trigger with /contributor, /evidence-recap, /project-guide, /great-resume, /make-resume, /job-match, /job-apply, /interview, /offer etc."
       ]
     }
   }
