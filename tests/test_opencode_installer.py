@@ -47,6 +47,12 @@ class OpenCodeInstallerTests(unittest.TestCase):
             self.assertEqual(set(installer.SKILL_NAMES), expected_skills)
             for skill_name in expected_skills:
                 self.assertTrue((target / skill_name / "SKILL.md").is_file())
+            self.assertTrue(
+                (target.parent / "assets" / "asu" / "asu-resume-template.html").is_file()
+            )
+            self.assertTrue(
+                (target.parent / "references" / "asu" / "email-monitoring.md").is_file()
+            )
 
     def test_without_target_uses_auto_discovery(self):
         with tempfile.TemporaryDirectory() as temp_dir:
