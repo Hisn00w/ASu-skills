@@ -23,6 +23,8 @@ python .opencode-plugin/install-opencode.py --target /custom/opencode/skills
 
 `--target` 优先于自动查找；指定目录不存在时，安装脚本会自动创建。路径中包含空格时请使用引号。
 
+安装脚本除复制 `skills/` 外，还会把共享 `assets/` 与 `references/` 安装到 skills 目录的上一级，分别保存为 `assets/asu/` 与 `references/asu/`。这样 `/make-resume` 和 `/offer` 能在 OpenCode 中继续定位模板与参考资料。
+
 ## 方法 2：手动安装
 
 先 clone 并进入仓库：
@@ -38,6 +40,8 @@ cd ASu-skills
 
 ```bat
 xcopy /E /I "skills\*" "%USERPROFILE%\.config\opencode\skills"
+xcopy /E /I "assets\*" "%USERPROFILE%\.config\opencode\assets\asu"
+xcopy /E /I "references\*" "%USERPROFILE%\.config\opencode\references\asu"
 ```
 
 `/I` 会将不存在的目标视为目录并创建；路径引号用于兼容包含空格的用户名。
@@ -45,8 +49,10 @@ xcopy /E /I "skills\*" "%USERPROFILE%\.config\opencode\skills"
 **macOS / Linux（Bash / Zsh）：**
 
 ```bash
-mkdir -p "$HOME/.config/opencode/skills"
+mkdir -p "$HOME/.config/opencode/skills" "$HOME/.config/opencode/assets/asu" "$HOME/.config/opencode/references/asu"
 cp -r skills/* "$HOME/.config/opencode/skills/"
+cp -r assets/* "$HOME/.config/opencode/assets/asu/"
+cp -r references/* "$HOME/.config/opencode/references/asu/"
 ```
 
 复制完成后重启 OpenCode。

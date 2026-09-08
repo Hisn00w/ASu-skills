@@ -12,3 +12,4 @@ package.json text eol=lf
 .github/ISSUE_TEMPLATE/*.yml text eol=lf
 README.md text eol=lf
 README_en.md text eol=lf
+docs/index.html text eol=lf
