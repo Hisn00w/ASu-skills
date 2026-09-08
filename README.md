@@ -68,7 +68,7 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 
 ## 安装
 
-ASu-skills 同时支持 Codex、Claude Code 和 TraeWork，另有 OpenCode 与 WorkBuddy 的轻量桥接入口：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，`.trae-plugin/` 供 TraeWork 使用，`.opencode-plugin/`、`.workbuddy-plugin/` 提供社区安装入口；所有入口共用同一套 `skills/`、`assets/` 和 `references/`。入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
+ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 OpenCode 与 WorkBuddy 的轻量桥接入口：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，`.trae-plugin/` 供 TraeWork 使用，`.qoder-plugin/` 供 Qoder 使用，`.opencode-plugin/`、`.workbuddy-plugin/` 提供社区安装入口；所有入口共用同一套 `skills/`、`assets/` 和 `references/`。入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
 
 ### Codex
 
@@ -133,6 +133,16 @@ TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，九�
 其中 `<publisher>` 是插件目录下的命名空间，可自行指定（如 `local`），`<version>` 为 `plugin.json` 中的版本号。卸载时删除对应插件目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
 
 开发者请参阅 [贡献指南](.github/CONTRIBUTING.md)，其中包含本地校验、测试命令和 PR 提交流程。
+
+### Qoder
+
+Qoder 通过 `.qoder-plugin/plugin.json` 清单把仓库识别为插件，九个 skill 会以斜杠命令的形式挂载在对话中。
+
+1. 把本仓库整体复制到 Qoder 插件目录：`~/.qoder/plugins/asu-skills/`，保留 `.qoder-plugin/plugin.json`、`skills/`、`assets/` 和 `references/`；
+2. 在 `~/.qoder/plugins/installed_plugins_v2.json` 中注册插件（或重启 Qoder 后在设置 → 插件中启用）；
+3. 重启 Qoder，新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview` 或 `offer`。
+
+卸载时删除 `~/.qoder/plugins/asu-skills/` 目录并在 `installed_plugins_v2.json` 中移除对应条目即可，不会影响你在项目或用户目录里编辑过的求职进度表。
 
 ## 第一次使用：从哪个入口开始
 
@@ -401,6 +411,8 @@ asu-skills/
 │   ├── install.md               # WorkBuddy 桥接说明（清单区由 registry 生成）
 │   ├── install.sh               # macOS / Linux 桥接脚本
 │   └── install.ps1              # Windows 桥接脚本
+├── .qoder-plugin/
+│   └── plugin.json              # Qoder 插件清单
 ├── skills.registry.json        # ★ 入口目录单一事实源：新增/删除入口先改这里，再 npm run sync:skills
 ├── package.json                # DSH 插件包清单（bundle patch 入口）
 ├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方

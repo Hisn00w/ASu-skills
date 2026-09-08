@@ -80,7 +80,7 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 
 ## Installation
 
-ASu-skills works with Codex, Claude Code, and TraeWork, plus lightweight OpenCode and WorkBuddy bridges: the repo root has `.codex-plugin/` for Codex, `.claude-plugin/` for Claude Code, `.trae-plugin/` for TraeWork, and `.opencode-plugin/`/`.workbuddy-plugin/` for community installers — all sharing the same `skills/`, `assets/`, and `references/`. The entry catalog is maintained in `skills.registry.json` as the single source of truth and is regenerated/reconciled by `npm run sync:skills` (CI checks it with `--check`).
+ASu-skills works with Codex, Claude Code, TraeWork, and Qoder, plus lightweight OpenCode and WorkBuddy bridges: the repo root has `.codex-plugin/` for Codex, `.claude-plugin/` for Claude Code, `.trae-plugin/` for TraeWork, `.qoder-plugin/` for Qoder, and `.opencode-plugin/`/`.workbuddy-plugin/` for community installers — all sharing the same `skills/`, `assets/`, and `references/`. The entry catalog is maintained in `skills.registry.json` as the single source of truth and is regenerated/reconciled by `npm run sync:skills` (CI checks it with `--check`).
 
 ### Codex
 
@@ -145,6 +145,16 @@ TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json`
 `<publisher>` is a namespace you choose under the plugin directory (for example `local`), and `<version>` is the version in `plugin.json`. To uninstall, delete the plugin directory; it never touches the application tracker you have edited in your project or user directory.
 
 For contributor checks, tests, and the PR workflow, see the [contributing guide](.github/CONTRIBUTING_en.md).
+
+### Qoder
+
+Qoder recognises this repository as a plugin through the `.qoder-plugin/plugin.json` manifest, and the nine skills become available as slash commands in conversations.
+
+1. Copy this repository into the Qoder plugin directory: `~/.qoder/plugins/asu-skills/`, keeping `.qoder-plugin/plugin.json`, `skills/`, `assets/`, and `references/`;
+2. Register the plugin in `~/.qoder/plugins/installed_plugins_v2.json` (or restart Qoder and enable it in Settings → Plugins);
+3. Restart Qoder, start a new conversation, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-match`, `job-apply`, `interview`, or `offer` from the command list.
+
+To uninstall, delete the `~/.qoder/plugins/asu-skills/` directory and remove the corresponding entry from `installed_plugins_v2.json`; it never touches the application tracker you have edited in your project or user directory.
 
 ## First time: where to start
 
@@ -416,6 +426,8 @@ asu-skills/
 │   ├── install.md               # WorkBuddy bridge guide (catalog blocks generated from the registry)
 │   ├── install.sh               # macOS / Linux bridge script
 │   └── install.ps1              # Windows bridge script
+├── .qoder-plugin/
+│   └── plugin.json              # Qoder plugin manifest
 ├── skills.registry.json        # ★ Single source of truth for the entry catalog; run npm run sync:skills after changing it
 ├── package.json                # DSH plugin pack manifest (bundle patch entry)
 ├── cordis.patch.yml            # Registers the DSH filesystem skill provider

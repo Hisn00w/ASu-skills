@@ -15,7 +15,7 @@
      interface.display_name、interface.short_description、interface.default_prompt；
   6. SKILL.md 中引用的本地 references / assets 路径实际存在
      （仅检查相对路径，跳过 http(s)/mailto/锚点）；
-  7. .codex-plugin/.trae-plugin/.claude-plugin/.opencode-plugin 清单是合法 JSON，
+  7. .codex-plugin/.trae-plugin/.claude-plugin/.opencode-plugin/.qoder-plugin 清单是合法 JSON，
      且关键字段、入口列表与本地资源引用有效；
   8. assets/templates-html/ 外框解耦结构完整：frame/ 三部件存在、
      壳文件数量 == 18。交付产物的一致性由 inline-template.mjs 的确定性
@@ -40,6 +40,7 @@ TRAE_PLUGIN_MANIFEST = REPO_ROOT / ".trae-plugin" / "plugin.json"
 CLAUDE_PLUGIN_MANIFEST = REPO_ROOT / ".claude-plugin" / "plugin.json"
 CLAUDE_MARKETPLACE_MANIFEST = REPO_ROOT / ".claude-plugin" / "marketplace.json"
 OPENCODE_PLUGIN_MANIFEST = REPO_ROOT / ".opencode-plugin" / "plugin.json"
+QODER_PLUGIN_MANIFEST = REPO_ROOT / ".qoder-plugin" / "plugin.json"
 REGISTRY_MANIFEST = REPO_ROOT / "skills.registry.json"
 
 DESCRIPTION_MAX_LEN = 500
@@ -691,6 +692,12 @@ def main() -> int:
     check_skill_plugin_manifest(
         TRAE_PLUGIN_MANIFEST,
         ".trae-plugin/plugin.json",
+        report,
+        required_default_prompt="/project-guide",
+    )
+    check_skill_plugin_manifest(
+        QODER_PLUGIN_MANIFEST,
+        ".qoder-plugin/plugin.json",
         report,
         required_default_prompt="/project-guide",
     )
