@@ -69,13 +69,13 @@
       "name": "project-guide",
       "zh": {
         "menuLabel": "项目导学面经",
-        "prompt": "用 /project-guide 基于项目仓库生成导学和面经。",
-        "opencodeDetail": "基于项目仓库生成导学和面经双文件",
-        "deliverables": "基于项目仓库生成`导学-{简称}.md`、`面经-{简称}.md` 和交接摘要"
+        "prompt": "用 /project-guide 基于项目仓库生成源码课程、导学和面经。",
+        "opencodeDetail": "基于项目仓库生成源码课程、导学和面经材料",
+        "deliverables": "按需生成 `tutorial.md`、`practice.md`，或导学、面经与交接摘要"
       },
       "en": {
         "menu": "Project interview prep",
-        "deliverables": "Generates `导学-{short-name}.md`, `面经-{short-name}.md`, and handoff evidence from a project repository"
+        "deliverables": "Creates `tutorial.md` and `practice.md` on demand, or project study notes, interview answers, and handoff evidence"
       },
       "site": {
         "title": "项目导学面经",

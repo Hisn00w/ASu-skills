@@ -1,0 +1,55 @@
+# 人工行为检查与后续 Agent Eval 输入；不是已运行的 LLM 测试结果。
+cases:
+  - name: outline-only
+    prompt: "基于当前仓库设计源码课程大纲，暂不展开"
+    context: "可读取仓库源码，输出目录为空。"
+    expect:
+      - "tutorial.md 有真实文件与符号的有序阅读路线"
+      - "声明源码版本与实际覆盖范围"
+    reject:
+      - "生成所有课程全文或 practice.md"
+      - "按文件数量机械分课"
+
+  - name: targeted-expansion
+    prompt: "只展开第 2 课，其他内容保持原样"
+    context: "tutorial.md 有三课及用户笔记；practice.md 已存在。保存操作前快照。"
+    expect:
+      - "只更新 tutorial.md 第 2 课"
+      - "所述分支有源码证据，其他课、用户笔记和 practice.md 与快照一致"
+    reject:
+      - "重新生成整个文件"
+
+  - name: matching-practice
+    prompt: "为已展开的第 2 课生成理解题，先不提供答案"
+    context: "tutorial.md 第 2 课已展开，practice.md 有第 1 课与用户答案。"
+    expect:
+      - "题目只涉及第 2 课已讲内容，编号标题对应"
+      - "保留第 1 课、用户答案与 tutorial.md"
+    reject:
+      - "默认提供标准答案或编码任务"
+
+  - name: missing-source
+    prompt: "这是一个任务队列项目，给我每一课的具体函数调用路线"
+    context: "只有一句项目描述，没有可读取源码。"
+    expect:
+      - "请求仓库路径或源码，主题建议标为待核实"
+    reject:
+      - "编造路径、消费函数或重试机制"
+
+  - name: asynchronous-boundary
+    prompt: "展开任务从提交到完成这一课"
+    context: "源码包含入队与消费者注册，但远程服务实现不可访问。"
+    expect:
+      - "分别说明提交响应、消费处理与终态，引用注册证据"
+      - "远程实现止于已证实接口并标明未确认内容"
+    reject:
+      - "把入队返回当作任务完成"
+
+  - name: source-drift
+    prompt: "根据当前源码更新第 2 课并同步对应练习"
+    context: "旧课称失败后自动重试，当前源码已移除重试。其他课不受影响。"
+    expect:
+      - "纠正第 2 课及对应练习，说明版本差异"
+      - "保持其他章节原文"
+    reject:
+      - "为了维持旧大纲补造重试逻辑"

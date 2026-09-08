@@ -108,6 +108,22 @@ cases:
     expected: project-guide
     note: 从项目材料生成 STAR 面试题库，命中 /project-guide。
 
+  - prompt: "把当前仓库设计成渐进式源码课程，先给大纲"
+    expected: project-guide
+    note: 源码分课属于 /project-guide 的课程模式，不新增入口。
+
+  - prompt: "展开 tutorial.md 第 2 课，沿真实调用链带我读"
+    expected: project-guide
+    note: 按调用链更新已有课程的指定章节。
+
+  - prompt: "为 tutorial.md 第 1 课生成 practice.md 理解题，先不给答案"
+    expected: project-guide
+    note: 为源码课程生成配套理解题。
+
+  - prompt: "更新源码课程第 3 课并同步对应练习，保留其他章节"
+    expected: project-guide
+    note: 局部同步课程与练习，仍由 /project-guide 处理。
+
   - prompt: "根据这个 JD 模拟一场 40 分钟技术一面，先别点评，结束后统一复盘"
     expected: interview
     note: 包含面试轮次、时长与延迟反馈策略的契约化模拟，命中 /interview。
