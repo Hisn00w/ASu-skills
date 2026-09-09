@@ -191,6 +191,9 @@ const qoder = {
   },
 };
 
+/* 根目录 plugin.json：Qoder 技能发现入口（不含 interface，仅用于让 Qoder 识别 skills/ 目录） */
+const { interface: _unused, ...qoderRoot } = qoder;
+
 const pkgKeywords = uniq(['dsh-plugin', 'deepseek-harness', 'agent-skill', ...keywords]);
 const nextPkg = { ...pkg, keywords: pkgKeywords };
 
@@ -325,6 +328,7 @@ const fileTargets = [
   ['.claude-plugin/marketplace.json', json(marketplace)],
   ['.opencode-plugin/plugin.json', json(opencode)],
   ['.qoder-plugin/plugin.json', json(qoder)],
+  ['plugin.json', json(qoderRoot)],
   ['package.json', json(nextPkg)],
 ];
 for (const [rel, next] of fileTargets) stage(rel, read(rel), next);

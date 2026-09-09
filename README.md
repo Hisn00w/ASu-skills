@@ -136,13 +136,15 @@ TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，九�
 
 ### Qoder
 
-Qoder 通过 `.qoder-plugin/plugin.json` 清单把仓库识别为插件，九个 skill 会以斜杠命令的形式挂载在对话中。
+Qoder 通过根目录 `plugin.json`（技能发现入口）和 `.qoder-plugin/plugin.json`（附加元数据）把仓库识别为插件，九个 skill 会以斜杠命令的形式挂载在对话中。
 
-1. 把本仓库整体复制到 Qoder 插件目录：`~/.qoder/plugins/asu-skills/`，保留 `.qoder-plugin/plugin.json`、`skills/`、`assets/` 和 `references/`；
-2. 在 `~/.qoder/plugins/installed_plugins_v2.json` 中注册插件（或重启 Qoder 后在设置 → 插件中启用）；
-3. 重启 Qoder，新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview` 或 `offer`。
+1. 把本仓库整体复制到 `~/.qoder/plugins/cache/local/asu-skills/`，保留根目录 `plugin.json`、`.qoder-plugin/`、`skills/`、`assets/` 和 `references/`；
+2. 重启 Qoder，在设置 → 插件中确认 `asu-skills` 已启用（如果是首次安装，可能需要手动开启后再关闭、再开启一次以触发加载）；
+3. **新建一个对话**，在输入框输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview` 或 `offer`。
 
-卸载时删除 `~/.qoder/plugins/asu-skills/` 目录并在 `installed_plugins_v2.json` 中移除对应条目即可，不会影响你在项目或用户目录里编辑过的求职进度表。
+> **注意**：修改插件配置后，当前对话不会实时刷新技能列表，必须新建对话或重启 Qoder 才能看到变更。排查问题时请始终用一个新对话验证。
+
+卸载时删除 `~/.qoder/plugins/cache/local/asu-skills/` 目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
 
 ## 第一次使用：从哪个入口开始
 
@@ -412,7 +414,8 @@ asu-skills/
 │   ├── install.sh               # macOS / Linux 桥接脚本
 │   └── install.ps1              # Windows 桥接脚本
 ├── .qoder-plugin/
-│   └── plugin.json              # Qoder 插件清单
+│   └── plugin.json              # Qoder 插件清单（interface 等附加元数据）
+├── plugin.json                  # Qoder 技能发现入口（由 sync 脚本自动生成）
 ├── skills.registry.json        # ★ 入口目录单一事实源：新增/删除入口先改这里，再 npm run sync:skills
 ├── package.json                # DSH 插件包清单（bundle patch 入口）
 ├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方
