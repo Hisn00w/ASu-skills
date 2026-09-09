@@ -144,19 +144,51 @@ TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json`
 
 `<publisher>` is a namespace you choose under the plugin directory (for example `local`), and `<version>` is the version in `plugin.json`. To uninstall, delete the plugin directory; it never touches the application tracker you have edited in your project or user directory.
 
-For contributor checks, tests, and the PR workflow, see the [contributing guide](.github/CONTRIBUTING_en.md).
-
 ### Qoder
 
-Qoder recognises this repository as a plugin through the root-level `plugin.json` (skill discovery entry) and `.qoder-plugin/plugin.json` (additional metadata), and the nine skills become available as slash commands in conversations.
+Qoder recognises this repository as a plugin through the root-level `plugin.json` (skill discovery entry) and `.qoder-plugin/plugin.json` (additional metadata), and the nine skills become available as slash commands in conversations. Choose either method below.
 
-1. Copy this repository into `~/.qoder/plugins/cache/local/asu-skills/`, keeping the root-level `plugin.json`, `.qoder-plugin/`, `skills/`, `assets/`, and `references/`;
-2. Restart Qoder and confirm `asu-skills` is enabled in Settings → Plugins (on first install you may need to toggle it off and on once to trigger loading);
-3. **Start a new conversation**, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-match`, `job-apply`, `interview`, or `offer` from the command list.
+#### Method 1: Official CLI (recommended)
 
-> **Note**: After changing plugin configuration, the current conversation does not refresh its skill list. You must start a new conversation or restart Qoder to see changes. When troubleshooting, always verify in a fresh conversation.
+Qoder ships with `qodercli`, which registers and enables the plugin automatically — no manual config editing required.
 
-To uninstall, delete the `~/.qoder/plugins/cache/local/asu-skills/` directory; it never touches the application tracker you have edited in your project or user directory.
+1. Clone or download this repository to any local directory;
+2. Run the install command (defaults to the `user` global scope):
+
+   ```bash
+   qodercli plugin install <path-to-repo>
+   ```
+
+   If `qodercli` is not on your PATH, find it under `~/.qoder/bin/qodercli/`;
+3. Restart Qoder or **start a new conversation**, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-match`, `job-apply`, `interview`, or `offer` from the command list.
+
+Uninstall:
+
+```bash
+qodercli plugin uninstall asu-skills
+```
+
+#### Method 2: Let the Qoder Agent install it
+
+1. In a new conversation, type:
+
+   ```text
+   /create-plugin Help me create a custom plugin: https://github.com/Hisn00w/ASu-skills
+   ```
+
+2. After it finishes, continue typing in the dialog:
+
+   ```text
+   Register this plugin
+   ```
+
+   Then restart Qoder and enable it in Settings.
+
+> **Note**: Merely copying files into a plugin directory will **not** be auto-discovered; you must register it via one of the methods above. After changing a plugin, the current conversation does not refresh its skill list — start a new conversation or restart Qoder to see changes. When troubleshooting, always verify in a fresh conversation.
+
+Uninstalling never touches the application tracker you have edited in your project or user directory.
+
+For contributor checks, tests, and the PR workflow, see the [contributing guide](.github/CONTRIBUTING_en.md).
 
 ## First time: where to start
 

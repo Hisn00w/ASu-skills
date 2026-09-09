@@ -132,19 +132,51 @@ TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，九�
 
 其中 `<publisher>` 是插件目录下的命名空间，可自行指定（如 `local`），`<version>` 为 `plugin.json` 中的版本号。卸载时删除对应插件目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
 
-开发者请参阅 [贡献指南](.github/CONTRIBUTING.md)，其中包含本地校验、测试命令和 PR 提交流程。
-
 ### Qoder
 
-Qoder 通过根目录 `plugin.json`（技能发现入口）和 `.qoder-plugin/plugin.json`（附加元数据）把仓库识别为插件，九个 skill 会以斜杠命令的形式挂载在对话中。
+Qoder 通过根目录 `plugin.json`（技能发现入口）和 `.qoder-plugin/plugin.json`（附加元数据）识别插件，九个 skill 会以斜杠命令的形式挂载在对话中。以下两种方式任选其一。
 
-1. 把本仓库整体复制到 `~/.qoder/plugins/cache/local/asu-skills/`，保留根目录 `plugin.json`、`.qoder-plugin/`、`skills/`、`assets/` 和 `references/`；
-2. 重启 Qoder，在设置 → 插件中确认 `asu-skills` 已启用（如果是首次安装，可能需要手动开启后再关闭、再开启一次以触发加载）；
-3. **新建一个对话**，在输入框输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview` 或 `offer`。
+#### 方式一：官方 CLI（推荐）
 
-> **注意**：修改插件配置后，当前对话不会实时刷新技能列表，必须新建对话或重启 Qoder 才能看到变更。排查问题时请始终用一个新对话验证。
+Qoder 自带 `qodercli`，安装时会自动完成注册与启用，无需手动修改任何配置文件。
 
-卸载时删除 `~/.qoder/plugins/cache/local/asu-skills/` 目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
+1. 把本仓库克隆或下载到本地任意目录；
+2. 运行安装命令（默认 `user` 全局作用域）：
+
+   ```bash
+   qodercli plugin install <仓库本地路径>
+   ```
+
+   若 `qodercli` 不在 PATH，可在 `~/.qoder/bin/qodercli/` 下找到；
+3. 重启 Qoder 或**新建一个对话**，在输入框输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview` 或 `offer`。
+
+卸载：
+
+```bash
+qodercli plugin uninstall asu-skills
+```
+
+#### 方式二：让 Qoder Agent 安装
+
+1. 新开一个对话，输入：
+
+   ```text
+   /create-plugin Help me create a custom plugin: https://github.com/Hisn00w/ASu-skills
+   ```
+
+2. 完成后，在对话框继续输入：
+
+   ```text
+   注册这个插件
+   ```
+
+   然后重启 Qoder，在设置里启用这个插件。
+
+> **注意**：仅把文件复制进插件目录**不会**被自动识别，必须通过上述方式之一注册。修改插件后，当前对话不会实时刷新技能列表，需新建对话或重启 Qoder 才能看到变更；排查问题时请始终用一个新对话验证。
+
+卸载不会影响你在项目或用户目录里编辑过的求职进度表。
+
+开发者请参阅 [贡献指南](.github/CONTRIBUTING.md)，其中包含本地校验、测试命令和 PR 提交流程。
 
 ## 第一次使用：从哪个入口开始
 
