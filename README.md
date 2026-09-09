@@ -74,9 +74,9 @@ ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 OpenCo
 | Codex       | 将 GitHub 仓库链接发给 Codex，并说明安装                                                 | 新建对话，从`/` 菜单选择入口             | 在 Codex 的插件管理中移除 ASu-skills          |
 | Claude Code | 执行`/plugin marketplace add Hisn00w/ASu-skills` 和 `/plugin install asu-skills@asu` | 按提示执行`/reload-plugins`              | 执行`/plugin uninstall asu-skills`            |
 | TraeWork    | 复制仓库到`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`                       | 重启 TraeWork，从`/` 菜单选择入口        | 删除对应的 TraeWork 插件目录                  |
-| Qoder       | 执行`qodercli plugin install <仓库本地路径>`                                             | 重启 Qoder 或新建对话，从`/` 菜单选择入口 | 执行`qodercli plugin uninstall asu-skills`    |
 | OpenCode    | [查看安装指南](.opencode-plugin/installation-guide.md)                                    | 重启 OpenCode 或执行`/reload-plugins`    | 按安装方式删除对应的技能与资源目录            |
 | WorkBuddy   | [查看桥接安装说明](.workbuddy-plugin/install.md)                                          | 重启 WorkBuddy 或刷新技能列表            | 删除`~/.workbuddy/skills/`下对应目录或软链    |
+| Qoder       | [查看安装说明](.qoder-plugin/install.md)                                                  | 重启 Qoder 或新建对话，从`/` 菜单选择入口 | 按安装方式执行`qodercli plugin uninstall`或删除插件目录 |
 
 开发者请参阅 [贡献指南](.github/CONTRIBUTING.md)，其中包含本地校验、测试命令和 PR 提交流程。
 
@@ -348,6 +348,7 @@ asu-skills/
 │   ├── install.sh               # macOS / Linux 桥接脚本
 │   └── install.ps1              # Windows 桥接脚本
 ├── .qoder-plugin/
+│   ├── install.md               # Qoder 安装说明（CLI / Agent 两种安装方式）
 │   └── plugin.json              # Qoder 插件清单（interface 等附加元数据）
 ├── plugin.json                  # Qoder 技能发现入口（由 sync 脚本自动生成）
 ├── skills.registry.json        # ★ 入口目录单一事实源：新增/删除入口先改这里，再 npm run sync:skills
