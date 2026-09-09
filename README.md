@@ -50,32 +50,31 @@
 - [Star History](#star-history)
 
 <!-- catalog:readme.zh.intro:begin -->
-
 ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的入口：
 
-| 入口                | 用途         | 主要交付                                                          |
-| ------------------- | ------------ | ----------------------------------------------------------------- |
-| `/contributor`    | 开源贡献     | 寻找候选、展示 diff，经确认后提交 PR并把贡献交给`/great-resume` |
-| `/evidence-recap` | 证据复盘     | 把 AI 编程对话和交付记录整理为可核验的九段证据链                  |
-| `/project-guide`  | 项目导学面经 | 按需生成`tutorial.md`、`practice.md`，或导学、面经与交接摘要  |
-| `/great-resume`   | 简历提升     | 岗位定位、项目改写、成果证据、HR 开场白                           |
-| `/make-resume`    | 简历制作     | 默认使用 ASu 模板，也可指定模板；可编辑 HTML 简历和 PDF 导出      |
-| `/job-match`      | 岗位匹配     | 对照 JD 与真实经历，输出证据矩阵、硬性门槛和投递建议              |
-| `/job-apply`      | 简历投递填写 | 连接浏览器自动填写求职申请，核对后停在提交前                      |
-| `/interview`      | 面试准备     | 面试预测、契约化追问、证据复盘和弱项复练                          |
-| `/offer`          | 校招进度管理 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪                       |
-
+| 入口 | 用途 | 主要交付 |
+| --- | --- | --- |
+| `/contributor` | 开源贡献 | 寻找候选、展示 diff，经确认后提交 PR并把贡献交给`/great-resume` |
+| `/evidence-recap` | 证据复盘 | 把 AI 编程对话和交付记录整理为可核验的九段证据链 |
+| `/project-guide` | 项目导学面经 | 按需生成 `tutorial.md`、`practice.md`，或导学、面经与交接摘要 |
+| `/great-resume` | 简历提升 | 岗位定位、项目改写、成果证据、HR 开场白 |
+| `/make-resume` | 简历制作 | 默认使用 ASu 模板，也可指定模板；可编辑 HTML 简历和 PDF 导出 |
+| `/job-match` | 岗位匹配 | 对照 JD 与真实经历，输出证据矩阵、硬性门槛和投递建议 |
+| `/job-apply` | 简历投递填写 | 连接浏览器自动填写求职申请，核对后停在提交前 |
+| `/interview` | 面试准备 | 面试预测、契约化追问、证据复盘和弱项复练 |
+| `/offer` | 校招进度管理 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪 |
 <!-- catalog:readme.zh.intro:end -->
 
 ## 安装
 
-ASu-skills 同时支持 Codex、Claude Code 和 TraeWork，另有 OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
+ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
 
 | 平台        | 安装入口                                                                                 | 安装后操作                              | 卸载方式                                      |
 | ----------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | Codex       | 将 GitHub 仓库链接发给 Codex，并说明安装                                                 | 新建对话，从`/` 菜单选择入口             | 在 Codex 的插件管理中移除 ASu-skills          |
 | Claude Code | 执行`/plugin marketplace add Hisn00w/ASu-skills` 和 `/plugin install asu-skills@asu` | 按提示执行`/reload-plugins`              | 执行`/plugin uninstall asu-skills`            |
 | TraeWork    | 复制仓库到`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`                       | 重启 TraeWork，从`/` 菜单选择入口        | 删除对应的 TraeWork 插件目录                  |
+| Qoder       | 执行`qodercli plugin install <仓库本地路径>`                                             | 重启 Qoder 或新建对话，从`/` 菜单选择入口 | 执行`qodercli plugin uninstall asu-skills`    |
 | OpenCode    | [查看安装指南](.opencode-plugin/installation-guide.md)                                    | 重启 OpenCode 或执行`/reload-plugins`    | 按安装方式删除对应的技能与资源目录            |
 | WorkBuddy   | [查看桥接安装说明](.workbuddy-plugin/install.md)                                          | 重启 WorkBuddy 或刷新技能列表            | 删除`~/.workbuddy/skills/`下对应目录或软链    |
 
@@ -348,6 +347,9 @@ asu-skills/
 │   ├── install.md               # WorkBuddy 桥接说明（清单区由 registry 生成）
 │   ├── install.sh               # macOS / Linux 桥接脚本
 │   └── install.ps1              # Windows 桥接脚本
+├── .qoder-plugin/
+│   └── plugin.json              # Qoder 插件清单（interface 等附加元数据）
+├── plugin.json                  # Qoder 技能发现入口（由 sync 脚本自动生成）
 ├── skills.registry.json        # ★ 入口目录单一事实源：新增/删除入口先改这里，再 npm run sync:skills
 ├── package.json                # DSH 插件包清单（bundle patch 入口）
 ├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方
