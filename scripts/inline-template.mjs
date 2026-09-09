@@ -2,7 +2,7 @@
 // 壳文件 -> 自包含 HTML。
 //
 // 背景：assets/templates-html/ 下 18 套模板的外框（style / 顶部工具栏 / script）已抽成共享
-// frame/ 三部件，模板文件降级为纯设计稿壳文件（内容 + <link frame/base.css>）。本脚本把壳文件
+// assets/frame/ 公共部件，模板文件为纯设计稿壳文件（内容 + <link ../frame/base.css>）。本脚本把壳文件
 // 确定性组装为包含共享功能的 HTML，交付用户前必须经过它。
 //
 // 用法：
@@ -19,13 +19,13 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const TEMPLATES_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'assets', 'templates-html');
-const FRAME_LINK = '<link rel="stylesheet" href="frame/base.css">';
+const FRAME_LINK = '<link rel="stylesheet" href="../frame/base.css">';
 
 // 壳文件预览专用的 SHELL-ONLY 规则块（frame/base.css 末尾），交付时整块移除。
 const SHELL_ONLY_RE = /\r?\n\/\* @@SHELL-ONLY-START@@[\s\S]*?@@SHELL-ONLY-END@@ \*\/\r?\n/;
 
 function inlineOne(shellPath) {
-  const shellDir = TEMPLATES_DIR;
+  const frameDir = path.join(TEMPLATES_DIR, '..', 'frame');
   const html = fs.readFileSync(shellPath, 'utf8');
 
   if (!html.includes(FRAME_LINK)) {
@@ -41,17 +41,17 @@ function inlineOne(shellPath) {
   let out = html.replace(' design-preview', '');
 
   // 2) 内联共享工具栏与版式 CSS，剥离壳文件预览专用规则。
-  const css = fs.readFileSync(path.join(shellDir, 'frame', 'base.css'), 'utf8')
-    .replace('@import url("toolbar.css");', fs.readFileSync(path.join(shellDir, 'frame', 'toolbar.css'), 'utf8'))
+  const css = fs.readFileSync(path.join(frameDir, 'base.css'), 'utf8')
+    .replace('@import url("toolbar.css");', fs.readFileSync(path.join(frameDir, 'toolbar.css'), 'utf8'))
     .replace(SHELL_ONLY_RE, '');
   out = out.replace(FRAME_LINK, `<style>${eol}${css}</style>`);
 
   // 3) 注入顶部工具栏（壳文件 body 顶部）
-  const toolbar = fs.readFileSync(path.join(shellDir, 'frame', 'toolbar.html'), 'utf8');
+  const toolbar = fs.readFileSync(path.join(frameDir, 'toolbar.html'), 'utf8');
   out = out.replace(/<body[^>]*>\r?\n/, (m) => m + toolbar);
 
   // 4) 注入编辑脚本（</body> 前）
-  const editor = fs.readFileSync(path.join(shellDir, 'frame', 'editor.js'), 'utf8');
+  const editor = fs.readFileSync(path.join(frameDir, 'editor.js'), 'utf8');
   out = out.replace('</body>', `<script>${eol}${editor}</script></body>`);
 
   return out;

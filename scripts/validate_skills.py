@@ -17,7 +17,7 @@
      （仅检查相对路径，跳过 http(s)/mailto/锚点）；
   7. .codex-plugin/.trae-plugin/.claude-plugin/.opencode-plugin 清单是合法 JSON，
      且关键字段、入口列表与本地资源引用有效；
-  8. assets/templates-html/ 外框解耦结构完整：frame/ 三部件存在、
+  8. assets/templates-html/ 外框解耦结构完整：assets/frame/ 公共部件存在、
      壳文件数量 == 18。交付产物的一致性由 inline-template.mjs 的确定性
      内联保证，不做产物与历史基准的比对。
 
@@ -639,7 +639,7 @@ def check_registry(skill_dirs: List[Path], report: Report) -> None:
 def check_templates(report: Report) -> None:
     """校验 assets/templates-html/ 的外框解耦结构。
 
-    - frame/ 三部件存在（base.css / toolbar.html / editor.js）；
+    - assets/frame/ 公共部件存在（base.css / toolbar.css / toolbar.html / editor.js）；
     - 壳文件数量 == 18。
 
     交付产物的一致性由 scripts/inline-template.mjs 的确定性内联保证，
@@ -650,8 +650,8 @@ def check_templates(report: Report) -> None:
         report.add(False, "templates", "缺少 assets/templates-html/")
         return
 
-    frame_dir = templates_dir / "frame"
-    for part in ("base.css", "toolbar.html", "editor.js"):
+    frame_dir = REPO_ROOT / "assets" / "frame"
+    for part in ("base.css", "toolbar.css", "toolbar.html", "editor.js"):
         report.add(
             (frame_dir / part).is_file(),
             "templates",

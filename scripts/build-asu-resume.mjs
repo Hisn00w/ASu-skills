@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sourceDir = path.join(repoRoot, 'assets', 'asu-resume');
-const frameDir = path.join(repoRoot, 'assets', 'templates-html', 'frame', 'asu');
+const frameDir = path.join(repoRoot, 'assets', 'frame', 'asu');
 const sharedDir = path.dirname(frameDir);
 const [input, destination] = process.argv.slice(2);
 const custom = input && input !== '--check';
@@ -38,7 +38,7 @@ function build() {
   let output = replaceRequired(shell, `  <base href="../">${eol}`, '');
   output = replaceRequired(
     output,
-    '  <link rel="stylesheet" href="templates-html/frame/asu/base.css">',
+    '  <link rel="stylesheet" href="frame/asu/base.css">',
     `  <style>${eol}${css}${eol}  </style>`,
   );
   output = replaceRequired(output, '  <!-- @ASU_TOOLBAR -->', toolbar);

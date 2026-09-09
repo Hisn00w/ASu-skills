@@ -10,9 +10,9 @@ const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (...parts) => readFileSync(join(repoRoot, ...parts), 'utf8');
 
 test('make-resume delivery HTML includes local save and photo-frame states', () => {
-  const toolbar = read('assets', 'templates-html', 'frame', 'toolbar.html');
-  const editor = read('assets', 'templates-html', 'frame', 'editor.js');
-  const css = read('assets', 'templates-html', 'frame', 'base.css');
+  const toolbar = read('assets', 'frame', 'toolbar.html');
+  const editor = read('assets', 'frame', 'editor.js');
+  const css = read('assets', 'frame', 'base.css');
 
   assert.match(toolbar, /data-action="save"[^>]*>保存 HTML</);
   assert.match(editor, /showSaveFilePicker/);
@@ -48,13 +48,13 @@ test('make-resume default ASu template saves HTML and hides the photo placeholde
   });
   assert.equal(result.status, 0, result.stderr);
   assert.match(source, /<base href="\.\.\/">/);
-  assert.match(source, /href="templates-html\/frame\/asu\/base\.css"/);
+  assert.match(source, /href="frame\/asu\/base\.css"/);
   assert.match(source, /<!-- @ASU_TOOLBAR -->/);
   assert.match(source, /<!-- @ASU_EDITOR -->/);
   assert.doesNotMatch(source, /<style>/);
-  const sharedEditor = read('assets', 'templates-html', 'frame', 'editor.js').trim();
+  const sharedEditor = read('assets', 'frame', 'editor.js').trim();
   assert.ok(html.replace(/\r\n/g, '\n').includes(sharedEditor.replace(/\r\n/g, '\n')));
-  assert.doesNotMatch(read('assets', 'templates-html', 'frame', 'asu', 'editor.js'), /showSaveFilePicker|registerLocalFont|execCommand/);
+  assert.doesNotMatch(read('assets', 'frame', 'asu', 'editor.js'), /showSaveFilePicker|registerLocalFont|execCommand/);
 
   assert.match(html, /data-action="save"[^>]*>保存 HTML</);
   assert.match(html, /showSaveFilePicker/);
@@ -81,7 +81,7 @@ test('copied user shells build with shared functionality without modifying the m
       assert.equal((html.match(/const registerLocalFont =/g) || []).length, 1);
       assert.equal((html.match(/data-action="save"/g) || []).length, 2); // markup and its shared event binding
       assert.doesNotMatch(html, /@import|<link rel="stylesheet"/);
-      assert.ok(html.replace(/\r\n/g, '\n').includes(read('assets', 'templates-html', 'frame', 'editor.js').trim().replace(/\r\n/g, '\n')));
+      assert.ok(html.replace(/\r\n/g, '\n').includes(read('assets', 'frame', 'editor.js').trim().replace(/\r\n/g, '\n')));
     }
     assert.equal(read('assets', 'asu-resume-template.html'), mother);
   } finally {

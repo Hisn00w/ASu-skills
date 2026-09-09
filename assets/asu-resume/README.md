@@ -1,8 +1,8 @@
 # ASu 简历内容壳
 
-`template.html` 只保留简历内容与结构。ASu 与 18 套模板共同使用 `../templates-html/frame/toolbar.html`、`toolbar.css` 和 `editor.js`，字体、格式编辑、照片、保存 HTML 和打印功能只有一份实现。
+`template.html` 只保留简历内容与结构。ASu 与 18 套模板内联同一份 `../frame/toolbar.html`、`toolbar.css` 和 `editor.js` 公共控件及编辑逻辑，ASu 再追加下列特有扩展，完整工具栏并不相同。
 
-`../templates-html/frame/asu/base.css` 保留 ASu 版式；`asu/toolbar.html` 仅补充页面模式、历史、字号、重置及状态控件；`asu/editor.js` 仅处理已有的页面模式、自动保存和重置。复杂单双页选择逻辑不扩展。
+`../frame/asu/base.css` 保留 ASu 版式；`asu/toolbar.html` 仅补充页面模式、历史、字号、重置及状态控件；`asu/editor.js` 仅处理已有的页面模式、自动保存和重置。复杂单双页选择逻辑不扩展。
 
 制作简历时，Agent 只读取内容壳，并在用户目录创建和修改副本，不读取外框代码。组装用户副本：
 
