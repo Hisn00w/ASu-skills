@@ -46,6 +46,10 @@ const BROWSERS = [
   '/usr/bin/microsoft-edge',
   '/usr/bin/google-chrome',
   '/usr/bin/chromium',
+  // macOS
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+  '/Applications/Chromium.app/Contents/MacOS/Chromium',
 ].filter(Boolean);
 
 const browserPath = BROWSERS.find((p) => existsSync(p));
