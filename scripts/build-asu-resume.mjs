@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sourceDir = path.join(repoRoot, 'assets', 'asu-resume');
+const frameDir = path.join(repoRoot, 'assets', 'templates-html', 'frame', 'asu');
 const outputPath = path.join(repoRoot, 'assets', 'asu-resume-template.html');
 
 const normalizeEol = (text, eol) => text.replace(/\r\n|\r|\n/g, eol);
@@ -20,7 +21,7 @@ function build() {
   const eol = shellSource.includes('\r\n') ? '\r\n' : '\n';
   const shell = normalizeEol(shellSource, eol);
   const readPart = (name) => stripFinalEol(
-    normalizeEol(fs.readFileSync(path.join(sourceDir, 'frame', name), 'utf8'), eol),
+    normalizeEol(fs.readFileSync(path.join(frameDir, name), 'utf8'), eol),
   );
 
   const css = readPart('base.css');
@@ -29,7 +30,7 @@ function build() {
   let output = replaceRequired(shell, `  <base href="../">${eol}`, '');
   output = replaceRequired(
     output,
-    '  <link rel="stylesheet" href="asu-resume/frame/base.css">',
+    '  <link rel="stylesheet" href="templates-html/frame/asu/base.css">',
     `  <style>${eol}${css}${eol}  </style>`,
   );
   output = replaceRequired(output, '  <!-- @ASU_TOOLBAR -->', toolbar);

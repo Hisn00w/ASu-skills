@@ -12,6 +12,7 @@ assets/templates-html/
     base.css       # 共享样式（含全部 variant-* 与 print 规则），壳文件通过 <link> 引用
     toolbar.html   # 顶部工具栏（唯一来源）
     editor.js      # 共享编辑脚本
+    asu/           # ASu 内容壳使用的功能外框；由 build-asu-resume.mjs 内联
   01-大厂极简简历模板.html   # …18 个壳文件：设计稿，无 toolbar / script
   README.md
 ```
@@ -20,6 +21,8 @@ assets/templates-html/
 
 - body class 追加了 `design-preview`：壳文件没有固定定位 toolbar，该规则把顶部预留的 76px 灰色边距归小，纯观感处理；
 - 壳文件**不带** toolbar 与 editor.js——没有编辑按钮，脚本无意义，直接浏览器打开即看页面布局。
+
+ASu 默认模板也采用相同的“内容壳 + 共享外框”流程：`../asu-resume/template.html` 只保存简历内容，`frame/asu/` 保存其 CSS、工具栏和编辑脚本。修改后运行 `npm run build:asu-resume`，不要直接编辑 `../asu-resume-template.html`。
 
 ## 交付必须走 inline 脚本
 

@@ -15,7 +15,7 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 
 ## 模板与资源
 
-默认模板是 `../../assets/asu-resume-template.html`。它是由 `../../assets/asu-resume/` 中的解耦源文件确定性生成的只读母版：严禁直接修改母版，姓名、经历、项目、照片和样式定制只能写入新生成的用户副本。默认模板的版式规则见 [默认单栏高密度技术简历模板](references/default-resume-template.md)。
+默认交付母版是 `../../assets/asu-resume-template.html`，由 `../../assets/asu-resume/template.html` 的内容壳和 `../../assets/templates-html/frame/asu/` 的共享功能外框确定性生成。Agent 制作 ASu 简历时只读取和改写内容壳中的姓名、经历、项目、照片占位和版式内容；不得读取或修改 `frame/` 下的 CSS、工具栏和编辑脚本，也不得直接修改母版。默认模板的版式规则见 [默认单栏高密度技术简历模板](references/default-resume-template.md)。
 
 用户可以通过以下方式指定模板，优先级高于默认模板：
 
