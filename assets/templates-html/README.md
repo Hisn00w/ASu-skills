@@ -12,7 +12,8 @@ assets/templates-html/
     base.css       # 共享样式（含全部 variant-* 与 print 规则），壳文件通过 <link> 引用
     toolbar.html   # 顶部工具栏（唯一来源）
     editor.js      # 共享编辑脚本
-    asu/           # ASu 内容壳使用的功能外框；由 build-asu-resume.mjs 内联
+    toolbar.css    # 共享工具栏样式
+    asu/           # ASu 版式及页面模式、自动保存、重置扩展，不重复公共功能
   01-大厂极简简历模板.html   # …18 个壳文件：设计稿，无 toolbar / script
   README.md
 ```
@@ -22,7 +23,7 @@ assets/templates-html/
 - body class 追加了 `design-preview`：壳文件没有固定定位 toolbar，该规则把顶部预留的 76px 灰色边距归小，纯观感处理；
 - 壳文件**不带** toolbar 与 editor.js——没有编辑按钮，脚本无意义，直接浏览器打开即看页面布局。
 
-ASu 默认模板也采用相同的“内容壳 + 共享外框”流程：`../asu-resume/template.html` 只保存简历内容，`frame/asu/` 保存其 CSS、工具栏和编辑脚本。修改后运行 `npm run build:asu-resume`，不要直接编辑 `../asu-resume-template.html`。
+ASu 默认模板也使用同一份 `frame/toolbar.html`、`toolbar.css` 和 `editor.js`。`../asu-resume/template.html` 保存简历内容，`frame/asu/` 只保存版式与特有扩展。公共功能修改一次，两个构建脚本都会带入更新。修改后运行 `npm run build:asu-resume`，不要直接编辑 `../asu-resume-template.html`。
 
 ## 交付必须走 inline 脚本
 
@@ -34,7 +35,7 @@ node scripts/inline-template.mjs assets/templates-html/01-大厂极简简历模�
 node scripts/inline-template.mjs --all dist/templates
 ```
 
-inline 脚本会把 `frame/base.css` 内联进 `<head>`、注入 `frame/toolbar.html` 与 `frame/editor.js`、移除 `design-preview` 类。内联是确定性的，产物与重构前**逐字节等价**——交付统一走脚本即可，不做手动拼接，也不维护逐字节基准。[scripts/validate_skills.py](../../scripts/validate_skills.py) 只校验结构完整性（`frame/` 三部件存在、壳文件数量 == 18）。
+inline 脚本会把 `frame/base.css` 与 `toolbar.css` 内联进 `<head>`、注入 `frame/toolbar.html` 与 `frame/editor.js`、移除 `design-preview` 类。外框始终从仓库读取，支持放在用户目录中的内容壳副本。内联是确定性的，公共功能更新会改变产物，不再要求与历史产物逐字节等价。[scripts/validate_skills.py](../../scripts/validate_skills.py) 校验结构完整性；Node 回归测试检查 19 套模板共用同一编辑器及用户副本组装。
 
 **注意**：壳文件拷出仓库会断链（缺 `frame/`）。请始终交付 inline 之后的文件，不要把壳文件直接交给用户。
 

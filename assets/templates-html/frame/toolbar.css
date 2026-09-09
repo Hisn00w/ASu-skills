@@ -1,0 +1,11 @@
+.resume-toolbar { position:fixed; z-index:1000; left:0; right:0; top:0; min-height:58px; padding:10px 18px; display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:9px; background:rgba(255,255,255,.97); border-bottom:1px solid #ccd5df; box-shadow:0 2px 10px rgba(21,41,62,.12); }
+.toolbar-title { margin-right:auto; color:#3b4b5d; font-size:13px; letter-spacing:.06em; }
+.resume-toolbar button { border:1px solid #9db0c4; border-radius:5px; background:#fff; color:#24466e; padding:7px 13px; font:inherit; cursor:pointer; }
+.resume-toolbar button:hover { background:#edf4fb; border-color:#315f98; }
+.resume-toolbar button[data-action=pdf] { color:#fff; background:#315f98; border-color:#315f98; }
+.toolbar-control { display:flex; align-items:center; gap:5px; color:#526273; font-size:12px; white-space:nowrap; }
+.toolbar-control select { border:1px solid #9db0c4; border-radius:5px; background:#fff; color:#24466e; padding:6px 7px; font:inherit; }
+.toolbar-control input[type=color] { width:34px; height:30px; padding:2px; border:1px solid #9db0c4; border-radius:5px; background:#fff; cursor:pointer; }
+.resume-toolbar button[data-action=bold] { min-width:68px; }
+
+@media print { .resume-toolbar { display:none !important; } }

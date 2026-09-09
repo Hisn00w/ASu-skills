@@ -1,29 +1,13 @@
+@import url("../toolbar.css");
     @page { size: A4; margin: 7mm 10mm 8mm; }
     :root { --blue: #2458b8; --text: #151515; --muted: #596273; --band: #f2f3f5; }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #fff; }
     body { color: var(--text); font-family: "Times New Roman", "SimHei", "黑体", "Microsoft YaHei", sans-serif; font-size: 10.5pt; line-height: 1.34; }
-    .toolbar { position: sticky; z-index: 10; top: 6px; display: flex; align-items: center; gap: 7px; width: max-content; max-width: calc(100vw - 32px); margin: 6px auto 8px; padding: 7px 10px; border: 1px solid #d3d7df; border-radius: 8px; background: #fff; box-shadow: 0 4px 14px rgba(15, 23, 42, .12); color: #334155; font: 13px/1 Arial, "Microsoft YaHei", sans-serif; }
-    .toolbar label, .toolbar-title { color: #475569; font-weight: 700; white-space: nowrap; }
-    .toolbar button, .toolbar select { height: 32px; border-radius: 5px; font: inherit; transition: border-color .15s ease, box-shadow .15s ease, background .15s ease, transform .15s ease; }
-    .print-button { flex: 0 0 auto; padding: 0 12px; border: 1px solid var(--blue); background: var(--blue); color: #fff; cursor: pointer; font-weight: 700; }
-    .print-button:hover { background: #1d4ed8; }
-    .page-mode-select { min-width: 148px; padding: 0 7px; border: 1px solid #cbd5e1; background: #fff; color: #1e293b; cursor: pointer; }
-    .format-select { min-width: 100px; padding: 0 7px; border: 1px solid #cbd5e1; background: #fff; color: #1e293b; cursor: pointer; }
-    .format-select.font-size { min-width: 58px; }
-    .toolbar select:hover, .toolbar select:focus { border-color: #7296d8; box-shadow: 0 0 0 2px rgba(36, 88, 184, .12); outline: none; }
-    .toolbar-divider { width: 1px; height: 22px; background: #e2e8f0; margin: 0 2px; }
-    .tool-button { width: 32px; min-width: 32px; padding: 0; border: 1px solid #cbd5e1; background: #f8fafc; color: #334155; cursor: pointer; font-weight: 700; }
-    .tool-button:hover, .tool-button.active { border-color: #7296d8; background: #eff6ff; color: #1d4ed8; }
-    .history-button { width: auto; min-width: 46px; padding: 0 8px; }
-    .reset-button { height: 32px; padding: 0 10px; border: 1px solid #f0b4b4; border-radius: 5px; background: #fff5f5; color: #b91c1c; cursor: pointer; font: inherit; font-weight: 700; transition: border-color .15s ease, background .15s ease, color .15s ease; }
-    .reset-button:hover { border-color: #dc2626; background: #fee2e2; color: #991b1b; }
-    .reset-button.armed { border-color: #dc2626; background: #dc2626; color: #fff; }
-    .save-status { color: #64748b; white-space: nowrap; font-size: 12px; }
-    .color-control { display: flex; align-items: center; gap: 4px; height: 32px; padding: 0 5px; border: 1px solid #cbd5e1; border-radius: 5px; background: #fff; cursor: pointer; }
-    .color-control input { width: 21px; height: 21px; padding: 0; border: 0; background: transparent; cursor: pointer; }
-    @media screen and (max-width: 980px) { .toolbar { top: 6px; max-width: calc(100vw - 20px); flex-wrap: wrap; justify-content: center; } }
-    @media print { .toolbar { display: none; } }
+    .resume-toolbar { position:sticky; font:13px/1.3 Arial, "Microsoft YaHei", sans-serif; }
+    .resume-toolbar select { max-width:150px; }
+    .save-status { font-size:12px; color:#64748b; }
+    .reset-button.armed { background:#dc2626; color:#fff; }
     .sheet { width: 210mm; min-height: 0; padding: 7mm 10mm 8mm; border-top: 0; margin: 0 auto; }
     .page-break { break-before: auto; }
     body[data-page-mode="continuous"] { width: 100%; }
@@ -53,7 +37,6 @@
     .profile-photo-slot:hover::after, .profile-photo-slot:focus-visible::after { opacity: 1; }
     .profile-photo-slot.has-photo::after { content: "点击替换"; }
     .photo-placeholder { pointer-events: none; }
-    .photo-input { display: none; }
     .profile-photo-slot img { display: block; width: 100%; height: 100%; object-fit: cover; }
     .meta-row { display: flex; align-items: center; gap: 4px; margin: 2px 0; font-size: 11.5pt; line-height: 1.42; white-space: nowrap; }
     .meta-icon { width: 16px; height: 16px; object-fit: contain; flex: 0 0 auto; }

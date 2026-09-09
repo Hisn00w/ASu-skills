@@ -1,24 +1,10 @@
-  <div class="toolbar">
     <label for="pageMode">页面模式</label>
     <select id="pageMode" class="page-mode-select" aria-label="选择页面模式">
       <option value="paged">A4 分页</option>
       <option value="continuous">A4 长页（不限高度）</option>
     </select>
-    <span class="toolbar-divider" aria-hidden="true"></span>
     <button class="tool-button history-button" type="button" data-command="undo" title="撤回编辑" aria-label="撤回编辑">撤回</button>
     <button class="tool-button history-button" type="button" data-command="redo" title="前进编辑" aria-label="前进编辑">前进</button>
-    <label for="fontFamily">字体</label>
-    <select class="format-select" id="fontFamily" title="字体" aria-label="字体">
-      <option value="simhei">黑体</option>
-      <option value="yahei">微软雅黑</option>
-      <option value="simsun">宋体</option>
-      <option value="times">Times New Roman</option>
-      <option value="arial">Arial</option>
-      <optgroup label="本地字体" id="localFontGroup"></optgroup>
-    </select>
-    <input id="fontFileInput" type="file" accept=".ttf,.otf,.ttc,.woff,.woff2" multiple hidden aria-label="选择本地字体文件">
-    <button class="tool-button history-button" type="button" id="localFontButton" title="读取系统中已安装的字体（需浏览器授权）">本地字体</button>
-    <button class="tool-button history-button" type="button" id="importFontButton" title="导入本地字体文件（TTF / OTF / WOFF / WOFF2）">导入字体</button>
     <label for="fontSize">字号</label>
     <select class="format-select font-size" id="fontSize" title="字号" aria-label="字号">
       <option value="10px">10</option>
@@ -30,10 +16,5 @@
       <option value="22px">22</option>
       <option value="26px">26</option>
     </select>
-    <label class="color-control" title="文字颜色"><span>颜色</span><input id="textColor" type="color" value="#151515" aria-label="文字颜色"></label>
-    <button class="tool-button" type="button" data-command="bold" title="加粗"><strong>B</strong></button>
     <button class="reset-button" type="button" id="resetButton" title="清除所有编辑，恢复模板初始内容">重置</button>
     <span id="saveStatus" class="save-status" role="status" aria-live="polite">自动保存已开启</span>
-    <button class="tool-button" type="button" id="saveHtmlButton">保存 HTML</button>
-    <button class="print-button" type="button" onclick="window.print()">打印 / 导出 PDF</button>
-  </div>

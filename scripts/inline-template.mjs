@@ -3,7 +3,7 @@
 //
 // 背景：assets/templates-html/ 下 18 套模板的外框（style / 顶部工具栏 / script）已抽成共享
 // frame/ 三部件，模板文件降级为纯设计稿壳文件（内容 + <link frame/base.css>）。本脚本把壳文件
-// 拼回与现状逐字节等价的自包含 HTML，交付用户前必须经过它。
+// 确定性组装为包含共享功能的 HTML，交付用户前必须经过它。
 //
 // 用法：
 //   node scripts/inline-template.mjs <壳文件> [输出文件]    # 无输出文件时打印到 stdout
@@ -21,11 +21,11 @@ import { fileURLToPath } from 'node:url';
 const TEMPLATES_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'assets', 'templates-html');
 const FRAME_LINK = '<link rel="stylesheet" href="frame/base.css">';
 
-// 壳文件预览专用的 SHELL-ONLY 规则块（frame/base.css 末尾），交付时整块移除，保证逐字节等价。
+// 壳文件预览专用的 SHELL-ONLY 规则块（frame/base.css 末尾），交付时整块移除。
 const SHELL_ONLY_RE = /\r?\n\/\* @@SHELL-ONLY-START@@[\s\S]*?@@SHELL-ONLY-END@@ \*\/\r?\n/;
 
 function inlineOne(shellPath) {
-  const shellDir = path.dirname(shellPath);
+  const shellDir = TEMPLATES_DIR;
   const html = fs.readFileSync(shellPath, 'utf8');
 
   if (!html.includes(FRAME_LINK)) {
@@ -40,8 +40,9 @@ function inlineOne(shellPath) {
   // 1) 移除 design-preview 类（壳文件无 toolbar 的观感处理，交付产物不带）
   let out = html.replace(' design-preview', '');
 
-  // 2) 内联 CSS（剥离壳文件预览专用的 SHELL-ONLY 规则，产物与历史基准逐字节相等）
+  // 2) 内联共享工具栏与版式 CSS，剥离壳文件预览专用规则。
   const css = fs.readFileSync(path.join(shellDir, 'frame', 'base.css'), 'utf8')
+    .replace('@import url("toolbar.css");', fs.readFileSync(path.join(shellDir, 'frame', 'toolbar.css'), 'utf8'))
     .replace(SHELL_ONLY_RE, '');
   out = out.replace(FRAME_LINK, `<style>${eol}${css}</style>`);
 

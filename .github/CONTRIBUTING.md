@@ -33,7 +33,7 @@
 - **html模板**：`assets\templates-html` 下的模板为设计稿、样式、代码、顶部工具栏分离模式：
   - 设计稿为可直接打开无顶部工具栏的 html 形式；
   - 无依赖的 html 文件需使用内联脚本输出 `node scripts/inline-template.mjs --all dist/templates` 
-  - ASu 默认母版由 `assets/asu-resume/` 中的内容、样式、工具栏和脚本生成，修改后运行 `npm run build:asu-resume` 与 `npm run check:asu-resume`；
+  - ASu 内容壳位于 `assets/asu-resume/`，与 18 套模板共用 `assets/templates-html/frame/` 的工具栏、工具栏样式及编辑器，ASu 特有版式与扩展位于 `frame/asu/`；修改后运行 `npm run build:asu-resume` 与 `npm run check:asu-resume`；
 - **静态校验**：可以参考 CI 流程中的校验流程进行本地校验，或在提交时检查 CI 结果。
 
 ## 欢迎的贡献

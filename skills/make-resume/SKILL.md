@@ -15,7 +15,9 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 
 ## 模板与资源
 
-默认交付母版是 `../../assets/asu-resume-template.html`，由 `../../assets/asu-resume/template.html` 的内容壳和 `../../assets/templates-html/frame/asu/` 的共享功能外框确定性生成。Agent 制作 ASu 简历时只读取和改写内容壳中的姓名、经历、项目、照片占位和版式内容；不得读取或修改 `frame/` 下的 CSS、工具栏和编辑脚本，也不得直接修改母版。默认模板的版式规则见 [默认单栏高密度技术简历模板](references/default-resume-template.md)。
+默认内容壳是 `../../assets/asu-resume/template.html`。Agent 只读取内容壳，在用户目录建立副本后修改姓名、经历、项目、照片占位和内容结构；不修改仓库内容壳，不读取或修改 `frame/` 下的 CSS、工具栏和编辑脚本，也不直接读取或修改生成母版 `../../assets/asu-resume-template.html`。默认模板的版式规则见 [默认单栏高密度技术简历模板](references/default-resume-template.md)。
+
+ASu 用户内容副本用 `node scripts/build-asu-resume.mjs <用户内容壳> <用户输出HTML>` 组装；其他模板副本用 `node scripts/inline-template.mjs <用户内容壳> <用户输出HTML>`。命令在仓库根目录执行，路径可为绝对路径。两个脚本自动内联同一份公共工具栏、样式与编辑器，Agent 无需拼接功能代码。交付时将引用的图片、`icons/` 和 `logos/` 放在输出 HTML 对应的相对位置。
 
 用户可以通过以下方式指定模板，优先级高于默认模板：
 

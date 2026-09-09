@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync, readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import test from 'node:test';
@@ -51,13 +52,39 @@ test('make-resume default ASu template saves HTML and hides the photo placeholde
   assert.match(source, /<!-- @ASU_TOOLBAR -->/);
   assert.match(source, /<!-- @ASU_EDITOR -->/);
   assert.doesNotMatch(source, /<style>/);
-  assert.match(read('assets', 'templates-html', 'frame', 'asu', 'toolbar.html'), /id="saveHtmlButton"[^>]*>保存 HTML</);
-  assert.match(read('assets', 'templates-html', 'frame', 'asu', 'editor.js'), /showSaveFilePicker/);
+  const sharedEditor = read('assets', 'templates-html', 'frame', 'editor.js').trim();
+  assert.ok(html.replace(/\r\n/g, '\n').includes(sharedEditor.replace(/\r\n/g, '\n')));
+  assert.doesNotMatch(read('assets', 'templates-html', 'frame', 'asu', 'editor.js'), /showSaveFilePicker|registerLocalFont|execCommand/);
 
-  assert.match(html, /id="saveHtmlButton"[^>]*>保存 HTML</);
+  assert.match(html, /data-action="save"[^>]*>保存 HTML</);
   assert.match(html, /showSaveFilePicker/);
   assert.match(html, /link\.download = name/);
   assert.match(html, /\.profile-photo-slot\.has-photo\s*\{[^}]*border-color:\s*transparent/);
   assert.match(html, /@media print\s*\{[\s\S]*?\.profile-photo-slot\s*\{[^}]*border-color:\s*transparent/);
   assert.match(html, /\.profile-photo-slot::after, \.profile-photo-slot \.photo-placeholder\s*\{\s*display:\s*none !important/);
+});
+
+test('copied user shells build with shared functionality without modifying the mother', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'resume-user-shell-'));
+  const mother = read('assets', 'asu-resume-template.html');
+  const templates = readdirSync(join(repoRoot, 'assets', 'templates-html')).filter((name) => name.endsWith('.html'));
+  try {
+    for (const template of ['asu', ...templates]) {
+      const source = template === 'asu' ? read('assets', 'asu-resume', 'template.html') : read('assets', 'templates-html', template);
+      const shell = join(temp, 'content.html');
+      const output = join(temp, 'delivery.html');
+      writeFileSync(shell, source.replace(/<title>.*?<\/title>/, '<title>User content test</title>'));
+      const result = spawnSync(process.execPath, [template === 'asu' ? 'scripts/build-asu-resume.mjs' : 'scripts/inline-template.mjs', shell, output], { cwd: repoRoot, encoding: 'utf8' });
+      assert.equal(result.status, 0, result.stderr);
+      const html = readFileSync(output, 'utf8');
+      assert.match(html, /<title>User content test<\/title>/);
+      assert.equal((html.match(/const registerLocalFont =/g) || []).length, 1);
+      assert.equal((html.match(/data-action="save"/g) || []).length, 2); // markup and its shared event binding
+      assert.doesNotMatch(html, /@import|<link rel="stylesheet"/);
+      assert.ok(html.replace(/\r\n/g, '\n').includes(read('assets', 'templates-html', 'frame', 'editor.js').trim().replace(/\r\n/g, '\n')));
+    }
+    assert.equal(read('assets', 'asu-resume-template.html'), mother);
+  } finally {
+    rmSync(temp, { recursive: true, force: true });
+  }
 });

@@ -1,5 +1,8 @@
 (() => {
-  const root = document.querySelector('.resume-page');
+  const roots = Array.from(document.querySelectorAll('.resume-page, main.sheet'));
+  const root = roots[0];
+  if (!root) return;
+  const changed = () => document.dispatchEvent(new Event('resume-change'));
   const editButton = document.querySelector('[data-action="edit"]');
   const fontSelect = document.querySelector('[data-action="font"]');
   const colorInput = document.querySelector('[data-action="color"]');
@@ -8,8 +11,8 @@
   const saveButton = document.querySelector('[data-action="save"]');
   const pdfButton = document.querySelector('[data-action="pdf"]');
   const photoInput = document.querySelector('[data-photo-input]');
-  const photoImage = document.querySelector('.photo-frame img');
-  const photoFrame = photoImage?.closest('.photo-frame');
+  const photoFrame = document.querySelector('.photo-frame, .profile-photo-slot');
+  const photoImage = photoFrame?.querySelector('img');
   const initialPhotoSource = photoImage?.getAttribute('src') || '';
   if (photoFrame && initialPhotoSource && !/fictional-resume-photo\.png(?:[?#].*)?$/i.test(initialPhotoSource)) {
     photoFrame.classList.add('has-photo');
@@ -17,7 +20,7 @@
   let savedRange = null;
   document.addEventListener('selectionchange', () => {
     const selection = window.getSelection();
-    if (!selection || !selection.rangeCount || !root.contains(selection.anchorNode)) return;
+    if (!selection || !selection.rangeCount || !roots.some((page) => page.contains(selection.anchorNode) && page.contains(selection.focusNode))) return;
     savedRange = selection.getRangeAt(0).cloneRange();
   });
   const restoreSelection = () => {
@@ -31,25 +34,69 @@
     root.focus();
     restoreSelection();
     document.execCommand(command, false, value);
+    changed();
   };
   editButton?.addEventListener('click', () => {
     const editing = root.getAttribute('contenteditable') === 'true';
-    root.setAttribute('contenteditable', String(!editing));
-    root.classList.toggle('is-editing', !editing);
+    roots.forEach((page) => {
+      page.setAttribute('contenteditable', String(!editing));
+      page.classList.toggle('is-editing', !editing);
+    });
     editButton.textContent = editing ? '编辑' : '完成编辑';
     if (!editing) root.focus();
   });
+  if (root.getAttribute('contenteditable') === 'true') editButton.textContent = '完成编辑';
+  document.querySelectorAll('.resume-toolbar button').forEach((button) => {
+    button.addEventListener('mousedown', (event) => event.preventDefault());
+  });
+  document.querySelectorAll('[data-command]').forEach((button) => {
+    button.addEventListener('click', () => applyFormat(button.dataset.command));
+  });
+  document.querySelector('#fontSize')?.addEventListener('change', (event) => {
+    restoreSelection();
+    const selection = window.getSelection();
+    if (!savedRange || !selection.rangeCount || selection.isCollapsed) return;
+    const range = selection.getRangeAt(0);
+    const wrapper = document.createElement('span');
+    wrapper.style.fontSize = event.target.value;
+    wrapper.appendChild(range.extractContents());
+    range.insertNode(wrapper);
+    range.selectNodeContents(wrapper);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    savedRange = range.cloneRange();
+    changed();
+  });
   photoButton?.addEventListener('click', () => photoInput?.click());
+  document.addEventListener('click', (event) => {
+    if (event.target.closest?.('.profile-photo-slot')) photoInput?.click();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.target.closest?.('.profile-photo-slot') && ['Enter', ' '].includes(event.key)) {
+      event.preventDefault();
+      photoInput?.click();
+    }
+  });
   photoInput?.addEventListener('change', (event) => {
     const file = event.target.files?.[0];
-    if (!file) return;
+    event.target.value = '';
+    if (!file || !file.type.startsWith('image/') || !photoFrame) return;
     const reader = new FileReader();
     reader.onload = () => {
-      const image = photoImage;
-      if (!image) return;
+      const photoFrame = document.querySelector('.photo-frame, .profile-photo-slot');
+      if (!photoFrame) return;
+      let image = photoFrame.querySelector('img');
+      if (!image) {
+        image = document.createElement('img');
+        image.className = 'profile-photo';
+        image.alt = '证件照';
+        photoFrame.prepend(image);
+      }
       image.src = reader.result;
-      image.closest('.photo-frame')?.classList.add('has-photo');
+      photoFrame.classList.add('has-photo');
+      photoFrame.querySelector('.photo-placeholder')?.remove();
       setToolStatus('照片已替换');
+      changed();
     };
     reader.readAsDataURL(file);
   });
@@ -166,6 +213,7 @@
     return `${safeTitle || 'resume'}.html`;
   };
   const serializeHtml = () => {
+    document.dispatchEvent(new Event('resume-before-save'));
     const clone = document.documentElement.cloneNode(true);
     const clonedRoot = clone.querySelector('.resume-page');
     const clonedEditButton = clone.querySelector('[data-action="edit"]');
@@ -174,8 +222,11 @@
       clonedRoot.setAttribute('contenteditable', 'false');
       clonedRoot.classList.remove('is-editing');
     }
+    clone.querySelectorAll('main.sheet').forEach((page) => page.setAttribute('contenteditable', 'true'));
     if (clonedEditButton) clonedEditButton.textContent = '编辑';
     if (clonedToolbarTitle) clonedToolbarTitle.textContent = 'HTML 简历';
+    const clonedStatus = clone.querySelector('#saveStatus');
+    if (clonedStatus) clonedStatus.textContent = '自动保存已开启';
     if (localFonts.length) {
       let fontStyle = clone.querySelector('style[data-saved-local-fonts]');
       if (!fontStyle) {
