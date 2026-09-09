@@ -10,7 +10,7 @@
     "sync:skills": "node scripts/sync-skill-catalog.mjs",
     "sync:skills:check": "node scripts/sync-skill-catalog.mjs --check",
     "validate:skills": "python3 scripts/validate_skills.py",
-    "test:python": "python3 -m unittest discover -s tests -v",
+    "test:python": "python3 -m unittest discover -s tests -t . -v",
     "test": "node --test"
   },
   "main": "./lib/index.js",
