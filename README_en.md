@@ -80,113 +80,15 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 
 ## Installation
 
-ASu-skills works with Codex, Claude Code, TraeWork, and Qoder, plus lightweight OpenCode and WorkBuddy bridges: the repo root has `.codex-plugin/` for Codex, `.claude-plugin/` for Claude Code, `.trae-plugin/` for TraeWork, `.qoder-plugin/` for Qoder, and `.opencode-plugin/`/`.workbuddy-plugin/` for community installers — all sharing the same `skills/`, `assets/`, and `references/`. The entry catalog is maintained in `skills.registry.json` as the single source of truth and is regenerated/reconciled by `npm run sync:skills` (CI checks it with `--check`).
+ASu-skills works with Codex, Claude Code, and TraeWork, plus lightweight OpenCode and WorkBuddy bridges. All entry points share the same `skills/`, `assets/`, and `references/`; the entry catalog is maintained in `skills.registry.json` as the single source of truth and is regenerated/reconciled by `npm run sync:skills` (CI checks it with `--check`).
 
-### Codex
-
-The easiest way is to send the GitHub link directly to Codex and ask it to install the plugin:
-
-```text
-Install the ASu-skills plugin from this GitHub repository and enable the nine skills: contributor, evidence-recap, project-guide, great-resume, make-resume, job-match, job-apply, interview, offer:
-https://github.com/Hisn00w/ASu-skills
-```
-
-After installation, start a new Codex conversation so the new skills get reloaded. Then type `/` in the input box and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-match`, `job-apply`, `interview`, or `offer` from the command list.
-
-If your Codex version does not surface skills in the `/` menu, you can also use the official explicit invocation syntax:
-
-```text
-$contributor Find open-source contribution candidates for my target role; show me the diffs first. I'll confirm before you open the PR, and hand the merged contribution to /great-resume for resume improvement.
-$evidence-recap Turn this AI coding conversation into a verifiable project evidence chain, separating my actions, the delivery stage, and evidence of impact.
-$great-resume Rewrite my internship experience for an AI application engineer role.
-$project-guide Generate project study notes and interview answers from the current repository, with handoff evidence for /great-resume and /interview.
-$make-resume Turn my experience into an editable Chinese HTML resume. Use the ASu template by default, or use another template if I specify one.
-$job-match Compare the target JD with my resume and identify evidence matches, real gaps, and whether I should apply.
-$job-apply Use my confirmed resume data to fill the current job application in a connected browser, then stop for my review before submission.
-$interview Predict likely interview questions from my resume and drill me with one follow-up question at a time to check whether I really master these experiences.
-$offer Turn these recruiting emails into a campus recruitment application tracker.
-```
-
-### Claude Code
-
-In a Claude Code session, run:
-
-```text
-/plugin marketplace add Hisn00w/ASu-skills
-/plugin install asu-skills@asu
-```
-
-You can also run the equivalent commands in a terminal:
-
-```bash
-claude plugin marketplace add Hisn00w/ASu-skills
-claude plugin install asu-skills@asu
-```
-
-If the install summary says `Run /reload-plugins to activate.`, run `/reload-plugins`; otherwise restart Claude Code. After installation, run `claude plugin details asu-skills` to confirm all nine skills are loaded.
-
-Update and uninstall:
-
-```text
-/plugin marketplace update asu
-/plugin uninstall asu-skills
-```
-
-Uninstalling the plugin only removes the plugin cache; it never touches the application tracker you have edited in your project or user directory.
-
-### TraeWork
-
-TraeWork packages this repository as a plugin via the `.trae-plugin/plugin.json` manifest, and the nine skills become available under the plugin as `<publisher>:asu-skills:<skill>`.
-
-1. Copy this repository into the TraeWork plugin directory: `~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`, keeping `.trae-plugin/plugin.json`, `skills/`, `assets/`, and `references/`;
-2. Restart TraeWork so the new plugin is reloaded;
-3. Start a new conversation, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-match`, `job-apply`, `interview`, or `offer` from the command list.
-
-`<publisher>` is a namespace you choose under the plugin directory (for example `local`), and `<version>` is the version in `plugin.json`. To uninstall, delete the plugin directory; it never touches the application tracker you have edited in your project or user directory.
-
-### Qoder
-
-Qoder recognises this repository as a plugin through the root-level `plugin.json` (skill discovery entry) and `.qoder-plugin/plugin.json` (additional metadata), and the nine skills become available as slash commands in conversations. Choose either method below.
-
-#### Method 1: Official CLI (recommended)
-
-Qoder ships with `qodercli`, which registers and enables the plugin automatically — no manual config editing required.
-
-1. Clone or download this repository to any local directory;
-2. Run the install command (defaults to the `user` global scope):
-
-   ```bash
-   qodercli plugin install <path-to-repo>
-   ```
-
-   If `qodercli` is not on your PATH, find it under `~/.qoder/bin/qodercli/`;
-3. Restart Qoder or **start a new conversation**, type `/` in the input box, and pick `contributor`, `evidence-recap`, `project-guide`, `great-resume`, `make-resume`, `job-match`, `job-apply`, `interview`, or `offer` from the command list.
-
-Uninstall:
-
-```bash
-qodercli plugin uninstall asu-skills
-```
-
-#### Method 2: Let the Qoder Agent install it
-
-1. In a new conversation, type:
-
-   ```text
-   /create-plugin Help me create a custom plugin: https://github.com/Hisn00w/ASu-skills
-   ```
-
-2. After it finishes, continue typing in the dialog:
-
-   ```text
-   Register this plugin
-   ```
-
-   Then restart Qoder and enable it in Settings.
-
-> **Note**: Merely copying files into a plugin directory will **not** be auto-discovered; you must register it via one of the methods above. After changing a plugin, the current conversation does not refresh its skill list — start a new conversation or restart Qoder to see changes. When troubleshooting, always verify in a fresh conversation.
-
-Uninstalling never touches the application tracker you have edited in your project or user directory.
+| Platform | Installation entry | After installation | Uninstall |
+| --- | --- | --- | --- |
+| Codex | Send the GitHub repository link to Codex and ask it to install the plugin | Start a new conversation and choose an entry from the `/` menu | Remove ASu-skills from Codex's plugin manager |
+| Claude Code | Run `/plugin marketplace add Hisn00w/ASu-skills` and `/plugin install asu-skills@asu` | Run `/reload-plugins` when prompted | Run `/plugin uninstall asu-skills` |
+| TraeWork | Copy the repository to `~/.trae-cn/plugins/<publisher>/asu-skills/<version>/` | Restart TraeWork and choose an entry from the `/` menu | Delete the corresponding TraeWork plugin directory |
+| OpenCode | [Read the installation guide](.opencode-plugin/installation-guide.md) | Restart OpenCode or run `/reload-plugins` | Delete the installed skills and resource directories according to the installation method |
+| WorkBuddy | [Read the bridge installation guide](.workbuddy-plugin/install.md) | Restart WorkBuddy or refresh the skill list | Delete the corresponding directory or symlink under `~/.workbuddy/skills/` |
 
 For contributor checks, tests, and the PR workflow, see the [contributing guide](.github/CONTRIBUTING_en.md).
 
@@ -460,9 +362,6 @@ asu-skills/
 │   ├── install.md               # WorkBuddy bridge guide (catalog blocks generated from the registry)
 │   ├── install.sh               # macOS / Linux bridge script
 │   └── install.ps1              # Windows bridge script
-├── .qoder-plugin/
-│   └── plugin.json              # Qoder plugin manifest (interface and other metadata)
-├── plugin.json                  # Qoder skill discovery entry (generated by sync script)
 ├── skills.registry.json        # ★ Single source of truth for the entry catalog; run npm run sync:skills after changing it
 ├── package.json                # DSH plugin pack manifest (bundle patch entry)
 ├── cordis.patch.yml            # Registers the DSH filesystem skill provider

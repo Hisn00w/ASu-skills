@@ -23,8 +23,6 @@
 
 <p align="center">
   <img src="assets/asu-skills-overview-landscape-v2.png" alt="ASu-skills 部分技能工作流示意" width="1100">
-  <br>
-  <sub>部分入口示意；完整的九个入口见下文。</sub>
 </p>
 
 ## 目录
@@ -45,136 +43,41 @@
 - [事实边界](#事实边界)
 - [文件结构](#文件结构)
 - [参与贡献](#参与贡献)
+- [特别感谢](#特别感谢)
 - [致谢](#致谢)
 - [Contributors](#contributors)
 - [开源协议](#开源协议)
 - [Star History](#star-history)
 
 <!-- catalog:readme.zh.intro:begin -->
+
 ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的入口：
 
-| 入口 | 用途 | 主要交付 |
-| --- | --- | --- |
-| `/contributor` | 开源贡献 | 寻找候选、展示 diff，经确认后提交 PR并把贡献交给`/great-resume` |
-| `/evidence-recap` | 证据复盘 | 把 AI 编程对话和交付记录整理为可核验的九段证据链 |
-| `/project-guide` | 项目导学面经 | 按需生成 `tutorial.md`、`practice.md`，或导学、面经与交接摘要 |
-| `/great-resume` | 简历提升 | 岗位定位、项目改写、成果证据、HR 开场白 |
-| `/make-resume` | 简历制作 | 默认使用 ASu 模板，也可指定模板；可编辑 HTML 简历和 PDF 导出 |
-| `/job-match` | 岗位匹配 | 对照 JD 与真实经历，输出证据矩阵、硬性门槛和投递建议 |
-| `/job-apply` | 简历投递填写 | 连接浏览器自动填写求职申请，核对后停在提交前 |
-| `/interview` | 面试准备 | 面试预测、契约化追问、证据复盘和弱项复练 |
-| `/offer` | 校招进度管理 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪 |
+| 入口                | 用途         | 主要交付                                                          |
+| ------------------- | ------------ | ----------------------------------------------------------------- |
+| `/contributor`    | 开源贡献     | 寻找候选、展示 diff，经确认后提交 PR并把贡献交给`/great-resume` |
+| `/evidence-recap` | 证据复盘     | 把 AI 编程对话和交付记录整理为可核验的九段证据链                  |
+| `/project-guide`  | 项目导学面经 | 按需生成`tutorial.md`、`practice.md`，或导学、面经与交接摘要  |
+| `/great-resume`   | 简历提升     | 岗位定位、项目改写、成果证据、HR 开场白                           |
+| `/make-resume`    | 简历制作     | 默认使用 ASu 模板，也可指定模板；可编辑 HTML 简历和 PDF 导出      |
+| `/job-match`      | 岗位匹配     | 对照 JD 与真实经历，输出证据矩阵、硬性门槛和投递建议              |
+| `/job-apply`      | 简历投递填写 | 连接浏览器自动填写求职申请，核对后停在提交前                      |
+| `/interview`      | 面试准备     | 面试预测、契约化追问、证据复盘和弱项复练                          |
+| `/offer`          | 校招进度管理 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪                       |
+
 <!-- catalog:readme.zh.intro:end -->
 
 ## 安装
 
-ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 OpenCode 与 WorkBuddy 的轻量桥接入口：仓库根目录的 `.codex-plugin/` 供 Codex 使用，`.claude-plugin/` 供 Claude Code 使用，`.trae-plugin/` 供 TraeWork 使用，`.qoder-plugin/` 供 Qoder 使用，`.opencode-plugin/`、`.workbuddy-plugin/` 提供社区安装入口；所有入口共用同一套 `skills/`、`assets/` 和 `references/`。入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
+ASu-skills 同时支持 Codex、Claude Code 和 TraeWork，另有 OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
 
-### Codex
-
-最简单的方式是把 GitHub 链接直接发给 Codex，并说明要安装插件
-
-```text
-请从这个 GitHub 仓库安装 ASu-skills 插件，并启用其中的 contributor、evidence-recap、project-guide、great-resume、make-resume、job-match、job-apply、interview、offer 九个 skills：
-https://github.com/Hisn00w/ASu-skills
-```
-
-安装完成后建议新建一个 Codex 对话，让新 skills 被重新加载。然后在输入框中输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview` 或 `offer`。
-
-如果当前 Codex 版本没有把 skill 显示在 `/` 菜单中，也可以使用官方的显式 skill 调用方式：
-
-```text
-$contributor 根据我的目标岗位寻找开源贡献候选，先展示 diff；我确认后再提 PR，并在合并后交给 /great-resume 提升。
-$evidence-recap 把这段 AI 编程对话复盘为可核验的项目证据链，区分个人动作、交付阶段和效果证据。
-$great-resume 请把我的实习经历提升成适合 AI 应用工程师岗位的版本。
-$project-guide 基于当前项目生成导学和面经，并整理可交接给 /great-resume 与 /interview 的证据摘要。
-$make-resume 根据我的经历制作一份可编辑的中文 HTML 简历；默认使用 ASu 模板，如需其他模板我会指定。
-$job-match 对照目标 JD 与我的简历，列出证据匹配、真实缺口和投递建议。
-$job-apply 使用我确认的简历资料填写当前招聘网站申请表，连接浏览器并在最终提交前让我核对。
-$interview 根据我的简历预测面试问题，并通过连续追问检查我是否真的掌握这些经历。
-$offer 把这些招聘邮件整理成校招投递进度表。
-```
-
-### Claude Code
-
-在 Claude Code 会话中执行：
-
-```text
-/plugin marketplace add Hisn00w/ASu-skills
-/plugin install asu-skills@asu
-```
-
-也可以在终端里执行等价命令：
-
-```bash
-claude plugin marketplace add Hisn00w/ASu-skills
-claude plugin install asu-skills@asu
-```
-
-安装摘要提示 `Run /reload-plugins to activate.` 时执行 `/reload-plugins`，否则重启 Claude Code。安装后可用 `claude plugin details asu-skills` 确认九个 skill 都已加载。
-
-更新与卸载：
-
-```text
-/plugin marketplace update asu
-/plugin uninstall asu-skills
-```
-
-插件方式的卸载只删除插件缓存，不会动你在项目或用户目录里编辑过的求职进度表。
-
-### TraeWork
-
-TraeWork 通过 `.trae-plugin/plugin.json` 清单把仓库打包成插件，九个 skill 会以 `<publisher>:asu-skills:<skill>` 的形式挂在该插件下。
-
-1. 把本仓库整体复制到 TraeWork 插件目录：`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`，保留 `.trae-plugin/plugin.json`、`skills/`、`assets/` 和 `references/`；
-2. 重启 TraeWork，让新插件被重新加载；
-3. 新建对话，在输入框输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview` 或 `offer`。
-
-其中 `<publisher>` 是插件目录下的命名空间，可自行指定（如 `local`），`<version>` 为 `plugin.json` 中的版本号。卸载时删除对应插件目录即可，不会影响你在项目或用户目录里编辑过的求职进度表。
-
-### Qoder
-
-Qoder 通过根目录 `plugin.json`（技能发现入口）和 `.qoder-plugin/plugin.json`（附加元数据）识别插件，九个 skill 会以斜杠命令的形式挂载在对话中。以下两种方式任选其一。
-
-#### 方式一：官方 CLI（推荐）
-
-Qoder 自带 `qodercli`，安装时会自动完成注册与启用，无需手动修改任何配置文件。
-
-1. 把本仓库克隆或下载到本地任意目录；
-2. 运行安装命令（默认 `user` 全局作用域）：
-
-   ```bash
-   qodercli plugin install <仓库本地路径>
-   ```
-
-   若 `qodercli` 不在 PATH，可在 `~/.qoder/bin/qodercli/` 下找到；
-3. 重启 Qoder 或**新建一个对话**，在输入框输入 `/`，从命令列表选择 `contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview` 或 `offer`。
-
-卸载：
-
-```bash
-qodercli plugin uninstall asu-skills
-```
-
-#### 方式二：让 Qoder Agent 安装
-
-1. 新开一个对话，输入：
-
-   ```text
-   /create-plugin Help me create a custom plugin: https://github.com/Hisn00w/ASu-skills
-   ```
-
-2. 完成后，在对话框继续输入：
-
-   ```text
-   注册这个插件
-   ```
-
-   然后重启 Qoder，在设置里启用这个插件。
-
-> **注意**：仅把文件复制进插件目录**不会**被自动识别，必须通过上述方式之一注册。修改插件后，当前对话不会实时刷新技能列表，需新建对话或重启 Qoder 才能看到变更；排查问题时请始终用一个新对话验证。
-
-卸载不会影响你在项目或用户目录里编辑过的求职进度表。
+| 平台        | 安装入口                                                                                 | 安装后操作                              | 卸载方式                                      |
+| ----------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
+| Codex       | 将 GitHub 仓库链接发给 Codex，并说明安装                                                 | 新建对话，从`/` 菜单选择入口             | 在 Codex 的插件管理中移除 ASu-skills          |
+| Claude Code | 执行`/plugin marketplace add Hisn00w/ASu-skills` 和 `/plugin install asu-skills@asu` | 按提示执行`/reload-plugins`              | 执行`/plugin uninstall asu-skills`            |
+| TraeWork    | 复制仓库到`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`                       | 重启 TraeWork，从`/` 菜单选择入口        | 删除对应的 TraeWork 插件目录                  |
+| OpenCode    | [查看安装指南](.opencode-plugin/installation-guide.md)                                    | 重启 OpenCode 或执行`/reload-plugins`    | 按安装方式删除对应的技能与资源目录            |
+| WorkBuddy   | [查看桥接安装说明](.workbuddy-plugin/install.md)                                          | 重启 WorkBuddy 或刷新技能列表            | 删除`~/.workbuddy/skills/`下对应目录或软链    |
 
 开发者请参阅 [贡献指南](.github/CONTRIBUTING.md)，其中包含本地校验、测试命令和 PR 提交流程。
 
@@ -182,18 +85,18 @@ qodercli plugin uninstall asu-skills
 
 先根据当前最需要解决的问题选择第一个入口：
 
-| 当前情况                                     | 建议先使用         |
-| -------------------------------------------- | ------------------ |
-| 缺少可验证的项目或协作经历                   | `/contributor`   |
-| 有 AI 编程对话或交付记录，需要还原事实与证据 | `/evidence-recap` |
-| 已有项目仓库，需要源码课程、阅读路径或面试口播 | `/project-guide` |
-| 已有经历，但不知道如何匹配目标岗位           | `/great-resume`  |
-| 简历内容已确定，需要制作常规可编辑简历       | `/make-resume`   |
-| 想复刻 ASu 同款高密度技术简历                | `/make-resume`（默认模板） |
-| 已有 JD 和简历，需要判断匹配与证据缺口       | `/job-match`     |
-| 已有职位链接，需要填写招聘网站申请表         | `/job-apply`     |
-| 已约到面试，需要预测问题并查漏补缺           | `/interview`     |
-| 已开始投递，需要整理招聘邮件和后续进度       | `/offer`         |
+| 当前情况                                       | 建议先使用                   |
+| ---------------------------------------------- | ---------------------------- |
+| 缺少可验证的项目或协作经历                     | `/contributor`             |
+| 有 AI 编程对话或交付记录，需要还原事实与证据   | `/evidence-recap`          |
+| 已有项目仓库，需要源码课程、阅读路径或面试口播 | `/project-guide`           |
+| 已有经历，但不知道如何匹配目标岗位             | `/great-resume`            |
+| 简历内容已确定，需要制作常规可编辑简历         | `/make-resume`             |
+| 想复刻 ASu 同款高密度技术简历                  | `/make-resume`（默认模板） |
+| 已有 JD 和简历，需要判断匹配与证据缺口         | `/job-match`               |
+| 已有职位链接，需要填写招聘网站申请表           | `/job-apply`               |
+| 已约到面试，需要预测问题并查漏补缺             | `/interview`               |
+| 已开始投递，需要整理招聘邮件和后续进度         | `/offer`                   |
 
 也可以组合多个入口：
 
@@ -445,9 +348,6 @@ asu-skills/
 │   ├── install.md               # WorkBuddy 桥接说明（清单区由 registry 生成）
 │   ├── install.sh               # macOS / Linux 桥接脚本
 │   └── install.ps1              # Windows 桥接脚本
-├── .qoder-plugin/
-│   └── plugin.json              # Qoder 插件清单（interface 等附加元数据）
-├── plugin.json                  # Qoder 技能发现入口（由 sync 脚本自动生成）
 ├── skills.registry.json        # ★ 入口目录单一事实源：新增/删除入口先改这里，再 npm run sync:skills
 ├── package.json                # DSH 插件包清单（bundle patch 入口）
 ├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方
@@ -483,6 +383,10 @@ asu-skills/
 欢迎提 Issue 和 PR，详见[贡献指南](.github/CONTRIBUTING.md)。也可以直接查看 [Pull Requests](https://github.com/Hisn00w/ASu-skills/pulls)。
 
 新增、删除或重命名入口时，先更新 [`skills.registry.json`](skills.registry.json)，再运行 `npm run sync:skills` 同步全部插件清单、安装脚本、Issue 模板与 README 总览；CI 会以 `npm run sync:skills -- --check` 校验一致性。
+
+## 特别感谢
+
+特别感谢 [L7WD3-Xiao](https://github.com/L7WD3-Xiao) 对本项目的维护与支持。
 
 ## 致谢
 
