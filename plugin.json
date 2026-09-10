@@ -1,0 +1,44 @@
+{
+  "name": "asu-skills",
+  "version": "0.4.0",
+  "author": {
+    "name": "Hisn0w",
+    "url": "https://github.com/Hisn00w"
+  },
+  "homepage": "https://github.com/Hisn00w/ASu-skills",
+  "repository": "https://github.com/Hisn00w/ASu-skills",
+  "license": "MIT",
+  "keywords": [
+    "qoder-plugin",
+    "skill",
+    "resume",
+    "job-search",
+    "job-match",
+    "job-application",
+    "browser-automation",
+    "career",
+    "open-source",
+    "chinese",
+    "project-analysis",
+    "contributor",
+    "evidence-recap",
+    "project-guide",
+    "great-resume",
+    "make-resume",
+    "job-apply",
+    "interview",
+    "offer"
+  ],
+  "displayName": "ASu-skills",
+  "description": "中文求职助手：简历优化、岗位匹配、简历投递、面试准备和 Offer 谈判等全流程陪伴。",
+  "descriptionZh": "中文求职助手：简历优化、岗位匹配、简历投递、面试准备和 Offer 谈判等全流程陪伴。",
+  "category": "Productivity",
+  "tags": [
+    "skill",
+    "resume",
+    "job-search",
+    "career"
+  ],
+  "logo": "./assets/asu-circle.png",
+  "skills": "./skills/"
+}

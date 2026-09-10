@@ -67,7 +67,7 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 
 ## 安装
 
-ASu-skills 同时支持 Codex、Claude Code 和 TraeWork，另有 OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
+ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
 
 | 平台        | 安装入口                                                                                 | 安装后操作                              | 卸载方式                                      |
 | ----------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
@@ -76,6 +76,7 @@ ASu-skills 同时支持 Codex、Claude Code 和 TraeWork，另有 OpenCode 与 W
 | TraeWork    | 复制仓库到`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`                       | 重启 TraeWork，从`/` 菜单选择入口        | 删除对应的 TraeWork 插件目录                  |
 | OpenCode    | [查看安装指南](.opencode-plugin/installation-guide.md)                                    | 重启 OpenCode 或执行`/reload-plugins`    | 按安装方式删除对应的技能与资源目录            |
 | WorkBuddy   | [查看桥接安装说明](.workbuddy-plugin/install.md)                                          | 重启 WorkBuddy 或刷新技能列表            | 删除`~/.workbuddy/skills/`下对应目录或软链    |
+| Qoder       | [查看安装说明](.qoder-plugin/install.md)                                                  | 重启 Qoder 或新建对话，从`/` 菜单选择入口 | 按安装方式执行`qodercli plugin uninstall`或删除插件目录 |
 
 开发者请参阅 [贡献指南](.github/CONTRIBUTING.md)，其中包含本地校验、测试命令和 PR 提交流程。
 
@@ -346,6 +347,10 @@ asu-skills/
 │   ├── install.md               # WorkBuddy 桥接说明（清单区由 registry 生成）
 │   ├── install.sh               # macOS / Linux 桥接脚本
 │   └── install.ps1              # Windows 桥接脚本
+├── .qoder-plugin/
+│   ├── install.md               # Qoder 安装说明（CLI / Agent 两种安装方式）
+│   └── plugin.json              # Qoder 插件清单（interface 等附加元数据）
+├── plugin.json                  # Qoder 技能发现入口（由 sync 脚本自动生成）
 ├── skills.registry.json        # ★ 入口目录单一事实源：新增/删除入口先改这里，再 npm run sync:skills
 ├── package.json                # DSH 插件包清单（bundle patch 入口）
 ├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方

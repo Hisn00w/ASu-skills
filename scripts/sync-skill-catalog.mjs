@@ -7,7 +7,7 @@
  *   node scripts/sync-skill-catalog.mjs --check    # 只对账，不写盘；不一致时退出码 1
  *
  * 由 skills.registry.json 生成：
- *   - .codex-plugin/plugin.json / .trae-plugin/plugin.json
+ *   - .codex-plugin/plugin.json / .trae-plugin/plugin.json / .qoder-plugin/plugin.json
  *   - .claude-plugin/plugin.json / .claude-plugin/marketplace.json
  *   - .opencode-plugin/plugin.json（skills.entries + 描述字段）
  *   - package.json 的 keywords
@@ -167,6 +167,33 @@ const opencode = {
   install: opencodeInstall,
 };
 
+const qoder = {
+  ...common,
+  displayName: registry.displayName,
+  description: '中文求职助手：简历优化、岗位匹配、简历投递、面试准备和 Offer 谈判等全流程陪伴。',
+  descriptionZh: '中文求职助手：简历优化、岗位匹配、简历投递、面试准备和 Offer 谈判等全流程陪伴。',
+  keywords: ['qoder-plugin', 'skill', ...keywords],
+  category: registry.category,
+  tags: ['skill', 'resume', 'job-search', 'career'],
+  logo: registry.logo,
+  skills: './skills/',
+  interface: {
+    displayName: registry.displayName,
+    shortDescription: '输入 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer 完成中文求职工作流',
+    developerName: registry.developerName,
+    category: registry.category,
+    capabilities: ['Interactive', 'Read', 'Write'],
+    websiteURL: registry.websiteURL,
+    defaultPrompt: prompts,
+    brandColor: registry.brandColor,
+    composerIcon: registry.composerIcon,
+    logo: registry.logo,
+  },
+};
+
+/* 根目录 plugin.json：Qoder 技能发现入口（不含 interface，仅用于让 Qoder 识别 skills/ 目录） */
+const { interface: _unused, ...qoderRoot } = qoder;
+
 const pkgKeywords = uniq(['dsh-plugin', 'deepseek-harness', 'agent-skill', ...keywords]);
 const nextPkg = { ...pkg, keywords: pkgKeywords };
 
@@ -300,6 +327,8 @@ const fileTargets = [
   ['.claude-plugin/plugin.json', json(claude)],
   ['.claude-plugin/marketplace.json', json(marketplace)],
   ['.opencode-plugin/plugin.json', json(opencode)],
+  ['.qoder-plugin/plugin.json', json(qoder)],
+  ['plugin.json', json(qoderRoot)],
   ['package.json', json(nextPkg)],
 ];
 for (const [rel, next] of fileTargets) stage(rel, read(rel), next);
