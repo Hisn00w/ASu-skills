@@ -15,7 +15,7 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 
 ## 模板与资源
 
-默认内容壳是 `assets/asu-resume/template.html`。
+默认模板壳是 `assets/asu-resume/template.html`。
 
 用户可以通过以下方式指定模板，优先级高于默认模板：
 
