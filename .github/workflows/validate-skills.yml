@@ -60,7 +60,7 @@ jobs:
         run: python3 scripts/validate_skills.py
 
       - name: Run unit tests
-        run: python3 -m unittest discover -s tests -v
+        run: python3 -m unittest discover -s tests -t . -v
 
       - name: Set up Node
         uses: actions/setup-node@v4
