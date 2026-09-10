@@ -15,7 +15,7 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 
 ## 模板与资源
 
-默认模板是 `../../assets/asu-resume-template.html`。它是只读母版：严禁直接修改源文件，姓名、经历、项目、照片和样式定制只能写入新生成的用户副本。默认模板的版式规则见 [默认单栏高密度技术简历模板](references/default-resume-template.md)。
+默认模板壳是 `assets/asu-resume/template.html`。
 
 用户可以通过以下方式指定模板，优先级高于默认模板：
 
@@ -23,9 +23,9 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 2. 提供本地 HTML/Word/PDF/简历图片作为参考；
 3. 指定 `assets/templates-html/` 下的模板壳文件。
 
-仓库中的 `assets/templates-html/` 提供 18 套中文模板壳文件和共享外框。壳文件只有设计稿，交付前必须用 [scripts/inline-template.mjs](../../scripts/inline-template.mjs) 内联共享的 `base.css`、`toolbar.html` 和 `editor.js`，生成自包含 HTML；不能把壳文件直接交给用户。参考截图只用于分析版式，不能整页嵌入最终简历。
+仓库中的 `assets/asu-resume/template.html` 和 `assets/templates-html/` 为模板壳文件，共享外框位于 `assets/frame/`。Agent 只读取内容壳，在用户目录创建并修改副本。壳文件只有设计稿，交付前必须用 `scripts/` 下的脚本内联共享的 `base.css`、`toolbar.css`、`toolbar.html` 和 `editor.js`，生成自包含 HTML；不能把壳文件直接交给用户。参考截图只用于分析版式，不能整页嵌入最终简历。
 
-如果 skill 被单独复制到其他目录，先从当前 skill 目录向上依次定位 `assets/asu/` 与 `assets/`，只有在候选目录包含完整模板资源时才使用它。完整资源至少包括 `resume-data-template.json`、`template-overview.jpg`、`fictional-resume-photo.png`、`templates-html/frame/` 下的 `base.css`、`toolbar.html`、`editor.js`，以及全部 18 个模板壳文件。找不到完整资源时必须明确说明，使用简洁 A4 后备模板，并说明不保证 18 套模板、预览图、示例照片或原模板复刻精度。
+如果 skill 被单独复制到其他目录，先从当前 skill 目录向上定位 `assets/`，只有在该目录包含完整模板资源时才使用它。完整资源至少包括 `resume-data-template.json`、`template-overview.jpg`、`fictional-resume-photo.png`、`frame/` 下的 `base.css`、`toolbar.css`、`toolbar.html`、`editor.js`，以及全部 18 个模板壳文件。找不到完整资源时必须明确说明，使用简洁 A4 后备模板，并说明不保证 18 套模板、预览图、示例照片或原模板复刻精度。
 
 ## 工作流程
 
@@ -33,8 +33,8 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 2. 如果用户提供 PDF、已有简历、截图、图片或文档，先提取文字并分析栏位、间距、字体层级、颜色、照片位置和分页，再选择模板。未指定模板时使用默认 ASu 模板；指定模板时不擅自替换。
 3. 缺少关键字段时只补问真正影响交付的内容。姓名、学校、公司、职位、时间和成果指标不得捏造；无法补齐时使用 `待补充` 或 `待确认` 占位。
 4. 按“模板选择矩阵”决定页数和内容顺序。内容能在正常字号下形成完整单页时优先单页；需要双页时先填实第一页，再让第二页承接补充内容，不为了模板结构过早分页。
-5. 生成用户专属可编辑 HTML。保留文字可选中、可修改、可复制；工具栏放在页面外，提供页面模式、撤回/前进、字体、字号、颜色、加粗、自动保存、保存 HTML、照片上传/替换和打印/导出 PDF。页面模式至少支持 `A4 分页` 与 `A4 长页（不限高度）`；照片占位框只在编辑且未上传照片时显示，上传后及打印时隐藏边框和提示。
-6. 公司或平台名称能够确认时匹配品牌 Logo。优先复用共享 `../../assets/logos/` 中的实际 SVG；缺少对应资源时使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的官方 SVG，并将用户专属 Logo 放在用户副本旁的 `logos/` 目录。无法确认品牌或没有可用资源时使用纯文字公司条，不用相似 Logo 代替。
+5. 生成用户专属可编辑 HTML。先根据模板壳生成用户内容壳，然后在仓库根目录执行：默认 ASu 模板用 `node scripts/build-asu-resume.mjs <用户内容壳> <用户输出HTML>`，其余模板用 `node scripts/inline-template.mjs <用户内容壳> <用户输出HTML>`。脚本完成公共工具栏/样式/代码内联。引用的图片、`icons/` 和 `logos/` 按输出 HTML 的相对路径一起交付。
+6. 公司或平台名称能够确认时匹配品牌 Logo。优先复用共享 `assets/logos/` 中的实际 SVG；缺少对应资源时使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的官方 SVG，并将用户专属 Logo 放在用户副本旁的 `logos/` 目录。无法确认品牌或没有可用资源时使用纯文字公司条，不用相似 Logo 代替。
 7. 将 print-preview 作为交付前强制 QA：检查 A4 纸张、分页、单双栏、照片比例、长文本溢出、中文字体、打印边距、工具栏隐藏、链接可识别和公司 Logo 比例，再按 [A4 页面平衡与视觉密度 QA](references/page-balance-qa.md) 测量每页内容占用并保存整页截图。发现问题先修复 HTML/CSS。
 8. 按 [PDF 导出验收标准](#pdf-导出验收标准) 生成或指导生成 PDF，不用截图替代可编辑源文件。
 
