@@ -5,32 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ASu Resume</title>
   <style>
+.resume-toolbar { position:fixed; z-index:1000; left:0; right:0; top:0; min-height:58px; padding:10px 18px; display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:9px; background:rgba(255,255,255,.97); border-bottom:1px solid #ccd5df; box-shadow:0 2px 10px rgba(21,41,62,.12); }
+.toolbar-title { margin-right:auto; color:#3b4b5d; font-size:13px; letter-spacing:.06em; }
+.resume-toolbar button { border:1px solid #9db0c4; border-radius:5px; background:#fff; color:#24466e; padding:7px 13px; font:inherit; cursor:pointer; }
+.resume-toolbar button:hover { background:#edf4fb; border-color:#315f98; }
+.resume-toolbar button[data-action=pdf] { color:#fff; background:#315f98; border-color:#315f98; }
+.toolbar-control { display:flex; align-items:center; gap:5px; color:#526273; font-size:12px; white-space:nowrap; }
+.toolbar-control select { border:1px solid #9db0c4; border-radius:5px; background:#fff; color:#24466e; padding:6px 7px; font:inherit; }
+.toolbar-control input[type=color] { width:34px; height:30px; padding:2px; border:1px solid #9db0c4; border-radius:5px; background:#fff; cursor:pointer; }
+.resume-toolbar button[data-action=bold] { min-width:68px; }
+
+@media print { .resume-toolbar { display:none !important; } }
+
     @page { size: A4; margin: 7mm 10mm 8mm; }
     :root { --blue: #2458b8; --text: #151515; --muted: #596273; --band: #f2f3f5; }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #fff; }
     body { color: var(--text); font-family: "Times New Roman", "SimHei", "黑体", "Microsoft YaHei", sans-serif; font-size: 10.5pt; line-height: 1.34; }
-    .toolbar { position: sticky; z-index: 10; top: 6px; display: flex; align-items: center; gap: 7px; width: max-content; max-width: calc(100vw - 32px); margin: 6px auto 8px; padding: 7px 10px; border: 1px solid #d3d7df; border-radius: 8px; background: #fff; box-shadow: 0 4px 14px rgba(15, 23, 42, .12); color: #334155; font: 13px/1 Arial, "Microsoft YaHei", sans-serif; }
-    .toolbar label, .toolbar-title { color: #475569; font-weight: 700; white-space: nowrap; }
-    .toolbar button, .toolbar select { height: 32px; border-radius: 5px; font: inherit; transition: border-color .15s ease, box-shadow .15s ease, background .15s ease, transform .15s ease; }
-    .print-button { flex: 0 0 auto; padding: 0 12px; border: 1px solid var(--blue); background: var(--blue); color: #fff; cursor: pointer; font-weight: 700; }
-    .print-button:hover { background: #1d4ed8; }
-    .page-mode-select { min-width: 148px; padding: 0 7px; border: 1px solid #cbd5e1; background: #fff; color: #1e293b; cursor: pointer; }
-    .format-select { min-width: 100px; padding: 0 7px; border: 1px solid #cbd5e1; background: #fff; color: #1e293b; cursor: pointer; }
-    .format-select.font-size { min-width: 58px; }
-    .toolbar select:hover, .toolbar select:focus { border-color: #7296d8; box-shadow: 0 0 0 2px rgba(36, 88, 184, .12); outline: none; }
-    .toolbar-divider { width: 1px; height: 22px; background: #e2e8f0; margin: 0 2px; }
-    .tool-button { width: 32px; min-width: 32px; padding: 0; border: 1px solid #cbd5e1; background: #f8fafc; color: #334155; cursor: pointer; font-weight: 700; }
-    .tool-button:hover, .tool-button.active { border-color: #7296d8; background: #eff6ff; color: #1d4ed8; }
-    .history-button { width: auto; min-width: 46px; padding: 0 8px; }
-    .reset-button { height: 32px; padding: 0 10px; border: 1px solid #f0b4b4; border-radius: 5px; background: #fff5f5; color: #b91c1c; cursor: pointer; font: inherit; font-weight: 700; transition: border-color .15s ease, background .15s ease, color .15s ease; }
-    .reset-button:hover { border-color: #dc2626; background: #fee2e2; color: #991b1b; }
-    .reset-button.armed { border-color: #dc2626; background: #dc2626; color: #fff; }
-    .save-status { color: #64748b; white-space: nowrap; font-size: 12px; }
-    .color-control { display: flex; align-items: center; gap: 4px; height: 32px; padding: 0 5px; border: 1px solid #cbd5e1; border-radius: 5px; background: #fff; cursor: pointer; }
-    .color-control input { width: 21px; height: 21px; padding: 0; border: 0; background: transparent; cursor: pointer; }
-    @media screen and (max-width: 980px) { .toolbar { top: 6px; max-width: calc(100vw - 20px); flex-wrap: wrap; justify-content: center; } }
-    @media print { .toolbar { display: none; } }
+    .resume-toolbar { position:sticky; font:13px/1.3 Arial, "Microsoft YaHei", sans-serif; }
+    .resume-toolbar select { max-width:150px; }
+    .save-status { font-size:12px; color:#64748b; }
+    .reset-button.armed { background:#dc2626; color:#fff; }
     .sheet { width: 210mm; min-height: 0; padding: 7mm 10mm 8mm; border-top: 0; margin: 0 auto; }
     .page-break { break-before: auto; }
     body[data-page-mode="continuous"] { width: 100%; }
@@ -60,7 +55,6 @@
     .profile-photo-slot:hover::after, .profile-photo-slot:focus-visible::after { opacity: 1; }
     .profile-photo-slot.has-photo::after { content: "点击替换"; }
     .photo-placeholder { pointer-events: none; }
-    .photo-input { display: none; }
     .profile-photo-slot img { display: block; width: 100%; height: 100%; object-fit: cover; }
     .meta-row { display: flex; align-items: center; gap: 4px; margin: 2px 0; font-size: 11.5pt; line-height: 1.42; white-space: nowrap; }
     .meta-icon { width: 16px; height: 16px; object-fit: contain; flex: 0 0 auto; }
@@ -95,27 +89,26 @@
   </style>
 </head>
 <body data-page-mode="paged">
-  <div class="toolbar">
+<div class="resume-toolbar" role="toolbar" aria-label="简历工具" contenteditable="false">
+  <span class="toolbar-title">HTML 简历</span>
+  <button type="button" data-action="edit">编辑</button>
+  <label class="toolbar-control">字体<select data-action="font" aria-label="字体"><option value="Microsoft YaHei">微软雅黑</option><option value="SimSun">宋体</option><option value="SimHei">黑体</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times New Roman</option><optgroup label="本地字体" data-local-font-group></optgroup></select></label>
+  <button type="button" data-action="local-fonts" title="读取系统中已安装的字体（需浏览器授权）">本地字体</button>
+  <button type="button" data-action="import-font" title="导入本地字体文件（TTF / OTF / WOFF / WOFF2）">导入字体</button>
+  <input type="file" accept=".ttf,.otf,.ttc,.woff,.woff2" multiple data-font-file-input hidden>
+  <label class="toolbar-control color-control">文字颜色<input type="color" data-action="color" value="#20252b" aria-label="文字颜色"></label>
+  <button type="button" data-action="bold" title="对选中文字加粗或取消加粗"><strong>B</strong> 加粗</button>
+  <button type="button" data-action="photo">替换照片</button>
+  <button type="button" data-action="save">保存 HTML</button>
+  <button type="button" data-action="pdf">导出 PDF</button>
+  <input type="file" accept="image/*" data-photo-input hidden>
     <label for="pageMode">页面模式</label>
     <select id="pageMode" class="page-mode-select" aria-label="选择页面模式">
       <option value="paged">A4 分页</option>
       <option value="continuous">A4 长页（不限高度）</option>
     </select>
-    <span class="toolbar-divider" aria-hidden="true"></span>
     <button class="tool-button history-button" type="button" data-command="undo" title="撤回编辑" aria-label="撤回编辑">撤回</button>
     <button class="tool-button history-button" type="button" data-command="redo" title="前进编辑" aria-label="前进编辑">前进</button>
-    <label for="fontFamily">字体</label>
-    <select class="format-select" id="fontFamily" title="字体" aria-label="字体">
-      <option value="simhei">黑体</option>
-      <option value="yahei">微软雅黑</option>
-      <option value="simsun">宋体</option>
-      <option value="times">Times New Roman</option>
-      <option value="arial">Arial</option>
-      <optgroup label="本地字体" id="localFontGroup"></optgroup>
-    </select>
-    <input id="fontFileInput" type="file" accept=".ttf,.otf,.ttc,.woff,.woff2" multiple hidden aria-label="选择本地字体文件">
-    <button class="tool-button history-button" type="button" id="localFontButton" title="读取系统中已安装的字体（需浏览器授权）">本地字体</button>
-    <button class="tool-button history-button" type="button" id="importFontButton" title="导入本地字体文件（TTF / OTF / WOFF / WOFF2）">导入字体</button>
     <label for="fontSize">字号</label>
     <select class="format-select font-size" id="fontSize" title="字号" aria-label="字号">
       <option value="10px">10</option>
@@ -127,13 +120,9 @@
       <option value="22px">22</option>
       <option value="26px">26</option>
     </select>
-    <label class="color-control" title="文字颜色"><span>颜色</span><input id="textColor" type="color" value="#151515" aria-label="文字颜色"></label>
-    <button class="tool-button" type="button" data-command="bold" title="加粗"><strong>B</strong></button>
     <button class="reset-button" type="button" id="resetButton" title="清除所有编辑，恢复模板初始内容">重置</button>
-    <span id="saveStatus" class="save-status" role="status" aria-live="polite">自动保存已开启</span>
-    <button class="tool-button" type="button" id="saveHtmlButton">保存 HTML</button>
-    <button class="print-button" type="button" onclick="window.print()">打印 / 导出 PDF</button>
-  </div>
+    <span id="saveStatus" class="save-status" role="status" aria-live="polite">自动保存已开启</span></div>
+
 
   <main class="sheet" contenteditable="true">
     <header class="header-grid">
@@ -145,7 +134,6 @@
       </div>
       <div class="profile-photo-slot" contenteditable="false" role="button" tabindex="0" aria-label="选择或替换证件照">
         <span class="photo-placeholder">证件照<br>预留位置</span>
-        <input class="photo-input" type="file" accept="image/*" aria-label="选择证件照">
       </div>
     </header>
 
@@ -333,7 +321,7 @@
       const pageMode = document.querySelector('#pageMode');
       const modeStorageKey = 'asu-resume-page-mode';
       const contentStoragePrefix = 'asu-resume-content-v3';
-      const sheets = Array.from(document.querySelectorAll('main.sheet[contenteditable="true"]'));
+      const sheets = Array.from(document.querySelectorAll('main.sheet'));
       const saveStatus = document.querySelector('#saveStatus');
       let saveTimer = null;
 
@@ -404,44 +392,6 @@
       sheets.forEach((sheet) => sheet.addEventListener('input', scheduleSave));
       window.addEventListener('beforeunload', saveContent);
 
-      const openPhotoPicker = (slot) => slot?.querySelector('.photo-input')?.click();
-      document.addEventListener('click', (event) => {
-        const slot = event.target.closest?.('.profile-photo-slot');
-        if (!slot) return;
-        const input = slot.querySelector('.photo-input');
-        if (event.target !== input) openPhotoPicker(slot);
-      });
-      document.addEventListener('keydown', (event) => {
-        const slot = event.target.closest?.('.profile-photo-slot');
-        if (!slot) return;
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          openPhotoPicker(slot);
-        }
-      });
-      document.addEventListener('change', (event) => {
-        const input = event.target.closest?.('.photo-input');
-        const slot = input?.closest('.profile-photo-slot');
-        if (!input || !slot) return;
-        const [file] = input.files || [];
-        if (!file || !file.type.startsWith('image/')) return;
-        const reader = new FileReader();
-        reader.addEventListener('load', () => {
-          let photo = slot.querySelector('.profile-photo');
-          if (!photo) {
-            photo = document.createElement('img');
-            photo.className = 'profile-photo';
-            photo.alt = '证件照';
-            slot.prepend(photo);
-          }
-          photo.src = reader.result;
-          slot.querySelector('.photo-placeholder')?.remove();
-          slot.classList.add('has-photo');
-          scheduleSave();
-        });
-        reader.readAsDataURL(file);
-      });
-
       const applyMode = (mode) => {
         document.body.dataset.pageMode = mode;
         pageMode.value = mode;
@@ -465,11 +415,11 @@
             const placeholder = document.createElement('span');
             placeholder.className = 'photo-placeholder';
             placeholder.innerHTML = '证件照<br>预留位置';
-            slot.insertBefore(placeholder, slot.querySelector('.photo-input'));
+            slot.appendChild(placeholder);
           }
           slot.classList.remove('has-photo');
         });
-        const photoInput = document.querySelector('.photo-input');
+        const photoInput = document.querySelector('[data-photo-input]');
         if (photoInput) photoInput.value = '';
         setSaveStatus('已恢复初始内容');
       };
@@ -502,264 +452,322 @@
         });
       }
 
-      const editorSelector = '[contenteditable="true"]';
-      const getElement = (node) => node && (node.nodeType === 1 ? node : node.parentElement);
-      const isEditorSelection = (node) => {
-        const element = getElement(node);
-        return Boolean(element && element.closest(editorSelector) && !element.closest('.toolbar'));
-      };
-      let savedRange = null;
-      document.addEventListener('selectionchange', () => {
-        const selection = window.getSelection();
-        if (selection.rangeCount && isEditorSelection(selection.anchorNode) && isEditorSelection(selection.focusNode)) {
-          savedRange = selection.getRangeAt(0).cloneRange();
-        }
-      });
-
-      const restoreSelection = () => {
-        if (!savedRange) return false;
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(savedRange);
-        return true;
-      };
-      const runCommand = (command, value = null) => {
-        if (!restoreSelection()) return;
-        document.execCommand(command, false, value);
-        scheduleSave();
-      };
-
-      document.querySelectorAll('.tool-button[data-command]').forEach((button) => {
-        button.addEventListener('mousedown', (event) => event.preventDefault());
-        button.addEventListener('click', () => runCommand(button.dataset.command));
-      });
-
-      const fontFamilies = {
-        simhei: 'SimHei, 黑体, Microsoft YaHei, sans-serif',
-        yahei: 'Microsoft YaHei, sans-serif',
-        simsun: 'SimSun, 宋体, serif',
-        times: 'Times New Roman, serif',
-        arial: 'Arial, sans-serif'
-      };
-      const fontFamilySelect = document.querySelector('#fontFamily');
-      const localFontGroup = fontFamilySelect ? fontFamilySelect.querySelector('#localFontGroup') : null;
-      const fontFileInput = document.querySelector('#fontFileInput');
-      const localFontButton = document.querySelector('#localFontButton');
-      const importFontButton = document.querySelector('#importFontButton');
-      const localFontValuePrefix = 'local:';
-      const removeLocalFontsValue = '__remove_local_fonts__';
-      const supportsLocalFonts = 'FontFace' in window && 'fonts' in document;
-      const installedFontBlocklist = ['icon', 'emoji', 'symbol', 'wingdings', 'webdings', 'dingbat', 'awesome'];
-      const fontFaces = new Map();
-      let localFonts = [];
-      let installedFontNames = [];
-
-      const registerLocalFont = async (name, dataUrl) => {
-        const fontFace = new FontFace(name, `url(${dataUrl})`);
-        await fontFace.load();
-        const previous = fontFaces.get(name);
-        if (previous) document.fonts.delete(previous);
-        document.fonts.add(fontFace);
-        fontFaces.set(name, fontFace);
-      };
-      const refreshLocalFontOptions = () => {
-        if (!localFontGroup) return;
-        const names = [];
-        installedFontNames.forEach((name) => {
-          if (!names.includes(name)) names.push(name);
-        });
-        localFonts.forEach((font) => {
-          if (!names.includes(font.name)) names.push(font.name);
-        });
-        localFontGroup.innerHTML = '';
-        names.forEach((name) => {
-          const option = document.createElement('option');
-          option.value = localFontValuePrefix + name;
-          option.textContent = name;
-          localFontGroup.appendChild(option);
-        });
-        if (names.length) {
-          const removeOption = document.createElement('option');
-          removeOption.value = removeLocalFontsValue;
-          removeOption.textContent = '移除全部本地字体';
-          localFontGroup.appendChild(removeOption);
-        }
-      };
-      const importFontFile = (file) => new Promise((resolve) => {
-        const name = (file.name || '本地字体').replace(/\.(ttf|otf|ttc|woff2?|sfnt)$/i, '').trim() || '本地字体';
-        const reader = new FileReader();
-        reader.addEventListener('load', async () => {
-          const dataUrl = String(reader.result || '');
-          try {
-            await registerLocalFont(name, dataUrl);
-          } catch (error) {
-            setSaveStatus('字体文件无法解析');
-            resolve();
-            return;
-          }
-          localFonts = localFonts.filter((font) => font.name !== name);
-          localFonts.push({ name, data: dataUrl });
-          setSaveStatus('本地字体已导入（刷新后需重新导入）');
-          resolve();
-        });
-        reader.addEventListener('error', () => {
-          setSaveStatus('字体文件无法读取');
-          resolve();
-        });
-        reader.readAsDataURL(file);
-      });
-      const loadInstalledFonts = async () => {
-        if (typeof window.queryLocalFonts !== 'function') {
-          setSaveStatus('当前浏览器不支持读取本地字体，可用「导入字体」');
-          return;
-        }
-        setSaveStatus('正在读取本地字体...');
-        try {
-          const fonts = await window.queryLocalFonts();
-          const families = new Set();
-          fonts.forEach((font) => {
-            if (!font || typeof font.family !== 'string') return;
-            const family = font.family.trim();
-            if (!family) return;
-            const lower = family.toLowerCase();
-            if (installedFontBlocklist.some((part) => lower.includes(part))) return;
-            families.add(family);
-          });
-          installedFontNames = Array.from(families).sort((a, b) => a.localeCompare(b));
-          refreshLocalFontOptions();
-          setSaveStatus(`已读取 ${installedFontNames.length} 个本地字体`);
-        } catch (error) {
-          setSaveStatus(error && error.name === 'NotAllowedError' ? '已拒绝本地字体读取权限' : '本地字体读取失败');
-        }
-      };
-      const removeAllLocalFonts = () => {
-        fontFaces.forEach((fontFace) => document.fonts.delete(fontFace));
-        fontFaces.clear();
-        localFonts = [];
-        installedFontNames = [];
-        refreshLocalFontOptions();
-        setSaveStatus('已清除本地字体');
-      };
-
-      const suggestedHtmlName = () => {
-        const currentName = decodeURIComponent(window.location.pathname.split('/').pop() || '');
-        if (/\.html?$/i.test(currentName)) return currentName;
-        const safeTitle = (document.title || 'asu-resume').replace(/[\\/:*?"<>|]+/g, '-').trim();
-        return `${safeTitle || 'asu-resume'}.html`;
-      };
-      const serializeHtml = () => {
-        const clone = document.documentElement.cloneNode(true);
-        const clonedStatus = clone.querySelector('#saveStatus');
-        if (clonedStatus) clonedStatus.textContent = '自动保存已开启';
-        if (localFonts.length) {
-          let fontStyle = clone.querySelector('style[data-saved-local-fonts]');
-          if (!fontStyle) {
-            fontStyle = document.createElement('style');
-            fontStyle.setAttribute('data-saved-local-fonts', '');
-            clone.querySelector('head')?.appendChild(fontStyle);
-          }
-          fontStyle.textContent = localFonts.map((font) => {
-            const name = font.name.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-            return `@font-face{font-family:"${name}";src:url(${font.data})}`;
-          }).join('\n');
-        }
-        return '<!doctype html>\n' + clone.outerHTML;
-      };
-      const downloadHtml = (html, name) => {
-        const url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = name;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-      };
-      const saveHtml = async () => {
-        saveContent();
-        const html = serializeHtml();
-        const name = suggestedHtmlName();
-        if (typeof window.showSaveFilePicker === 'function') {
-          try {
-            const handle = await window.showSaveFilePicker({
-              suggestedName: name,
-              types: [{ description: 'HTML 文件', accept: { 'text/html': ['.html', '.htm'] } }]
-            });
-            const writable = await handle.createWritable();
-            await writable.write(new Blob([html], { type: 'text/html;charset=utf-8' }));
-            await writable.close();
-            setSaveStatus('HTML 已保存到本地');
-            return;
-          } catch (error) {
-            if (error?.name === 'AbortError') {
-              setSaveStatus('已取消保存');
-              return;
-            }
-          }
-        }
-        downloadHtml(html, name);
-        setSaveStatus('已下载 HTML 副本');
-      };
-      document.querySelector('#saveHtmlButton')?.addEventListener('click', saveHtml);
-
-      fontFamilySelect?.addEventListener('change', (event) => {
-        const value = event.target.value;
-        if (value === removeLocalFontsValue) {
-          removeAllLocalFonts();
-          event.target.value = 'simhei';
-          return;
-        }
-        if (value.startsWith(localFontValuePrefix)) {
-          const name = value.slice(localFontValuePrefix.length);
-          runCommand('fontName', `"${name}", "Microsoft YaHei", sans-serif`);
-          return;
-        }
-        runCommand('fontName', fontFamilies[value]);
-      });
-      localFontButton?.addEventListener('mousedown', (event) => event.preventDefault());
-      localFontButton?.addEventListener('click', () => {
-        loadInstalledFonts();
-      });
-      importFontButton?.addEventListener('mousedown', (event) => event.preventDefault());
-      importFontButton?.addEventListener('click', () => {
-        if (!supportsLocalFonts) {
-          setSaveStatus('当前浏览器不支持导入字体文件');
-          return;
-        }
-        fontFileInput?.click();
-      });
-      fontFileInput?.addEventListener('change', async (event) => {
-        const files = Array.from(event.target.files || []);
-        event.target.value = '';
-        if (!files.length) return;
-        setSaveStatus('正在导入字体...');
-        for (const file of files) await importFontFile(file);
-        refreshLocalFontOptions();
-      });
-
-      const applyInlineStyle = (property, value) => {
-        if (!restoreSelection()) return;
-        const selection = window.getSelection();
-        if (!selection.rangeCount || selection.isCollapsed) return;
-        const range = selection.getRangeAt(0);
-        const wrapper = document.createElement('span');
-        wrapper.style[property] = value;
-        wrapper.appendChild(range.extractContents());
-        range.insertNode(wrapper);
-        const newRange = document.createRange();
-        newRange.selectNodeContents(wrapper);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
-        savedRange = newRange.cloneRange();
-        scheduleSave();
-      };
-      document.querySelector('#fontSize').addEventListener('change', (event) => {
-        applyInlineStyle('fontSize', event.target.value);
-      });
-      document.querySelector('#textColor').addEventListener('input', (event) => {
-        runCommand('foreColor', event.target.value);
-      });
+      document.addEventListener('resume-change', scheduleSave);
+      document.addEventListener('resume-before-save', saveContent);
     })();
+(() => {
+  const roots = Array.from(document.querySelectorAll('.resume-page, main.sheet'));
+  const root = roots[0];
+  if (!root) return;
+  const changed = () => document.dispatchEvent(new Event('resume-change'));
+  const editButton = document.querySelector('[data-action="edit"]');
+  const fontSelect = document.querySelector('[data-action="font"]');
+  const colorInput = document.querySelector('[data-action="color"]');
+  const boldButton = document.querySelector('[data-action="bold"]');
+  const photoButton = document.querySelector('[data-action="photo"]');
+  const saveButton = document.querySelector('[data-action="save"]');
+  const pdfButton = document.querySelector('[data-action="pdf"]');
+  const photoInput = document.querySelector('[data-photo-input]');
+  const photoFrame = document.querySelector('.photo-frame, .profile-photo-slot');
+  const photoImage = photoFrame?.querySelector('img');
+  const initialPhotoSource = photoImage?.getAttribute('src') || '';
+  if (photoFrame && initialPhotoSource && !/fictional-resume-photo\.png(?:[?#].*)?$/i.test(initialPhotoSource)) {
+    photoFrame.classList.add('has-photo');
+  }
+  let savedRange = null;
+  document.addEventListener('selectionchange', () => {
+    const selection = window.getSelection();
+    if (!selection || !selection.rangeCount || !roots.some((page) => page.contains(selection.anchorNode) && page.contains(selection.focusNode))) return;
+    savedRange = selection.getRangeAt(0).cloneRange();
+  });
+  const restoreSelection = () => {
+    if (!savedRange) return;
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(savedRange);
+  };
+  const applyFormat = (command, value = null) => {
+    if (root.getAttribute('contenteditable') !== 'true') editButton.click();
+    root.focus();
+    restoreSelection();
+    document.execCommand(command, false, value);
+    changed();
+  };
+  editButton?.addEventListener('click', () => {
+    const editing = root.getAttribute('contenteditable') === 'true';
+    roots.forEach((page) => {
+      page.setAttribute('contenteditable', String(!editing));
+      page.classList.toggle('is-editing', !editing);
+    });
+    editButton.textContent = editing ? '编辑' : '完成编辑';
+    if (!editing) root.focus();
+  });
+  if (root.getAttribute('contenteditable') === 'true') editButton.textContent = '完成编辑';
+  document.querySelectorAll('.resume-toolbar button').forEach((button) => {
+    button.addEventListener('mousedown', (event) => event.preventDefault());
+  });
+  document.querySelectorAll('[data-command]').forEach((button) => {
+    button.addEventListener('click', () => applyFormat(button.dataset.command));
+  });
+  document.querySelector('#fontSize')?.addEventListener('change', (event) => {
+    restoreSelection();
+    const selection = window.getSelection();
+    if (!savedRange || !selection.rangeCount || selection.isCollapsed) return;
+    const range = selection.getRangeAt(0);
+    const wrapper = document.createElement('span');
+    wrapper.style.fontSize = event.target.value;
+    wrapper.appendChild(range.extractContents());
+    range.insertNode(wrapper);
+    range.selectNodeContents(wrapper);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    savedRange = range.cloneRange();
+    changed();
+  });
+  photoButton?.addEventListener('click', () => photoInput?.click());
+  document.addEventListener('click', (event) => {
+    if (event.target.closest?.('.profile-photo-slot')) photoInput?.click();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.target.closest?.('.profile-photo-slot') && ['Enter', ' '].includes(event.key)) {
+      event.preventDefault();
+      photoInput?.click();
+    }
+  });
+  photoInput?.addEventListener('change', (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = '';
+    if (!file || !file.type.startsWith('image/') || !photoFrame) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const photoFrame = document.querySelector('.photo-frame, .profile-photo-slot');
+      if (!photoFrame) return;
+      let image = photoFrame.querySelector('img');
+      if (!image) {
+        image = document.createElement('img');
+        image.className = 'profile-photo';
+        image.alt = '证件照';
+        photoFrame.prepend(image);
+      }
+      image.src = reader.result;
+      photoFrame.classList.add('has-photo');
+      photoFrame.querySelector('.photo-placeholder')?.remove();
+      setToolStatus('照片已替换');
+      changed();
+    };
+    reader.readAsDataURL(file);
+  });
+  const localFontGroup = fontSelect ? fontSelect.querySelector('[data-local-font-group]') : null;
+  const localFontButton = document.querySelector('[data-action="local-fonts"]');
+  const importFontButton = document.querySelector('[data-action="import-font"]');
+  const fontFileInput = document.querySelector('[data-font-file-input]');
+  const toolbarTitle = document.querySelector('.toolbar-title');
+  const localFontValuePrefix = 'local:';
+  const removeLocalFontsValue = '__remove_local_fonts__';
+  const installedFontBlocklist = ['icon', 'emoji', 'symbol', 'wingdings', 'webdings', 'dingbat', 'awesome'];
+  const fontFaces = new Map();
+  let localFonts = [];
+  let installedFontNames = [];
+  let statusTimer = null;
+
+  const setToolStatus = (text) => {
+    if (!toolbarTitle) return;
+    toolbarTitle.textContent = text;
+    window.clearTimeout(statusTimer);
+    statusTimer = window.setTimeout(() => { toolbarTitle.textContent = 'HTML 简历'; }, 3000);
+  };
+  const registerLocalFont = async (name, dataUrl) => {
+    const fontFace = new FontFace(name, `url(${dataUrl})`);
+    await fontFace.load();
+    const previous = fontFaces.get(name);
+    if (previous) document.fonts.delete(previous);
+    document.fonts.add(fontFace);
+    fontFaces.set(name, fontFace);
+  };
+  const refreshLocalFontOptions = () => {
+    if (!localFontGroup) return;
+    const names = [];
+    installedFontNames.forEach((name) => {
+      if (!names.includes(name)) names.push(name);
+    });
+    localFonts.forEach((font) => {
+      if (!names.includes(font.name)) names.push(font.name);
+    });
+    localFontGroup.innerHTML = '';
+    names.forEach((name) => {
+      const option = document.createElement('option');
+      option.value = localFontValuePrefix + name;
+      option.textContent = name;
+      localFontGroup.appendChild(option);
+    });
+    if (names.length) {
+      const removeOption = document.createElement('option');
+      removeOption.value = removeLocalFontsValue;
+      removeOption.textContent = '移除全部本地字体';
+      localFontGroup.appendChild(removeOption);
+    }
+  };
+  const importFontFile = (file) => new Promise((resolve) => {
+    const name = (file.name || '本地字体').replace(/\.(ttf|otf|ttc|woff2?|sfnt)$/i, '').trim() || '本地字体';
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const dataUrl = String(reader.result || '');
+      try {
+        await registerLocalFont(name, dataUrl);
+      } catch (error) {
+        setToolStatus('字体文件无法解析');
+        resolve();
+        return;
+      }
+      localFonts = localFonts.filter((font) => font.name !== name);
+      localFonts.push({ name, data: dataUrl });
+      setToolStatus('本地字体已导入（刷新后需重新导入）');
+      resolve();
+    };
+    reader.onerror = () => {
+      setToolStatus('字体文件无法读取');
+      resolve();
+    };
+    reader.readAsDataURL(file);
+  });
+  const loadInstalledFonts = async () => {
+    if (typeof window.queryLocalFonts !== 'function') {
+      setToolStatus('当前浏览器不支持读取本地字体，可用「导入字体」');
+      return;
+    }
+    setToolStatus('正在读取本地字体...');
+    try {
+      const fonts = await window.queryLocalFonts();
+      const families = new Set();
+      fonts.forEach((font) => {
+        if (!font || typeof font.family !== 'string') return;
+        const family = font.family.trim();
+        if (!family) return;
+        const lower = family.toLowerCase();
+        if (installedFontBlocklist.some((part) => lower.includes(part))) return;
+        families.add(family);
+      });
+      installedFontNames = Array.from(families).sort((a, b) => a.localeCompare(b));
+      refreshLocalFontOptions();
+      setToolStatus(`已读取 ${installedFontNames.length} 个本地字体`);
+    } catch (error) {
+      setToolStatus(error && error.name === 'NotAllowedError' ? '已拒绝本地字体读取权限' : '本地字体读取失败');
+    }
+  };
+  const removeAllLocalFonts = () => {
+    fontFaces.forEach((fontFace) => document.fonts.delete(fontFace));
+    fontFaces.clear();
+    localFonts = [];
+    installedFontNames = [];
+    refreshLocalFontOptions();
+    setToolStatus('已清除本地字体');
+  };
+
+  const suggestedHtmlName = () => {
+    const currentName = decodeURIComponent(window.location.pathname.split('/').pop() || '');
+    if (/\.html?$/i.test(currentName)) return currentName;
+    const safeTitle = (document.title || 'resume').replace(/[\\/:*?"<>|]+/g, '-').trim();
+    return `${safeTitle || 'resume'}.html`;
+  };
+  const serializeHtml = () => {
+    document.dispatchEvent(new Event('resume-before-save'));
+    const clone = document.documentElement.cloneNode(true);
+    const clonedRoot = clone.querySelector('.resume-page');
+    const clonedEditButton = clone.querySelector('[data-action="edit"]');
+    const clonedToolbarTitle = clone.querySelector('.toolbar-title');
+    if (clonedRoot) {
+      clonedRoot.setAttribute('contenteditable', 'false');
+      clonedRoot.classList.remove('is-editing');
+    }
+    clone.querySelectorAll('main.sheet').forEach((page) => page.setAttribute('contenteditable', 'true'));
+    if (clonedEditButton) clonedEditButton.textContent = '编辑';
+    if (clonedToolbarTitle) clonedToolbarTitle.textContent = 'HTML 简历';
+    const clonedStatus = clone.querySelector('#saveStatus');
+    if (clonedStatus) clonedStatus.textContent = '自动保存已开启';
+    if (localFonts.length) {
+      let fontStyle = clone.querySelector('style[data-saved-local-fonts]');
+      if (!fontStyle) {
+        fontStyle = document.createElement('style');
+        fontStyle.setAttribute('data-saved-local-fonts', '');
+        clone.querySelector('head')?.appendChild(fontStyle);
+      }
+      fontStyle.textContent = localFonts.map((font) => {
+        const name = font.name.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+        return `@font-face{font-family:"${name}";src:url(${font.data})}`;
+      }).join('\n');
+    }
+    return '<!doctype html>\n' + clone.outerHTML;
+  };
+  const downloadHtml = (html, name) => {
+    const url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const saveHtml = async () => {
+    const html = serializeHtml();
+    const name = suggestedHtmlName();
+    if (typeof window.showSaveFilePicker === 'function') {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: name,
+          types: [{ description: 'HTML 文件', accept: { 'text/html': ['.html', '.htm'] } }]
+        });
+        const writable = await handle.createWritable();
+        await writable.write(new Blob([html], { type: 'text/html;charset=utf-8' }));
+        await writable.close();
+        setToolStatus('HTML 已保存到本地');
+        return;
+      } catch (error) {
+        if (error?.name === 'AbortError') {
+          setToolStatus('已取消保存');
+          return;
+        }
+      }
+    }
+    downloadHtml(html, name);
+    setToolStatus('已下载 HTML 副本');
+  };
+
+  fontSelect?.addEventListener('change', () => {
+    const value = fontSelect.value;
+    if (value === removeLocalFontsValue) {
+      removeAllLocalFonts();
+      fontSelect.value = 'Microsoft YaHei';
+      return;
+    }
+    if (value.startsWith(localFontValuePrefix)) {
+      applyFormat('fontName', `"${value.slice(localFontValuePrefix.length)}", "Microsoft YaHei", sans-serif`);
+      return;
+    }
+    applyFormat('fontName', value);
+  });
+  localFontButton?.addEventListener('click', () => { loadInstalledFonts(); });
+  importFontButton?.addEventListener('click', () => {
+    if (!('FontFace' in window && 'fonts' in document)) {
+      setToolStatus('当前浏览器不支持导入字体文件');
+      return;
+    }
+    fontFileInput?.click();
+  });
+  fontFileInput?.addEventListener('change', async (event) => {
+    const files = Array.from(event.target.files || []);
+    event.target.value = '';
+    if (!files.length) return;
+    setToolStatus('正在导入字体...');
+    for (const file of files) await importFontFile(file);
+    refreshLocalFontOptions();
+  });
+  colorInput?.addEventListener('input', () => applyFormat('foreColor', colorInput.value));
+  boldButton?.addEventListener('click', () => applyFormat('bold'));
+  saveButton?.addEventListener('click', saveHtml);
+  pdfButton?.addEventListener('click', () => window.print());
+})();
+
   </script>
 </body>
 </html>

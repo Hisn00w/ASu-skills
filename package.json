@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "export:pdf": "node scripts/export-resume-pdf.mjs",
+    "build:asu-resume": "node scripts/build-asu-resume.mjs",
+    "check:asu-resume": "node scripts/build-asu-resume.mjs --check",
     "build:templates": "node scripts/inline-template.mjs --all dist/templates",
     "sync:skills": "node scripts/sync-skill-catalog.mjs",
     "sync:skills:check": "node scripts/sync-skill-catalog.mjs --check",

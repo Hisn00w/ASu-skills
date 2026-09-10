@@ -10,6 +10,9 @@ on:
       - '.opencode-plugin/**'
       - 'skills.registry.json'
       - 'package.json'
+      - 'assets/asu-resume/**'
+      - 'assets/asu-resume-template.html'
+      - 'assets/frame/**'
       - 'assets/templates-html/**'
       - 'docs/index.html'
       - 'lib/**'
@@ -27,6 +30,9 @@ on:
       - '.opencode-plugin/**'
       - 'skills.registry.json'
       - 'package.json'
+      - 'assets/asu-resume/**'
+      - 'assets/asu-resume-template.html'
+      - 'assets/frame/**'
       - 'assets/templates-html/**'
       - 'docs/index.html'
       - 'lib/**'
@@ -74,7 +80,9 @@ jobs:
           done < <(find lib scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
 
       - name: Build all resume templates
-        run: node scripts/inline-template.mjs --all "$RUNNER_TEMP/templates"
+        run: |
+          node scripts/build-asu-resume.mjs --check
+          node scripts/inline-template.mjs --all "$RUNNER_TEMP/templates"
 
       - name: Check package contents
         run: npm pack --dry-run
