@@ -128,7 +128,7 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
 .variant-two-page .resume-page { min-height:1120px; }
 .variant-two-page .page-break { display:block; }
 
-@media (max-width:720px) {
+@media screen and (max-width:720px) {
   body { padding:70px 8px 20px !important; font-size:13px; }
   .resume-toolbar { padding:8px; gap:5px; }
   .toolbar-title { display:none; }
@@ -148,7 +148,7 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
   .variant-split .photo-frame { position:static; }
   .variant-split .identity { padding-right:0; }
 }
-@page { size: 210mm 297mm; margin: 0; }
+@page { size: A4; margin: 0; }
 @media print {
   html { background:#fff; }
   body { padding:0 !important; background:#fff; font-family:Arial, "Microsoft YaHei", "Noto Sans CJK SC", "SimSun", "SimHei", "PingFang SC", "Hiragino Sans GB", sans-serif; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
