@@ -25,7 +25,9 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 
 仓库中的 `assets/asu-resume/template.html` 和 `assets/templates-html/` 为模板壳文件，共享外框位于 `assets/frame/`。Agent 只读取内容壳，在用户目录创建并修改副本。壳文件只有设计稿，交付前必须用 `scripts/` 下的脚本内联共享的 `base.css`、`toolbar.css`、`toolbar.html` 和 `editor.js`，生成自包含 HTML；不能把壳文件直接交给用户。参考截图只用于分析版式，不能整页嵌入最终简历。
 
-如果 skill 被单独复制到其他目录，先从当前 skill 目录向上定位 `assets/`，只有在该目录包含完整模板资源时才使用它。完整资源至少包括 `resume-data-template.json`、`template-overview.jpg`、`fictional-resume-photo.png`、`frame/` 下的 `base.css`、`toolbar.css`、`toolbar.html`、`editor.js`，以及全部 18 个模板壳文件。找不到完整资源时必须明确说明，使用简洁 A4 后备模板，并说明不保证 18 套模板、预览图、示例照片或原模板复刻精度。
+OpenCode 安装布局使用配置目录下的 `assets/asu/` 保存模板资源，简历构建与导出脚本位于该资源目录的 `scripts/` 子目录。此布局下，将下文的仓库资源路径替换为已安装资源的绝对路径，并用 `node "<已安装脚本绝对路径>" "<用户内容壳绝对路径>" "<输出 HTML 绝对路径>"` 构建，无需回到原克隆目录。
+
+如果 skill 被单独复制到其他目录，先从当前 skill 目录向上定位 `assets/asu/` 或 `assets/`，只有在该目录包含完整模板资源时才使用它。完整资源至少包括 `resume-data-template.json`、`template-overview.jpg`、`fictional-resume-photo.png`、`frame/` 下的 `base.css`、`toolbar.css`、`toolbar.html`、`editor.js`，以及全部 18 个模板壳文件。找不到完整资源时必须明确说明，使用简洁 A4 后备模板，并说明不保证 18 套模板、预览图、示例照片或原模板复刻精度。
 
 ## 工作流程
 
