@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f5f7fb"/>
+  <rect x="34" y="24" width="1132" height="712" rx="14" fill="#fff" stroke="#d9e0ea"/>
+  <rect x="34" y="24" width="1132" height="62" rx="14" fill="#202938"/>
+  <circle cx="68" cy="55" r="8" fill="#ff6b6b"/><circle cx="94" cy="55" r="8" fill="#ffd166"/><circle cx="120" cy="55" r="8" fill="#52d273"/>
+  <text x="154" y="62" font-family="Arial,Microsoft YaHei" font-size="24" fill="#fff">/interview grill → retry · 脱敏案例</text>
+  <text x="70" y="132" font-family="Arial,Microsoft YaHei" font-size="20" fill="#7b8798">interview</text>
+  <rect x="70" y="148" width="1015" height="80" rx="12" fill="#f8fafc" stroke="#e3e8f0"/>
+  <text x="94" y="181" font-family="Arial,Microsoft YaHei" font-size="22" fill="#1e293b">问题：为什么实时行情使用 WebSocket，而不是 HTTP 轮询？</text>
+  <text x="94" y="215" font-family="Arial,Microsoft YaHei" font-size="20" fill="#64748b">只问一道题，等待回答后再根据证据追问。</text>
+  <rect x="70" y="258" width="1015" height="105" rx="12" fill="#e9f2ff"/>
+  <text x="94" y="295" font-family="Arial,Microsoft YaHei" font-size="21" fill="#1e293b">用户：历史数据用 HTTP 获取，实时数据用 WebSocket 推送，收到后更新同一时间戳的 K 线，</text>
+  <text x="94" y="330" font-family="Arial,Microsoft YaHei" font-size="21" fill="#1e293b">新时间戳则追加。这样能减少重复请求并降低更新延迟。</text>
+  <rect x="70" y="393" width="1015" height="214" rx="12" fill="#f8fafc" stroke="#e3e8f0"/>
+  <text x="94" y="432" font-family="Arial,Microsoft YaHei" font-size="22" font-weight="bold" fill="#182230">反馈：部分验证</text>
+  <text x="94" y="470" font-family="Arial,Microsoft YaHei" font-size="20" fill="#334155">正确：说明了两种数据源的差异、选择原因和增量更新规则。</text>
+  <text x="94" y="506" font-family="Arial,Microsoft YaHei" font-size="20" fill="#334155">遗漏：尚未说明断线后的状态恢复、重复数据和异常 JSON 的处理。</text>
+  <text x="94" y="542" font-family="Arial,Microsoft YaHei" font-size="20" fill="#334155">下一步：先追问“断线重连后如何避免数据缺口”，再将缺口加入 Retry。</text>
+  <text x="94" y="583" font-family="Arial,Microsoft YaHei" font-size="18" fill="#64748b">评分维度：技术正确性 · 表达清晰度 · 项目联系 · 边界意识 · 初级岗位匹配度</text>
+</svg>

@@ -58,6 +58,8 @@ Claim 与岗位能力矩阵
 
 完整规则见 [references/preparation-plan.md](references/preparation-plan.md)。面试时间、JD 或简历暂缺时不停止：标为 `待确认`，同时给可调整的临时方案。面试时间已经过去时转为 Review，不生成过去的学习日程。
 
+可视化案例：[Prepare 计划](../../assets/interview/prepare-case.svg) 展示如何把时间窗口、JD 和简历证据排序；[Grill → Retry](../../assets/interview/grill-retry-case.svg) 展示一次一问、部分验证和定向复练。案例使用脱敏示例，不代表任何用户的真实面试结果。
+
 Prepare 是可选模式，不是其他模式的前置门槛。用户明确要求直接 Predict、Grill 或 Retry 时，按对应模式执行，不强制补完整个学习计划。
 
 ### Predict：预测问题

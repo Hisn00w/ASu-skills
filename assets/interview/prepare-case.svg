@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f5f7fb"/>
+  <rect x="34" y="24" width="1132" height="712" rx="14" fill="#fff" stroke="#d9e0ea"/>
+  <rect x="34" y="24" width="1132" height="62" rx="14" fill="#202938"/>
+  <circle cx="68" cy="55" r="8" fill="#ff6b6b"/><circle cx="94" cy="55" r="8" fill="#ffd166"/><circle cx="120" cy="55" r="8" fill="#52d273"/>
+  <text x="154" y="62" font-family="Arial,Microsoft YaHei" font-size="24" fill="#fff">/interview prepare · 脱敏案例</text>
+  <text x="70" y="132" font-family="Arial,Microsoft YaHei" font-size="20" fill="#7b8798">用户</text>
+  <rect x="70" y="148" width="1015" height="92" rx="12" fill="#e9f2ff"/>
+  <text x="94" y="181" font-family="Arial,Microsoft YaHei" font-size="22" fill="#1e293b">面试在明天下午，岗位要求 C++/Qt、Linux；每天只能准备 2 小时。</text>
+  <text x="94" y="217" font-family="Arial,Microsoft YaHei" font-size="22" fill="#1e293b">简历主项目是 Qt 桌面播放器和行情客户端，请帮我安排先学什么。</text>
+  <text x="70" y="286" font-family="Arial,Microsoft YaHei" font-size="20" fill="#7b8798">interview</text>
+  <rect x="70" y="302" width="1015" height="344" rx="12" fill="#f8fafc" stroke="#e3e8f0"/>
+  <text x="96" y="342" font-family="Arial,Microsoft YaHei" font-size="22" font-weight="bold" fill="#182230">已识别的准备窗口：约 2 小时（保留休息与回顾缓冲）</text>
+  <text x="96" y="382" font-family="Arial,Microsoft YaHei" font-size="21" fill="#334155">A级：C++ 对象/内存、Qt 线程与信号槽、项目职责和故障追问</text>
+  <text x="96" y="418" font-family="Arial,Microsoft YaHei" font-size="21" fill="#334155">A级：Linux 基本命令、GDB 最小调试流程、CMake 构建</text>
+  <text x="96" y="454" font-family="Arial,Microsoft YaHei" font-size="21" fill="#334155">B级：TCP 粘包、Git 分支协作；C级：模板元编程等进阶内容</text>
+  <line x1="96" y1="480" x2="1050" y2="480" stroke="#d7dee8"/>
+  <text x="96" y="520" font-family="Arial,Microsoft YaHei" font-size="21" fill="#334155">学习闭环：理解 → 准确表述 → 最小代码 → 口述 → 变体练习</text>
+  <text x="96" y="558" font-family="Arial,Microsoft YaHei" font-size="21" fill="#334155">事实边界：未提供的项目指标标记“待确认”，不把推测写成经历。</text>
+  <text x="96" y="610" font-family="Arial,Microsoft YaHei" font-size="18" fill="#64748b">案例用途：展示 Prepare 模式如何按真实时间、JD 和简历证据排序任务。</text>
+</svg>
