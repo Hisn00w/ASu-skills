@@ -5,14 +5,17 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const sourceDir = path.join(repoRoot, 'assets', 'asu-resume');
-const frameDir = path.join(repoRoot, 'assets', 'frame', 'asu');
+// OpenCode installs these scripts inside assets/asu/scripts.
+const assetsRoot = fs.existsSync(path.join(repoRoot, 'frame', 'asu', 'base.css'))
+  ? repoRoot : path.join(repoRoot, 'assets');
+const sourceDir = path.join(assetsRoot, 'asu-resume');
+const frameDir = path.join(assetsRoot, 'frame', 'asu');
 const sharedDir = path.dirname(frameDir);
 const [input, destination] = process.argv.slice(2);
 const custom = input && input !== '--check';
 if (custom && !destination) throw new Error('用法：node scripts/build-asu-resume.mjs <用户内容壳> <输出 HTML>');
-const outputPath = custom ? path.resolve(destination) : path.join(repoRoot, 'assets', 'asu-resume-template.html');
-if (custom && [path.resolve(input), path.join(sourceDir, 'template.html'), path.join(repoRoot, 'assets', 'asu-resume-template.html')].includes(outputPath)) {
+const outputPath = custom ? path.resolve(destination) : path.join(assetsRoot, 'asu-resume-template.html');
+if (custom && [path.resolve(input), path.join(sourceDir, 'template.html'), path.join(assetsRoot, 'asu-resume-template.html')].includes(outputPath)) {
   throw new Error('用户输出不能覆盖内容壳或仓库母版');
 }
 
