@@ -175,6 +175,7 @@ ASu-skills 同时支持 Codex、Claude Code 和 TraeWork，另有 OpenCode 与 W
 - 将当前编辑内容保存为本地 HTML；
 - 「本地字体」读取系统中已安装的字体（Chrome 103+，需浏览器授权），「导入字体」加载本地字体文件（TTF/OTF/WOFF/WOFF2）作为补充；
 - 打印导出 PDF；
+- 可选导出 LaTeX `.tex` 源文件，用于在 Overleaf 等环境继续编辑（仅 ASu 版式，需用户主动要求）；
 - 根据截图分析栏位、间距、字号、颜色和分页结构；
 - 使用虚构示例照片作为占位，生成真实简历时由用户主动替换。
 

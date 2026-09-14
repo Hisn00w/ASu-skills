@@ -190,6 +190,7 @@ Supported:
 - Save the current edits as a local HTML file;
 - “Local fonts” reads fonts installed on your system (Chrome 103+, requires browser permission); “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement;
 - Print-to-PDF export;
+- Optional LaTeX `.tex` export for continued editing in Overleaf (ASu layout only, on request);
 - Layout analysis from screenshots: columns, spacing, font size, colors, and pagination;
 - Fictional placeholder photos by default; swap in your own for the real resume.
 

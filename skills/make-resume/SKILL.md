@@ -1,6 +1,6 @@
 ---
 name: make-resume
-description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密度技术简历模板，根据用户经历制作或复刻可编辑 HTML/PDF；用户也可以指定仓库内其他模板、本地 HTML 或参考截图。用户输入“/make-resume”“我要阿酥同款简历”或要求制作、修改、复刻简历文件时使用。
+description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密度技术简历模板，根据用户经历制作或复刻可编辑 HTML/PDF；用户也可以指定仓库内其他模板、本地 HTML 或参考截图。用户输入“/make-resume”“我要阿酥同款简历”或要求制作、修改、复刻简历文件时使用；用户要求 LaTeX、`.tex` 或 Overleaf 版本时，在默认 HTML 交付之外附加导出 `.tex` 源文件。
 ---
 
 # /make-resume：制作与复刻可编辑简历
@@ -116,6 +116,20 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 - 长链接去掉无关追踪参数并允许自然换行，导出后从 PDF 文本中抽查关键域名或 DOI；
 - 如使用照片，照片清晰且比例正确；如使用占位照片，交付说明提醒替换；
 - 推荐浏览器设置：Chrome/Edge、另存为 PDF、A4、背景图形开启、页眉页脚关闭、缩放 100%。
+
+## LaTeX 输出（可选）
+
+面向习惯 LaTeX 或需要在 Overleaf 继续维护简历的用户，`.tex` 是**可选附加格式，不替代 HTML 交付**。只有用户明确要求 LaTeX、`.tex` 或 Overleaf 版本时才生成；默认交付流程不变。
+
+- **仅支持 ASu 单栏版式。** 用户指定 `assets/templates-html/` 下的模板时不提供 `.tex`，需要先说明这一边界。
+- **信息等价，版式不等价。** `.tex` 保证章节顺序和内容与 HTML 一致，不承诺像素级复刻 ASu 样式。
+- **仓库不编译 LaTeX，也不要求用户安装 TeX。** 产物是纯文本源文件，编译交给 Overleaf 或用户已有的本地环境。
+
+生成方式：先把已确认的简历事实写成结构化 JSON（字段见 [`../../assets/resume-data-template.json`](../../assets/resume-data-template.json)，缺省字段对应的整节不输出），再在仓库根目录执行 `node scripts/build-latex-resume.mjs <简历数据JSON> <用户输出TEX>`。
+
+脚本按 [`../../assets/latex-resume/template.tex`](../../assets/latex-resume/template.tex) 渲染，并统一处理 LaTeX 转义。不要绕过脚本手写 `.tex`：简历正文里的 `C++`、`30%`、`snake_case`、`A&B` 等内容未经转义会直接导致编译失败。
+
+交付 `.tex` 时必须附上 Overleaf 使用步骤（三步）：① New Project → Blank Project，填写 Project name 后 Create；② 上传 `.tex`；③ File → Settings 中把 Main document 选为该文件、Compiler 选择 **XeLaTeX**（中文必需，pdfLaTeX 会失败），然后 Recompile。母版只使用 TeX Live 基础发行版自带宏包，且不指定中文字体（回落到 Overleaf 内置的 Fandol），以保证跨环境编译可复现。
 
 ## 交付内容
 
