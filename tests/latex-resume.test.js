@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-import { escapeLatex, escapeUrl, renderResume } from '../scripts/build-latex-resume.mjs';
+import { escapeLatex, escapeUrl, renderResume, resolvePhotoName } from '../scripts/build-latex-resume.mjs';
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (...parts) => readFileSync(join(repoRoot, ...parts), 'utf8');
@@ -130,7 +130,7 @@ test('母版遵守可复现性约定：不指定字体、不引入非标准宏�
   const packages = [...code.matchAll(/\\usepackage(?:\[[^\]]*\])?\{([^}]*)\}/g)].flatMap((m) =>
     m[1].split(',').map((name) => name.trim()),
   );
-  const allowed = new Set(['geometry', 'enumitem', 'xcolor', 'titlesec', 'hyperref']);
+  const allowed = new Set(['geometry', 'enumitem', 'xcolor', 'titlesec', 'hyperref', 'graphicx']);
   packages.forEach((name) => assert.ok(allowed.has(name), `非基础发行版宏包：${name}`));
 });
 
@@ -145,6 +145,46 @@ test('项目链接用 \\url 单独成行，避免长链接溢出页边距', () =
 
   assert.match(tex, /\\url\{https:\/\/github\.com\/example\/a-very-long-repository-name\}/);
   assert.doesNotMatch(tex, /\\asuentry\{[^}]*\}\{\\(?:href|url)/, '链接不应放进 \\hfill 右栏');
+});
+
+test('resolvePhotoName 只取文件名并拒绝不安全字符', () => {
+  assert.equal(resolvePhotoName('cat-photo.png'), 'cat-photo.png');
+  assert.equal(resolvePhotoName('/home/user/photos/id_photo.jpg'), 'id_photo.jpg');
+  assert.equal(resolvePhotoName('C:\\Users\\me\\photo.PNG'), 'photo.PNG');
+  assert.equal(resolvePhotoName(undefined), '');
+  assert.equal(resolvePhotoName(''), '');
+  // \includegraphics 的文件名参数不转义，含特殊字符会破坏编译
+  assert.throws(() => resolvePhotoName('我的 照片.png'), /只允许字母/);
+  assert.throws(() => resolvePhotoName('photo$.png'), /只允许字母/);
+  assert.throws(() => resolvePhotoName('..'), /只允许字母/);
+});
+
+test('有照片时头部分栏并引用图片，无照片时退化为纯文字单栏', () => {
+  const withPhoto = renderResume(
+    { profile: { name: '李明', photo: 'cat-photo.png' } },
+    template(),
+  );
+  assert.match(withPhoto, /\\setlength\{\\asuphotowidth\}\{30mm\}/);
+  assert.match(withPhoto, /\\asuphoto\{cat-photo\.png\}/);
+  assert.match(withPhoto, /\\begin\{minipage\}\[c\]\{\\asuphotowidth\}/);
+
+  const noPhoto = renderResume({ profile: { name: '李明' } }, template());
+  assert.match(noPhoto, /\\setlength\{\\asuphotowidth\}\{0pt\}/);
+  assert.doesNotMatch(noPhoto, /\\asuphoto\{/);
+  assert.doesNotMatch(noPhoto, /^% @PHOTO$/m);
+
+  // 两种情况下 minipage 环境都必须配对
+  for (const tex of [withPhoto, noPhoto]) {
+    assert.equal(
+      (tex.match(/\\begin\{minipage\}/g) || []).length,
+      (tex.match(/\\end\{minipage\}/g) || []).length,
+      'minipage 环境未配对',
+    );
+  }
+});
+
+test('母版对缺失图片有容错，不会中断编译', () => {
+  assert.match(template(), /\\IfFileExists/);
 });
 
 test('写给维护者的注释块不进入用户产物', () => {
@@ -163,6 +203,7 @@ test('写给维护者的注释块不进入用户产物', () => {
   // 用户需要的编译说明必须保留
   assert.match(tex, /Overleaf 使用步骤/);
   assert.match(tex, /Compiler 选 XeLaTeX/);
+  assert.match(tex, /把图片一并上传到同一项目/);
 
   // 删除后第一行仍是注释，不产生前导空行
   assert.match(tex, /^% ASu-skills LaTeX 简历\n/);

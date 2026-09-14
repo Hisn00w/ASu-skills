@@ -123,13 +123,14 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 
 - **仅支持 ASu 单栏版式。** 用户指定 `assets/templates-html/` 下的模板时不提供 `.tex`，需要先说明这一边界。
 - **信息等价，版式不等价。** `.tex` 保证章节顺序和内容与 HTML 一致，不承诺像素级复刻 ASu 样式。
+- **证件照与校标。** 数据中的 `profile.photo` 指定图片文件名时，头部自动分为左文字右图片两栏；为空时退化为纯文字单栏。图片文件名只允许字母、数字、点、下划线和连字符（`\includegraphics` 的文件名参数不做转义），交付时必须把图片文件和 `.tex` 一起给用户。母版对图片缺失有容错：找不到文件时画占位框并提示，不会中断编译。
 - **仓库不编译 LaTeX，也不要求用户安装 TeX。** 产物是纯文本源文件，编译交给 Overleaf 或用户已有的本地环境。
 
 生成方式：先把已确认的简历事实写成结构化 JSON（字段见 [`../../assets/resume-data-template.json`](../../assets/resume-data-template.json)，缺省字段对应的整节不输出），再在仓库根目录执行 `node scripts/build-latex-resume.mjs <简历数据JSON> <用户输出TEX>`。
 
 脚本按 [`../../assets/latex-resume/template.tex`](../../assets/latex-resume/template.tex) 渲染，并统一处理 LaTeX 转义。不要绕过脚本手写 `.tex`：简历正文里的 `C++`、`30%`、`snake_case`、`A&B` 等内容未经转义会直接导致编译失败。
 
-交付 `.tex` 时必须附上 Overleaf 使用步骤（三步）：① New Project → Blank Project，填写 Project name 后 Create；② 上传 `.tex`；③ File → Settings 中把 Main document 选为该文件、Compiler 选择 **XeLaTeX**（中文必需，pdfLaTeX 会失败），然后 Recompile。母版只使用 TeX Live 基础发行版自带宏包，且不指定中文字体（回落到 Overleaf 内置的 Fandol），以保证跨环境编译可复现。
+交付 `.tex` 时必须附上 Overleaf 使用步骤（三步）：① New Project → Blank Project，填写 Project name 后 Create；② 上传 `.tex`，使用证件照或校标时把图片一并上传到同一项目；③ File → Settings 中把 Main document 选为该文件、Compiler 选择 **XeLaTeX**（中文必需，pdfLaTeX 会失败），然后 Recompile。母版只使用 TeX Live 基础发行版自带宏包，且不指定中文字体（回落到 Overleaf 内置的 Fandol），以保证跨环境编译可复现。
 
 ## 交付内容
 

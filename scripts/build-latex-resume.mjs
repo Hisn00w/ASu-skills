@@ -112,9 +112,25 @@ const renderProjects = (projects = []) =>
       .join('\n\\vspace{3pt}\n'),
   );
 
+// 证件照占位宽度，含与正文的 4mm 间距（照片实际宽度由母版减去）。
+const PHOTO_WIDTH = '30mm';
+// \includegraphics 的文件名参数不做转义，因此限制为安全字符并只取文件名部分，
+// 避免路径穿越和需要转义的字符破坏编译。
+const SAFE_PHOTO_NAME = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
+
+export function resolvePhotoName(photo) {
+  if (!photo) return '';
+  const name = String(photo).split(/[\\/]/).pop();
+  if (!SAFE_PHOTO_NAME.test(name)) {
+    throw new Error(`照片文件名只允许字母、数字、点、下划线和连字符：${name}`);
+  }
+  return name;
+}
+
 export function renderResume(data, template) {
   const profile = data.profile ?? {};
   if (!profile.name) throw new Error('简历数据缺少 profile.name');
+  const photo = resolvePhotoName(profile.photo);
 
   const contact = joinParts([profile.phone, profile.email, profile.wechat_or_portfolio], ' \\textbar{} ');
   const headline = joinParts(
@@ -124,9 +140,15 @@ export function renderResume(data, template) {
 
   let out = replaceRequired(
     template.replace(TEMPLATE_ONLY_RE, ''),
-    '% @NAME',
-    `\\asuname{${escapeLatex(profile.name)}}`,
+    '% @PHOTOWIDTH',
+    `\\setlength{\\asuphotowidth}{${photo ? PHOTO_WIDTH : '0pt'}}`,
   );
+  out = replaceRequired(
+    out,
+    '% @PHOTO',
+    photo ? `\\begin{minipage}[c]{\\asuphotowidth}\\raggedleft\\asuphoto{${photo}}\\end{minipage}` : '',
+  );
+  out = replaceRequired(out, '% @NAME', `\\asuname{${escapeLatex(profile.name)}}`);
   out = replaceRequired(out, '% @CONTACT', contact ? `\\asumeta{${contact}}` : '');
   out = replaceRequired(out, '% @HEADLINE', headline ? `\\asumeta{${headline}}` : '');
   out = replaceRequired(out, '% @EDUCATION', renderEducation(data.education));

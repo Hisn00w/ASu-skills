@@ -18,7 +18,8 @@
 %
 % ── Overleaf 使用步骤（无需本地安装任何 TeX 环境）─────────────────
 %   1. New Project → Blank Project，填写 Project name → Create；
-%   2. 上传本 .tex 文件；
+%   2. 上传本 .tex 文件；若简历使用证件照或校标，把图片一并上传到同一项目
+%      （与 .tex 同级，文件名保持一致）；
 %   3. 左上角 File → Settings：Main document 选本文件，
 %      Compiler 选 XeLaTeX（中文必需）→ Recompile。
 
@@ -29,6 +30,7 @@
 \usepackage{xcolor}
 \usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
 
 % 与 assets/frame/asu/base.css 的 --blue 保持一致
 \definecolor{asublue}{HTML}{2458B8}
@@ -43,15 +45,35 @@
 \setlength{\parindent}{0pt}
 \pagestyle{empty}
 
+% 证件照占位宽度（含与正文的间距）；由构建脚本按有无照片设为实际值或 0pt。
+% \newlength 默认即 0pt，因此标记未被替换时头部自动退化为纯文字单栏。
+\newlength{\asuphotowidth}
+\newlength{\asuheadtextwidth}
+
+% 图片缺失时不中断编译，改为画一个占位框提示需要把图片一并上传。
+\newcommand{\asuphoto}[1]{%
+  \IfFileExists{#1}%
+    {\includegraphics[width=\dimexpr\asuphotowidth-4mm\relax]{#1}}%
+    {\fbox{\parbox[c][30mm][c]{\dimexpr\asuphotowidth-4mm-2\fboxsep-2\fboxrule\relax}%
+       {\centering\footnotesize 未找到图片\\\texttt{#1}\\请一并上传}}}%
+}
+
 \newcommand{\asuname}[1]{{\LARGE\bfseries #1}\par\vspace{2pt}}
 \newcommand{\asumeta}[1]{{\small #1}\par}
 \newcommand{\asuentry}[2]{\textbf{#1}\hfill{\small #2}\par}
 
 \begin{document}
 
+% @PHOTOWIDTH
+\setlength{\asuheadtextwidth}{\dimexpr\linewidth-\asuphotowidth\relax}
+
+\noindent
+\begin{minipage}[c]{\asuheadtextwidth}
 % @NAME
 % @CONTACT
 % @HEADLINE
+\end{minipage}%
+% @PHOTO
 
 % @EDUCATION
 
