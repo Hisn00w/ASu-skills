@@ -24,6 +24,17 @@ import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_TEMPLATE_PATH = path.join(repoRoot, 'assets', 'latex-resume', 'template.tex');
+// 母版与公共部件中写给维护者的注释块，渲染时整块删除，不进入用户产物
+// （与 inline-template.mjs 的 @@SHELL-ONLY@@ 同一思路）。
+const TEMPLATE_ONLY_RE = /% @@TEMPLATE-ONLY-START@@[\s\S]*?% @@TEMPLATE-ONLY-END@@\r?\n/;
+
+// 所有版式共用的导言区部件，渲染时内联进母版的 % @PREAMBLE 位置。
+// 与 inline-template.mjs 把 assets/frame/ 内联进 HTML 壳文件同一机制：
+// 公共逻辑只维护一份，交付给用户的仍是单个自包含 .tex。
+const FRAME_PREAMBLE_PATH = path.join(repoRoot, 'assets', 'latex-resume', 'frame', 'preamble.tex');
+let cachedPreamble;
+const defaultPreamble = () =>
+  (cachedPreamble ??= fs.readFileSync(FRAME_PREAMBLE_PATH, 'utf8').replace(TEMPLATE_ONLY_RE, '').trim());
 
 // LaTeX 的十个特殊字符。反斜杠必须和其余字符在同一次替换中处理，
 // 否则会把后续插入的控制序列再转义一遍。
@@ -46,9 +57,6 @@ export const escapeLatex = (value) =>
 // \url 的参数是 verbatim 读取的，只有 # % \ 需要反斜杠保护。
 export const escapeUrl = (value) => String(value ?? '').replace(/([\\#%])/g, '\\$1');
 
-// 母版中写给维护者的注释块，渲染时整块删除，不进入用户产物
-// （与 inline-template.mjs 的 @@SHELL-ONLY@@ 同一思路）。
-const TEMPLATE_ONLY_RE = /% @@TEMPLATE-ONLY-START@@[\s\S]*?% @@TEMPLATE-ONLY-END@@\r?\n/;
 
 const replaceRequired = (text, marker, replacement) => {
   if (!text.includes(marker)) throw new Error(`LaTeX 母版缺少构建标记：${marker}`);
@@ -131,7 +139,7 @@ export function resolvePhotoName(photo) {
   return name;
 }
 
-export function renderResume(data, template) {
+export function renderResume(data, template, preamble = defaultPreamble()) {
   const profile = data.profile ?? {};
   if (!profile.name) throw new Error('简历数据缺少 profile.name');
   const photo = resolvePhotoName(profile.photo);
@@ -142,8 +150,9 @@ export function renderResume(data, template) {
     ' · ',
   );
 
-  let out = replaceRequired(
-    template.replace(TEMPLATE_ONLY_RE, ''),
+  let out = replaceRequired(template.replace(TEMPLATE_ONLY_RE, ''), '% @PREAMBLE', preamble);
+  out = replaceRequired(
+    out,
     '% @PHOTOWIDTH',
     `\\setlength{\\asuphotowidth}{${photo ? PHOTO_WIDTH : '0pt'}}`,
   );

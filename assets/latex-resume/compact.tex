@@ -1,3 +1,4 @@
+% !TEX program = xelatex
 % @@TEMPLATE-ONLY-START@@
 % ASu-skills LaTeX 简历母版：紧凑单栏
 %
@@ -11,6 +12,12 @@
 %   * 不使用 \setCJKmainfont 指定具体字体，让 ctex 回落到 Overleaf 内置的
 %     Fandol 开源字体；
 %   * 不依赖 shell-escape、外部程序或网络资源。
+%
+% ── 中文字体（跨平台）───────────────────────────────────────────
+%   不指定 fontset，由 ctex 按运行环境自动选择：Windows 使用系统中文字体，
+%   macOS 同理，没有系统中文字体的环境（Overleaf、Linux CI）回落到随
+%   TeX Live 分发的 Fandol 开源字体。这样三个平台都能直接编译。
+%   若需要三平台渲染完全一致，可在 documentclass 选项中加 fontset=fandol。
 %
 % ── 渲染契约（所有母版必须一致，否则构建脚本会报错）─────────────
 %   * 必须保留全部 @ 标记；
@@ -62,15 +69,7 @@
 \setlength{\parskip}{0pt}
 \pagestyle{empty}
 
-\newlength{\asuphotowidth}
-\newlength{\asuheadtextwidth}
-
-\newcommand{\asuphoto}[1]{%
-  \IfFileExists{#1}%
-    {\includegraphics[width=\dimexpr\asuphotowidth-4mm\relax]{#1}}%
-    {\fbox{\parbox[c][26mm][c]{\dimexpr\asuphotowidth-4mm-2\fboxsep-2\fboxrule\relax}%
-       {\centering\footnotesize 未找到图片\\\texttt{#1}\\请一并上传}}}%
-}
+% @PREAMBLE
 
 \newcommand{\asuname}[1]{{\Large\bfseries #1}\par\vspace{1pt}}
 \newcommand{\asumeta}[1]{{\footnotesize #1}\par}

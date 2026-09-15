@@ -189,8 +189,11 @@ test('有照片时头部分栏并引用图片，无照片时退化为纯文字�
   }
 });
 
-test('母版对缺失图片有容错，不会中断编译', () => {
-  assert.match(template(), /\\IfFileExists/);
+test('图片缺失时产物仍可编译：容错逻辑随公共部件内联', () => {
+  const tex = renderResume({ profile: { name: '李明', photo: 'cat-photo.png' } }, template());
+  assert.match(tex, /\\IfFileExists/, '产物缺少图片容错');
+  // 公共部件只维护一份，母版不再各自定义
+  assert.doesNotMatch(template(), /\\IfFileExists/, '容错逻辑应由公共部件提供');
 });
 
 test('写给维护者的注释块不进入用户产物', () => {
@@ -211,8 +214,9 @@ test('写给维护者的注释块不进入用户产物', () => {
   assert.match(tex, /Compiler 选 XeLaTeX/);
   assert.match(tex, /把图片一并上传到同一项目/);
 
-  // 删除后第一行仍是注释，不产生前导空行
-  assert.match(tex, /^% ASu-skills LaTeX 简历\n/);
+  // 首行是编译器 magic comment，供 VS Code LaTeX Workshop 等识别
+  assert.match(tex, /^% !TEX program = xelatex\n/);
+  assert.match(tex, /^% ASu-skills LaTeX 简历$/m);
 });
 
 test('母版由调用方指定，省略时使用默认的 ASu 版式', () => {
@@ -283,7 +287,7 @@ test('每套母版都满足渲染契约：标记完整、必需宏齐备、能�
   assert.ok(names.length >= 2, '应至少提供默认版式与一套备选版式');
 
   const markers = [
-    '% @PHOTOWIDTH', '% @PHOTO', '% @NAME', '% @CONTACT', '% @HEADLINE',
+    '% @PREAMBLE', '% @PHOTOWIDTH', '% @PHOTO', '% @NAME', '% @CONTACT', '% @HEADLINE',
     '% @EDUCATION', '% @EXPERIENCE', '% @PROJECTS', '% @SCHOOL',
     '% @SKILLS', '% @SELF_EVALUATION',
   ];
@@ -297,10 +301,12 @@ test('每套母版都满足渲染契约：标记完整、必需宏齐备、能�
   for (const name of names) {
     const raw = readFileSync(join(templateDir, name), 'utf8');
     markers.forEach((m) => assert.ok(raw.includes(m), `${name}：缺少标记 ${m}`));
-    required.forEach((r) => assert.ok(raw.includes(r), `${name}：缺少渲染契约要求的 ${r}`));
-    assert.match(raw, /\\IfFileExists/, `${name}：图片缺失应有容错`);
+    assert.match(raw, /^% !TEX program = xelatex\n/, `${name}：缺少编译器 magic comment`);
 
     const tex = renderResume(data, raw);
+    // 渲染契约所需的宏由公共部件提供，内联后必须齐备
+    required.forEach((r) => assert.ok(tex.includes(r), `${name}：产物缺少渲染契约要求的 ${r}`));
+    assert.match(tex, /\\IfFileExists/, `${name}：产物缺少图片容错`);
     assert.doesNotMatch(tex, /^% @[A-Z_]+$/m, `${name}：存在未替换的标记`);
     assert.doesNotMatch(tex, /@@TEMPLATE-ONLY-(START|END)@@/, `${name}：维护者块未剥离`);
     assert.equal((tex.match(/\\begin\{document\}/g) || []).length, 1, `${name}：document 环境异常`);
