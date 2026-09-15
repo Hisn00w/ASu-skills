@@ -1,0 +1,70 @@
+{
+  "name": "asu-skills",
+  "version": "0.4.0",
+  "author": {
+    "name": "Hisn0w",
+    "url": "https://github.com/Hisn00w"
+  },
+  "homepage": "https://github.com/Hisn00w/ASu-skills",
+  "repository": "https://github.com/Hisn00w/ASu-skills",
+  "license": "MIT",
+  "keywords": [
+    "qoder-plugin",
+    "skill",
+    "resume",
+    "job-search",
+    "job-match",
+    "job-application",
+    "browser-automation",
+    "career",
+    "open-source",
+    "chinese",
+    "project-analysis",
+    "contributor",
+    "evidence-recap",
+    "project-guide",
+    "great-resume",
+    "make-resume",
+    "job-apply",
+    "interview",
+    "offer"
+  ],
+  "displayName": "ASu-skills",
+  "description": "中文求职助手：简历优化、岗位匹配、简历投递、面试准备和 Offer 谈判等全流程陪伴。",
+  "descriptionZh": "中文求职助手：简历优化、岗位匹配、简历投递、面试准备和 Offer 谈判等全流程陪伴。",
+  "category": "Productivity",
+  "tags": [
+    "skill",
+    "resume",
+    "job-search",
+    "career"
+  ],
+  "logo": "./assets/asu-circle.png",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "ASu-skills",
+    "shortDescription": "输入 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer 完成中文求职工作流",
+    "developerName": "Hisn0w",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/Hisn00w/ASu-skills",
+    "defaultPrompt": [
+      "用 /contributor 寻找与目标岗位匹配的开源贡献机会。",
+      "用 /evidence-recap 把 AI 编程对话和交付记录整理为可核验的项目证据链。",
+      "用 /project-guide 基于项目仓库生成源码课程、导学和面经。",
+      "用 /great-resume 提升我的经历并生成 HR 开场白。",
+      "用 /make-resume 默认基于 ASu 模板制作可编辑 HTML 简历，也可以指定其他模板。",
+      "用 /job-match 对照目标 JD 与真实经历，判断岗位匹配和证据缺口。",
+      "用 /job-apply 通过已连接的浏览器填写求职申请，并在提交前核对。",
+      "用 /interview 根据简历预测面试问题并通过连续追问检查掌握程度。",
+      "用 /offer 记录我的秋招投递和进度。"
+    ],
+    "brandColor": "#11A683",
+    "composerIcon": "./assets/asu-circle.png",
+    "logo": "./assets/asu-circle.png"
+  }
+}
