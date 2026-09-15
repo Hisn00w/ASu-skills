@@ -208,6 +208,12 @@ Using the education, internship, and project experience I provide, pick a templa
 
 ![Resume template preview](assets/template-overview.jpg)
 
+### LaTeX output preview
+
+When you ask for a LaTeX or Overleaf version, a `.tex` source file is exported alongside the HTML, ready to compile and fine-tune in Overleaf. The image below is compiled from fictional sample data (single A4 page, placeholder photo).
+
+![LaTeX resume preview](assets/latex-resume-overview.png)
+
 ## `/evidence-recap`: Turn AI coding conversations into evidence chains
 
 `/evidence-recap` reviews AI coding conversations, project delivery records, and implementation evidence. It organizes the material into nine parts: problem context, solution decisions, personal actions, delivery status, rollout scope, evidence of impact, ownership boundaries, missing evidence, and interview follow-ups. Sensitive details such as secrets, email addresses, customer identifiers, and internal paths are generalized by default.

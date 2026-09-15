@@ -193,6 +193,12 @@ ASu-skills 同时支持 Codex、Claude Code 和 TraeWork，另有 OpenCode 与 W
 
 ![简历模板预览](assets/template-overview.jpg)
 
+### LaTeX 输出预览
+
+用户明确要求 LaTeX 或 Overleaf 版本时，可在 HTML 之外附加导出 `.tex` 源文件，在 Overleaf 中编译即可继续调整排版。下图为虚构示例数据的编译结果（A4 单页，证件照为示例图片）。
+
+![LaTeX 简历预览](assets/latex-resume-overview.png)
+
 ## `/evidence-recap`：把 AI 编程对话还原成证据链
 
 `/evidence-recap` 用于复盘 AI 编程对话、项目交付记录和落地证据。它按问题背景、方案决策、个人动作、交付状态、落地范围、效果证据、个人边界、待补证据和面试追问九段整理材料，并默认对密钥、邮箱、客户标识和内部路径等敏感信息做泛化处理。
