@@ -16,27 +16,35 @@
  */
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
-import { writeFileSync, rmSync, existsSync } from 'node:fs';
+import { writeFileSync, rmSync, existsSync, realpathSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, basename, extname, resolve } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
+import { parseArgs } from 'node:util';
 
-const arg = (name, def) => {
-  const i = process.argv.indexOf(name);
-  return i >= 0 ? process.argv[i + 1] : def;
-};
-
-const htmlPath = resolve(
-  process.argv.slice(2).find((a) => a && !a.startsWith('--'))
-    ?? 'assets/resume-template-editable.html',
-);
-const outPath = resolve(arg('--out', basename(htmlPath).replace(extname(htmlPath), '.pdf')));
-const paperWidth = Number(arg('--paper-width', '8.27'));    // A4 宽（英寸）
-const paperHeight = Number(arg('--paper-height', '11.69')); // A4 高（英寸）
-const browserOverride = arg('--browser', '');
+export function parseResumePdfArgs(args) {
+  const { values, positionals } = parseArgs({
+    args,
+    allowPositionals: true,
+    options: {
+      out: { type: 'string' },
+      browser: { type: 'string', default: '' },
+      'paper-width': { type: 'string', default: '8.27' },
+      'paper-height': { type: 'string', default: '11.69' },
+    },
+  });
+  if (positionals.length > 1) throw new Error('只能指定一个 HTML 输入文件');
+  const htmlPath = resolve(positionals[0] ?? 'assets/resume-template-editable.html');
+  return {
+    htmlPath,
+    outPath: resolve(values.out ?? basename(htmlPath).replace(extname(htmlPath), '.pdf')),
+    paperWidth: Number(values['paper-width']),
+    paperHeight: Number(values['paper-height']),
+    browserOverride: values.browser,
+  };
+}
 
 const BROWSERS = [
-  browserOverride,
   process.env.EDGE_PATH,
   process.env.CHROME_PATH,
   'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
@@ -51,12 +59,6 @@ const BROWSERS = [
   '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
   '/Applications/Chromium.app/Contents/MacOS/Chromium',
 ].filter(Boolean);
-
-const browserPath = BROWSERS.find((p) => existsSync(p));
-if (!browserPath) {
-  console.error('未找到 Edge/Chrome。可用 --browser <path> 或环境变量 EDGE_PATH/CHROME_PATH 指定。');
-  process.exit(1);
-}
 
 /* 极简 CDP 客户端：仅需 send(method, params) */
 class CDP {
@@ -102,6 +104,11 @@ const freePort = () => new Promise((resolve) => {
 const fetchJson = async (url) => (await fetch(url)).json();
 
 async function main() {
+  const { htmlPath, outPath, paperWidth, paperHeight, browserOverride } = parseResumePdfArgs(process.argv.slice(2));
+  const browserPath = [browserOverride, ...BROWSERS].find((p) => p && existsSync(p));
+  if (!browserPath) {
+    throw new Error('未找到 Edge/Chrome。可用 --browser <path> 或环境变量 EDGE_PATH/CHROME_PATH 指定。');
+  }
   const port = await freePort();
   const userDataDir = join(tmpdir(), `resume-pdf-${process.pid}-${Date.now()}`);
   const browser = spawn(browserPath, [
@@ -183,4 +190,9 @@ async function main() {
   }
 }
 
-main();
+if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error('导出失败：', error.message);
+    process.exitCode = 1;
+  });
+}
