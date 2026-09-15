@@ -129,6 +129,17 @@ def install_skills(skills_dir, source_dir):
             return False
         print(f"[OK] {resource_name}/asu")
 
+    # Keep builders beside the installed resources so they work without the clone.
+    scripts_target = resource_root / "assets" / "asu" / "scripts"
+    try:
+        scripts_target.mkdir(parents=True, exist_ok=True)
+        for name in ("build-asu-resume.mjs", "inline-template.mjs", "export-resume-pdf.mjs"):
+            shutil.copy2(source.parent / "scripts" / name, scripts_target / name)
+    except OSError as exc:
+        print(f"[ERROR] 安装简历脚本失败: {exc}")
+        return False
+    print("[OK] 简历构建与导出脚本")
+
     print()
     print("[OK] 安装完成！请重启 OpenCode 或执行 /reload-plugins")
     print("   使用触发词：" + TRIGGER_WORDS)
