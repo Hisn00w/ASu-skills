@@ -190,7 +190,7 @@ Supported:
 - Save the current edits as a local HTML file;
 - “Local fonts” reads fonts installed on your system (Chrome 103+, requires browser permission); “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement;
 - Print-to-PDF export;
-- Optional LaTeX `.tex` export for continued editing in Overleaf (ASu layout only, on request);
+- Optional LaTeX `.tex` export in three layouts — default ASu, compact, and academic — for continued editing in Overleaf (on request);
 - Layout analysis from screenshots: columns, spacing, font size, colors, and pagination;
 - Fictional placeholder photos by default; swap in your own for the real resume.
 
@@ -210,7 +210,9 @@ Using the education, internship, and project experience I provide, pick a templa
 
 ### LaTeX output preview
 
-When you ask for a LaTeX or Overleaf version, a `.tex` source file is exported alongside the HTML, ready to compile and fine-tune in Overleaf. The image below is compiled from fictional sample data (single A4 page, placeholder photo).
+When you ask for a LaTeX or Overleaf version, a `.tex` source file is exported alongside the HTML, ready to compile and fine-tune in Overleaf. Three layouts are available: the default ASu single column, a compact one for denser content, and an academic one without accent colors for black-and-white printing. All three use only packages shipped with a basic TeX Live install — no extra style files or font configuration needed.
+
+Below is the same fictional sample data compiled in all three layouts (single A4 page each, placeholder photo).
 
 ![LaTeX resume preview](assets/latex-resume-overview.png)
 
