@@ -210,15 +210,15 @@ Using the education, internship, and project experience I provide, pick a templa
 
 ### LaTeX output preview
 
-When you ask for a LaTeX resume or one suited to Overleaf, a `.tex` source file is exported alongside the HTML, ready to compile and fine-tune in Overleaf. Three layouts are available: the default ASu, a compact one for denser content, and an academic one for black-and-white printing. All three use only packages shipped with a basic TeX Live install — no extra style files or font configuration needed.
+When you ask for a LaTeX resume or one suited to Overleaf, a `.tex` source file is exported alongside the HTML, ready to compile and fine-tune in Overleaf. Three layouts are available: the default ASu, a compact one for denser content, and an academic one for black-and-white printing. None of them need extra style files or font configuration.
 
 [Overleaf](https://www.overleaf.com/) is the recommended way to compile — no local TeX installation required, three steps:
 
-1. **New Project → Blank Project**, name it and click Create;
-2. **Upload the `.tex` file**; also upload the photo if the resume uses one;
-3. **File → Settings**: set Main document to that file and Compiler to **XeLaTeX** (required for Chinese), then Recompile.
+1. New Project → Blank Project, name it and click Create;
+2. Upload the generated .tex file; if the resume uses a photo, upload it to the same project (next to the .tex, keeping the filename unchanged);
+3. Top-left File → Settings: set Main document to the uploaded file and Compiler to XeLaTeX, then Recompile.
 
-Below is the same sample data compiled in all three layouts.
+Below is sample data compiled in all three layouts.
 
 ![LaTeX resume preview](assets/latex-resume-overview.png)
 
