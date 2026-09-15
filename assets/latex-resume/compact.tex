@@ -39,11 +39,20 @@
 \usepackage{graphicx}
 
 \definecolor{asublue}{HTML}{2458B8}
+% 与 frame/base.css 的 .variant-band 对应：整行浅灰底条 + 左侧蓝色标题块
+\definecolor{asuband}{HTML}{EDF0F3}
 
-% 章节标题用色块，比横线更省纵向空间
+% 不可见撑高元素，让色块高度稳定，不随标题文字的升降部变化
+\newcommand{\asubandstrut}{\rule[-0.7ex]{0pt}{2.9ex}}
+
+% 章节标题用色块，比横线更省纵向空间。fboxsep 置零后由 makebox 控制宽度，
+% 外层灰底撑满整行，内层蓝块贴合标题文字。
 \titleformat{\section}
-  {\normalfont\normalsize\bfseries\color{white}}{}{0pt}
-  {\colorbox{asublue}{\hspace{2pt}\strut#1\hspace{2pt}}}
+  {\normalfont\normalsize\bfseries}{}{0pt}
+  {\begingroup\setlength{\fboxsep}{0pt}%
+   \colorbox{asuband}{\makebox[\linewidth][l]{%
+     \colorbox{asublue}{\hspace{2.5mm}\asubandstrut\color{white}#1\hspace{2.5mm}}}}%
+   \endgroup}
 \titlespacing*{\section}{0pt}{7pt}{3pt}
 
 \setlist[itemize]{leftmargin=1.1em,itemsep=0pt,parsep=0pt,topsep=1pt,partopsep=0pt}

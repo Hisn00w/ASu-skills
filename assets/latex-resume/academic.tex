@@ -28,9 +28,9 @@
 %   3. 左上角 File → Settings：Main document 选本文件，
 %      Compiler 选 XeLaTeX（中文必需）→ Recompile。
 
-\documentclass[a4paper,11pt]{ctexart}
+\documentclass[a4paper,10pt]{ctexart}
 
-\usepackage[top=2cm,bottom=2cm,left=2.1cm,right=2.1cm]{geometry}
+\usepackage[top=1.7cm,bottom=1.7cm,left=1.9cm,right=1.9cm]{geometry}
 \usepackage{enumitem}
 \usepackage{xcolor}
 \usepackage{titlesec}
@@ -46,11 +46,11 @@
 \titleformat{\section}
   {\normalfont\large\bfseries}{}{0pt}{}
   [{\color{asurule}\titlerule[0.5pt]}]
-\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\section}{0pt}{10pt}{4pt}
 
-\setlist[itemize]{leftmargin=1.4em,itemsep=2pt,parsep=0pt,topsep=4pt,partopsep=0pt}
+\setlist[itemize]{leftmargin=1.4em,itemsep=1pt,parsep=0pt,topsep=2pt,partopsep=0pt}
 
-\linespread{1.08}
+\linespread{1.04}
 \setlength{\parindent}{0pt}
 \pagestyle{empty}
 
@@ -64,7 +64,7 @@
        {\centering\footnotesize 未找到图片\\\texttt{#1}\\请一并上传}}}%
 }
 
-\newcommand{\asuname}[1]{{\huge #1}\par\vspace{5pt}}
+\newcommand{\asuname}[1]{{\LARGE #1}\par\vspace{3pt}}
 \newcommand{\asumeta}[1]{{\small #1}\par\vspace{1pt}}
 \newcommand{\asuentry}[2]{\textbf{#1}\hfill{\small\itshape #2}\par}
 
