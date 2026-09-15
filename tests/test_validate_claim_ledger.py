@@ -68,6 +68,26 @@ class ValidateClaimLedgerTests(unittest.TestCase):
         self.assertTrue(any("verification_status 必须是" in error for error in errors))
         self.assertTrue(any("responsibility_level 必须是" in error for error in errors))
 
+    def test_json_cli_rejects_non_string_enum_fields(self):
+        for field in ("responsibility_level", "verification_status"):
+            for value in ([], {}, None, 42, True):
+                with self.subTest(field=field, value=value):
+                    ledger = load_template()
+                    ledger["claims"][0][field] = value
+                    with tempfile.TemporaryDirectory() as temp_dir:
+                        path = Path(temp_dir) / "ledger.json"
+                        path.write_text(json.dumps(ledger, ensure_ascii=False), encoding="utf-8")
+                        stdout = io.StringIO()
+                        stderr = io.StringIO()
+                        with redirect_stdout(stdout), redirect_stderr(stderr):
+                            exit_code = validate_claim_ledger.main([str(path), "--json"])
+                    payload = json.loads(stdout.getvalue())
+                    self.assertEqual(exit_code, 1)
+                    self.assertFalse(payload["ok"])
+                    self.assertEqual(payload["claim_count"], 2)
+                    self.assertTrue(any(field + " 必须是" in error for error in payload["errors"]))
+                    self.assertEqual(stderr.getvalue(), "")
+
     def test_rejects_invalid_source_and_interview_details(self):
         ledger = load_template()
         claim = ledger["claims"][0]
