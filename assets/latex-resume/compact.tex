@@ -33,7 +33,8 @@
 \usepackage[top=1.1cm,bottom=1.1cm,left=1.25cm,right=1.25cm]{geometry}
 \usepackage{enumitem}
 \usepackage{xcolor}
-\usepackage{titlesec}
+% explicit：让 \titleformat 的 before-code 能用 #1 引用标题文本
+\usepackage[explicit]{titlesec}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 

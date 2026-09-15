@@ -321,3 +321,30 @@ test('每套母版都满足渲染契约：标记完整、必需宏齐备、能�
     );
   }
 });
+
+// 以下两条来自 Overleaf 实测中发现的真实问题。仓库不编译 LaTeX，这类错误
+// 无法由渲染测试捕获，因此固化为静态检查，避免新增版式时重复踩坑。
+test('母版避开在中文环境下失效的 LaTeX 用法', () => {
+  for (const name of allTemplates()) {
+    const code = readFileSync(join(templateDir, name), 'utf8')
+      .split('\n')
+      .filter((line) => !line.trimStart().startsWith('%'))
+      .join('\n');
+
+    // 小型大写是拉丁字母的字形变体，中文字体没有 sc 变体：
+    // 对中文标题无效，且触发 Font shape ... undefined 警告
+    assert.doesNotMatch(code, /\\scshape/, `${name}：中文字体没有小型大写变体`);
+
+    // titlesec 的 before-code 中用 #1 引用标题文本，需要 explicit 选项，
+    // 否则 #1 不被解析，标题会渲染成字面的 "1"。只看 \titleformat 到
+    // \titlespacing 之间的块，避免误匹配 \newcommand 定义里的 #1。
+    const titleFormatBlock = (code.match(/\\titleformat\{[\s\S]*?\\titlespacing/) || [''])[0];
+    if (titleFormatBlock.includes('#1')) {
+      assert.match(
+        code,
+        /\\usepackage\[[^\]]*explicit[^\]]*\]\{titlesec\}/,
+        `${name}：\\titleformat 使用 #1 时必须加载 titlesec 的 explicit 选项`,
+      );
+    }
+  }
+});

@@ -40,8 +40,11 @@
 % 学术版式不使用强调色，保证黑白打印一致
 \definecolor{asurule}{gray}{0.35}
 
+% 不使用 \scshape：小型大写是拉丁字母的字形变体，中文字体没有 sc 变体，
+% 会触发 Font shape undefined 警告且对中文标题无效。学术观感改由无彩色、
+% 字号、行距与页边距体现。
 \titleformat{\section}
-  {\normalfont\large\scshape}{}{0pt}{}
+  {\normalfont\large\bfseries}{}{0pt}{}
   [{\color{asurule}\titlerule[0.5pt]}]
 \titlespacing*{\section}{0pt}{14pt}{6pt}
 
