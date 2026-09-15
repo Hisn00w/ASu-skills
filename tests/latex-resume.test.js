@@ -208,3 +208,66 @@ test('写给维护者的注释块不进入用户产物', () => {
   // 删除后第一行仍是注释，不产生前导空行
   assert.match(tex, /^% ASu-skills LaTeX 简历\n/);
 });
+
+test('母版由调用方指定，省略时使用默认的 ASu 版式', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'latex-template-'));
+  try {
+    const dataPath = join(temp, 'data.json');
+    writeFileSync(dataPath, JSON.stringify({ profile: { name: '李明' } }));
+
+    // 自定义母版：版式不同（article + 不同字号），但保留全部 @ 标记
+    const customTemplate = join(temp, 'compact.tex');
+    writeFileSync(
+      customTemplate,
+      template().replace('\\documentclass[a4paper,10pt]{ctexart}', '\\documentclass[a4paper,9pt]{ctexart}'),
+    );
+
+    const run = (out, tpl) =>
+      spawnSync(
+        process.execPath,
+        ['scripts/build-latex-resume.mjs', dataPath, out, ...(tpl ? [tpl] : [])],
+        { cwd: repoRoot, encoding: 'utf8' },
+      );
+
+    const withCustom = join(temp, 'custom.tex');
+    assert.equal(run(withCustom, customTemplate).status, 0);
+    assert.match(readFileSync(withCustom, 'utf8'), /\\documentclass\[a4paper,9pt\]/);
+
+    const withDefault = join(temp, 'default.tex');
+    assert.equal(run(withDefault, undefined).status, 0);
+    assert.match(readFileSync(withDefault, 'utf8'), /\\documentclass\[a4paper,10pt\]/);
+  } finally {
+    rmSync(temp, { recursive: true, force: true });
+  }
+});
+
+test('输出路径不能覆盖默认母版或指定的母版', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'latex-guard-'));
+  try {
+    const dataPath = join(temp, 'data.json');
+    writeFileSync(dataPath, JSON.stringify({ profile: { name: '李明' } }));
+    const customTemplate = join(temp, 'custom.tex');
+    writeFileSync(customTemplate, template());
+
+    const run = (out, tpl) =>
+      spawnSync(
+        process.execPath,
+        ['scripts/build-latex-resume.mjs', dataPath, out, ...(tpl ? [tpl] : [])],
+        { cwd: repoRoot, encoding: 'utf8' },
+      );
+
+    const defaultTemplate = join(repoRoot, 'assets', 'latex-resume', 'template.tex');
+    const before = template();
+
+    // 输出指向默认母版
+    assert.notEqual(run(defaultTemplate, undefined).status, 0);
+    // 指定了自定义母版，输出仍不得指向默认母版
+    assert.notEqual(run(defaultTemplate, customTemplate).status, 0);
+    // 输出指向调用方自己传入的母版
+    assert.notEqual(run(customTemplate, customTemplate).status, 0);
+
+    assert.equal(template(), before, '默认母版被覆盖');
+  } finally {
+    rmSync(temp, { recursive: true, force: true });
+  }
+});

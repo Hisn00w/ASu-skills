@@ -7,7 +7,11 @@
 // .html 一样，编译交给用户已有的 Overleaf 或本地环境。
 //
 // 用法：
-//   node scripts/build-latex-resume.mjs <简历数据.json> <输出.tex>
+//   node scripts/build-latex-resume.mjs <简历数据.json> <输出.tex> [母版.tex]
+//
+// 与 inline-template.mjs 一致：母版由调用方指定，省略时使用默认的 ASu 单栏版式。
+// 任何含全部 @ 标记的 .tex 都可以作为母版，版式差异集中在母版的导言区，
+// 本脚本的渲染逻辑（转义、章节生成）与版式无关，可被各版式复用。
 //
 // 数据结构见 assets/resume-data-template.json（字段可缺省，缺省的整节不输出）。
 //
@@ -19,7 +23,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const TEMPLATE_PATH = path.join(repoRoot, 'assets', 'latex-resume', 'template.tex');
+const DEFAULT_TEMPLATE_PATH = path.join(repoRoot, 'assets', 'latex-resume', 'template.tex');
 
 // LaTeX 的十个特殊字符。反斜杠必须和其余字符在同一次替换中处理，
 // 否则会把后续插入的控制序列再转义一遍。
@@ -160,18 +164,22 @@ export function renderResume(data, template) {
   return out;
 }
 
-const [input, destination] = process.argv.slice(2);
+const [input, destination, template] = process.argv.slice(2);
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   if (!input || !destination) {
-    console.error('用法：node scripts/build-latex-resume.mjs <简历数据.json> <输出.tex>');
+    console.error('用法：node scripts/build-latex-resume.mjs <简历数据.json> <输出.tex> [母版.tex]');
+    console.error('省略母版时使用默认的 ASu 单栏版式。');
     process.exit(2);
   }
   const outputPath = path.resolve(destination);
-  if (outputPath === TEMPLATE_PATH) throw new Error('用户输出不能覆盖仓库母版');
+  const templatePath = template ? path.resolve(template) : DEFAULT_TEMPLATE_PATH;
+  if (outputPath === templatePath || outputPath === DEFAULT_TEMPLATE_PATH) {
+    throw new Error('用户输出不能覆盖母版');
+  }
 
   const data = JSON.parse(fs.readFileSync(input, 'utf8'));
-  fs.writeFileSync(outputPath, renderResume(data, fs.readFileSync(TEMPLATE_PATH, 'utf8')));
+  fs.writeFileSync(outputPath, renderResume(data, fs.readFileSync(templatePath, 'utf8')));
   console.log(`已生成 ${outputPath}`);
   console.log('Overleaf：1) New Project → Blank Project → Create');
   console.log('        2) 上传本文件');
