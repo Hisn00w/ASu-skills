@@ -350,7 +350,6 @@ asu-skills/
 ├── .qoder-plugin/
 │   ├── install.md               # Qoder 安装说明（CLI / Agent 两种安装方式）
 │   └── plugin.json              # Qoder 插件清单（interface 等附加元数据）
-├── plugin.json                  # Qoder 技能发现入口（由 sync 脚本自动生成）
 ├── skills.registry.json        # ★ 入口目录单一事实源：新增/删除入口先改这里，再 npm run sync:skills
 ├── package.json                # DSH 插件包清单（bundle patch 入口）
 ├── cordis.patch.yml            # 注册 DSH filesystem skill 提供方

@@ -1,6 +1,6 @@
 # Qoder 安装入口
 
-本目录提供 Qoder 平台的插件安装说明。ASu-skills 通过根目录 `plugin.json`（技能发现入口）和 `.qoder-plugin/plugin.json`（附加元数据）被 Qoder 识别为插件，九个 skill 会以斜杠命令的形式挂载在对话中。以下两种方式任选其一。
+本目录提供 Qoder 平台的插件安装说明。ASu-skills 通过 `.qoder-plugin/plugin.json` 清单被 Qoder IDE 识别为插件，九个 skill 会以斜杠命令的形式挂载在对话中。以下两种方式任选其一。
 
 ## 前置条件
 
@@ -31,17 +31,11 @@ Qoder 自带 `qodercli`，安装时会自动完成注册与启用，无需手动
 1. 在 Qoder 中新开一个对话，输入：
 
    ```text
-   /create-plugin Help me create a custom plugin: https://github.com/Hisn00w/ASu-skills
+   请帮我创建一个本地 Qoder Plugin：https://github.com/Hisn00w/ASu-skills。按 Qoder Plugin 规范创建到 ~/.qoder/plugins，并检查插件清单和目录结构；然后将插件添加到 ~/.qoder/plugins/installed_plugins_v2.json 的 "plugins" 中，并在 ~/.qoder/settings.json 的 "enabledPlugins" 中启用。
    ```
 
-2. 等待 Agent 完成插件包生成后，在对话框继续输入：
-
-   ```text
-   注册这个插件
-   ```
-
-3. 重启 Qoder，在设置 → 插件中启用 `asu-skills`；
-4. 新建对话，输入 `/` 确认九个 skill 均已出现。
+2. 等待 Agent 完成插件安装；
+3. 重启 Qoder，新建对话，输入 `/` 确认九个 skill 均已出现。
 
 ## 验证
 
