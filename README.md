@@ -58,7 +58,7 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 | `/evidence-recap` | 证据复盘 | 把 AI 编程对话和交付记录整理为可核验的九段证据链 |
 | `/project-guide` | 项目导学面经 | 按需生成 `tutorial.md`、`practice.md`，或导学、面经与交接摘要 |
 | `/great-resume` | 简历提升 | 岗位定位、项目改写、成果证据、HR 开场白 |
-| `/make-resume` | 简历制作 | 默认使用 ASu 模板，也可指定模板；可编辑 HTML 简历和 PDF 导出，可选 LaTeX 源文件 |
+| `/make-resume` | 简历制作 | 按 ASu 或指定模板生成可编辑 HTML 简历，支持 PDF 导出与可选的 LaTeX 源文件 |
 | `/job-match` | 岗位匹配 | 对照 JD 与真实经历，输出证据矩阵、硬性门槛和投递建议 |
 | `/job-apply` | 简历投递填写 | 连接浏览器自动填写求职申请，核对后停在提交前 |
 | `/interview` | 面试准备 | 面试预测、契约化追问、证据复盘和弱项复练 |
