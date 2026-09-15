@@ -71,7 +71,7 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 | `/evidence-recap` | Conversation review | Turns AI coding conversations and delivery records into a verifiable nine-part evidence chain |
 | `/project-guide` | Project interview prep | Creates `tutorial.md` and `practice.md` on demand, or project study notes, interview answers, and handoff evidence |
 | `/great-resume` | Resume improvement | Role targeting, project bullet rewrites, evidence of results, HR opener |
-| `/make-resume` | Resume building | Defaults to the ASu template, supports custom templates, editable HTML resume and PDF export |
+| `/make-resume` | Resume building | Defaults to the ASu template, supports custom templates, editable HTML resume and PDF export, optional LaTeX source |
 | `/job-match` | Job matching | Compares a JD with verified experience and returns an evidence matrix, hard constraints, and an application recommendation |
 | `/job-apply` | Job-application autofill | Connects to a browser, fills an application, and stops for review before submission |
 | `/interview` | Interview preparation | Interview prediction, contract-driven drilling, evidence review, and targeted retry |

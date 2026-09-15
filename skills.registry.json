@@ -108,16 +108,16 @@
       "zh": {
         "menuLabel": "简历制作",
         "prompt": "用 /make-resume 默认基于 ASu 模板制作可编辑 HTML 简历，也可以指定其他模板。",
-        "opencodeDetail": "默认使用 ASu 模板，也可指定其他模板，生成可编辑 HTML 简历并提供 PDF 导出",
-        "deliverables": "默认使用 ASu 模板，也可指定模板；可编辑 HTML 简历和 PDF 导出"
+        "opencodeDetail": "默认使用 ASu 模板，也可指定其他模板，生成可编辑 HTML 简历并提供 PDF 导出与可选的 LaTeX 源文件",
+        "deliverables": "默认使用 ASu 模板，也可指定模板；可编辑 HTML 简历和 PDF 导出，可选 LaTeX 源文件"
       },
       "en": {
         "menu": "Resume building",
-        "deliverables": "Defaults to the ASu template, supports custom templates, editable HTML resume and PDF export"
+        "deliverables": "Defaults to the ASu template, supports custom templates, editable HTML resume and PDF export, optional LaTeX source"
       },
       "site": {
         "title": "简历制作",
-        "description": "默认使用 ASu 模板，也可指定其他模板，生成可编辑 HTML 和 PDF。",
+        "description": "默认使用 ASu 模板，也可指定其他模板，生成可编辑 HTML 和 PDF，可选 LaTeX 源文件。",
         "color": "blue",
         "readmeAnchor": "make-resume制作简历"
       }

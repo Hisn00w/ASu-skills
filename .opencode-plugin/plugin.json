@@ -49,7 +49,7 @@
       },
       {
         "name": "make-resume",
-        "description": "简历制作：默认使用 ASu 模板，也可指定其他模板，生成可编辑 HTML 简历并提供 PDF 导出"
+        "description": "简历制作：默认使用 ASu 模板，也可指定其他模板，生成可编辑 HTML 简历并提供 PDF 导出与可选的 LaTeX 源文件"
       },
       {
         "name": "job-match",
