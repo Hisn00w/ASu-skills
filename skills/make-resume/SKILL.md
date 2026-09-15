@@ -121,14 +121,18 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 
 面向习惯 LaTeX 或需要在 Overleaf 继续维护简历的用户，`.tex` 是**可选附加格式，不替代 HTML 交付**。只有用户明确要求 LaTeX、`.tex` 或 Overleaf 版本时才生成；默认交付流程不变。
 
-- **模板指定方式与 HTML 一致。** 未指定时使用默认的 ASu 单栏版式；用户指定其他 `.tex` 母版时，把母版路径作为第三个参数传给脚本。目前仓库内只提供 ASu 一套 `.tex` 母版，`assets/templates-html/` 下的 18 套 HTML 模板暂无对应的 `.tex` 版式，用户指定这些模板时需要先说明这一边界。
+- **模板指定方式与 HTML 一致。** 未指定时使用默认的 ASu 单栏版式；用户指定其他 `.tex` 母版时，把母版路径作为第三个参数传给脚本。目前 `assets/latex-resume/` 下提供三套版式：
+  - `template.tex`：ASu 单栏高密度，蓝色分区标题，与默认 HTML 模板观感一致，未指定时使用；
+  - `compact.tex`：紧凑单栏，收紧页边距与行距、章节标题用色块，适合经历较多需压进单页的候选人；
+  - `academic.tex`：学术风，无彩色、小型大写标题、行距宽松，黑白打印友好，适合科研与教职投递。
+  三套都只使用 TeX Live 基础发行版自带宏包。`assets/templates-html/` 下的 18 套 HTML 模板中，带侧边栏、时间线、圆角卡片的版式依赖 CSS Grid 与圆角阴影，在不引入额外宏包的前提下无法等价复刻，因此未逐一对应；用户指定这些模板要求 `.tex` 时，说明这一边界并推荐上述最接近的一套。
 - **信息等价，版式不等价。** `.tex` 保证章节顺序和内容与 HTML 一致，不承诺像素级复刻 ASu 样式。
 - **证件照与校标。** 数据中的 `profile.photo` 指定图片文件名时，头部自动分为左文字右图片两栏；为空时退化为纯文字单栏。图片文件名只允许字母、数字、点、下划线和连字符（`\includegraphics` 的文件名参数不做转义），交付时必须把图片文件和 `.tex` 一起给用户。母版对图片缺失有容错：找不到文件时画占位框并提示，不会中断编译。
 - **仓库不编译 LaTeX，也不要求用户安装 TeX。** 产物是纯文本源文件，编译交给 Overleaf 或用户已有的本地环境。
 
 生成方式：先把已确认的简历事实写成结构化 JSON（字段见 [`../../assets/resume-data-template.json`](../../assets/resume-data-template.json)，缺省字段对应的整节不输出），再在仓库根目录执行 `node scripts/build-latex-resume.mjs <简历数据JSON> <用户输出TEX> [母版TEX]`。第三个参数省略时使用默认 ASu 母版，这与 `inline-template.mjs` 由调用方指定壳文件的方式一致。任何包含全部 `@` 标记的 `.tex` 都可以作为母版：版式差异集中在母版导言区，脚本的转义与章节生成逻辑与版式无关，可被各版式复用。
 
-默认母版是 [`../../assets/latex-resume/template.tex`](../../assets/latex-resume/template.tex)，脚本统一处理 LaTeX 转义。不要绕过脚本手写 `.tex`：简历正文里的 `C++`、`30%`、`snake_case`、`A&B` 等内容未经转义会直接导致编译失败。
+默认母版是 [`../../assets/latex-resume/template.tex`](../../assets/latex-resume/template.tex)，脚本统一处理 LaTeX 转义。新增版式只需在 `assets/latex-resume/` 下添加一个包含全部 `@` 标记、并定义 `\asuphotowidth`、`\asuheadtextwidth`、`\asuphoto`、`\asuname`、`\asumeta`、`\asuentry` 的 `.tex`，不需要改动脚本；测试会自动遍历该目录校验新版式。不要绕过脚本手写 `.tex`：简历正文里的 `C++`、`30%`、`snake_case`、`A&B` 等内容未经转义会直接导致编译失败。
 
 交付 `.tex` 时必须附上 Overleaf 使用步骤（三步）：① New Project → Blank Project，填写 Project name 后 Create；② 上传 `.tex`，使用证件照或校标时把图片一并上传到同一项目；③ File → Settings 中把 Main document 选为该文件、Compiler 选择 **XeLaTeX**（中文必需，pdfLaTeX 会失败），然后 Recompile。母版只使用 TeX Live 基础发行版自带宏包，且不指定中文字体（回落到 Overleaf 内置的 Fandol），以保证跨环境编译可复现。
 

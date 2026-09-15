@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { readFileSync, readdirSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -11,6 +11,9 @@ import { escapeLatex, escapeUrl, renderResume, resolvePhotoName } from '../scrip
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 const read = (...parts) => readFileSync(join(repoRoot, ...parts), 'utf8');
 const template = () => read('assets', 'latex-resume', 'template.tex');
+const templateDir = join(repoRoot, 'assets', 'latex-resume');
+// 所有母版共享同一套渲染契约，遍历检查可让新增版式自动纳入覆盖
+const allTemplates = () => readdirSync(templateDir).filter((f) => f.endsWith('.tex')).sort();
 
 // 仓库不编译 LaTeX（不引入 TeX Live 依赖），因此测试只做确定性静态检查：
 // 转义正确、标记全部替换、环境与花括号配对。编译在 Overleaf 完成。
@@ -117,21 +120,24 @@ test('命令行渲染成功且不修改仓库母版', () => {
   }
 });
 
-test('母版遵守可复现性约定：不指定字体、不引入非标准宏包', () => {
-  // 注释里会提到这些约定本身，因此只检查真正生效的代码行
-  const code = template()
-    .split('\n')
-    .filter((line) => !line.trimStart().startsWith('%'))
-    .join('\n');
-
-  assert.doesNotMatch(code, /\\setCJKmainfont|\\setmainfont/, '指定字体会导致跨环境编译失败');
-  assert.doesNotMatch(code, /shell-?escape|\\write18/, '不得依赖 shell-escape');
-
-  const packages = [...code.matchAll(/\\usepackage(?:\[[^\]]*\])?\{([^}]*)\}/g)].flatMap((m) =>
-    m[1].split(',').map((name) => name.trim()),
-  );
+test('每套母版都遵守可复现性约定：不指定字体、不引入非标准宏包', () => {
   const allowed = new Set(['geometry', 'enumitem', 'xcolor', 'titlesec', 'hyperref', 'graphicx']);
-  packages.forEach((name) => assert.ok(allowed.has(name), `非基础发行版宏包：${name}`));
+
+  for (const name of allTemplates()) {
+    // 注释里会提到这些约定本身，因此只检查真正生效的代码行
+    const code = readFileSync(join(templateDir, name), 'utf8')
+      .split('\n')
+      .filter((line) => !line.trimStart().startsWith('%'))
+      .join('\n');
+
+    assert.doesNotMatch(code, /\\setCJKmainfont|\\setmainfont/, `${name}：指定字体会导致跨环境编译失败`);
+    assert.doesNotMatch(code, /shell-?escape|\\write18/, `${name}：不得依赖 shell-escape`);
+
+    const packages = [...code.matchAll(/\\usepackage(?:\[[^\]]*\])?\{([^}]*)\}/g)].flatMap((m) =>
+      m[1].split(',').map((pkg) => pkg.trim()),
+    );
+    packages.forEach((pkg) => assert.ok(allowed.has(pkg), `${name}：非基础发行版宏包 ${pkg}`));
+  }
 });
 
 test('项目链接用 \\url 单独成行，避免长链接溢出页边距', () => {
@@ -269,5 +275,49 @@ test('输出路径不能覆盖默认母版或指定的母版', () => {
     assert.equal(template(), before, '默认母版被覆盖');
   } finally {
     rmSync(temp, { recursive: true, force: true });
+  }
+});
+
+test('每套母版都满足渲染契约：标记完整、必需宏齐备、能渲染出结构正确的产物', () => {
+  const names = allTemplates();
+  assert.ok(names.length >= 2, '应至少提供默认版式与一套备选版式');
+
+  const markers = [
+    '% @PHOTOWIDTH', '% @PHOTO', '% @NAME', '% @CONTACT', '% @HEADLINE',
+    '% @EDUCATION', '% @EXPERIENCE', '% @PROJECTS', '% @SCHOOL',
+    '% @SKILLS', '% @SELF_EVALUATION',
+  ];
+  const required = [
+    '\\newlength{\\asuphotowidth}', '\\newlength{\\asuheadtextwidth}',
+    '\\newcommand{\\asuphoto}', '\\newcommand{\\asuname}',
+    '\\newcommand{\\asumeta}', '\\newcommand{\\asuentry}',
+  ];
+  const data = JSON.parse(read('assets', 'resume-data-template.json'));
+
+  for (const name of names) {
+    const raw = readFileSync(join(templateDir, name), 'utf8');
+    markers.forEach((m) => assert.ok(raw.includes(m), `${name}：缺少标记 ${m}`));
+    required.forEach((r) => assert.ok(raw.includes(r), `${name}：缺少渲染契约要求的 ${r}`));
+    assert.match(raw, /\\IfFileExists/, `${name}：图片缺失应有容错`);
+
+    const tex = renderResume(data, raw);
+    assert.doesNotMatch(tex, /^% @[A-Z_]+$/m, `${name}：存在未替换的标记`);
+    assert.doesNotMatch(tex, /@@TEMPLATE-ONLY-(START|END)@@/, `${name}：维护者块未剥离`);
+    assert.equal((tex.match(/\\begin\{document\}/g) || []).length, 1, `${name}：document 环境异常`);
+
+    for (const env of ['itemize', 'minipage']) {
+      assert.equal(
+        (tex.match(new RegExp(`\\\\begin\\{${env}\\}`, 'g')) || []).length,
+        (tex.match(new RegExp(`\\\\end\\{${env}\\}`, 'g')) || []).length,
+        `${name}：${env} 环境未配对`,
+      );
+    }
+
+    const stripped = tex.replace(/\\[{}]/g, '');
+    assert.equal(
+      (stripped.match(/\{/g) || []).length,
+      (stripped.match(/\}/g) || []).length,
+      `${name}：花括号未配对`,
+    );
   }
 });
