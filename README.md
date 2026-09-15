@@ -195,7 +195,7 @@ ASu-skills 同时支持 Codex、Claude Code 和 TraeWork，另有 OpenCode 与 W
 
 ### LaTeX 输出预览
 
-用户明确要求提供 LaTeX 或适用于 Overleaf 的简历版本时，可在 HTML 之外附加导出 `.tex` 源文件，在 Overleaf 中编译即可继续调整排版。目前提供三套版式：默认 ASu、紧凑单栏（适合经历较多需压进单页）和学术风（黑白打印友好）。三套都只使用 TeX Live 基础发行版自带宏包，无需上传额外宏包或配置字体。
+用户明确要求提供 LaTeX 或适用于 Overleaf 的简历版本时，可在 HTML 之外附加导出 `.tex` 源文件，在 Overleaf 中编译即可继续调整排版。目前提供三套版式：默认 ASu、紧凑单栏（适合经历较多）和学术风（黑白打印友好）。三套都无需上传额外宏包或配置字体。
 
 推荐用 [Overleaf](https://www.overleaf.com/) 编译，无需在本地安装 TeX 环境，三步完成：
 
