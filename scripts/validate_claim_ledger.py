@@ -113,13 +113,17 @@ def _validate_claim(value: Any, index: int, seen_ids: set[str], errors: list[str
         seen_ids.add(claim_id)
 
     responsibility = value.get("responsibility_level")
-    if "responsibility_level" in value and responsibility not in RESPONSIBILITY_LEVELS:
+    if "responsibility_level" in value and (
+        not isinstance(responsibility, str) or responsibility not in RESPONSIBILITY_LEVELS
+    ):
         errors.append(
             f"{path}.responsibility_level 必须是：{_format_keys(RESPONSIBILITY_LEVELS)}"
         )
 
     status = value.get("verification_status")
-    if "verification_status" in value and status not in VERIFICATION_STATUSES:
+    if "verification_status" in value and (
+        not isinstance(status, str) or status not in VERIFICATION_STATUSES
+    ):
         errors.append(f"{path}.verification_status 必须是：{_format_keys(VERIFICATION_STATUSES)}")
 
     sources = value.get("sources")
