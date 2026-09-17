@@ -58,7 +58,7 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 | `/evidence-recap` | 证据复盘 | 把 AI 编程对话和交付记录整理为可核验的九段证据链 |
 | `/project-guide` | 项目导学面经 | 按需生成 `tutorial.md`、`practice.md`，或导学、面经与交接摘要 |
 | `/great-resume` | 简历提升 | 岗位定位、项目改写、成果证据、HR 开场白 |
-| `/make-resume` | 简历制作 | 默认使用 ASu 模板，也可指定模板；可编辑 HTML 简历和 PDF 导出 |
+| `/make-resume` | 简历制作 | 按 ASu 或指定模板生成可编辑 HTML 简历，支持 PDF 导出与可选的 LaTeX 源文件 |
 | `/job-match` | 岗位匹配 | 对照 JD 与真实经历，输出证据矩阵、硬性门槛和投递建议 |
 | `/job-apply` | 简历投递填写 | 连接浏览器自动填写求职申请，核对后停在提交前 |
 | `/interview` | 面试准备 | 面试预测、契约化追问、证据复盘和弱项复练 |
@@ -176,6 +176,7 @@ ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 OpenCo
 - 将当前编辑内容保存为本地 HTML；
 - 「本地字体」读取系统中已安装的字体（Chrome 103+，需浏览器授权），「导入字体」加载本地字体文件（TTF/OTF/WOFF/WOFF2）作为补充；
 - 打印导出 PDF；
+- 可选导出 LaTeX `.tex` 源文件，提供默认 ASu、紧凑单栏、学术风三套版式，用于在 Overleaf 等环境继续编辑（需用户主动要求）；
 - 根据截图分析栏位、间距、字号、颜色和分页结构；
 - 使用虚构示例照片作为占位，生成真实简历时由用户主动替换。
 
@@ -192,6 +193,20 @@ ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 OpenCo
 ### 模板预览
 
 ![简历模板预览](assets/template-overview.jpg)
+
+### LaTeX 输出预览
+
+用户明确要求提供 LaTeX 或适用于 Overleaf 的简历版本时，可在 HTML 之外附加导出 `.tex` 源文件，在 Overleaf 中编译即可继续调整排版。目前提供三套版式：默认 ASu、紧凑单栏（适合经历较多）和学术风（黑白打印友好）。三套都无需上传额外宏包或配置字体。
+
+推荐用 [Overleaf](https://www.overleaf.com/) 编译，无需在本地安装 TeX 环境，三步完成：
+
+1. New Project → Blank Project，填写 Project name → Create；
+2. 上传生成的 .tex 文件；若简历使用证件照，把图片一并上传到同一项目（与 .tex 同级，文件名保持一致）；
+3. 左上角 File → Settings：Main document 选择上传的文件，Compiler 选 XeLaTeX，然后 Recompile。
+
+下图为一份示例数据在三套版式下的编译结果。
+
+![LaTeX 简历预览](assets/latex-resume-overview.png)
 
 ## `/evidence-recap`：把 AI 编程对话还原成证据链
 

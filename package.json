@@ -9,6 +9,7 @@
     "build:asu-resume": "node scripts/build-asu-resume.mjs",
     "check:asu-resume": "node scripts/build-asu-resume.mjs --check",
     "build:templates": "node scripts/inline-template.mjs --all dist/templates",
+    "build:latex-resume": "node scripts/build-latex-resume.mjs",
     "sync:skills": "node scripts/sync-skill-catalog.mjs",
     "sync:skills:check": "node scripts/sync-skill-catalog.mjs --check",
     "validate:skills": "python3 scripts/validate_skills.py",

@@ -71,7 +71,7 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 | `/evidence-recap` | Conversation review | Turns AI coding conversations and delivery records into a verifiable nine-part evidence chain |
 | `/project-guide` | Project interview prep | Creates `tutorial.md` and `practice.md` on demand, or project study notes, interview answers, and handoff evidence |
 | `/great-resume` | Resume improvement | Role targeting, project bullet rewrites, evidence of results, HR opener |
-| `/make-resume` | Resume building | Defaults to the ASu template, supports custom templates, editable HTML resume and PDF export |
+| `/make-resume` | Resume building | Generates an editable HTML resume from the ASu or a specified template, with PDF export and optional LaTeX source |
 | `/job-match` | Job matching | Compares a JD with verified experience and returns an evidence matrix, hard constraints, and an application recommendation |
 | `/job-apply` | Job-application autofill | Connects to a browser, fills an application, and stops for review before submission |
 | `/interview` | Interview preparation | Interview prediction, contract-driven drilling, evidence review, and targeted retry |
@@ -191,6 +191,7 @@ Supported:
 - Save the current edits as a local HTML file;
 - “Local fonts” reads fonts installed on your system (Chrome 103+, requires browser permission); “Import fonts” loads local font files (TTF/OTF/WOFF/WOFF2) as a supplement;
 - Print-to-PDF export;
+- Optional LaTeX `.tex` export in three layouts — default ASu, compact, and academic — for continued editing in Overleaf (on request);
 - Layout analysis from screenshots: columns, spacing, font size, colors, and pagination;
 - Fictional placeholder photos by default; swap in your own for the real resume.
 
@@ -207,6 +208,20 @@ Using the education, internship, and project experience I provide, pick a templa
 ### Template preview
 
 ![Resume template preview](assets/template-overview.jpg)
+
+### LaTeX output preview
+
+When you ask for a LaTeX resume or one suited to Overleaf, a `.tex` source file is exported alongside the HTML, ready to compile and fine-tune in Overleaf. Three layouts are available: the default ASu, a compact one for denser content, and an academic one for black-and-white printing. None of them need extra style files or font configuration.
+
+[Overleaf](https://www.overleaf.com/) is the recommended way to compile — no local TeX installation required, three steps:
+
+1. New Project → Blank Project, name it and click Create;
+2. Upload the generated .tex file; if the resume uses a photo, upload it to the same project (next to the .tex, keeping the filename unchanged);
+3. Top-left File → Settings: set Main document to the uploaded file and Compiler to XeLaTeX, then Recompile.
+
+Below is sample data compiled in all three layouts.
+
+![LaTeX resume preview](assets/latex-resume-overview.png)
 
 ## `/evidence-recap`: Turn AI coding conversations into evidence chains
 
