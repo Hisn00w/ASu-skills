@@ -260,12 +260,20 @@
       function recency(item) { return item.updatedAt || `${item.date || ''}T${item.time || ''}`; }
       function mergeRecords(current, incoming) {
         const byKey = new Map(current.map((item) => [recordKey(item), item]));
+        const usedIds = new Set(current.map((item) => item.id));
         let added = 0;
         let updated = 0;
         for (const item of incoming) {
           const key = recordKey(item);
           const previous = byKey.get(key);
-          if (!previous) { byKey.set(key, item); added += 1; continue; }
+          if (!previous) {
+            let id = item.id;
+            while (usedIds.has(id)) id = makeId();
+            byKey.set(key, { ...item, id });
+            usedIds.add(id);
+            added += 1;
+            continue;
+          }
           if (recency(item) >= recency(previous)) { byKey.set(key, { ...previous, ...item, id: previous.id }); updated += 1; }
         }
         return { records: [...byKey.values()], added, updated };
