@@ -1,0 +1,87 @@
+% !TEX program = xelatex
+% 上行声明本文件用 XeLaTeX 编译。Overleaf 不读取该声明，按下方第 3 步设置。
+% @@TEMPLATE-ONLY-START@@
+% ASu-skills LaTeX 简历母版
+%
+% 用途：/make-resume 的可选附加输出。本块写给维护本母版的人，
+% 由 scripts/build-latex-resume.mjs 在渲染时整块删除，不进入用户产物。
+%
+% ── 可复现性约定（改动本文件时请保持）───────────────────────────
+%   * 只使用 TeX Live 基础发行版自带宏包，不引入需要手动上传的 .sty；
+%   * 不使用 \setCJKmainfont 指定具体字体，让 ctex 回落到 Overleaf 内置的
+%     Fandol 开源字体。指定字体是中文 LaTeX 跨环境编译失败的首要原因；
+%   * 不依赖 shell-escape、外部程序或网络资源。
+%
+% ── 中文字体（跨平台）───────────────────────────────────────────
+%   不指定 fontset，由 ctex 按运行环境自动选择：Windows 使用系统中文字体，
+%   macOS 同理，没有系统中文字体的环境（Overleaf、Linux CI）回落到随
+%   TeX Live 分发的 Fandol 开源字体。这样三个平台都能直接编译。
+%   若需要三平台渲染完全一致，可在 documentclass 选项中加 fontset=fandol。
+%
+% @ 标记由构建脚本替换；未使用的标记只是 LaTeX 注释，不影响编译。
+% @@TEMPLATE-ONLY-END@@
+% ASu-skills LaTeX 简历
+%
+% 供 Overleaf 等环境继续编辑排版。
+%
+% ── Overleaf 使用步骤（无需本地安装任何 TeX 环境）─────────────────
+%   1. New Project → Blank Project，填写 Project name → Create；
+%   2. 上传本 .tex 文件；若简历使用证件照或校标，把图片一并上传到同一项目
+%      （与 .tex 同级，文件名保持一致）；
+%   3. 左上角 File → Settings：Main document 选本文件，
+%      Compiler 选 XeLaTeX（中文必需）→ Recompile。
+
+\documentclass[a4paper,10pt]{ctexart}
+
+\usepackage[top=1.5cm,bottom=1.5cm,left=1.6cm,right=1.6cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
+
+% 与 assets/frame/asu/base.css 的 --blue 保持一致
+\definecolor{asublue}{HTML}{2458B8}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\color{asublue}}{}{0pt}{}
+  [{\color{asublue}\titlerule[1.2pt]}]
+\titlespacing*{\section}{0pt}{10pt}{5pt}
+
+\setlist[itemize]{leftmargin=1.3em,itemsep=1pt,parsep=0pt,topsep=2pt,partopsep=0pt}
+
+\setlength{\parindent}{0pt}
+\pagestyle{empty}
+
+% @PREAMBLE
+
+\newcommand{\asuname}[1]{{\LARGE\bfseries #1}\par\vspace{2pt}}
+\newcommand{\asumeta}[1]{{\small #1}\par}
+\newcommand{\asuentry}[2]{\textbf{#1}\hfill{\small #2}\par}
+
+\begin{document}
+
+% @PHOTOWIDTH
+\setlength{\asuheadtextwidth}{\dimexpr\linewidth-\asuphotowidth\relax}
+
+\noindent
+\begin{minipage}[c]{\asuheadtextwidth}
+% @NAME
+% @CONTACT
+% @HEADLINE
+\end{minipage}%
+% @PHOTO
+
+% @EDUCATION
+
+% @EXPERIENCE
+
+% @PROJECTS
+
+% @SCHOOL
+
+% @SKILLS
+
+% @SELF_EVALUATION
+
+\end{document}

@@ -1,0 +1,26 @@
+% @@TEMPLATE-ONLY-START@@
+% ASu-skills LaTeX 简历母版的公共部件。
+%
+% 由 scripts/build-latex-resume.mjs 在渲染时内联到母版的 % @PREAMBLE 位置，
+% 与 assets/frame/ 被 inline-template.mjs 内联进 HTML 壳文件是同一机制：
+% 公共逻辑只维护这一份，交付给用户的仍是单个自包含 .tex，无需附带 .sty。
+%
+% 分工：
+%   * 本文件放所有版式共用的渲染契约实现；
+%   * 版式差异（documentclass、geometry、titlesec、颜色、字号、行距）
+%     留在各母版自己的导言区。
+% 修改本文件会同时影响全部版式。
+%
+% 证件照占位宽度（含与正文的间距），由构建脚本按有无照片设为实际值或 0pt。
+% \newlength 默认即 0pt，因此标记未被替换时头部自动退化为纯文字单栏。
+% \asuphoto 在图片缺失时不中断编译，改为画占位框提示需要把图片一并上传。
+% @@TEMPLATE-ONLY-END@@
+\newlength{\asuphotowidth}
+\newlength{\asuheadtextwidth}
+
+\newcommand{\asuphoto}[1]{%
+  \IfFileExists{#1}%
+    {\includegraphics[width=\dimexpr\asuphotowidth-4mm\relax]{#1}}%
+    {\fbox{\parbox[c][28mm][c]{\dimexpr\asuphotowidth-4mm-2\fboxsep-2\fboxrule\relax}%
+       {\centering\footnotesize 未找到图片\\\texttt{#1}\\请一并上传}}}%
+}

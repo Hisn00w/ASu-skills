@@ -1,0 +1,104 @@
+% !TEX program = xelatex
+% 上行声明本文件用 XeLaTeX 编译。Overleaf 不读取该声明，按下方第 3 步设置。
+% @@TEMPLATE-ONLY-START@@
+% ASu-skills LaTeX 简历母版：紧凑单栏
+%
+% 适合经历较多、需要在单页内放下更多内容的候选人。相对默认版式收紧了页边距、
+% 行距与各级间距，章节标题改用色块，视觉上更接近 templates-html 的 dense 变体。
+%
+% 本块与下列约定不进入用户产物。
+%
+% ── 可复现性约定（改动本文件时请保持）───────────────────────────
+%   * 只使用 TeX Live 基础发行版自带宏包，不引入需要手动上传的 .sty；
+%   * 不使用 \setCJKmainfont 指定具体字体，让 ctex 回落到 Overleaf 内置的
+%     Fandol 开源字体；
+%   * 不依赖 shell-escape、外部程序或网络资源。
+%
+% ── 中文字体（跨平台）───────────────────────────────────────────
+%   不指定 fontset，由 ctex 按运行环境自动选择：Windows 使用系统中文字体，
+%   macOS 同理，没有系统中文字体的环境（Overleaf、Linux CI）回落到随
+%   TeX Live 分发的 Fandol 开源字体。这样三个平台都能直接编译。
+%   若需要三平台渲染完全一致，可在 documentclass 选项中加 fontset=fandol。
+%
+% ── 渲染契约（所有母版必须一致，否则构建脚本会报错）─────────────
+%   * 必须保留全部 @ 标记；
+%   * 必须定义 \asuphotowidth \asuheadtextwidth \asuphoto \asuname
+%     \asumeta \asuentry。\asu 是项目前缀（ASu-skills），与具体版式无关。
+% @@TEMPLATE-ONLY-END@@
+% ASu-skills LaTeX 简历（紧凑单栏）
+%
+% 供 Overleaf 等环境继续编辑排版。
+%
+% ── Overleaf 使用步骤（无需本地安装任何 TeX 环境）─────────────────
+%   1. New Project → Blank Project，填写 Project name → Create；
+%   2. 上传本 .tex 文件；若简历使用证件照或校标，把图片一并上传到同一项目
+%      （与 .tex 同级，文件名保持一致）；
+%   3. 左上角 File → Settings：Main document 选本文件，
+%      Compiler 选 XeLaTeX（中文必需）→ Recompile。
+
+\documentclass[a4paper,10pt]{ctexart}
+
+\usepackage[top=1.1cm,bottom=1.1cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+% explicit：让 \titleformat 的 before-code 能用 #1 引用标题文本
+\usepackage[explicit]{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx}
+
+\definecolor{asublue}{HTML}{2458B8}
+% 与 frame/base.css 的 .variant-band 对应：整行浅灰底条 + 左侧蓝色标题块
+\definecolor{asuband}{HTML}{EDF0F3}
+
+% 不可见撑高元素，让色块高度稳定，不随标题文字的升降部变化
+\newcommand{\asubandstrut}{\rule[-0.7ex]{0pt}{2.9ex}}
+
+% 章节标题用色块，比横线更省纵向空间。fboxsep 置零后由 makebox 控制宽度，
+% 外层灰底撑满整行，内层蓝块贴合标题文字。
+\titleformat{\section}
+  {\normalfont\normalsize\bfseries}{}{0pt}
+  {\begingroup\setlength{\fboxsep}{0pt}%
+   \colorbox{asuband}{\makebox[\linewidth][l]{%
+     \colorbox{asublue}{\hspace{2.5mm}\asubandstrut\color{white}#1\hspace{2.5mm}}}}%
+   \endgroup}
+\titlespacing*{\section}{0pt}{7pt}{3pt}
+
+\setlist[itemize]{leftmargin=1.1em,itemsep=0pt,parsep=0pt,topsep=1pt,partopsep=0pt}
+
+\linespread{0.96}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagestyle{empty}
+
+% @PREAMBLE
+
+\newcommand{\asuname}[1]{{\Large\bfseries #1}\par\vspace{1pt}}
+\newcommand{\asumeta}[1]{{\footnotesize #1}\par}
+\newcommand{\asuentry}[2]{\textbf{#1}\hfill{\footnotesize #2}\par}
+
+\begin{document}
+
+% @PHOTOWIDTH
+\setlength{\asuheadtextwidth}{\dimexpr\linewidth-\asuphotowidth\relax}
+
+\noindent
+\begin{minipage}[c]{\asuheadtextwidth}
+% @NAME
+% @CONTACT
+% @HEADLINE
+\end{minipage}%
+% @PHOTO
+
+% @EDUCATION
+
+% @EXPERIENCE
+
+% @PROJECTS
+
+% @SCHOOL
+
+% @SKILLS
+
+% @SELF_EVALUATION
+
+\end{document}
