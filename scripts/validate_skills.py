@@ -619,14 +619,19 @@ def check_registry(skill_dirs: List[Path], report: Report) -> None:
         actual.add(name)
         zh = entry.get("zh")
         en = entry.get("en")
-        for field in ("menuLabel", "prompt", "opencodeDetail", "deliverables"):
+        for field in ("menuLabel", "prompt", "argumentHint", "opencodeDetail", "deliverables"):
             value = (zh or {}).get(field) if isinstance(zh, dict) else None
             if not isinstance(value, str) or not value.strip():
                 report.add(False, "", f"{label} 入口 {name} 缺少 zh.{field}")
+            elif field == "argumentHint" and ("\n" in value or "\r" in value):
+                report.add(False, "", f"{label} 入口 {name} 的 zh.argumentHint 不应换行")
         for field in ("menu", "deliverables"):
             value = (en or {}).get(field) if isinstance(en, dict) else None
             if not isinstance(value, str) or not value.strip():
                 report.add(False, "", f"{label} 入口 {name} 缺少 en.{field}")
+    fallback = manifest.get("argumentFallback")
+    if not isinstance(fallback, str) or not fallback.strip():
+        report.add(False, "", f"{label} 缺少 argumentFallback 兜底话术")
     expected = {d.name for d in skill_dirs}
     if expected != actual:
         report.add(

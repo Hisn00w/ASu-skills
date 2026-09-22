@@ -69,7 +69,11 @@ const entries = registry.entries;
 const names = entries.map((e) => e.name);
 const slashList = names.map((n) => '/' + n).join('、');
 const fnList = joinCn(entries.map((e) => e.zh.menuLabel));
-const prompts = entries.map((e) => e.zh.prompt);
+const prompts = entries.map((e) => {
+  const hint = typeof e.zh.argumentHint === 'string' ? e.zh.argumentHint.trim() : '';
+  if (!hint) return e.zh.prompt;
+  return e.zh.prompt + '建议提供：' + hint + '；' + registry.argumentFallback;
+});
 const keywords = uniq([...registry.keywordsBase, ...names]);
 const workbuddy = entries.filter((e) => !e.excludeFrom || !e.excludeFrom.workbuddy);
 const wbNames = workbuddy.map((e) => e.name);
@@ -296,12 +300,18 @@ if (JSON.stringify(skillDirs) !== JSON.stringify(sortedNames)) {
   problems.push('skills/ 目录与 registry 不一致：目录多出=' + skillDirs.filter((n) => !sortedNames.includes(n)).join(',') + '；registry 多出=' + sortedNames.filter((n) => !skillDirs.includes(n)).join(','));
 }
 const seen = new Set();
+if (typeof registry.argumentFallback !== 'string' || !registry.argumentFallback.trim()) {
+  problems.push('registry 缺少 argumentFallback 兜底话术');
+}
 for (const e of entries) {
   if (seen.has(e.name)) problems.push('registry 存在重复入口: ' + e.name);
   seen.add(e.name);
-  for (const field of ['zh.menuLabel', 'zh.prompt', 'zh.opencodeDetail', 'zh.deliverables', 'en.menu', 'en.deliverables', 'site.title', 'site.description', 'site.color', 'site.readmeAnchor']) {
+  for (const field of ['zh.menuLabel', 'zh.prompt', 'zh.argumentHint', 'zh.opencodeDetail', 'zh.deliverables', 'en.menu', 'en.deliverables', 'site.title', 'site.description', 'site.color', 'site.readmeAnchor']) {
     const [a, b] = field.split('.');
     if (!e[a] || typeof e[a][b] !== 'string' || !e[a][b].trim()) problems.push('entry ' + e.name + ' 缺少 ' + field);
+  }
+  if (e.zh && typeof e.zh.argumentHint === 'string' && e.zh.argumentHint.includes('\n')) {
+    problems.push('entry ' + e.name + ' 的 zh.argumentHint 不应换行');
   }
   if (e.site && !['cyan', 'violet', 'gold', 'pink', 'blue'].includes(e.site.color)) problems.push('entry ' + e.name + ' 的 site.color 不受支持');
   if (e.excludeFrom && !Object.keys(e.excludeFrom).every((h) => h === 'workbuddy')) problems.push('entry ' + e.name + ' 的 excludeFrom 含未知宿主');

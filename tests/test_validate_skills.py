@@ -149,5 +149,82 @@ class DocumentedResourceTests(unittest.TestCase):
             self.assertIn("位于仓库外", report.results[0].message)
 
 
+class RegistryArgumentHintTests(unittest.TestCase):
+    def _check(self, manifest):
+        report = Report()
+        with tempfile.TemporaryDirectory() as temp_dir:
+            skill_dir = Path(temp_dir) / "skills" / "demo"
+            skill_dir.mkdir(parents=True)
+            with patch.object(validate_skills, "REGISTRY_MANIFEST", None):
+                # check_registry reads REGISTRY_MANIFEST; patch read_json_manifest instead.
+                with patch.object(validate_skills, "read_json_manifest", return_value=manifest):
+                    validate_skills.check_registry([skill_dir], report)
+        return report
+
+    def test_requires_argument_hint_and_fallback(self):
+        report = self._check(
+            {
+                "argumentFallback": "未提供时先向我确认。",
+                "entries": [
+                    {
+                        "name": "demo",
+                        "zh": {
+                            "menuLabel": "示例",
+                            "prompt": "用 /demo 做事。",
+                            "opencodeDetail": "做事",
+                            "deliverables": "结果",
+                        },
+                        "en": {"menu": "Demo", "deliverables": "Result"},
+                    }
+                ],
+            }
+        )
+        failures = [r.message for r in report.results if not r.ok]
+        self.assertTrue(any("zh.argumentHint" in m for m in failures))
+
+    def test_rejects_multiline_argument_hint(self):
+        report = self._check(
+            {
+                "argumentFallback": "未提供时先向我确认。",
+                "entries": [
+                    {
+                        "name": "demo",
+                        "zh": {
+                            "menuLabel": "示例",
+                            "prompt": "用 /demo 做事。",
+                            "argumentHint": "参数一\n参数二",
+                            "opencodeDetail": "做事",
+                            "deliverables": "结果",
+                        },
+                        "en": {"menu": "Demo", "deliverables": "Result"},
+                    }
+                ],
+            }
+        )
+        failures = [r.message for r in report.results if not r.ok]
+        self.assertTrue(any("不应换行" in m for m in failures))
+
+    def test_accepts_complete_argument_metadata(self):
+        report = self._check(
+            {
+                "argumentFallback": "未提供时先向我确认。",
+                "entries": [
+                    {
+                        "name": "demo",
+                        "zh": {
+                            "menuLabel": "示例",
+                            "prompt": "用 /demo 做事。",
+                            "argumentHint": "参数一、参数二",
+                            "opencodeDetail": "做事",
+                            "deliverables": "结果",
+                        },
+                        "en": {"menu": "Demo", "deliverables": "Result"},
+                    }
+                ],
+            }
+        )
+        self.assertTrue(report.passed)
+
+
 if __name__ == "__main__":
     unittest.main()

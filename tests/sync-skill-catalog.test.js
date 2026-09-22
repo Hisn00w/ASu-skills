@@ -24,12 +24,28 @@ test('registry entries are unique and match skills/ directories one-to-one', () 
   assert.deepEqual([...names].sort(), dirs, 'skills/ dirs must equal registry entries');
   for (const e of reg.entries) {
     assert.ok(e.zh && e.en, 'entry ' + e.name + ' needs zh/en metadata');
-    assert.ok(e.zh.menuLabel && e.zh.prompt && e.zh.opencodeDetail && e.zh.deliverables, 'entry ' + e.name + ' incomplete zh fields');
+    assert.ok(e.zh.menuLabel && e.zh.prompt && e.zh.argumentHint && e.zh.opencodeDetail && e.zh.deliverables, 'entry ' + e.name + ' incomplete zh fields');
     assert.ok(e.en.menu && e.en.deliverables, 'entry ' + e.name + ' incomplete en fields');
     assert.ok(e.site && e.site.title && e.site.description && e.site.color && e.site.readmeAnchor, 'entry ' + e.name + ' incomplete site fields');
     assert.ok(['cyan', 'violet', 'gold', 'pink', 'blue'].includes(e.site.color), 'entry ' + e.name + ' invalid site color');
     assert.ok(e.zh.prompt.startsWith('用 /' + e.name), 'prompt must start with 用 /name');
+    assert.ok(!e.zh.argumentHint.includes('\n'), 'entry ' + e.name + ' argumentHint must be single line');
+    assert.match(e.zh.argumentHint, /\S/, 'entry ' + e.name + ' argumentHint must be non-empty');
   }
+  assert.ok(typeof reg.argumentFallback === 'string' && reg.argumentFallback.trim(), 'registry needs argumentFallback');
+});
+
+test('generated defaultPrompt carries argumentHint and unified fallback', () => {
+  const reg = loadRegistry();
+  const codex = JSON.parse(readFileSync(join(ROOT, '.codex-plugin', 'plugin.json'), 'utf8'));
+  const defaultPrompt = codex.interface.defaultPrompt;
+  assert.equal(defaultPrompt.length, reg.entries.length, 'defaultPrompt must cover every entry');
+  reg.entries.forEach((e, index) => {
+    const prompt = defaultPrompt[index];
+    assert.ok(prompt.startsWith(e.zh.prompt), 'defaultPrompt[' + index + '] must start with zh.prompt');
+    assert.ok(prompt.includes(e.zh.argumentHint), 'defaultPrompt[' + index + '] must include argumentHint');
+    assert.ok(prompt.includes(reg.argumentFallback), 'defaultPrompt[' + index + '] must include argumentFallback');
+  });
 });
 
 test('docs website catalog mirrors registry order and entry count', () => {
