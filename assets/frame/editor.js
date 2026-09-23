@@ -66,11 +66,6 @@
   window.addEventListener('beforeunload', saveContent);
   document.addEventListener('resume-change', scheduleSave);
   document.addEventListener('resume-before-save', saveContent);
-  document.addEventListener('resume-reset', () => {
-    window.clearTimeout(saveTimer);
-    try { localStorage.removeItem(contentStorageKey); } catch (error) { /* 忽略 */ }
-    setSaveStatus('已恢复初始内容');
-  });
   const changed = () => document.dispatchEvent(new Event('resume-change'));
   const editButton = document.querySelector('[data-action="edit"]');
   const fontSelect = document.querySelector('[data-action="font"]');
@@ -79,6 +74,7 @@
   const photoButton = document.querySelector('[data-action="photo"]');
   const saveButton = document.querySelector('[data-action="save"]');
   const pdfButton = document.querySelector('[data-action="pdf"]');
+  const resetButton = document.querySelector('[data-action="reset"]');
   const photoInput = document.querySelector('[data-photo-input]');
   const photoFrame = document.querySelector('.photo-frame, .profile-photo-slot');
   const photoImage = photoFrame?.querySelector('img');
@@ -87,6 +83,44 @@
     photoFrame.classList.add('has-photo');
   }
   let savedRange = null;
+  if (resetButton) {
+    let armed = false;
+    let disarmTimer = null;
+    const disarm = () => {
+      armed = false;
+      resetButton.classList.remove('armed');
+      resetButton.textContent = '重置';
+      window.clearTimeout(disarmTimer);
+    };
+    const resetEditor = () => {
+      window.clearTimeout(saveTimer);
+      try { localStorage.removeItem(contentStorageKey); } catch (error) { /* 忽略 */ }
+      roots.forEach((page, index) => {
+        page.innerHTML = originalRoots[index];
+      });
+      if (photoInput) photoInput.value = '';
+      savedRange = null;
+      setSaveStatus('已恢复文件初始内容');
+    };
+    resetButton.addEventListener('click', () => {
+      if (!armed) {
+        armed = true;
+        resetButton.classList.add('armed');
+        resetButton.textContent = '再点一次确认重置';
+        window.clearTimeout(disarmTimer);
+        disarmTimer = window.setTimeout(disarm, 3000);
+        return;
+      }
+      disarm();
+      resetEditor();
+    });
+    resetButton.addEventListener('mouseleave', () => {
+      if (armed) disarmTimer = window.setTimeout(disarm, 800);
+    });
+    resetButton.addEventListener('mouseenter', () => {
+      window.clearTimeout(disarmTimer);
+    });
+  }
   document.addEventListener('selectionchange', () => {
     const selection = window.getSelection();
     if (!selection || !selection.rangeCount || !roots.some((page) => page.contains(selection.anchorNode) && page.contains(selection.focusNode))) return;

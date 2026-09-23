@@ -13,7 +13,7 @@ assets/
     toolbar.html   # 公共工具栏控件
     editor.js      # 共享编辑脚本
     toolbar.css    # 共享工具栏样式
-    asu/           # ASu 版式及页面模式、重置扩展，不重复公共功能
+    asu/           # ASu 版式及页面模式扩展，不重复公共功能
   templates-html/
     01-大厂极简简历模板.html   # …18 个壳文件：设计稿，无 toolbar / script
     README.md
@@ -26,7 +26,7 @@ assets/
 - body class 追加了 `design-preview`：壳文件没有固定定位 toolbar，该规则把顶部预留的 76px 灰色边距归小，纯观感处理；
 - 壳文件**不带** toolbar 与 editor.js——没有编辑按钮，脚本无意义，直接浏览器打开即看页面布局。
 
-ASu 默认模板也内联同一份 `../frame/toolbar.html`、`toolbar.css` 和 `editor.js`，共用字号与自动保存，再追加 `../frame/asu/` 的页面模式和重置逻辑；完整工具栏并不相同。`../asu-resume/template.html` 保存简历内容。公共功能修改一次，两个构建脚本都会带入更新。修改后运行 `npm run build:asu-resume`，不要直接编辑 `../asu-resume-template.html`。
+ASu 默认模板也内联同一份 `../frame/toolbar.html`、`toolbar.css` 和 `editor.js`，共用字号、自动保存、状态提示与重置，再追加 `../frame/asu/` 的页面模式逻辑；完整工具栏并不相同。`../asu-resume/template.html` 保存简历内容。公共功能修改一次，两个构建脚本都会带入更新。修改后运行 `npm run build:asu-resume`，不要直接编辑 `../asu-resume-template.html`。
 
 ## 交付必须走 inline 脚本
 

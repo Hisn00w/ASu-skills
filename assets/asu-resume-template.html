@@ -14,6 +14,7 @@
 .toolbar-control select { border:1px solid #9db0c4; border-radius:5px; background:#fff; color:#24466e; padding:6px 7px; font:inherit; }
 .toolbar-control input[type=color] { width:34px; height:30px; padding:2px; border:1px solid #9db0c4; border-radius:5px; background:#fff; cursor:pointer; }
 .resume-toolbar button[data-action=bold] { min-width:68px; }
+.resume-toolbar button[data-action=reset].armed { border-color:#dc2626; background:#dc2626; color:#fff; }
 .save-status { color:#64748b; font-size:12px; white-space:nowrap; }
 
 @media print { .resume-toolbar { display:none !important; } }
@@ -25,7 +26,6 @@
     body { color: var(--text); font-family: "Times New Roman", "SimHei", "黑体", "Microsoft YaHei", sans-serif; font-size: 10.5pt; line-height: 1.34; }
     .resume-toolbar { position:sticky; font:13px/1.3 Arial, "Microsoft YaHei", sans-serif; }
     .resume-toolbar select { max-width:150px; }
-    .reset-button.armed { background:#dc2626; color:#fff; }
     .sheet { width: 210mm; min-height: 0; padding: 7mm 10mm 8mm; border-top: 0; margin: 0 auto; }
     .page-break { break-before: auto; }
     body[data-page-mode="continuous"] { width: 100%; }
@@ -102,6 +102,7 @@
   <button type="button" data-action="photo">替换照片</button>
   <button type="button" data-action="save">保存 HTML</button>
   <button type="button" data-action="pdf">导出 PDF</button>
+  <button type="button" data-action="reset" title="清除所有编辑，恢复文件初始内容">重置</button>
   <span data-save-status class="save-status" role="status" aria-live="polite">自动保存已开启</span>
   <input type="file" accept="image/*" data-photo-input hidden>
     <label for="pageMode">页面模式</label>
@@ -110,8 +111,7 @@
       <option value="continuous">A4 长页（不限高度）</option>
     </select>
     <button class="tool-button history-button" type="button" data-command="undo" title="撤回编辑" aria-label="撤回编辑">撤回</button>
-    <button class="tool-button history-button" type="button" data-command="redo" title="前进编辑" aria-label="前进编辑">前进</button>
-    <button class="reset-button" type="button" id="resetButton" title="清除所有编辑，恢复模板初始内容">重置</button></div>
+    <button class="tool-button history-button" type="button" data-command="redo" title="前进编辑" aria-label="前进编辑">前进</button></div>
 
 
   <main class="sheet" contenteditable="true">
@@ -326,8 +326,6 @@
           return false;
         }
       };
-      const originalSheets = sheets.map((sheet) => sheet.innerHTML);
-
       const applyMode = (mode) => {
         document.body.dataset.pageMode = mode;
         pageMode.value = mode;
@@ -337,55 +335,6 @@
         applyMode(pageMode.value);
         setStoredValue(modeStorageKey, pageMode.value);
       });
-
-      const resetButton = document.querySelector('#resetButton');
-      const resetEditor = () => {
-        sheets.forEach((sheet, index) => {
-          sheet.innerHTML = originalSheets[index];
-        });
-        document.querySelectorAll('.profile-photo-slot').forEach((slot) => {
-          const photo = slot.querySelector('.profile-photo');
-          if (photo) photo.remove();
-          if (!slot.querySelector('.photo-placeholder')) {
-            const placeholder = document.createElement('span');
-            placeholder.className = 'photo-placeholder';
-            placeholder.innerHTML = '证件照<br>预留位置';
-            slot.appendChild(placeholder);
-          }
-          slot.classList.remove('has-photo');
-        });
-        const photoInput = document.querySelector('[data-photo-input]');
-        if (photoInput) photoInput.value = '';
-        document.dispatchEvent(new Event('resume-reset'));
-      };
-      if (resetButton) {
-        let armed = false;
-        let disarmTimer = null;
-        const disarm = () => {
-          armed = false;
-          resetButton.classList.remove('armed');
-          resetButton.textContent = '重置';
-          window.clearTimeout(disarmTimer);
-        };
-        resetButton.addEventListener('click', () => {
-          if (!armed) {
-            armed = true;
-            resetButton.classList.add('armed');
-            resetButton.textContent = '再点一次确认重置';
-            window.clearTimeout(disarmTimer);
-            disarmTimer = window.setTimeout(disarm, 3000);
-            return;
-          }
-          disarm();
-          resetEditor();
-        });
-        resetButton.addEventListener('mouseleave', () => {
-          if (armed) disarmTimer = window.setTimeout(disarm, 800);
-        });
-        resetButton.addEventListener('mouseenter', () => {
-          window.clearTimeout(disarmTimer);
-        });
-      }
     })();
 (() => {
   const roots = Array.from(document.querySelectorAll('.resume-page, main.sheet'));
@@ -455,11 +404,6 @@
   window.addEventListener('beforeunload', saveContent);
   document.addEventListener('resume-change', scheduleSave);
   document.addEventListener('resume-before-save', saveContent);
-  document.addEventListener('resume-reset', () => {
-    window.clearTimeout(saveTimer);
-    try { localStorage.removeItem(contentStorageKey); } catch (error) { /* 忽略 */ }
-    setSaveStatus('已恢复初始内容');
-  });
   const changed = () => document.dispatchEvent(new Event('resume-change'));
   const editButton = document.querySelector('[data-action="edit"]');
   const fontSelect = document.querySelector('[data-action="font"]');
@@ -468,6 +412,7 @@
   const photoButton = document.querySelector('[data-action="photo"]');
   const saveButton = document.querySelector('[data-action="save"]');
   const pdfButton = document.querySelector('[data-action="pdf"]');
+  const resetButton = document.querySelector('[data-action="reset"]');
   const photoInput = document.querySelector('[data-photo-input]');
   const photoFrame = document.querySelector('.photo-frame, .profile-photo-slot');
   const photoImage = photoFrame?.querySelector('img');
@@ -476,6 +421,44 @@
     photoFrame.classList.add('has-photo');
   }
   let savedRange = null;
+  if (resetButton) {
+    let armed = false;
+    let disarmTimer = null;
+    const disarm = () => {
+      armed = false;
+      resetButton.classList.remove('armed');
+      resetButton.textContent = '重置';
+      window.clearTimeout(disarmTimer);
+    };
+    const resetEditor = () => {
+      window.clearTimeout(saveTimer);
+      try { localStorage.removeItem(contentStorageKey); } catch (error) { /* 忽略 */ }
+      roots.forEach((page, index) => {
+        page.innerHTML = originalRoots[index];
+      });
+      if (photoInput) photoInput.value = '';
+      savedRange = null;
+      setSaveStatus('已恢复文件初始内容');
+    };
+    resetButton.addEventListener('click', () => {
+      if (!armed) {
+        armed = true;
+        resetButton.classList.add('armed');
+        resetButton.textContent = '再点一次确认重置';
+        window.clearTimeout(disarmTimer);
+        disarmTimer = window.setTimeout(disarm, 3000);
+        return;
+      }
+      disarm();
+      resetEditor();
+    });
+    resetButton.addEventListener('mouseleave', () => {
+      if (armed) disarmTimer = window.setTimeout(disarm, 800);
+    });
+    resetButton.addEventListener('mouseenter', () => {
+      window.clearTimeout(disarmTimer);
+    });
+  }
   document.addEventListener('selectionchange', () => {
     const selection = window.getSelection();
     if (!selection || !selection.rangeCount || !roots.some((page) => page.contains(selection.anchorNode) && page.contains(selection.focusNode))) return;

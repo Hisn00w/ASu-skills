@@ -16,10 +16,11 @@ test('make-resume delivery HTML includes local save and photo-frame states', () 
 
   assert.match(toolbar, /data-action="save"[^>]*>保存 HTML</);
   assert.match(toolbar, /data-action="font-size"/);
+  assert.match(toolbar, /data-action="reset"/);
   assert.match(toolbar, /data-save-status/);
   assert.match(editor, /showSaveFilePicker/);
   assert.match(editor, /localStorage\.setItem\(contentStorageKey/);
-  assert.match(editor, /addEventListener\('resume-reset'/);
+  assert.match(editor, /setSaveStatus\('已恢复文件初始内容'\)/);
   assert.match(editor, /link\.download = name/);
   assert.match(editor, /clone\.outerHTML/);
   assert.match(editor, /classList\.add\('has-photo'\)/);
@@ -58,7 +59,7 @@ test('make-resume default ASu template saves HTML and hides the photo placeholde
   assert.doesNotMatch(source, /<style>/);
   const sharedEditor = read('assets', 'frame', 'editor.js').trim();
   assert.ok(html.replace(/\r\n/g, '\n').includes(sharedEditor.replace(/\r\n/g, '\n')));
-  assert.doesNotMatch(read('assets', 'frame', 'asu', 'editor.js'), /showSaveFilePicker|registerLocalFont|execCommand|contentStorage|saveContent|scheduleSave|fontSize/);
+  assert.doesNotMatch(read('assets', 'frame', 'asu', 'editor.js'), /showSaveFilePicker|registerLocalFont|execCommand|contentStorage|saveContent|scheduleSave|fontSize|resetEditor|resetButton/);
 
   assert.match(html, /data-action="save"[^>]*>保存 HTML</);
   assert.match(html, /showSaveFilePicker/);
@@ -85,6 +86,7 @@ test('copied user shells build with shared functionality without modifying the m
       assert.equal((html.match(/const registerLocalFont =/g) || []).length, 1);
       assert.equal((html.match(/data-action="save"/g) || []).length, 2); // markup and its shared event binding
       assert.equal((html.match(/data-action="font-size"/g) || []).length, 2); // markup and its shared event binding
+      assert.equal((html.match(/data-action="reset"/g) || []).length, 2); // markup and its shared event binding
       assert.equal((html.match(/localStorage\.setItem\(contentStorageKey/g) || []).length, 1);
       assert.doesNotMatch(html, /@import|<link rel="stylesheet"/);
       assert.ok(html.replace(/\r\n/g, '\n').includes(read('assets', 'frame', 'editor.js').trim().replace(/\r\n/g, '\n')));
