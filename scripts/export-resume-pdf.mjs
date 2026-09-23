@@ -16,11 +16,22 @@
  */
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
-import { writeFileSync, rmSync, existsSync, realpathSync } from 'node:fs';
+import { writeFileSync, rmSync, existsSync, realpathSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, basename, extname, resolve } from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
+
+const pathKey = (path) => process.platform === 'win32' ? path.toLowerCase() : path;
+
+function pathsReferToSameFile(first, second) {
+  if (pathKey(first) === pathKey(second)) return true;
+  if (!existsSync(first) || !existsSync(second)) return false;
+  if (pathKey(realpathSync(first)) === pathKey(realpathSync(second))) return true;
+  const firstStat = statSync(first);
+  const secondStat = statSync(second);
+  return firstStat.dev === secondStat.dev && firstStat.ino === secondStat.ino;
+}
 
 export function parseResumePdfArgs(args) {
   const { values, positionals } = parseArgs({
@@ -35,9 +46,11 @@ export function parseResumePdfArgs(args) {
   });
   if (positionals.length > 1) throw new Error('只能指定一个 HTML 输入文件');
   const htmlPath = resolve(positionals[0] ?? 'assets/resume-template-editable.html');
+  const outPath = resolve(values.out ?? basename(htmlPath).replace(extname(htmlPath), '.pdf'));
+  if (pathsReferToSameFile(htmlPath, outPath)) throw new Error('PDF 输出不能指向 HTML 输入文件');
   return {
     htmlPath,
-    outPath: resolve(values.out ?? basename(htmlPath).replace(extname(htmlPath), '.pdf')),
+    outPath,
     paperWidth: Number(values['paper-width']),
     paperHeight: Number(values['paper-height']),
     browserOverride: values.browser,
