@@ -31,9 +31,10 @@ The following is not mandatory but is recommended:
 - **Skill entries**: `skills.registry.json` is the single source of truth.
   - When adding, removing, or renaming a skill entry, first update `skills.registry.json` at the repository root, then run `npm run sync:skills` to regenerate every plugin manifest, installer, issue template, and README overview, and confirm `npm run sync:skills --check` passes;
   - The [First time: where to start](../README_en.md#first-time-where-to-start) section of the README still needs to be maintained manually (may be fixed later).
-- **HTML templates**: Templates under `assets\templates-html` keep the design draft, styles, code, and top toolbar separated:
-  - The design draft is an HTML file that can be opened directly, without a top toolbar;
-  - Self-contained (dependency-free) HTML files must be produced by the inline script `node scripts/inline-template.mjs --all dist/templates`;
+- **HTML templates**: `assets/asu-resume/template.html` and the templates under `assets/templates-html/` are content shells. Their shared frame lives in `assets/frame/`:
+  - Common features such as fonts, font size, colors, bold text, photos, auto-save, status messages, reset, saving HTML, and exporting PDF must be maintained only in the shared frame. `assets/frame/asu/` keeps only the ASu layout and page-mode extensions;
+  - Content shells can be opened directly as design drafts, but dependency-free deliverables must be generated with the corresponding inline script. Use `node scripts/inline-template.mjs --all dist/templates` for the 18 templates and `node scripts/build-asu-resume.mjs <user-content-shell> <output-html>` for ASu;
+  - After changing the shared frame or ASu extensions, run `npm run build:asu-resume` and `npm run check:asu-resume`.
 - **Static validation**: validate locally by following the checks in the CI workflow, or check the CI results when you submit.
 
 ## Welcomed contributions

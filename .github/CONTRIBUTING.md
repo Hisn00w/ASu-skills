@@ -30,10 +30,10 @@
 - **skill 入口**：以 `skills.registry.json` 作为唯一事实源。
   - 新增、删除或重命名 skill 入口时，先更新根目录 `skills.registry.json`，再运行 `npm run sync:skills` 同步各插件清单、安装脚本、Issue 模板与 README 总览，并确认 `npm run sync:skills --check` 通过；
   - README 中 [第一次使用：从哪个入口开始](../README.md#第一次使用：从哪个入口开始)，仍需手动维护。（后续可能会修）
-- **html模板**：`assets\templates-html` 下的模板为设计稿、样式、代码、顶部工具栏分离模式：
-  - 设计稿为可直接打开无顶部工具栏的 html 形式；
-  - 无依赖的 html 文件需使用内联脚本输出 `node scripts/inline-template.mjs --all dist/templates` 
-  - ASu 内容壳位于 `assets/asu-resume/`，与 18 套模板内联同一份 `assets/frame/` 公共控件及编辑脚本；ASu 还会追加 `assets/frame/asu/` 的版式、控件和逻辑扩展，完整工具栏并不相同。修改后运行 `npm run build:asu-resume` 与 `npm run check:asu-resume`；
+- **HTML 模板**：`assets/asu-resume/template.html` 与 `assets/templates-html/` 下的模板都是内容壳，共享外框统一位于 `assets/frame/`：
+  - 字体、字号、颜色、加粗、照片、自动保存、状态提示、重置、保存 HTML 与导出 PDF 等公共功能只在共享外框维护；`assets/frame/asu/` 只保留 ASu 版式与页面模式扩展；
+  - 内容壳可直接打开查看设计稿，但交付无依赖 HTML 前必须运行对应内联脚本；18 套模板使用 `node scripts/inline-template.mjs --all dist/templates`，ASu 使用 `node scripts/build-asu-resume.mjs <用户内容壳> <输出 HTML>`；
+  - 修改公共外框或 ASu 扩展后运行 `npm run build:asu-resume` 与 `npm run check:asu-resume`。
 - **静态校验**：可以参考 CI 流程中的校验流程进行本地校验，或在提交时检查 CI 结果。
 
 ## 欢迎的贡献

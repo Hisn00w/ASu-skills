@@ -2,6 +2,70 @@
   const roots = Array.from(document.querySelectorAll('.resume-page, main.sheet'));
   const root = roots[0];
   if (!root) return;
+  const saveStatus = document.querySelector('[data-save-status]');
+  const setSaveStatus = (text) => {
+    if (saveStatus) saveStatus.textContent = text;
+  };
+  const hashText = (text) => {
+    let hash = 2166136261;
+    for (let index = 0; index < text.length; index += 1) {
+      hash ^= text.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+    return (hash >>> 0).toString(16);
+  };
+  const contentStoragePrefix = root.matches('main.sheet') ? 'asu-resume-content-v3' : 'resume-content-v1';
+  const contentStorageKey = `${contentStoragePrefix}-${hashText(window.location.href)}`;
+  const originalRoots = roots.map((page) => page.innerHTML);
+  const templateHash = hashText(JSON.stringify(originalRoots));
+  let saveTimer = null;
+  const getStoredValue = () => {
+    try {
+      return localStorage.getItem(contentStorageKey);
+    } catch (error) {
+      return null;
+    }
+  };
+  const restoreSavedContent = () => {
+    const raw = getStoredValue();
+    if (!raw) return;
+    try {
+      const saved = JSON.parse(raw);
+      if (saved.templateHash !== templateHash || !Array.isArray(saved.sheets) || saved.sheets.length !== roots.length) {
+        setSaveStatus('模板已更新，未恢复旧内容');
+        return;
+      }
+      roots.forEach((page, index) => {
+        if (typeof saved.sheets[index] === 'string') page.innerHTML = saved.sheets[index];
+      });
+      setSaveStatus('已恢复上次编辑');
+    } catch (error) {
+      setSaveStatus('自动保存已开启');
+    }
+  };
+  const saveContent = () => {
+    try {
+      localStorage.setItem(contentStorageKey, JSON.stringify({
+        version: 2,
+        templateHash,
+        sheets: roots.map((page) => page.innerHTML),
+        savedAt: new Date().toISOString()
+      }));
+      setSaveStatus('已自动保存');
+    } catch (error) {
+      setSaveStatus('自动保存不可用');
+    }
+  };
+  const scheduleSave = () => {
+    setSaveStatus('保存中...');
+    window.clearTimeout(saveTimer);
+    saveTimer = window.setTimeout(saveContent, 350);
+  };
+  restoreSavedContent();
+  roots.forEach((page) => page.addEventListener('input', scheduleSave));
+  window.addEventListener('beforeunload', saveContent);
+  document.addEventListener('resume-change', scheduleSave);
+  document.addEventListener('resume-before-save', saveContent);
   const changed = () => document.dispatchEvent(new Event('resume-change'));
   const editButton = document.querySelector('[data-action="edit"]');
   const fontSelect = document.querySelector('[data-action="font"]');
@@ -10,6 +74,7 @@
   const photoButton = document.querySelector('[data-action="photo"]');
   const saveButton = document.querySelector('[data-action="save"]');
   const pdfButton = document.querySelector('[data-action="pdf"]');
+  const resetButton = document.querySelector('[data-action="reset"]');
   const photoInput = document.querySelector('[data-photo-input]');
   const photoFrame = document.querySelector('.photo-frame, .profile-photo-slot');
   const photoImage = photoFrame?.querySelector('img');
@@ -18,6 +83,44 @@
     photoFrame.classList.add('has-photo');
   }
   let savedRange = null;
+  if (resetButton) {
+    let armed = false;
+    let disarmTimer = null;
+    const disarm = () => {
+      armed = false;
+      resetButton.classList.remove('armed');
+      resetButton.textContent = '重置';
+      window.clearTimeout(disarmTimer);
+    };
+    const resetEditor = () => {
+      window.clearTimeout(saveTimer);
+      try { localStorage.removeItem(contentStorageKey); } catch (error) { /* 忽略 */ }
+      roots.forEach((page, index) => {
+        page.innerHTML = originalRoots[index];
+      });
+      if (photoInput) photoInput.value = '';
+      savedRange = null;
+      setSaveStatus('已恢复文件初始内容');
+    };
+    resetButton.addEventListener('click', () => {
+      if (!armed) {
+        armed = true;
+        resetButton.classList.add('armed');
+        resetButton.textContent = '再点一次确认重置';
+        window.clearTimeout(disarmTimer);
+        disarmTimer = window.setTimeout(disarm, 3000);
+        return;
+      }
+      disarm();
+      resetEditor();
+    });
+    resetButton.addEventListener('mouseleave', () => {
+      if (armed) disarmTimer = window.setTimeout(disarm, 800);
+    });
+    resetButton.addEventListener('mouseenter', () => {
+      window.clearTimeout(disarmTimer);
+    });
+  }
   document.addEventListener('selectionchange', () => {
     const selection = window.getSelection();
     if (!selection || !selection.rangeCount || !roots.some((page) => page.contains(selection.anchorNode) && page.contains(selection.focusNode))) return;
@@ -52,7 +155,7 @@
   document.querySelectorAll('[data-command]').forEach((button) => {
     button.addEventListener('click', () => applyFormat(button.dataset.command));
   });
-  document.querySelector('#fontSize')?.addEventListener('change', (event) => {
+  document.querySelector('[data-action="font-size"]')?.addEventListener('change', (event) => {
     restoreSelection();
     const selection = window.getSelection();
     if (!savedRange || !selection.rangeCount || selection.isCollapsed) return;
@@ -225,7 +328,7 @@
     clone.querySelectorAll('main.sheet').forEach((page) => page.setAttribute('contenteditable', 'true'));
     if (clonedEditButton) clonedEditButton.textContent = '编辑';
     if (clonedToolbarTitle) clonedToolbarTitle.textContent = 'HTML 简历';
-    const clonedStatus = clone.querySelector('#saveStatus');
+    const clonedStatus = clone.querySelector('[data-save-status]');
     if (clonedStatus) clonedStatus.textContent = '自动保存已开启';
     if (localFonts.length) {
       let fontStyle = clone.querySelector('style[data-saved-local-fonts]');

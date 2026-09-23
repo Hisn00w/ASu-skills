@@ -7,5 +7,7 @@
 .toolbar-control select { border:1px solid #9db0c4; border-radius:5px; background:#fff; color:#24466e; padding:6px 7px; font:inherit; }
 .toolbar-control input[type=color] { width:34px; height:30px; padding:2px; border:1px solid #9db0c4; border-radius:5px; background:#fff; cursor:pointer; }
 .resume-toolbar button[data-action=bold] { min-width:68px; }
+.resume-toolbar button[data-action=reset].armed { border-color:#dc2626; background:#dc2626; color:#fff; }
+.save-status { color:#64748b; font-size:12px; white-space:nowrap; }
 
 @media print { .resume-toolbar { display:none !important; } }
