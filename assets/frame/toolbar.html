@@ -7,8 +7,10 @@
   <input type="file" accept=".ttf,.otf,.ttc,.woff,.woff2" multiple data-font-file-input hidden>
   <label class="toolbar-control color-control">文字颜色<input type="color" data-action="color" value="#20252b" aria-label="文字颜色"></label>
   <button type="button" data-action="bold" title="对选中文字加粗或取消加粗"><strong>B</strong> 加粗</button>
+  <label class="toolbar-control">字号<select data-action="font-size" title="字号" aria-label="字号"><option value="10px">10</option><option value="11px" selected>11</option><option value="12px">12</option><option value="14px">14</option><option value="16px">16</option><option value="18px">18</option><option value="22px">22</option><option value="26px">26</option></select></label>
   <button type="button" data-action="photo">替换照片</button>
   <button type="button" data-action="save">保存 HTML</button>
   <button type="button" data-action="pdf">导出 PDF</button>
+  <span data-save-status class="save-status" role="status" aria-live="polite">自动保存已开启</span>
   <input type="file" accept="image/*" data-photo-input hidden>
 </div>
