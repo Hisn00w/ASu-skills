@@ -22,6 +22,9 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
+const isMainModule = () =>
+  process.argv[1] && fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
+
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DEFAULT_TEMPLATE_PATH = path.join(repoRoot, 'assets', 'latex-resume', 'template.tex');
 // 母版与公共部件中写给维护者的注释块，渲染时整块删除，不进入用户产物
@@ -175,7 +178,7 @@ export function renderResume(data, template, preamble = defaultPreamble()) {
 
 const [input, destination, template] = process.argv.slice(2);
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMainModule()) {
   if (!input || !destination) {
     console.error('用法：node scripts/build-latex-resume.mjs <简历数据.json> <输出.tex> [母版.tex]');
     console.error('省略母版时使用默认的 ASu 单栏版式。');
