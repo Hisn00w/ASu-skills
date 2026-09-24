@@ -12,8 +12,22 @@ const [input, destination] = process.argv.slice(2);
 const custom = input && input !== '--check';
 if (custom && !destination) throw new Error('用法：node scripts/build-asu-resume.mjs <用户内容壳> <输出 HTML>');
 const outputPath = custom ? path.resolve(destination) : path.join(repoRoot, 'assets', 'asu-resume-template.html');
-if (custom && [path.resolve(input), path.join(sourceDir, 'template.html'), path.join(repoRoot, 'assets', 'asu-resume-template.html')].includes(outputPath)) {
-  throw new Error('用户输出不能覆盖内容壳或仓库母版');
+
+const pathKey = (p) => process.platform === 'win32' ? p.toLowerCase() : p;
+function sameFile(a, b) {
+  if (pathKey(a) === pathKey(b)) return true;
+  if (!fs.existsSync(a) || !fs.existsSync(b)) return false;
+  if (pathKey(fs.realpathSync(a)) === pathKey(fs.realpathSync(b))) return true;
+  const sa = fs.statSync(a);
+  const sb = fs.statSync(b);
+  return sa.dev === sb.dev && sa.ino === sb.ino;
+}
+
+if (custom) {
+  const guardTargets = [path.resolve(input), path.join(sourceDir, 'template.html'), path.join(repoRoot, 'assets', 'asu-resume-template.html')];
+  if (guardTargets.some((target) => sameFile(outputPath, target))) {
+    throw new Error('用户输出不能覆盖内容壳或仓库母版');
+  }
 }
 
 const normalizeEol = (text, eol) => text.replace(/\r\n|\r|\n/g, eol);
