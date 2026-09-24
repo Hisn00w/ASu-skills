@@ -18,7 +18,11 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-const TEMPLATES_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'assets', 'templates-html');
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// Support the OpenCode assets/asu/scripts layout as well as the repository.
+const assetsRoot = fs.existsSync(path.join(root, 'frame', 'base.css'))
+  ? root : path.join(root, 'assets');
+const TEMPLATES_DIR = path.join(assetsRoot, 'templates-html');
 const FRAME_LINK = '<link rel="stylesheet" href="../frame/base.css">';
 
 // 壳文件预览专用的 SHELL-ONLY 规则块（frame/base.css 末尾），交付时整块移除。

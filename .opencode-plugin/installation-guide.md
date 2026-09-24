@@ -23,7 +23,7 @@ python .opencode-plugin/install-opencode.py --target /custom/opencode/skills
 
 `--target` 优先于自动查找；指定目录不存在时，安装脚本会自动创建。路径中包含空格时请使用引号。
 
-安装脚本除复制 `skills/` 外，还会把共享 `assets/` 与 `references/` 安装到 skills 目录的上一级，分别保存为 `assets/asu/` 与 `references/asu/`。这样 `/make-resume` 和 `/offer` 能在 OpenCode 中继续定位模板与参考资料。
+安装脚本除复制 `skills/` 外，还会把共享 `assets/` 与 `references/` 安装到 skills 目录的上一级，分别保存为 `assets/asu/` 与 `references/asu/`。简历构建与 PDF 导出脚本另存到 `assets/asu/scripts/`；运行需要 Node.js（版本要求见根目录 `package.json`），PDF 自动导出还需要本机 Chrome/Edge。这样 `/make-resume` 和 `/offer` 能在 OpenCode 中继续定位模板与参考资料。
 
 ## 方法 2：手动安装
 
@@ -41,6 +41,8 @@ cd ASu-skills
 ```bat
 xcopy /E /I "skills\*" "%USERPROFILE%\.config\opencode\skills"
 xcopy /E /I "assets\*" "%USERPROFILE%\.config\opencode\assets\asu"
+mkdir "%USERPROFILE%\.config\opencode\assets\asu\scripts"
+for %f in (build-asu-resume.mjs inline-template.mjs export-resume-pdf.mjs) do copy "scripts\%f" "%USERPROFILE%\.config\opencode\assets\asu\scripts\"
 xcopy /E /I "references\*" "%USERPROFILE%\.config\opencode\references\asu"
 ```
 
@@ -52,10 +54,20 @@ xcopy /E /I "references\*" "%USERPROFILE%\.config\opencode\references\asu"
 mkdir -p "$HOME/.config/opencode/skills" "$HOME/.config/opencode/assets/asu" "$HOME/.config/opencode/references/asu"
 cp -r skills/* "$HOME/.config/opencode/skills/"
 cp -r assets/* "$HOME/.config/opencode/assets/asu/"
+mkdir -p "$HOME/.config/opencode/assets/asu/scripts"
+cp scripts/build-asu-resume.mjs scripts/inline-template.mjs scripts/export-resume-pdf.mjs "$HOME/.config/opencode/assets/asu/scripts/"
 cp -r references/* "$HOME/.config/opencode/references/asu/"
 ```
 
-复制完成后重启 OpenCode。
+复制完成后重启 OpenCode。Windows 命令写入 `.bat` 文件时，将 `%f` 改为 `%%f`。
+
+可从任意工作目录验证默认简历构建（macOS / Linux 示例；自定义安装时替换路径）：
+
+```bash
+node "$HOME/.config/opencode/assets/asu/scripts/build-asu-resume.mjs" "$HOME/.config/opencode/assets/asu/asu-resume/template.html" "./resume-check.html"
+```
+
+打开生成的 `resume-check.html`，应能看到编辑和保存工具栏。该命令不会修改模板母版；正式制作时先复制内容壳，在用户副本上修改。
 
 ## 方法 3：通过 OpenCode 插件管理器（如果支持）
 

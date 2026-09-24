@@ -1,6 +1,8 @@
 import contextlib
 import importlib.util
 import io
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -53,6 +55,47 @@ class OpenCodeInstallerTests(unittest.TestCase):
             self.assertTrue(
                 (target.parent / "references" / "asu" / "email-monitoring.md").is_file()
             )
+
+    @unittest.skipUnless(shutil.which("node"), "Node.js is required for resume builds")
+    def test_installed_builders_generate_resumes_from_an_unrelated_directory(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            target = root / "OpenCode config" / "skills"
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(installer.main(["--target", str(target)]), 0)
+            assets = target.parent / "assets" / "asu"
+            user_dir = root / "user resumes"
+            user_dir.mkdir()
+            cases = (
+                ("build-asu-resume.mjs", assets / "asu-resume" / "template.html"),
+                ("inline-template.mjs", next((assets / "templates-html").glob("*.html"))),
+            )
+            for script, template in cases:
+                with self.subTest(script=script):
+                    original = template.read_bytes()
+                    shell = user_dir / "content.html"
+                    shutil.copyfile(template, shell)
+                    output = user_dir / "resume.html"
+                    installed_script = assets / "scripts" / script
+                    self.assertTrue(installed_script.is_file())
+                    result = subprocess.run(
+                        [shutil.which("node"), str(installed_script), str(shell), str(output)],
+                        cwd=user_dir, capture_output=True, text=True,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    html = output.read_text(encoding="utf-8")
+                    self.assertIn('data-action="save"', html)
+                    self.assertIn("<script>", html)
+                    self.assertNotIn('<link rel="stylesheet"', html)
+                    reference = user_dir / "reference.html"
+                    baseline = subprocess.run(
+                        [shutil.which("node"), str(ROOT / "scripts" / script), str(shell), str(reference)],
+                        cwd=user_dir, capture_output=True, text=True,
+                    )
+                    self.assertEqual(baseline.returncode, 0, baseline.stderr)
+                    self.assertEqual(output.read_bytes(), reference.read_bytes())
+                    self.assertEqual(template.read_bytes(), original)
+                    self.assertEqual(shell.read_bytes(), original)
 
     def test_without_target_uses_auto_discovery(self):
         with tempfile.TemporaryDirectory() as temp_dir:
