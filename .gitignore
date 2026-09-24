@@ -20,7 +20,7 @@ dist/
 temp/
 .tmp-resume-pdf*.txt
 
-# Cursor 本地桥接（由 .cursor-plugin/install.* 生成，勿提交）
+# Cursor 本地桥接（由 .cursor-skills/install.* 生成，勿提交）
 .cursor/skills/
 
 # 本地交付物（/make-resume、/contributor 等生成的个人简历与笔记，勿提交）

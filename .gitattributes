@@ -4,8 +4,12 @@
 .trae-plugin/*.json text eol=lf
 .claude-plugin/*.json text eol=lf
 .opencode-plugin/*.json text eol=lf
+.qoder-plugin/*.json text eol=lf
 package.json text eol=lf
 .opencode-plugin/install-opencode.py text eol=lf
+.cursor-skills/*.sh text eol=lf
+.cursor-skills/*.ps1 text eol=lf
+.cursor-skills/*.md text eol=lf
 .workbuddy-plugin/*.sh text eol=lf
 .workbuddy-plugin/*.ps1 text eol=lf
 .workbuddy-plugin/*.md text eol=lf

@@ -80,13 +80,13 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 
 ## Installation
 
-ASu-skills works with Codex, Claude Code, Cursor, TraeWork, and Qoder, plus lightweight OpenCode and WorkBuddy bridges. All entry points share the same `skills/`, `assets/`, and `references/`; the entry catalog is maintained in `skills.registry.json` as the single source of truth and is regenerated/reconciled by `npm run sync:skills` (CI checks it with `--check`).
+ASu-skills works with Codex, Claude Code, TraeWork, and Qoder, plus lightweight Cursor, OpenCode, and WorkBuddy bridges. All entry points share the same `skills/`, `assets/`, and `references/`; the entry catalog is maintained in `skills.registry.json` as the single source of truth and is regenerated/reconciled by `npm run sync:skills` (CI checks it with `--check`).
 
 | Platform | Installation entry | After installation | Uninstall |
 | --- | --- | --- | --- |
 | Codex | Send the GitHub repository link to Codex and ask it to install the plugin | Start a new conversation and choose an entry from the `/` menu | Remove ASu-skills from Codex's plugin manager |
 | Claude Code | Run `/plugin marketplace add Hisn00w/ASu-skills` and `/plugin install asu-skills@asu` | Run `/reload-plugins` when prompted | Run `/plugin uninstall asu-skills` |
-| Cursor | [Read the installation guide](.cursor-plugin/install.md) | Start a new Agent chat and type `/` or `/contributor`, etc. | Remove the skill directories under the project `.cursor/skills/` or user `~/.cursor/skills/` |
+| Cursor | [Read the Skill bridge installation guide](.cursor-skills/install.md) | Start a new Agent chat and type `/` or `/contributor`, etc. | Remove the skill directories under the project `.cursor/skills/` or user `~/.cursor/skills/` |
 | TraeWork | Copy the repository to `~/.trae-cn/plugins/<publisher>/asu-skills/<version>/` | Restart TraeWork and choose an entry from the `/` menu | Delete the corresponding TraeWork plugin directory |
 | OpenCode | [Read the installation guide](.opencode-plugin/installation-guide.md) | Restart OpenCode or run `/reload-plugins` | Delete the installed skills and resource directories according to the installation method |
 | WorkBuddy | [Read the bridge installation guide](.workbuddy-plugin/install.md) | Restart WorkBuddy or refresh the skill list | Delete the corresponding directory or symlink under `~/.workbuddy/skills/` |
