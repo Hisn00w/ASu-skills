@@ -46,6 +46,22 @@ test('docs website catalog mirrors registry order and entry count', () => {
   assert.match(html, new RegExp(zhNum(names.length) + '个技能，覆盖求职的关键节点'));
 });
 
+test('Cursor installer catalogs mirror registry order', () => {
+  const reg = loadRegistry();
+  const names = reg.entries
+    .filter((e) => !e.excludeFrom || !e.excludeFrom.cursor)
+    .map((e) => e.name);
+  const shell = readFileSync(join(ROOT, '.cursor-skills', 'install.sh'), 'utf8');
+  const powershell = readFileSync(join(ROOT, '.cursor-skills', 'install.ps1'), 'utf8');
+  const shellMatch = shell.match(/SKILLS=\(([^)]*)\)/);
+  const powershellMatch = powershell.match(/\$skills\s*=\s*@\(([^)]*)\)/);
+
+  assert.ok(shellMatch, 'Cursor Bash installer needs a generated SKILLS array');
+  assert.ok(powershellMatch, 'Cursor PowerShell installer needs a generated skills array');
+  assert.deepEqual(shellMatch[1].trim().split(/\s+/), names);
+  assert.deepEqual([...powershellMatch[1].matchAll(/'([^']+)'/g)].map((match) => match[1]), names);
+});
+
 test('sync --check passes: every generated artifact is in sync', () => {
   const out = execFileSync(process.execPath, [syncScript, '--check'], { cwd: ROOT, encoding: 'utf8' });
   assert.match(out, /sync OK/);
@@ -60,6 +76,9 @@ test('generated catalog files use LF line endings', () => {
     '.opencode-plugin/plugin.json',
     'package.json',
     '.opencode-plugin/install-opencode.py',
+    '.cursor-skills/install.sh',
+    '.cursor-skills/install.ps1',
+    '.cursor-skills/install.md',
     '.workbuddy-plugin/install.sh',
     '.workbuddy-plugin/install.ps1',
     '.workbuddy-plugin/install.md',

@@ -67,12 +67,13 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 
 ## 安装
 
-ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
+ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 Cursor、OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
 
 | 平台        | 安装入口                                                                                 | 安装后操作                              | 卸载方式                                      |
 | ----------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | Codex       | 将 GitHub 仓库链接发给 Codex，并说明安装                                                 | 新建对话，从`/` 菜单选择入口             | 在 Codex 的插件管理中移除 ASu-skills          |
 | Claude Code | 执行`/plugin marketplace add Hisn00w/ASu-skills` 和 `/plugin install asu-skills@asu` | 按提示执行`/reload-plugins`              | 执行`/plugin uninstall asu-skills`            |
+| Cursor      | [查看 Skill bridge 安装说明](.cursor-skills/install.md)                                    | 新建 Agent 对话，输入 `/` 或 `/contributor` 等 | 删除项目 `.cursor/skills/` 或用户 `~/.cursor/skills/` 下对应目录 |
 | TraeWork    | 复制仓库到`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`                       | 重启 TraeWork，从`/` 菜单选择入口        | 删除对应的 TraeWork 插件目录                  |
 | OpenCode    | [查看安装指南](.opencode-plugin/installation-guide.md)                                    | 重启 OpenCode 或执行`/reload-plugins`    | 按安装方式删除对应的技能与资源目录            |
 | WorkBuddy   | [查看桥接安装说明](.workbuddy-plugin/install.md)                                          | 重启 WorkBuddy 或刷新技能列表            | 删除`~/.workbuddy/skills/`下对应目录或软链    |
