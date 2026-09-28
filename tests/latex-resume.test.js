@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { readFileSync, readdirSync, mkdtempSync, writeFileSync, rmSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -115,6 +115,32 @@ test('命令行渲染成功且不修改仓库母版', () => {
     assert.equal(result.status, 0, result.stderr);
     assert.match(readFileSync(outPath, 'utf8'), /\\begin\{document\}/);
     assert.equal(template(), before, '母版被修改');
+  } finally {
+    rmSync(temp, { recursive: true, force: true });
+  }
+});
+
+test('命令行从含空格的路径调用时仍正常执行', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'latex résumé test '));
+  try {
+    const dataPath = join(temp, 'data.json');
+    const outPath = join(temp, 'resume.tex');
+    writeFileSync(dataPath, read('assets', 'resume-data-template.json'));
+    // Symlink the script into a space-containing directory so process.argv[1]
+    // itself contains spaces — the exact scenario where the old
+    // `file://${process.argv[1]}` guard silently failed.  A symlink (not a
+    // copy) lets the script still resolve its repo-relative assets.
+    const scriptLink = join(temp, 'build-latex-resume.mjs');
+    symlinkSync(join(repoRoot, 'scripts', 'build-latex-resume.mjs'), scriptLink);
+
+    const result = spawnSync(process.execPath, [scriptLink, dataPath, outPath], {
+      cwd: repoRoot,
+      encoding: 'utf8',
+    });
+
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /已生成/, '含空格路径时脚本应正常输出');
+    assert.match(readFileSync(outPath, 'utf8'), /\\begin\{document\}/);
   } finally {
     rmSync(temp, { recursive: true, force: true });
   }
