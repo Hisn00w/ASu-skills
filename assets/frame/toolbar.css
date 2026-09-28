@@ -7,7 +7,11 @@
 .toolbar-control select { border:1px solid #9db0c4; border-radius:5px; background:#fff; color:#24466e; padding:6px 7px; font:inherit; }
 .toolbar-control input[type=color] { width:34px; height:30px; padding:2px; border:1px solid #9db0c4; border-radius:5px; background:#fff; cursor:pointer; }
 .resume-toolbar button[data-action=bold] { min-width:68px; }
+.resume-toolbar button[data-action=autofit][aria-pressed=true] { color:#fff; background:#315f98; border-color:#315f98; }
+.resume-toolbar button[data-action=autofit]:disabled { color:#8993a0; background:#f3f5f7; border-color:#cbd5df; cursor:not-allowed; }
 .resume-toolbar button[data-action=reset].armed { border-color:#dc2626; background:#dc2626; color:#fff; }
 .save-status { color:#64748b; font-size:12px; white-space:nowrap; }
+.fit-status { color:#64748b; font-size:12px; white-space:nowrap; }
+.fit-status.warn { color:#b45309; }
 
 @media print { .resume-toolbar { display:none !important; } }

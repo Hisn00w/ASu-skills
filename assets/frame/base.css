@@ -128,6 +128,15 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
 .variant-two-page .resume-page { min-height:1120px; }
 .variant-two-page .page-break { display:block; }
 
+/* “自动一页”按间距、行距、字号三档逐步收紧，只作用于单页模板。 */
+.resume-page[data-fit-spacing="tight"] .resume-header { padding-bottom:14px; }
+.resume-page[data-fit-spacing="tight"] .resume-section { margin-top:14px; }
+.resume-page[data-fit-spacing="tight"] .entry { margin-bottom:8px; }
+.resume-page[data-fit-spacing="tight"] .bullet-list li { margin:2px 0; }
+.resume-page[data-fit-spacing="tight"] .section-title { margin-bottom:7px; padding-bottom:4px; }
+.resume-page[data-fit-lh="tight"] { line-height:1.32; }
+.resume-page[data-fit-scale] > * { width:var(--resume-fit-width, 100%); zoom:var(--resume-fit-scale, 1); }
+
 @media screen and (max-width:720px) {
   body { padding:70px 8px 20px !important; font-size:13px; }
   .resume-toolbar { padding:8px; gap:5px; }
