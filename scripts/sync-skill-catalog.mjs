@@ -12,6 +12,8 @@
  *   - .opencode-plugin/plugin.json（skills.entries + 描述字段）
  *   - package.json 的 keywords
  *   - .opencode-plugin/install-opencode.py 的 SKILL_NAMES 与触发词输出
+ *   - .cursor-skills/install.sh / install.ps1 的技能数组、数量文案与输出
+ *   - .cursor-skills/install.md 的入口清单区
  *   - .workbuddy-plugin/install.sh / install.ps1 的技能数组、数量文案与输出
  *   - .workbuddy-plugin/install.md 的目录清单区
  *   - README.md / README_en.md 的入口总览区
@@ -71,6 +73,8 @@ const slashList = names.map((n) => '/' + n).join('、');
 const fnList = joinCn(entries.map((e) => e.zh.menuLabel));
 const prompts = entries.map((e) => e.zh.prompt);
 const keywords = uniq([...registry.keywordsBase, ...names]);
+const cursor = entries.filter((e) => !e.excludeFrom || !e.excludeFrom.cursor);
+const cursorNames = cursor.map((e) => e.name);
 const workbuddy = entries.filter((e) => !e.excludeFrom || !e.excludeFrom.workbuddy);
 const wbNames = workbuddy.map((e) => e.name);
 
@@ -228,6 +232,19 @@ function docsSkillCards() {
   }).join(NL);
 }
 
+function cursorIntro() {
+  const listed = cursorNames.map((n) => '`' + n + '`').join(' / ');
+  return 'ASu-skills 当前向 Cursor 桥接 ' + cursorNames.length + ' 个入口：' + listed + '。';
+}
+
+function cursorCopy() {
+  return '2. 将 `skills/` 下的' + joinCn(cursorNames.map((n) => '`' + n + '`')) + '目录整体复制到目标 `skills/` 目录。';
+}
+
+function cursorVerify() {
+  return '2. 新建 Agent 对话，输入 `/`，确认出现' + joinCn(cursorNames.map((n) => '`' + n + '`')) + '。';
+}
+
 function wbIntro() {
   const listed = wbNames.map((n) => '`' + n + '`').join(' / ');
   const lines = ['> 适用场景：WorkBuddy 用户想直接复用本仓库已有的 ' + wbNames.length + ' 个可桥接中文求职技能（' + listed + '），而无需等待完整移植。'];
@@ -260,12 +277,22 @@ function wbUninstall() {
 }
 
 const wbEchoTail = '  ' + wbNames.join(' / ');
+const cursorEchoTail = '  ' + cursorNames.map((n) => '/' + n).join('  ');
 const pySkillTuple = ['SKILL_NAMES = ('].concat(names.map((n) => '    "' + n + '",'), [')']).join(NL);
 const pyEcho = 'TRIGGER_WORDS = "' + names.map((n) => '/' + n).join('  ') + '"';
 
 const regionTargets = [
   { rel: '.opencode-plugin/install-opencode.py', kind: 'hash', id: 'opencode.skills', body: pySkillTuple },
   { rel: '.opencode-plugin/install-opencode.py', kind: 'hash', id: 'opencode.echo', body: pyEcho },
+  { rel: '.cursor-skills/install.sh', kind: 'hash', id: 'cursor.sh.header', body: ['# ASu-skills → Cursor Skill bridge（macOS / Linux / Git Bash）', '# 把仓库原版 skills/ 下可桥接的 ' + cursorNames.length + ' 个技能软链到 Cursor Agent Skills 目录'].join(NL) },
+  { rel: '.cursor-skills/install.sh', kind: 'hash', id: 'cursor.sh.skills', body: 'SKILLS=(' + cursorNames.join(' ') + ')' },
+  { rel: '.cursor-skills/install.sh', kind: 'hash', id: 'cursor.sh.echo', body: ['echo ""', 'echo "Done. 在 Cursor 中新建 Agent 对话后可使用："', 'echo "' + cursorEchoTail + '"'].join(NL) },
+  { rel: '.cursor-skills/install.ps1', kind: 'hash', id: 'cursor.ps1.header', body: '# 把仓库原版 skills/ 下可桥接的 ' + cursorNames.length + ' 个技能桥接到 Cursor Agent Skills 目录' },
+  { rel: '.cursor-skills/install.ps1', kind: 'hash', id: 'cursor.ps1.skills', body: "$skills   = @('" + cursorNames.join("', '") + "')" },
+  { rel: '.cursor-skills/install.ps1', kind: 'hash', id: 'cursor.ps1.echo', body: ['Write-Host ""', 'Write-Host "Done. Start a new Cursor Agent chat to use:"', 'Write-Host "' + cursorEchoTail + '"'].join(NL) },
+  { rel: '.cursor-skills/install.md', kind: 'html', id: 'cursor.md.intro', body: cursorIntro() },
+  { rel: '.cursor-skills/install.md', kind: 'html', id: 'cursor.md.copy', body: cursorCopy() },
+  { rel: '.cursor-skills/install.md', kind: 'html', id: 'cursor.md.verify', body: cursorVerify() },
   { rel: '.workbuddy-plugin/install.sh', kind: 'hash', id: 'wb.sh.header', body: ['# ASu-skills → WorkBuddy 轻量安装入口（macOS / Linux）', '# 把仓库原版 skills/ 下可桥接的 ' + wbNames.length + ' 个技能软链到 ~/.workbuddy/skills/'].join(NL) },
   { rel: '.workbuddy-plugin/install.sh', kind: 'hash', id: 'wb.sh.skills', body: 'SKILLS=(' + wbNames.join(' ') + ')' },
   { rel: '.workbuddy-plugin/install.sh', kind: 'hash', id: 'wb.sh.echo', body: ['echo ""', 'echo "Done. 重启 WorkBuddy（或刷新技能列表）后即可触发："', 'echo "' + wbEchoTail + '"'].join(NL) },
@@ -304,7 +331,7 @@ for (const e of entries) {
     if (!e[a] || typeof e[a][b] !== 'string' || !e[a][b].trim()) problems.push('entry ' + e.name + ' 缺少 ' + field);
   }
   if (e.site && !['cyan', 'violet', 'gold', 'pink', 'blue'].includes(e.site.color)) problems.push('entry ' + e.name + ' 的 site.color 不受支持');
-  if (e.excludeFrom && !Object.keys(e.excludeFrom).every((h) => h === 'workbuddy')) problems.push('entry ' + e.name + ' 的 excludeFrom 含未知宿主');
+  if (e.excludeFrom && !Object.keys(e.excludeFrom).every((h) => ['cursor', 'workbuddy'].includes(h))) problems.push('entry ' + e.name + ' 的 excludeFrom 含未知宿主');
 }
 for (const t of regionTargets) {
   const text = read(t.rel);
