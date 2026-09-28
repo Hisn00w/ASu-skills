@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readdirSync, readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { readdirSync, readFileSync, mkdtempSync, writeFileSync, rmSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -67,6 +67,29 @@ test('make-resume default ASu template saves HTML and hides the photo placeholde
   assert.match(html, /\.profile-photo-slot\.has-photo\s*\{[^}]*border-color:\s*transparent/);
   assert.match(html, /@media print\s*\{[\s\S]*?\.profile-photo-slot\s*\{[^}]*border-color:\s*transparent/);
   assert.match(html, /\.profile-photo-slot::after, \.profile-photo-slot \.photo-placeholder\s*\{\s*display:\s*none !important/);
+});
+
+test('build-asu-resume rejects a symlink alias of the source template', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'asu-guard-'));
+  const templatePath = join(repoRoot, 'assets', 'asu-resume', 'template.html');
+  const before = readFileSync(templatePath, 'utf8');
+  try {
+    const shell = join(temp, 'content.html');
+    writeFileSync(shell, before);
+    const alias = join(temp, 'alias.html');
+    symlinkSync(templatePath, alias);
+
+    const result = spawnSync(process.execPath, ['scripts/build-asu-resume.mjs', shell, alias], {
+      cwd: repoRoot,
+      encoding: 'utf8',
+    });
+
+    assert.notEqual(result.status, 0, 'symlink alias should be rejected');
+    assert.match(result.stderr, /覆盖内容壳或仓库母版/);
+    assert.equal(readFileSync(templatePath, 'utf8'), before, 'source template must not be overwritten');
+  } finally {
+    rmSync(temp, { recursive: true, force: true });
+  }
 });
 
 test('copied user shells build with shared functionality without modifying the mother', () => {
