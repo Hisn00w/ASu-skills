@@ -69,6 +69,14 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 
 ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 Cursor、OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
 
+使用 npm CLI 可以一次安装九个技能及其共享资源。包正式发布前，也可以直接从 GitHub 运行：
+
+```bash
+npx github:Hisn00w/ASu-skills install --codex
+```
+
+发布到 npm 后可改用 `npx asu-skills install --codex`。CLI 默认安装到 `~/.agents/skills`；也支持 `--claude-code`、`--cursor`、`--opencode`、`--workbuddy`、`--project`、`--dry-run` 和 `doctor`。运行 `npx asu-skills --help` 查看完整参数。遇到同名但不属于 ASu-skills 的技能目录时，安装会停止；请先备份，确认后再使用 `--force`。
+
 | 平台        | 安装入口                                                                                 | 安装后操作                              | 卸载方式                                      |
 | ----------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | Codex       | 将 GitHub 仓库链接发给 Codex，并说明安装                                                 | 新建对话，从`/` 菜单选择入口             | 在 Codex 的插件管理中移除 ASu-skills          |
