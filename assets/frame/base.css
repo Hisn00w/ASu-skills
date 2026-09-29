@@ -148,14 +148,18 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
   .variant-split .photo-frame { position:static; }
   .variant-split .identity { padding-right:0; }
 }
-@page { size: A4; margin: 0; }
+/* 元素 padding 只在盒子的首/尾片段生效，多页时第 2 页起会丢失上下留白，
+   因此纸张留白交给 @page margin（与原本 padding 数值一致，单页输出不变）。
+   需要不同页边距的变体使用命名页：@page <name> + page: <name>。 */
+@page { size: A4; margin: 10mm 12mm; }
+@page centered-page { size: A4; margin: 7mm 10mm 8mm; }
 @media print {
   html { background:#fff; }
   body { padding:0 !important; background:#fff; font-family:Arial, "Microsoft YaHei", "Noto Sans CJK SC", "SimSun", "SimHei", "PingFang SC", "Hiragino Sans GB", sans-serif; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .resume-toolbar { display:none !important; }
-  .resume-page { width:100%; min-height:auto; margin:0; padding:10mm 12mm 10mm; box-shadow:none; font-family:inherit; }
+  .resume-page { width:100%; min-height:auto; margin:0; padding:0; box-shadow:none; font-family:inherit; }
   .photo-frame { border-color:transparent; padding:0; }
-  .variant-compact .resume-page { padding:10mm 12mm 10mm; }
+  .variant-compact .resume-page { padding:0; }
   body:not(.variant-two-page) { font-size:11.5px; line-height:1.36; }
   body:not(.variant-two-page) .resume-section { margin-top:12px; }
   body:not(.variant-two-page) .entry { margin-bottom:6px; }
@@ -167,7 +171,7 @@ body { margin:0; padding:76px 18px 42px !important; color:var(--ink); font-famil
   body.variant-two-page .bullet-list li { margin:1px 0; }
   body.variant-two-page .section-title { margin-bottom:7px; padding-bottom:4px; }
   body.variant-centered:not(.variant-two-page) { font-size:10.5px; line-height:1.32; }
-  body.variant-centered:not(.variant-two-page) .resume-page { padding:7mm 10mm 8mm; }
+  body.variant-centered:not(.variant-two-page) .resume-page { padding:0; page: centered-page; }
   body.variant-centered:not(.variant-two-page) .resume-section { margin-top:8px; }
   .page-break { break-before:page; page-break-before:always; }
 }
