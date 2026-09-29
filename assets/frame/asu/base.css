@@ -66,3 +66,10 @@
     .code { padding: 0 2px; border-radius: 2px; background: #eef0f3; font-family: "Cascadia Mono", Consolas, monospace; font-size: .9em; }
     .muted { color: var(--muted); }
     .small { font-size: 9pt; }
+    .sheet[data-fit-spacing="tight"] .section { margin-top: 5px; }
+    .sheet[data-fit-spacing="tight"] .section-title { margin-bottom: 2px; padding-bottom: 1px; }
+    .sheet[data-fit-spacing="tight"] .company { margin: 4px 0 2px; padding-top: 3px; padding-bottom: 3px; }
+    .sheet[data-fit-spacing="tight"] .project { margin: 2px 0; }
+    .sheet[data-fit-spacing="tight"] li { margin: 0; }
+    .sheet[data-fit-lh="tight"] { line-height: 1.24; }
+    .sheet[data-fit-scale] > * { width: var(--resume-fit-width, 100%); zoom: var(--resume-fit-scale, 1); }

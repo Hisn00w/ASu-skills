@@ -72,6 +72,8 @@
   const colorInput = document.querySelector('[data-action="color"]');
   const boldButton = document.querySelector('[data-action="bold"]');
   const photoButton = document.querySelector('[data-action="photo"]');
+  const autofitButton = document.querySelector('[data-action="autofit"]');
+  const fitStatus = document.querySelector('[data-fit-status]');
   const saveButton = document.querySelector('[data-action="save"]');
   const pdfButton = document.querySelector('[data-action="pdf"]');
   const resetButton = document.querySelector('[data-action="reset"]');
@@ -308,6 +310,157 @@
     refreshLocalFontOptions();
     setToolStatus('已清除本地字体');
   };
+
+  const initAutofit = () => {
+    if (!autofitButton || !fitStatus) return;
+    const isSinglePage = roots.length === 1 && !document.body.classList.contains('variant-two-page');
+    if (!isSinglePage) {
+      autofitButton.disabled = true;
+      autofitButton.textContent = '自动一页（双页不可用）';
+      autofitButton.title = '双页模板保留原分页，不启用自动一页';
+      fitStatus.textContent = '双页模板';
+      return;
+    }
+
+    const MIN_SCALE = 0.9;
+    const TOL = 1;
+    const A4_HEIGHT_PX = (297 * 96) / 25.4;
+    let autofitOn = root.dataset.autofit === 'true';
+    let fitSuppress = false;
+    let fitTimer = null;
+
+    const measurePage = () => {
+      const style = getComputedStyle(root);
+      const paddingTop = parseFloat(style.paddingTop) || 0;
+      const paddingBottom = parseFloat(style.paddingBottom) || 0;
+      const maxHeight = A4_HEIGHT_PX - paddingTop - paddingBottom;
+      const rootRect = root.getBoundingClientRect();
+      const contentTop = rootRect.top + paddingTop;
+      const bottoms = Array.from(root.querySelectorAll('*'))
+        .filter((element) => {
+          const elementStyle = getComputedStyle(element);
+          const rect = element.getBoundingClientRect();
+          return elementStyle.display !== 'none'
+            && elementStyle.visibility !== 'hidden'
+            && elementStyle.position !== 'fixed'
+            && rect.width > 0
+            && rect.height > 0;
+        })
+        .map((element) => {
+          const marginBottom = parseFloat(getComputedStyle(element).marginBottom) || 0;
+          return element.getBoundingClientRect().bottom + marginBottom;
+        });
+      const used = bottoms.length ? Math.max(...bottoms) - contentTop : 0;
+      return { maxHeight, used, overflow: used - maxHeight };
+    };
+    const forceLayout = () => { void root.offsetHeight; };
+    const applyFit = (spacing, lineHeight, scale) => {
+      root.dataset.fitSpacing = spacing;
+      root.dataset.fitLh = lineHeight;
+      root.dataset.fitScale = String(scale);
+      root.style.setProperty('--resume-fit-scale', String(scale));
+      root.style.setProperty('--resume-fit-width', `${100 / scale}%`);
+      forceLayout();
+    };
+    const resetFit = () => applyFit('normal', 'normal', 1);
+    const fillPercent = (measurement) => Math.round((Math.max(0, measurement.used) / measurement.maxHeight) * 100);
+    const report = (text, kind = 'ok') => {
+      fitStatus.textContent = text;
+      fitStatus.classList.toggle('warn', kind === 'warn');
+    };
+    const paintOverflow = (flag) => { root.dataset.fitOverflow = String(flag); };
+    const fitByScale = () => {
+      let low = MIN_SCALE;
+      let high = 1;
+      for (let index = 0; index < 14; index += 1) {
+        const middle = (low + high) / 2;
+        applyFit('tight', 'tight', middle);
+        if (measurePage().overflow <= TOL) low = middle;
+        else high = middle;
+      }
+      let scale = Math.round(low * 100) / 100;
+      applyFit('tight', 'tight', scale);
+      if (measurePage().overflow > TOL && scale > MIN_SCALE) {
+        scale = Math.max(MIN_SCALE, Math.round((scale - 0.01) * 100) / 100);
+        applyFit('tight', 'tight', scale);
+      }
+      return scale;
+    };
+    const autofit = () => {
+      if (fitSuppress) return;
+      fitSuppress = true;
+      try {
+        resetFit();
+        const defaultMeasurement = measurePage();
+        if (defaultMeasurement.overflow <= TOL) {
+          paintOverflow(false);
+          report(`已适配 · 占用 ${fillPercent(defaultMeasurement)}% · 默认排版`);
+          return;
+        }
+        applyFit('tight', 'normal', 1);
+        const spacingMeasurement = measurePage();
+        if (spacingMeasurement.overflow <= TOL) {
+          paintOverflow(false);
+          report(`已适配 · 压缩间距 · 占用 ${fillPercent(spacingMeasurement)}%`);
+          return;
+        }
+        applyFit('tight', 'tight', 1);
+        const lineHeightMeasurement = measurePage();
+        if (lineHeightMeasurement.overflow <= TOL) {
+          paintOverflow(false);
+          report(`已适配 · 压缩间距+行距 · 占用 ${fillPercent(lineHeightMeasurement)}%`);
+          return;
+        }
+        const scale = fitByScale();
+        const scaleMeasurement = measurePage();
+        if (scaleMeasurement.overflow <= TOL) {
+          paintOverflow(false);
+          report(`已适配 · 字号 ${Math.round(scale * 100)}% · 占用 ${fillPercent(scaleMeasurement)}%`);
+          return;
+        }
+        paintOverflow(true);
+        report(`仍溢出 ${Math.round(scaleMeasurement.overflow)}px · 建议精简内容或改为双页`, 'warn');
+      } finally {
+        fitSuppress = false;
+      }
+    };
+    const checkOverflowOnly = () => {
+      const measurement = measurePage();
+      const overflowing = measurement.overflow > TOL;
+      paintOverflow(overflowing);
+      report(overflowing
+        ? `超出单页 ${Math.round(measurement.overflow)}px · 可开启自动一页`
+        : `一页内 · 占用 ${fillPercent(measurement)}%`, overflowing ? 'warn' : 'ok');
+    };
+    const scheduleFit = () => {
+      if (fitSuppress) return;
+      window.clearTimeout(fitTimer);
+      fitTimer = window.setTimeout(autofitOn ? autofit : checkOverflowOnly, 400);
+    };
+    const updateButton = () => {
+      autofitButton.setAttribute('aria-pressed', String(autofitOn));
+      autofitButton.textContent = autofitOn ? '自动一页：开' : '自动一页';
+    };
+
+    autofitButton.addEventListener('click', () => {
+      autofitOn = !autofitOn;
+      root.dataset.autofit = String(autofitOn);
+      updateButton();
+      if (autofitOn) autofit();
+      else {
+        resetFit();
+        checkOverflowOnly();
+      }
+    });
+    const observer = new MutationObserver(scheduleFit);
+    observer.observe(root, { subtree: true, childList: true, characterData: true });
+    document.addEventListener('resume-change', scheduleFit);
+    updateButton();
+    const initialCheck = () => { if (autofitOn) autofit(); else checkOverflowOnly(); };
+    if (document.fonts?.ready) document.fonts.ready.then(initialCheck);
+    else initialCheck();
+  };
+  initAutofit();
 
   const suggestedHtmlName = () => {
     const currentName = decodeURIComponent(window.location.pathname.split('/').pop() || '');

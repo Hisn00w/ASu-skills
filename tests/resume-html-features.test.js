@@ -15,6 +15,8 @@ test('make-resume delivery HTML includes local save and photo-frame states', () 
   const css = read('assets', 'frame', 'base.css');
 
   assert.match(toolbar, /data-action="save"[^>]*>保存 HTML</);
+  assert.match(toolbar, /data-action="autofit"[^>]*>自动一页</);
+  assert.match(toolbar, /data-fit-status/);
   assert.match(toolbar, /data-action="font-size"/);
   assert.match(toolbar, /data-action="reset"/);
   assert.match(toolbar, /data-save-status/);
@@ -24,6 +26,9 @@ test('make-resume delivery HTML includes local save and photo-frame states', () 
   assert.match(editor, /link\.download = name/);
   assert.match(editor, /clone\.outerHTML/);
   assert.match(editor, /classList\.add\('has-photo'\)/);
+  assert.match(editor, /roots\.length === 1 && !document\.body\.classList\.contains\('variant-two-page'\)/);
+  assert.match(editor, /自动一页（双页不可用）/);
+  assert.match(editor, /const MIN_SCALE = 0\.9/);
   assert.match(css, /\.photo-frame\.has-photo\s*\{[^}]*border-color:transparent/);
   assert.match(css, /@media print\s*\{[\s\S]*?\.photo-frame\s*\{[^}]*border-color:transparent/);
 
@@ -62,6 +67,8 @@ test('make-resume default ASu template saves HTML and hides the photo placeholde
   assert.doesNotMatch(read('assets', 'frame', 'asu', 'editor.js'), /showSaveFilePicker|registerLocalFont|execCommand|contentStorage|saveContent|scheduleSave|fontSize|resetEditor|resetButton/);
 
   assert.match(html, /data-action="save"[^>]*>保存 HTML</);
+  assert.match(html, /data-action="autofit"[^>]*>自动一页</);
+  assert.match(html, /自动一页（双页不可用）/);
   assert.match(html, /showSaveFilePicker/);
   assert.match(html, /link\.download = name/);
   assert.match(html, /\.profile-photo-slot\.has-photo\s*\{[^}]*border-color:\s*transparent/);
@@ -110,6 +117,7 @@ test('copied user shells build with shared functionality without modifying the m
       assert.equal((html.match(/data-action="save"/g) || []).length, 2); // markup and its shared event binding
       assert.equal((html.match(/data-action="font-size"/g) || []).length, 2); // markup and its shared event binding
       assert.equal((html.match(/data-action="reset"/g) || []).length, 2); // markup and its shared event binding
+      assert.equal((html.match(/data-action="autofit"/g) || []).length, 2); // markup and its shared event binding
       assert.equal((html.match(/localStorage\.setItem\(contentStorageKey/g) || []).length, 1);
       assert.doesNotMatch(html, /@import|<link rel="stylesheet"/);
       assert.ok(html.replace(/\r\n/g, '\n').includes(read('assets', 'frame', 'editor.js').trim().replace(/\r\n/g, '\n')));
