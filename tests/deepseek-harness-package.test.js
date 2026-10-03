@@ -20,13 +20,13 @@ test('DeepSeek Harness package declares an installable bundle', () => {
 
 test('DeepSeek Harness package exposes display metadata and a valid icon', () => {
   const pkg = readJson('package.json');
-  assert.equal(pkg.icon, './assets/asu.png');
+  assert.equal(pkg.icon, './assets/asu-circle.png');
   assert.equal(pkg.exports['./locale/*.json'], './locale/*.json');
-  assert.equal(pkg.exports['./icon'], './assets/asu.png');
+  assert.equal(pkg.exports['./icon'], './assets/asu-circle.png');
   assert.ok(pkg.files.includes('locale/*.json'));
   assert.ok(pkg.files.includes('assets'));
 
-  const icon = readFileSync(join(repoRoot, 'assets', 'asu.png'));
+  const icon = readFileSync(join(repoRoot, 'assets', 'asu-circle.png'));
   assert.ok(icon.length > 0 && icon.length <= 256 * 1024, `icon must be <= 256 KiB, got ${icon.length}`);
   assert.deepEqual([...icon.subarray(0, 8)], [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 

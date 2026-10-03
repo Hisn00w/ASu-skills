@@ -4,7 +4,7 @@
   "description": "中文求职工作流 skills：开源贡献、AI 编程对话复盘、项目导学面经、简历提升、可编辑简历制作、岗位匹配、简历投递填写、面试准备和秋招进度管理（DeepSeek Harness 插件包）。",
   "license": "MIT",
   "type": "module",
-  "icon": "./assets/asu.png",
+  "icon": "./assets/asu-circle.png",
   "scripts": {
     "export:pdf": "node scripts/export-resume-pdf.mjs",
     "build:asu-resume": "node scripts/build-asu-resume.mjs",
@@ -22,7 +22,7 @@
     ".": "./lib/index.js",
     "./package.json": "./package.json",
     "./locale/*.json": "./locale/*.json",
-    "./icon": "./assets/asu.png"
+    "./icon": "./assets/asu-circle.png"
   },
   "files": [
     "locale/*.json",
