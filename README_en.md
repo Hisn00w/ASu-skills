@@ -82,6 +82,14 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 
 ASu-skills works with Codex, Claude Code, TraeWork, and Qoder, plus lightweight Cursor, OpenCode, and WorkBuddy bridges. All entry points share the same `skills/`, `assets/`, and `references/`; the entry catalog is maintained in `skills.registry.json` as the single source of truth and is regenerated/reconciled by `npm run sync:skills` (CI checks it with `--check`).
 
+The npm CLI installs all nine skills together with their shared resources. Before the package is published, it can run directly from GitHub:
+
+```bash
+npx github:Hisn00w/ASu-skills install --codex
+```
+
+After publication, use `npx asu-skills install --codex`. The default target is `~/.agents/skills`; explicit targets include `--claude-code`, `--cursor`, `--opencode`, and `--workbuddy`. The CLI also supports `--project`, `--dry-run`, and `doctor`; run `npx asu-skills --help` for the complete options. Installation stops if it finds same-named content that it does not manage. Back up that content before retrying with `--force`.
+
 | Platform | Installation entry | After installation | Uninstall |
 | --- | --- | --- | --- |
 | Codex | Send the GitHub repository link to Codex and ask it to install the plugin | Start a new conversation and choose an entry from the `/` menu | Remove ASu-skills from Codex's plugin manager |
