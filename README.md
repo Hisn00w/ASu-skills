@@ -40,6 +40,7 @@
   - [`/job-match`：岗位匹配分析](#job-match岗位匹配分析)
   - [`/job-apply`：简历投递填写](#job-apply简历投递填写)
 - [九个入口如何配合](#九个入口如何配合)
+- [生态 · 求职配套项目](#生态--求职配套项目)
 - [事实边界](#事实边界)
 - [文件结构](#文件结构)
 - [参与贡献](#参与贡献)
@@ -332,6 +333,10 @@ ASu-skills 同时支持 Codex、Claude Code、DeepSeek Harness Desktop、TraeWor
 
 组合使用多个入口、材料存在冲突或简历包含强主张时，可以复制 [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) 建立主张—证据账本。它让开源贡献、经历提升和简历文件共享同一份事实、确认状态与个人边界；详细规则见 [`skills/great-resume/references/claim-evidence-ledger.md`](skills/great-resume/references/claim-evidence-ledger.md)。
 想看同一个人的材料如何在各入口之间流转，可以阅读[端到端虚构求职案例](docs/end-to-end-fictional-case.md)。案例从课程项目和开源贡献出发，依次展示证据卡、经历改写、可编辑简历和投递进度表，并明确区分已完成、协作中与待补充状态。
+
+## 生态 · 求职配套项目
+
+- [**SHUAMONE 耍门**](https://github.com/ink7011/ai-pm-exam-games) — AI 产品求职的「诊断侧」补充：245 道原创概念题爬塔 + 十周 AI 公司剧情 RPG（免费网页游戏，另附对话式 Agent Skill）。先用刷题定位薄弱模块，再把结论交给 `/great-resume` 与 `/interview` 做表达与追问训练——先诊断，再表达。
 
 ## 事实边界
 
