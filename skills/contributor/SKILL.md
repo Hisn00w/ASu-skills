@@ -39,11 +39,20 @@ description: GitHub 开源贡献辅助技能：围绕目标岗位和技术栈发
 
 1. 在 GitHub 搜索与目标岗位、技术栈或用户指定方向匹配，且有近期维护迹象并允许外部贡献的项目。优先检查项目主页、默认分支活动、许可证、`CONTRIBUTING`、issue/PR 状态和明确的贡献入口；此阶段只读，不 fork、不 push。
 2. 从 issue、讨论、README、docs、examples、tests 和代码注释中寻找真实、范围清晰且能够在本地验证的问题。优先处理用户可以复现、项目确实需要、又不会牵涉大范围设计的改动；同时搜索提交历史和必要的 blame，确认上游默认分支尚未修复。撞车判定以目标 issue 的 linked PR（`gh api repos/<owner>/<repo>/issues/<N>/timeline`）和 open PR 全量标题（`gh pr list --state open`）为准，关键词搜索仅作补充，候选较多或标题含糊时再按拟改文件路径过滤；发现相同问题或相同方案的 PR 即按第 3 步降级或丢弃。
+
+   > 只读发现阶段的实测约束：
+   > - issue 检索里多个 `repo:` 限定符是 **AND 而非 OR**：把多个仓库写进同一次查询会返回 0 条，容易被误读成「这些项目都没有可做的 issue」。检索无结果或结果异常时，先核对限定符语义，再逐仓库检索。
+   > - `gh` 未认证时不必判定「做不了」：上面的只读发现可以完整走匿名 GitHub REST API。但边界要分清——**CLI 侧创建 fork 与开 PR 只有认证 API 一条路**（网页界面可手工完成），只读拉取和 push 可走 SSH；发现 `gh` 认证失效（例如 token 存在系统 keyring 而当前进程读不到）时，先向用户说明并给出 `gh auth login` 路径，不要默默降级成匿名。
+   > - 匿名请求有独立且更低的配额，且具体数值会调整，以 [GitHub 官方 rate limit 文档](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api) 为准；配额优先留给搜索接口，`raw.githubusercontent.com`、仓库 HTML 页和 `git clone` 不占该配额，读 `CONTRIBUTING`、`AGENTS.md` 和 CI 配置优先用它们。
+   > - 全局 `label:"good first issue"` 检索会混入疑似 AI agent 批量填报的仓库（标签含 `agent-ready`、`worker:<model>`，同一仓库短期内批量开 issue）。这是**需要进一步核验的筛选信号**，不是排除依据：先看开 issue 节奏、issue 质量与维护者是否回应，再决定取舍。
 3. 快速看一遍 `CONTRIBUTING` 和仓库里的代理说明；如果规则明确禁止 typo-only、drive-by documentation 或当前拟议的 PR 类型，标记为 `ineligible` 并丢弃，不进入待确认候选清单。如果规则要求先 claim issue、取得 maintainer approval 或先开 issue，则标记为 `blocked`，写明待满足的前置条件；在条件满足前不创建分支或 patch。只有项目规则不允许或目标明显不匹配时才使用 `ineligible`；满足前置条件本身如需外部写操作，也必须按第 5 步逐项确认。否则形成候选清单，写明目标仓库、问题、拟修改文件、验证方式和潜在影响。
+
+   > 贡献门槛不只看文档：`CONTRIBUTING.md` / `AGENTS.md` 之外的**应用级检查**只在真正开 PR 时才暴露，例如某仓库全文未提 CLA，PR 一开出来 `license/cla` 就 pending。
+   > 开 PR 前先读几条同仓库**历史 PR 的 checks 列表**（`gh pr checks <N> --repo <owner>/<repo>`），确认是否已有 CLA assistant（`license/cla`）、DCO bot 之类的强制项；文档没写不等于没有。
    为了让候选可以横向比较，记录 issue 创建时间、最近实质更新、当前状态、assignees、评论中的认领、相关 open/closed PR 以及当前上游代码证据。issue 时间较久、已有明确认领或相同方案的 PR、尚未取得仓库建议的 approval/assignment，或需要 GPU/专有服务才能复现或验证时，可适当降低优先级并标注风险。
 4. 每个候选在准备本地改动或 patch 前，都从当前上游基线创建独立专用分支；不得修改默认分支，也不得把下一份补丁堆叠到已有 PR 分支。随后在该分支上实际应用拟议的最小改动或 patch。提交前先检查仓库的 `CONTRIBUTING`、`.github/workflows/`、项目级工具配置以及项目级的 pre-commit 配置（存在时），根据仓库实际配置确定与当前改动相关的验证命令，再运行可执行的测试、lint、格式、构建或链接检查，并记录结果；纯文档小修至少检查 diff 和 Markdown，然后把完整 diff 展示给用户。
 5. fork、push、提交 PR 都是外部写操作。必须在执行前明确列出目标仓库、GitHub 账号、分支、文件和将产生的动作；首次提交 PR 时还必须展示拟议的完整标题和正文，以及完整代码 diff，并逐个等待用户确认。“找 N 个”“自动做”或“直接提”只授权准备候选和本地 diff，不授权批量写入。
-6. 每次只执行一个已确认的 PR。提交后应只读跟踪与当前改动相关的 CI checks、required checks、review 和合并状态，直到已触发的检查完成；以 GitHub 页面显示的状态为准。若检查失败，读取日志并区分代码问题、配置问题和外部环境阻塞，整理最小修复方案；后续 commit、push、评论或重新请求 review 仍按确认规则执行。相关 required checks 未完成或失败时，不汇报为“验证通过”或“PR 完成”。处理已有 PR 的 CI 或 review 代码反馈时，必须在该 PR 现有分支上继续工作，不得重新从上游基线创建分支或另开 PR；先说明要更新的 PR、分支、文件和 commit/push/PR 更新动作，应用补丁并展示更新后的完整 diff，再逐项等待新的明确确认。若只需评论或回复，先展示将发布的准确文本及其目标；若只需解决 thread，先列出将解决的 PR、thread 链接或文件行号和讨论摘要。以上任何外部写操作在未取得新的明确确认前都只记录建议、不执行。PR 合并后生成 `/great-resume` 素材，关闭或未合并的 PR 记录为“开源协作中”，不写成“已被采用”。
+6. 每次只执行一个已确认的 PR。提交后应只读跟踪与当前改动相关的 CI checks、required checks、review 和合并状态，直到已触发的检查完成；以 GitHub 页面显示的状态为准，并区分三种状态：`success`（或 `pass`）才是通过；`pending`、`queued` 是进行中，需要继续等待；`action_required` 是**尚未开始**（fork 首次贡献者的仓库 workflow 常见，需维护者点一次 Approve and run workflows），既不是通过也不是失败。三种状态都不能拿本地跑过的验证去填 CI 的结论。若检查失败，读取日志并区分代码问题、配置问题和外部环境阻塞，整理最小修复方案；后续 commit、push、评论或重新请求 review 仍按确认规则执行。相关 required checks 未完成或失败时，不汇报为“验证通过”或“PR 完成”。处理已有 PR 的 CI 或 review 代码反馈时，必须在该 PR 现有分支上继续工作，不得重新从上游基线创建分支或另开 PR；先说明要更新的 PR、分支、文件和 commit/push/PR 更新动作，应用补丁并展示更新后的完整 diff，再逐项等待新的明确确认。若只需评论或回复，先展示将发布的准确文本及其目标；若只需解决 thread，先列出将解决的 PR、thread 链接或文件行号和讨论摘要。以上任何外部写操作在未取得新的明确确认前都只记录建议、不执行。PR 合并后生成 `/great-resume` 素材，关闭或未合并的 PR 记录为“开源协作中”，不写成“已被采用”。
 
 可以连续准备多个项目，但外部写操作必须逐个确认。每个 PR 只解决一个清楚的小问题，标题和正文按目标仓库的语言写，不把同一段模板无脑群发。
 
