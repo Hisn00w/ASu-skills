@@ -200,6 +200,44 @@
         "color": "pink",
         "readmeAnchor": "offer校招进度管理"
       }
+    },
+    {
+      "name": "assessment",
+      "zh": {
+        "menuLabel": "笔试测评准备",
+        "prompt": "用 /assessment 准备笔试、在线测评或性格测评。",
+        "opencodeDetail": "识别测评类型，出题讲解、限时模拟与性格测评应对",
+        "deliverables": "测评类型判断、题型清单、例题详解与备考时间建议"
+      },
+      "en": {
+        "menu": "Assessment preparation",
+        "deliverables": "Identifies the assessment type, provides question lists, worked examples, and a study schedule"
+      },
+      "site": {
+        "title": "笔试测评",
+        "description": "识别测评类型，按岗位出题讲解并模拟限时训练。",
+        "color": "blue",
+        "readmeAnchor": "assessment笔试测评准备"
+      }
+    },
+    {
+      "name": "offer-decision",
+      "zh": {
+        "menuLabel": "Offer 决策",
+        "prompt": "用 /offer-decision 比较多个 Offer 并给出决策建议。",
+        "opencodeDetail": "拆解多 Offer 的薪资、成长、业务、稳定性并输出加权建议",
+        "deliverables": "Offer 对照表、加权决策建议与谈判要点"
+      },
+      "en": {
+        "menu": "Offer comparison",
+        "deliverables": "Builds a comparison table, a weighted recommendation, and negotiation points"
+      },
+      "site": {
+        "title": "Offer 决策",
+        "description": "拆解多 Offer 的关键维度，输出可复核的加权决策。",
+        "color": "pink",
+        "readmeAnchor": "offer-decisionoffer-对比决策"
+      }
     }
   ],
   "snippets": {

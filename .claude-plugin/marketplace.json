@@ -33,11 +33,13 @@
         "make-resume",
         "job-apply",
         "interview",
-        "offer"
+        "offer",
+        "assessment",
+        "offer-decision"
       ],
       "source": "./",
       "displayName": "ASu-skills",
-      "description": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer 完成中文求职工作流。",
+      "description": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer、/assessment、/offer-decision 完成中文求职工作流。",
       "category": "Productivity"
     }
   ]

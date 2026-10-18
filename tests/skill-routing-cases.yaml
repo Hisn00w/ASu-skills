@@ -167,3 +167,19 @@ cases:
   - prompt: "帮我把当前网页的姓名、教育经历和项目经历填好，最后停在提交前"
     expected: job-apply
     note: 明确要求操作当前网页并停在提交前，归 /job-apply 而非 /offer。
+
+  - prompt: "帮我准备明天要做的技术笔试，考算法和数据结构"
+    expected: assessment
+    note: 明确要求准备技术笔试，命中 /assessment。
+
+  - prompt: "收到北森性格测评链接，该怎么答"
+    expected: assessment
+    note: 性格测评应对，命中 /assessment 而非 /interview。
+
+  - prompt: "我拿到两个 offer，帮我比较一下薪资和发展"
+    expected: offer-decision
+    note: 多 Offer 对比决策，命中 /offer-decision。
+
+  - prompt: "帮我记录这个 offer 的状态和投递进度"
+    expected: offer
+    note: 边界 case：只记录状态归 /offer，比较取舍才归 /offer-decision。

@@ -1,6 +1,6 @@
 # ASu-skills → Cursor Skill bridge（Windows / PowerShell）
 # catalog:cursor.ps1.header:begin
-# 把仓库原版 skills/ 下可桥接的 9 个技能桥接到 Cursor Agent Skills 目录
+# 把仓库原版 skills/ 下可桥接的 11 个技能桥接到 Cursor Agent Skills 目录
 # catalog:cursor.ps1.header:end
 # 优先创建符号链接；失败时复制技能目录。
 
@@ -14,7 +14,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..')
 $src      = Join-Path $repoRoot 'skills'
 # catalog:cursor.ps1.skills:begin
-$skills   = @('contributor', 'evidence-recap', 'project-guide', 'great-resume', 'make-resume', 'job-match', 'job-apply', 'interview', 'offer')
+$skills   = @('contributor', 'evidence-recap', 'project-guide', 'great-resume', 'make-resume', 'job-match', 'job-apply', 'interview', 'offer', 'assessment', 'offer-decision')
 # catalog:cursor.ps1.skills:end
 
 if ($User) {
@@ -74,7 +74,7 @@ foreach ($s in $skills) {
 # catalog:cursor.ps1.echo:begin
 Write-Host ""
 Write-Host "Done. Start a new Cursor Agent chat to use:"
-Write-Host "  /contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-match  /job-apply  /interview  /offer"
+Write-Host "  /contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-match  /job-apply  /interview  /offer  /assessment  /offer-decision"
 # catalog:cursor.ps1.echo:end
 Write-Host "Target directory: $dst"
 

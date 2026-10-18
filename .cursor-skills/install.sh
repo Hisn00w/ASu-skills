@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # catalog:cursor.sh.header:begin
 # ASu-skills → Cursor Skill bridge（macOS / Linux / Git Bash）
-# 把仓库原版 skills/ 下可桥接的 9 个技能软链到 Cursor Agent Skills 目录
+# 把仓库原版 skills/ 下可桥接的 11 个技能软链到 Cursor Agent Skills 目录
 # catalog:cursor.sh.header:end
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$REPO_ROOT/skills"
 # catalog:cursor.sh.skills:begin
-SKILLS=(contributor evidence-recap project-guide great-resume make-resume job-match job-apply interview offer)
+SKILLS=(contributor evidence-recap project-guide great-resume make-resume job-match job-apply interview offer assessment offer-decision)
 # catalog:cursor.sh.skills:end
 
 USER_INSTALL=false
@@ -73,7 +73,7 @@ done
 # catalog:cursor.sh.echo:begin
 echo ""
 echo "Done. 在 Cursor 中新建 Agent 对话后可使用："
-echo "  /contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-match  /job-apply  /interview  /offer"
+echo "  /contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-match  /job-apply  /interview  /offer  /assessment  /offer-decision"
 # catalog:cursor.sh.echo:end
 echo "目标目录: $DST"
 

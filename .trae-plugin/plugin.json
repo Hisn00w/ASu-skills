@@ -25,14 +25,16 @@
     "make-resume",
     "job-apply",
     "interview",
-    "offer"
+    "offer",
+    "assessment",
+    "offer-decision"
   ],
-  "description": "中文求职工作流：开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备和校招进度管理。",
+  "description": "中文求职工作流：开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备、校招进度管理、笔试测评准备和Offer 决策。",
   "skills": "./skills/",
   "interface": {
     "displayName": "ASu-skills",
-    "shortDescription": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer 完成中文求职工作流",
-    "longDescription": "ASu-skills 将开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备和校招进度管理拆成九个可单独调用的 TraeWork skill，挂在同一个 asu-skills 插件下。",
+    "shortDescription": "用 /contributor、/evidence-recap、/project-guide、/great-resume、/make-resume、/job-match、/job-apply、/interview、/offer、/assessment、/offer-decision 完成中文求职工作流",
+    "longDescription": "ASu-skills 将开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备、校招进度管理、笔试测评准备和Offer 决策拆成11个可单独调用的 TraeWork skill，挂在同一个 asu-skills 插件下。",
     "developerName": "Hisn0w",
     "category": "Productivity",
     "capabilities": [
@@ -50,7 +52,9 @@
       "用 /job-match 对照目标 JD 与真实经历，判断岗位匹配和证据缺口。",
       "用 /job-apply 通过已连接的浏览器填写求职申请，并在提交前核对。",
       "用 /interview 根据简历预测面试问题并通过连续追问检查掌握程度。",
-      "用 /offer 记录我的秋招投递和进度。"
+      "用 /offer 记录我的秋招投递和进度。",
+      "用 /assessment 准备笔试、在线测评或性格测评。",
+      "用 /offer-decision 比较多个 Offer 并给出决策建议。"
     ],
     "brandColor": "#11A683",
     "composerIcon": "./assets/asu-circle.png",

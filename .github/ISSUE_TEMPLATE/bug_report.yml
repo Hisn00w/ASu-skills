@@ -35,6 +35,8 @@ body:
         - /job-apply 简历投递填写
         - /interview 面试准备
         - /offer 校招进度管理
+        - /assessment 笔试测评准备
+        - /offer-decision Offer 决策
 # catalog:issue.bug.options:end
         - 不涉及具体技能
     validations:

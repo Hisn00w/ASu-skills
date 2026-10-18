@@ -1,0 +1,4 @@
+interface:
+  display_name: "assessment"
+  short_description: "笔试与在线测评准备：识别测评类型，出题讲解、限时模拟与性格测评应对"
+  default_prompt: "用 $assessment 帮我准备即将到来的笔试/在线测评。"

@@ -3,7 +3,7 @@
 本目录提供**轻量安装脚本**，把 ASu-skills 原版 `skills/` 桥接到 WorkBuddy 的用户技能目录，**不修改原技能、不改动 LICENSE / README**。
 
 <!-- catalog:wb.md.intro:begin -->
-> 适用场景：WorkBuddy 用户想直接复用本仓库已有的 8 个可桥接中文求职技能（`contributor` / `evidence-recap` / `project-guide` / `great-resume` / `make-resume` / `job-match` / `interview` / `offer`），而无需等待完整移植。
+> 适用场景：WorkBuddy 用户想直接复用本仓库已有的 10 个可桥接中文求职技能（`contributor` / `evidence-recap` / `project-guide` / `great-resume` / `make-resume` / `job-match` / `interview` / `offer` / `assessment` / `offer-decision`），而无需等待完整移植。
 > 未纳入桥接：`job-apply`（依赖仓库根目录 scripts/ 下的 Kimi WebBridge 桥接脚本与浏览器扩展，纯技能目录桥接无法提供可执行环境）。
 <!-- catalog:wb.md.intro:end -->
 
@@ -57,10 +57,10 @@ pwsh .workbuddy-plugin/install.ps1
 ### 方式三：手动复制
 
 <!-- catalog:wb.md.copy:begin -->
-把仓库 `skills/` 下可桥接的 8 个技能目录整体复制到 `~/.workbuddy/skills/`：
+把仓库 `skills/` 下可桥接的 10 个技能目录整体复制到 `~/.workbuddy/skills/`：
 
 ```bash
-cp -r skills/contributor skills/evidence-recap skills/project-guide skills/great-resume skills/make-resume skills/job-match skills/interview skills/offer "$HOME/.workbuddy/skills/"
+cp -r skills/contributor skills/evidence-recap skills/project-guide skills/great-resume skills/make-resume skills/job-match skills/interview skills/offer skills/assessment skills/offer-decision "$HOME/.workbuddy/skills/"
 ```
 <!-- catalog:wb.md.copy:end -->
 
@@ -76,7 +76,7 @@ cp -r skills/contributor skills/evidence-recap skills/project-guide skills/great
 删除 `~/.workbuddy/skills/` 下对应的软链 / 目录即可：
 
 ```bash
-rm -rf "$HOME/.workbuddy/skills/contributor" "$HOME/.workbuddy/skills/evidence-recap" "$HOME/.workbuddy/skills/project-guide" "$HOME/.workbuddy/skills/great-resume" "$HOME/.workbuddy/skills/make-resume" "$HOME/.workbuddy/skills/job-match" "$HOME/.workbuddy/skills/interview" "$HOME/.workbuddy/skills/offer"
+rm -rf "$HOME/.workbuddy/skills/contributor" "$HOME/.workbuddy/skills/evidence-recap" "$HOME/.workbuddy/skills/project-guide" "$HOME/.workbuddy/skills/great-resume" "$HOME/.workbuddy/skills/make-resume" "$HOME/.workbuddy/skills/job-match" "$HOME/.workbuddy/skills/interview" "$HOME/.workbuddy/skills/offer" "$HOME/.workbuddy/skills/assessment" "$HOME/.workbuddy/skills/offer-decision"
 ```
 <!-- catalog:wb.md.uninstall:end -->
 

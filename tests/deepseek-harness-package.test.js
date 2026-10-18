@@ -43,5 +43,5 @@ test('DeepSeek Harness metadata stays aligned with the skill registry', () => {
   assert.equal(pkg.name, registry.name);
   assert.equal(pkg.license, registry.license);
   assert.equal(pkg.repository.url, `git+${registry.repository}.git`);
-  assert.equal(registry.entries.length, 9);
+  assert.equal(registry.entries.length, 11);
 });

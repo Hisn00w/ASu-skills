@@ -63,7 +63,7 @@ ASu is building a Harness project tailored to the job-search journey. We welcome
 [Check out the ASu Harness project on GitHub](https://github.com/Hisn00w/ASu-skills)
 
 <!-- catalog:readme.en.intro:begin -->
-ASu-skills is now a plugin pack. Installing it provides nine individually callable entry points:
+ASu-skills is now a plugin pack. Installing it provides eleven individually callable entry points:
 
 | Entry | Purpose | Primary deliverables |
 | --- | --- | --- |
@@ -76,6 +76,8 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 | `/job-apply` | Job-application autofill | Connects to a browser, fills an application, and stops for review before submission |
 | `/interview` | Interview preparation | Interview prediction, contract-driven drilling, evidence review, and targeted retry |
 | `/offer` | Campus recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
+| `/assessment` | Assessment preparation | Identifies the assessment type, provides question lists, worked examples, and a study schedule |
+| `/offer-decision` | Offer comparison | Builds a comparison table, a weighted recommendation, and negotiation points |
 <!-- catalog:readme.en.intro:end -->
 
 ## Installation

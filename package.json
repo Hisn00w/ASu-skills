@@ -55,7 +55,9 @@
     "make-resume",
     "job-apply",
     "interview",
-    "offer"
+    "offer",
+    "assessment",
+    "offer-decision"
   ],
   "engines": {
     "node": "^22.19.0 || >=24.0.0"
