@@ -200,6 +200,25 @@
         "color": "pink",
         "readmeAnchor": "offer校招进度管理"
       }
+    },
+    {
+      "name": "offer-decision",
+      "zh": {
+        "menuLabel": "Offer 决策",
+        "prompt": "用 /offer-decision 比较多个 Offer 并给出决策建议。",
+        "opencodeDetail": "拆解多 Offer 的薪资、成长、业务、稳定性并输出加权建议",
+        "deliverables": "Offer 对照表、加权决策建议与谈判要点"
+      },
+      "en": {
+        "menu": "Offer comparison",
+        "deliverables": "Builds a comparison table, a weighted recommendation, and negotiation points"
+      },
+      "site": {
+        "title": "Offer 决策",
+        "description": "拆解多 Offer 的关键维度，输出可复核的加权决策。",
+        "color": "pink",
+        "readmeAnchor": "offer-decisionoffer-对比决策"
+      }
     }
   ],
   "snippets": {

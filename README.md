@@ -3,7 +3,7 @@
 <div align="center">
   <img src="assets/asu-avatar-circle.png" width="180" height="180" alt="ASu-skills 图标">
   <h3>中文求职工作流插件</h3>
-  <p>用九个独立入口完成开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备和校招进度管理。</p>
+  <p>用十个独立入口完成开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备、校招进度管理和 Offer 对比决策。</p>
 </div>
 
 <div align="left">
@@ -29,7 +29,7 @@
 
 - [安装](#安装)
 - [第一次使用：从哪个入口开始](#第一次使用从哪个入口开始)
-- [九个 Skill](#九个入口如何配合)
+- [十个 Skill](#十个入口如何配合)
   - [`/contributor`：做真实的开源贡献](#contributor做真实的开源贡献)
   - [`/project-guide`：项目导学面经](#project-guide项目导学面经)
   - [`/great-resume`：简历提升](#great-resume简历提升)
@@ -39,7 +39,8 @@
   - [`/offer`：校招进度管理](#offer校招进度管理)
   - [`/job-match`：岗位匹配分析](#job-match岗位匹配分析)
   - [`/job-apply`：简历投递填写](#job-apply简历投递填写)
-- [九个入口如何配合](#九个入口如何配合)
+  - [`/offer-decision`：Offer 对比决策](#offer-decisionoffer-对比决策)
+- [十个入口如何配合](#十个入口如何配合)
 - [生态 · 求职配套项目](#生态--求职配套项目)
 - [事实边界](#事实边界)
 - [文件结构](#文件结构)
@@ -51,7 +52,7 @@
 - [Star History](#star-history)
 
 <!-- catalog:readme.zh.intro:begin -->
-ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的入口：
+ASu-skills 现在是一个插件包。安装后会提供10个可单独调用的入口：
 
 | 入口 | 用途 | 主要交付 |
 | --- | --- | --- |
@@ -64,6 +65,7 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 | `/job-apply` | 简历投递填写 | 连接浏览器自动填写求职申请，核对后停在提交前 |
 | `/interview` | 面试准备 | 面试预测、契约化追问、证据复盘和弱项复练 |
 | `/offer` | 校招进度管理 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪 |
+| `/offer-decision` | Offer 决策 | Offer 对照表、加权决策建议与谈判要点 |
 <!-- catalog:readme.zh.intro:end -->
 
 ## 安装
@@ -315,7 +317,21 @@ ASu-skills 同时支持 Codex、Claude Code、DeepSeek Harness Desktop、TraeWor
 
 登录、密码、短信验证码、邮箱验证码、MFA、通行密钥和 CAPTCHA 必须由用户完成。涉及个人资料输入、文件上传和最终提交时，ASu 会分别确认；不会读取 Cookie、令牌或密码，也不会绕过反爬和访问控制。
 
-## 九个入口如何配合
+## `/offer-decision`：Offer 对比决策
+
+`/offer-decision` 把「选哪个 Offer」从凭感觉变成可比较、可复核的决策。它把每个 Offer 拆成薪资结构、成长空间、业务与团队、稳定性、个人成本五个维度，区分可量化事实与个人偏好，由用户给维度加权，输出「选 A 放弃什么、选 B 放弃什么」的对照和谈判要点，而不是替你做决定。
+
+典型用法：
+
+```text
+/offer-decision
+
+我拿到两个实习 offer，帮我对比一下薪资结构、转正机会和成长空间，再告诉我哪些点可以跟 HR 谈。
+```
+
+薪资、福利等事实以 Offer 原文和用户陈述为准，缺失时标注「待确认」；不给「某公司值不值得去」的绝对判断。
+
+## 十个入口如何配合
 
 推荐按照下面的顺序使用：
 
@@ -327,7 +343,8 @@ ASu-skills 同时支持 Codex、Claude Code、DeepSeek Harness Desktop、TraeWor
 6. 用 `/job-match` 对照具体 JD 判断证据匹配、硬性门槛和投递优先级；
 7. 用 `/job-apply` 连接浏览器填写具体职位申请，并在提交前核对；
 8. 用 `/interview` 预测问题并通过追问确认简历内容经得住面试；
-9. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
+9. 用 `/offer` 记录投递、测评、面试和 Offer 状态；
+10. 用 `/offer-decision` 拿到多个 Offer 后对比薪资、成长与稳定性并做出决策。
 
 也可以在同一条需求里说明组合目标，例如：“先用 `/project-guide` 生成项目导学和面经，再用 `/great-resume` 提升经历，最后用 `/make-resume` 生成 HTML 简历”。
 

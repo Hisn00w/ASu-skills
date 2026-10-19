@@ -1,0 +1,4 @@
+interface:
+  display_name: "offer-decision"
+  short_description: "Offer 对比决策：拆解多 Offer 的薪资、成长、业务、稳定性并输出加权建议"
+  default_prompt: "用 $offer-decision 帮我比较手上的多个 Offer。"

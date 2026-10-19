@@ -25,9 +25,10 @@
     "make-resume",
     "job-apply",
     "interview",
-    "offer"
+    "offer",
+    "offer-decision"
   ],
-  "description": "中文求职工作流插件：开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备和校招进度管理。",
+  "description": "中文求职工作流插件：开源贡献、证据复盘、项目导学面经、简历提升、简历制作、岗位匹配、简历投递填写、面试准备、校招进度管理和Offer 决策。",
   "skills": {
     "path": "./skills",
     "entries": [
@@ -66,6 +67,10 @@
       {
         "name": "offer",
         "description": "校招进度管理：记录投递、面试、offer 状态"
+      },
+      {
+        "name": "offer-decision",
+        "description": "Offer 决策：拆解多 Offer 的薪资、成长、业务、稳定性并输出加权建议"
       }
     ]
   },
