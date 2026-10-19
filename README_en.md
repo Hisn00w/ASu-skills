@@ -5,7 +5,7 @@
 <div align="center">
   <img src="assets/asu-avatar-circle.png" width="180" height="180" alt="ASu-skills logo">
   <h3>A job-search workflow plugin for Chinese job seekers</h3>
-  <p>Nine standalone entry points for open-source contributions, AI coding conversation review, project interview prep, resume improvement, resume building, job matching, job-application autofill, interview preparation, and campus recruitment tracking.</p>
+  <p>Ten standalone entry points for open-source contributions, AI coding conversation review, project interview prep, resume improvement, resume building, job matching, job-application autofill, interview preparation, campus recruitment tracking, and offer comparison.</p>
 </div>
 
 
@@ -27,7 +27,7 @@
 <p align="center">
   <img src="assets/asu-skills-overview-landscape-v2.png" alt="ASu-skills partial workflow overview" width="1100">
   <br>
-  <sub>Selected entries are shown here; see below for the complete list of nine.</sub>
+  <sub>Selected entries are shown here; see below for the complete list of ten.</sub>
 </p>
 
 ## Contents
@@ -35,7 +35,7 @@
 - [Harness Project Update](#a-harness-project-update)
 - [Installation](#installation)
 - [First time: where to start](#first-time-where-to-start)
-- [Nine skills](#how-the-nine-entries-work-together)
+- [Ten skills](#how-the-ten-entries-work-together)
   - [`/contributor`: Make real open-source contributions](#contributor-make-real-open-source-contributions)
   - [`/project-guide`: Project Study Notes And Interview Answers](#project-guide-project-study-notes-and-interview-answers)
   - [`/great-resume`: Improve your experience](#great-resume-improve-your-experience)
@@ -45,7 +45,8 @@
   - [`/offer`: Campus recruitment progress management](#offer-campus-recruitment-progress-management)
   - [`/job-match`: Job-match analysis](#job-match-job-match-analysis)
   - [`/job-apply`: Job-application autofill](#job-apply-job-application-autofill)
-- [How the nine entries work together](#how-the-nine-entries-work-together)
+  - [`/offer-decision`: Offer comparison](#offer-decision-offer-comparison)
+- [How the ten entries work together](#how-the-ten-entries-work-together)
 - [Truthfulness boundaries](#truthfulness-boundaries)
 - [File structure](#file-structure)
 - [Contributing](#contributing)
@@ -63,7 +64,7 @@ ASu is building a Harness project tailored to the job-search journey. We welcome
 [Check out the ASu Harness project on GitHub](https://github.com/Hisn00w/ASu-skills)
 
 <!-- catalog:readme.en.intro:begin -->
-ASu-skills is now a plugin pack. Installing it provides nine individually callable entry points:
+ASu-skills is now a plugin pack. Installing it provides ten individually callable entry points:
 
 | Entry | Purpose | Primary deliverables |
 | --- | --- | --- |
@@ -76,6 +77,7 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 | `/job-apply` | Job-application autofill | Connects to a browser, fills an application, and stops for review before submission |
 | `/interview` | Interview preparation | Interview prediction, contract-driven drilling, evidence review, and targeted retry |
 | `/offer` | Campus recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
+| `/offer-decision` | Offer comparison | Builds a comparison table, a weighted recommendation, and negotiation points |
 <!-- catalog:readme.en.intro:end -->
 
 ## Installation
@@ -329,7 +331,21 @@ Use my confirmed resume to open this job application, fill the fields and resume
 
 The user must handle passwords, SMS/email codes, MFA, passkeys, and CAPTCHAs. ASu separately confirms personal-data input, file uploads, and final submission; it does not read cookies, tokens, or password storage, and does not bypass anti-bot or access controls.
 
-## How the nine entries work together
+## `/offer-decision`: Offer comparison
+
+`/offer-decision` turns "which offer should I take" from a gut feeling into a comparable, checkable decision. It breaks each offer into five dimensions — compensation structure, growth, business and team, stability, and personal costs — separates verifiable facts from personal preferences, lets you weight the dimensions, and returns what you give up with each option plus negotiation points, instead of deciding for you.
+
+Typical usage:
+
+```text
+/offer-decision
+
+I have two internship offers. Compare the compensation structure, conversion opportunity, and growth, and tell me what I can negotiate with HR.
+```
+
+Salary and benefits follow the offer letter and your own statements; missing data is marked "to confirm". It does not make absolute "is company X worth joining" judgments.
+
+## How the ten entries work together
 
 Recommended order:
 
@@ -341,7 +357,8 @@ Recommended order:
 6. Use `/job-match` to compare a specific JD with verified evidence, hard constraints, and application priority;
 7. Use `/job-apply` to connect a browser, fill one specific application, and review it before submission;
 8. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
-9. Use `/offer` to record the status of applications, assessments, interviews, and offers.
+9. Use `/offer` to record the status of applications, assessments, interviews, and offers;
+10. Use `/offer-decision` to compare multiple offers on compensation, growth, and stability before deciding.
 
 You can also state a combined goal in a single request, e.g.: “first use `/project-guide` to generate project study notes and interview answers, then `/great-resume` to improve the experience, and finally `/make-resume` to generate an HTML resume”.
 

@@ -3,7 +3,7 @@
 本目录提供 Cursor Agent Skills 的项目级与用户级桥接脚本，**不是 Cursor Plugin，也不包含 Plugin manifest**。脚本只负责把本仓库的 Skill 安装到 Cursor 识别的 `.cursor/skills/` 或 `~/.cursor/skills/`。
 
 <!-- catalog:cursor.md.intro:begin -->
-ASu-skills 当前向 Cursor 桥接 9 个入口：`contributor` / `evidence-recap` / `project-guide` / `great-resume` / `make-resume` / `job-match` / `job-apply` / `interview` / `offer`。
+ASu-skills 当前向 Cursor 桥接 10 个入口：`contributor` / `evidence-recap` / `project-guide` / `great-resume` / `make-resume` / `job-match` / `job-apply` / `interview` / `offer` / `offer-decision`。
 <!-- catalog:cursor.md.intro:end -->
 
 ## 前置条件
@@ -58,7 +58,7 @@ PowerShell 会优先创建符号链接；Windows 未开启开发者模式或缺�
 
 1. 在仓库根目录创建 `.cursor/skills/`，或者在用户目录创建 `~/.cursor/skills/`（Windows 为 `%USERPROFILE%\.cursor\skills\`）。
 <!-- catalog:cursor.md.copy:begin -->
-2. 将 `skills/` 下的`contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview`和`offer`目录整体复制到目标 `skills/` 目录。
+2. 将 `skills/` 下的`contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview`、`offer`和`offer-decision`目录整体复制到目标 `skills/` 目录。
 <!-- catalog:cursor.md.copy:end -->
 3. 保持 `skills/<name>/SKILL.md` 结构不变，重新打开 Cursor 工作区或新建 Agent 对话。
 
@@ -84,7 +84,7 @@ PowerShell 会优先创建符号链接；Windows 未开启开发者模式或缺�
 
 1. 在 Cursor 中打开安装目标所在的工作区；使用完整工作流时应打开 ASu-skills 仓库根目录。
 <!-- catalog:cursor.md.verify:begin -->
-2. 新建 Agent 对话，输入 `/`，确认出现`contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview`和`offer`。
+2. 新建 Agent 对话，输入 `/`，确认出现`contributor`、`evidence-recap`、`project-guide`、`great-resume`、`make-resume`、`job-match`、`job-apply`、`interview`、`offer`和`offer-decision`。
 <!-- catalog:cursor.md.verify:end -->
 3. 触发一个不依赖根目录资源的入口，例如 `/great-resume`，确认 Agent 能读取对应 `SKILL.md`。
 4. 验证完整能力时，分别检查 `/make-resume` 能读取模板并运行构建脚本、`/offer` 能定位进度表资源、`/job-apply` 能定位 Kimi WebBridge 脚本。

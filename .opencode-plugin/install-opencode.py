@@ -21,10 +21,11 @@ SKILL_NAMES = (
     "job-apply",
     "interview",
     "offer",
+    "offer-decision",
 )
 # catalog:opencode.skills:end
 # catalog:opencode.echo:begin
-TRIGGER_WORDS = "/contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-match  /job-apply  /interview  /offer"
+TRIGGER_WORDS = "/contributor  /evidence-recap  /project-guide  /great-resume  /make-resume  /job-match  /job-apply  /interview  /offer  /offer-decision"
 # catalog:opencode.echo:end
 
 
