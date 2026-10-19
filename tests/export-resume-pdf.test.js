@@ -49,6 +49,11 @@ test('PDF export derives the output basename from an explicit input', () => {
   assert.equal(parseResumePdfArgs(['user files/resume.htm']).outPath, resolve('resume.pdf'));
 });
 
+test('PDF export replaces only the final extension of the input name', () => {
+  assert.equal(parseResumePdfArgs(['简历.html.html']).outPath, resolve('简历.html.pdf'));
+  assert.equal(parseResumePdfArgs(['user files/resume']).outPath, resolve('resume.pdf'));
+});
+
 test('PDF export rejects the same input and output path', () => {
   assert.throws(
     () => parseResumePdfArgs(['resume.html', '--out', 'resume.html']),
