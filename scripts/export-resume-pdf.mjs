@@ -118,6 +118,8 @@ const fetchJson = async (url) => (await fetch(url)).json();
 
 async function main() {
   const { htmlPath, outPath, paperWidth, paperHeight, browserOverride } = parseResumePdfArgs(process.argv.slice(2));
+  if (!existsSync(htmlPath)) throw new Error(`HTML 输入文件不存在：${htmlPath}`);
+  if (!statSync(htmlPath).isFile()) throw new Error(`HTML 输入路径不是文件：${htmlPath}`);
   const browserPath = [browserOverride, ...BROWSERS].find((p) => p && existsSync(p));
   if (!browserPath) {
     throw new Error('未找到 Edge/Chrome。可用 --browser <path> 或环境变量 EDGE_PATH/CHROME_PATH 指定。');
