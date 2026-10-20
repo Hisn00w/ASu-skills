@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { linkSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, linkSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -135,3 +135,25 @@ test('PDF export CLI preserves the source when input and output are the same fil
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+
+for (const [kind, message] of [
+  ['missing', /HTML 输入文件不存在/],
+  ['directory', /HTML 输入路径不是文件/],
+]) {
+  test(`PDF export CLI rejects ${kind} input before launching a browser`, () => {
+    const directory = mkdtempSync(join(tmpdir(), 'resume-pdf-test-'));
+    const input = kind === 'missing' ? join(directory, 'missing.html') : directory;
+    const output = join(directory, 'output.pdf');
+    try {
+      const result = spawnSync(process.execPath, [script, input, '--out', output, '--browser', process.execPath], { encoding: 'utf8', timeout: 5000 });
+      assert.equal(result.error, undefined);
+      assert.equal(result.status, 1);
+      assert.match(result.stderr, message);
+      assert.equal(result.stdout, '');
+      assert.equal(existsSync(output), false);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  });
+}
