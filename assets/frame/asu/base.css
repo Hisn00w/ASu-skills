@@ -18,13 +18,6 @@
       body[data-page-mode="continuous"] { background: #fff; }
       body[data-page-mode="continuous"] .sheet { margin: 0 auto; box-shadow: none; }
     }
-    @media print {
-      .sheet { padding: 0; width: auto; min-height: 0; }
-      body[data-page-mode="paged"] .sheet { margin: 0; box-shadow: none; }
-      body[data-page-mode="continuous"] .sheet { margin: 0; box-shadow: none; }
-      .profile-photo-slot { border-color: transparent; background: transparent; cursor: default; }
-      .profile-photo-slot::after, .profile-photo-slot .photo-placeholder { display: none !important; }
-    }
     [contenteditable="true"]:focus { outline: 2px solid #b7caf3; outline-offset: 2px; }
     h1 { margin: 0 0 3px; font-family: "Microsoft YaHei", "Arial", sans-serif; font-size: 24pt; line-height: 1.08; font-weight: 700; }
     .header-grid { display: grid; grid-template-columns: minmax(0, 1fr) 28mm; gap: 8mm; align-items: start; }
@@ -73,3 +66,12 @@
     .sheet[data-fit-spacing="tight"] li { margin: 0; }
     .sheet[data-fit-lh="tight"] { line-height: 1.24; }
     .sheet[data-fit-scale] > * { width: var(--resume-fit-width, 100%); zoom: var(--resume-fit-scale, 1); }
+    /* 打印样式必须放在所有元素规则之后：与基础规则同优先级时后者胜出，
+       若提前声明，.profile-photo-slot 的虚线框与浅灰底色会在打印稿里残留。 */
+    @media print {
+      .sheet { padding: 0; width: auto; min-height: 0; }
+      body[data-page-mode="paged"] .sheet { margin: 0; box-shadow: none; }
+      body[data-page-mode="continuous"] .sheet { margin: 0; box-shadow: none; }
+      .profile-photo-slot { border-color: transparent; background: transparent; cursor: default; }
+      .profile-photo-slot::after, .profile-photo-slot .photo-placeholder { display: none !important; }
+    }
