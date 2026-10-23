@@ -94,6 +94,30 @@ test('缺省字段的整节不输出，不产生空标题', () => {
   assert.match(tex, /\\asuname\{张三\}/);
 });
 
+test('简历正文中的美元替换语法按原文保留，不复制母版内容', () => {
+  const text = "Bash $'hello'、JavaScript $`、替换字符串 $$ 和 $&";
+  for (const name of allTemplates()) {
+    const tex = renderResume(
+      { profile: { name: text }, skills: [text] },
+      readFileSync(join(templateDir, name), 'utf8'),
+    );
+    assert.ok(tex.includes(`\\asuname{${escapeLatex(text)}}`), `${name}：姓名被替换语法改写`);
+    assert.ok(tex.includes(`\\item ${escapeLatex(text)}`), `${name}：技能正文被替换语法改写`);
+    assert.equal((tex.match(/\\begin\{document\}/g) || []).length, 1, name);
+    assert.equal((tex.match(/\\end\{document\}/g) || []).length, 1, name);
+    assert.doesNotMatch(tex, /^% @[A-Z_]+$/m);
+  }
+});
+
+test('自定义导言区中的美元符号不被当成替换指令', () => {
+  const preamble = "\\newcommand{\\example}{ $$x$$ }\n% literal $& $` $'";
+  const tex = renderResume({ profile: { name: '示例候选人' } }, template(), preamble);
+  assert.ok(tex.includes(preamble));
+  assert.equal((tex.match(/\\begin\{document\}/g) || []).length, 1);
+  assert.equal((tex.match(/\\end\{document\}/g) || []).length, 1);
+  assert.doesNotMatch(tex, /^% @[A-Z_]+$/m);
+});
+
 test('缺少姓名时明确报错，母版缺少标记时明确报错', () => {
   assert.throws(() => renderResume({}, template()), /缺少 profile\.name/);
   assert.throws(() => renderResume({ profile: { name: '张三' } }, '\\documentclass{ctexart}'), /缺少构建标记/);

@@ -7,6 +7,7 @@
   "bin": {
     "asu-skills": "bin/asu-skills.js"
   },
+  "icon": "./assets/asu-circle-compressed.png",
   "scripts": {
     "export:pdf": "node scripts/export-resume-pdf.mjs",
     "build:asu-resume": "node scripts/build-asu-resume.mjs",
@@ -22,10 +23,13 @@
   "main": "./lib/index.js",
   "exports": {
     ".": "./lib/index.js",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./assets/asu-circle-compressed.png"
   },
   "files": [
     "bin",
+    "locale/*.json",
     "lib",
     "cordis.patch.yml",
     "skills",

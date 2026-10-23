@@ -40,6 +40,7 @@
   - [`/job-match`：岗位匹配分析](#job-match岗位匹配分析)
   - [`/job-apply`：简历投递填写](#job-apply简历投递填写)
 - [九个入口如何配合](#九个入口如何配合)
+- [生态 · 求职配套项目](#生态--求职配套项目)
 - [事实边界](#事实边界)
 - [文件结构](#文件结构)
 - [参与贡献](#参与贡献)
@@ -67,7 +68,7 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 
 ## 安装
 
-ASu-skills 同时支持 Codex、Claude Code、TraeWork 和 Qoder，另有 Cursor、OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
+ASu-skills 同时支持 Codex、Claude Code、DeepSeek Harness Desktop、TraeWork 和 Qoder，另有 Cursor、OpenCode 与 WorkBuddy 的轻量桥接入口。所有入口共用同一套 `skills/`、`assets/` 和 `references/`；入口清单以根目录 `skills.registry.json` 为单一事实源，由 `npm run sync:skills` 生成并对账（CI 以 `--check` 校验）。
 
 使用 npm CLI 可以一次安装九个技能及其共享资源。包正式发布前，也可以直接从 GitHub 运行：
 
@@ -81,6 +82,7 @@ npx github:Hisn00w/ASu-skills install --codex
 | ----------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
 | Codex       | 将 GitHub 仓库链接发给 Codex，并说明安装                                                 | 新建对话，从`/` 菜单选择入口             | 在 Codex 的插件管理中移除 ASu-skills          |
 | Claude Code | 执行`/plugin marketplace add Hisn00w/ASu-skills` 和 `/plugin install asu-skills@asu` | 按提示执行`/reload-plugins`              | 执行`/plugin uninstall asu-skills`            |
+| DeepSeek Harness Desktop | 在插件面板选择“添加插件”，粘贴 `https://github.com/Hisn00w/ASu-skills.git` 并安装 | 在插件面板启用 ASu-skills，新建会话后从`/` 菜单选择入口 | 在插件面板卸载 ASu-skills                     |
 | Cursor      | [查看 Skill bridge 安装说明](.cursor-skills/install.md)                                    | 新建 Agent 对话，输入 `/` 或 `/contributor` 等 | 删除项目 `.cursor/skills/` 或用户 `~/.cursor/skills/` 下对应目录 |
 | TraeWork    | 复制仓库到`~/.trae-cn/plugins/<publisher>/asu-skills/<version>/`                       | 重启 TraeWork，从`/` 菜单选择入口        | 删除对应的 TraeWork 插件目录                  |
 | OpenCode    | [查看安装指南](.opencode-plugin/installation-guide.md)                                    | 重启 OpenCode 或执行`/reload-plugins`    | 按安装方式删除对应的技能与资源目录            |
@@ -339,6 +341,10 @@ npx github:Hisn00w/ASu-skills install --codex
 
 组合使用多个入口、材料存在冲突或简历包含强主张时，可以复制 [`assets/career-claim-ledger-template.json`](assets/career-claim-ledger-template.json) 建立主张—证据账本。它让开源贡献、经历提升和简历文件共享同一份事实、确认状态与个人边界；详细规则见 [`skills/great-resume/references/claim-evidence-ledger.md`](skills/great-resume/references/claim-evidence-ledger.md)。
 想看同一个人的材料如何在各入口之间流转，可以阅读[端到端虚构求职案例](docs/end-to-end-fictional-case.md)。案例从课程项目和开源贡献出发，依次展示证据卡、经历改写、可编辑简历和投递进度表，并明确区分已完成、协作中与待补充状态。
+
+## 生态 · 求职配套项目
+
+- [**SHUAMONE 耍门**](https://github.com/ink7011/ai-pm-exam-games) — AI 产品求职的「诊断侧」补充：245 道原创概念题爬塔 + 十周 AI 公司剧情 RPG（免费网页游戏，另附对话式 Agent Skill）。先用刷题定位薄弱模块，再把结论交给 `/great-resume` 与 `/interview` 做表达与追问训练——先诊断，再表达。
 
 ## 事实边界
 

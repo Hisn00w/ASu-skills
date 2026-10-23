@@ -63,7 +63,7 @@ export const escapeUrl = (value) => String(value ?? '').replace(/([\\#%])/g, '\\
 
 const replaceRequired = (text, marker, replacement) => {
   if (!text.includes(marker)) throw new Error(`LaTeX 母版缺少构建标记：${marker}`);
-  return text.replace(marker, replacement);
+  return text.replace(marker, () => replacement);
 };
 
 const joinParts = (parts, separator) => parts.filter(Boolean).map(escapeLatex).join(separator);

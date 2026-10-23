@@ -17,3 +17,6 @@ package.json text eol=lf
 README.md text eol=lf
 README_en.md text eol=lf
 docs/index.html text eol=lf
+
+# LaTeX 母版与公共部件：构建脚本按 LF 解析源码行，统一 LF 保证跨平台检出一致
+assets/latex-resume/**/*.tex text eol=lf

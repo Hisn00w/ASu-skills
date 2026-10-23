@@ -46,7 +46,7 @@ export function parseResumePdfArgs(args) {
   });
   if (positionals.length > 1) throw new Error('只能指定一个 HTML 输入文件');
   const htmlPath = resolve(positionals[0] ?? 'assets/resume-template-editable.html');
-  const outPath = resolve(values.out ?? basename(htmlPath).replace(extname(htmlPath), '.pdf'));
+  const outPath = resolve(values.out ?? `${basename(htmlPath, extname(htmlPath))}.pdf`);
   if (pathsReferToSameFile(htmlPath, outPath)) throw new Error('PDF 输出不能指向 HTML 输入文件');
   return {
     htmlPath,
