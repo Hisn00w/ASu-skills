@@ -187,16 +187,16 @@
       "zh": {
         "menuLabel": "校招进度管理",
         "prompt": "用 /offer 记录我的秋招投递和进度。",
-        "opencodeDetail": "记录投递、面试、offer 状态",
-        "deliverables": "投递、测评、面试、Offer、拒信和招聘邮件跟踪"
+        "opencodeDetail": "记录投递、面试、offer 状态，比较多个 Offer 做决策",
+        "deliverables": "投递、测评、面试、Offer、拒信和招聘邮件跟踪，Offer 对比与谈判要点"
       },
       "en": {
         "menu": "Campus recruitment tracking",
-        "deliverables": "Tracks applications, assessments, interviews, offers, rejections, and recruiting emails"
+        "deliverables": "Tracks applications, assessments, interviews, offers, rejections, and recruiting emails; compares multiple offers and prepares negotiation points"
       },
       "site": {
         "title": "校招进度",
-        "description": "记录投递、测评、面试、Offer 和招聘邮件状态。",
+        "description": "记录投递、测评、面试、Offer 和招聘邮件状态，并比较多个 Offer 做决策。",
         "color": "pink",
         "readmeAnchor": "offer校招进度管理"
       }

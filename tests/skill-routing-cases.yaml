@@ -148,6 +148,10 @@ cases:
     expected: offer
     note: 边界 case：提到简历定稿，但动作是记录投递进展，归 /offer 而非 /make-resume。
 
+  - prompt: "我拿到两个 offer，帮我比较一下薪资结构和发展空间"
+    expected: offer
+    note: 边界 case：比较多个 Offer 属于 /offer 的比较与决策模式，不再单独设入口。
+
   - prompt: "请打开这个招聘链接，用我的简历填写申请表，先不要提交"
     expected: job-apply
     note: 典型浏览器填写求职申请请求，命中 /job-apply。

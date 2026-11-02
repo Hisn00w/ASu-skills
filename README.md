@@ -63,7 +63,7 @@ ASu-skills 现在是一个插件包。安装后会提供九个可单独调用的
 | `/job-match` | 岗位匹配 | 对照 JD 与真实经历，输出证据矩阵、硬性门槛和投递建议 |
 | `/job-apply` | 简历投递填写 | 连接浏览器自动填写求职申请，核对后停在提交前 |
 | `/interview` | 面试准备 | 面试预测、契约化追问、证据复盘和弱项复练 |
-| `/offer` | 校招进度管理 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪 |
+| `/offer` | 校招进度管理 | 投递、测评、面试、Offer、拒信和招聘邮件跟踪，Offer 对比与谈判要点 |
 <!-- catalog:readme.zh.intro:end -->
 
 ## 安装
@@ -99,6 +99,7 @@ ASu-skills 同时支持 Codex、Claude Code、DeepSeek Harness Desktop、TraeWor
 | 已有职位链接，需要填写招聘网站申请表           | `/job-apply`               |
 | 已约到面试，需要预测问题并查漏补缺             | `/interview`               |
 | 已开始投递，需要整理招聘邮件和后续进度         | `/offer`                   |
+| 手上有多个 Offer，需要比较和选择               | `/offer`（比较与决策模式） |
 
 也可以组合多个入口：
 
@@ -270,6 +271,22 @@ ASu-skills 同时支持 Codex、Claude Code、DeepSeek Harness Desktop、TraeWor
 
 ![校招进度表预览](assets/application-tracker-overview.svg)
 
+### 多个 Offer 的比较与决策
+
+同一个 `/offer` 也负责拿到 Offer 之后的比较与决策，不额外增加入口。它优先复用进度表里已经记录的公司、岗位、城市、薪资和福利，把每个 Offer 拆成薪资结构、成长空间、业务与团队、稳定性与风险、个人成本五个维度，再按统一的评分尺度和用户自己给定的权重逐项对照。
+
+评分规则有两条硬约束：每条分值必须能回指 Offer 原文、HR 回复或用户陈述，缺失信息标记为“待确认”并单独列出，不按 0 分参与加权；实习转正概率只引用 HR 明确说明或用户提供的数据，没有可靠数据时作为不确定因素单独分析，不让模型自行估算。
+
+默认交付包括 Offer 对照表、待确认清单、加权结果、放弃清单、不确定因素和谈判要点。完整流程见 [`skills/offer/references/offer-decision.md`](skills/offer/references/offer-decision.md)。
+
+典型用法：
+
+```text
+/offer
+
+我手上有两个 offer，帮我比较薪资结构、成长空间和通勤成本。权重我来定，缺失的信息单独列出来，不要替我估数。
+```
+
 ## `/job-match`：岗位匹配分析
 
 `/job-match` 把目标 JD 拆成硬性条件、核心能力和加分项，再与用户已经确认的简历、经历或主张—证据账本逐项对照。它区分“已经匹配”“做过但没写清”“证据不足”“真实缺口”和“待确认”，不会用关键词重合伪造一个精确匹配分数。
@@ -327,7 +344,7 @@ ASu-skills 同时支持 Codex、Claude Code、DeepSeek Harness Desktop、TraeWor
 6. 用 `/job-match` 对照具体 JD 判断证据匹配、硬性门槛和投递优先级；
 7. 用 `/job-apply` 连接浏览器填写具体职位申请，并在提交前核对；
 8. 用 `/interview` 预测问题并通过追问确认简历内容经得住面试；
-9. 用 `/offer` 记录投递、测评、面试和 Offer 状态。
+9. 用 `/offer` 记录投递、测评、面试和 Offer 状态；拿到多个 Offer 后，在同一个入口里切换到比较与决策模式。
 
 也可以在同一条需求里说明组合目标，例如：“先用 `/project-guide` 生成项目导学和面经，再用 `/great-resume` 提升经历，最后用 `/make-resume` 生成 HTML 简历”。
 
