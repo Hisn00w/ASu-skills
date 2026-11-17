@@ -413,7 +413,7 @@ asu-skills/
 │   ├── interview/              # /interview prediction, drilling & targeted retry
 │   ├── job-apply/              # /job-apply job-application autofill (browser bridge)
 │   ├── job-match/              # /job-match job-match analysis
-│   ├── make-resume/            # /make-resume resume building
+│   ├── make-resume/            # /make-resume resume building (scripts/ holds its build and PDF export scripts)
 │   ├── offer/                  # /offer campus recruitment tracking
 │   └── project-guide/          # /project-guide project study notes and interview answers
 ├── scripts/

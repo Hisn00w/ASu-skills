@@ -33,12 +33,12 @@ ASu 默认模板也内联同一份 `../frame/toolbar.html`、`toolbar.css` 和 `
 用户拿到的 `.html` 必须**自包含**（可单独打开、离线、打印、导出 PDF），解耦只发生在源码侧。
 
 ```bash
-node scripts/inline-template.mjs assets/templates-html/01-大厂极简简历模板.html out.html
+node skills/make-resume/scripts/inline-template.mjs assets/templates-html/01-大厂极简简历模板.html out.html
 # 或一次性内联全部壳文件
-node scripts/inline-template.mjs --all dist/templates
+node skills/make-resume/scripts/inline-template.mjs --all dist/templates
 ```
 
-inline 脚本会把 `../frame/base.css` 与 `toolbar.css` 内联进 `<head>`、注入 `../frame/toolbar.html` 与 `../frame/editor.js`、移除 `design-preview` 类。外框始终从仓库读取，支持放在用户目录中的内容壳副本。内联是确定性的，公共功能更新会改变产物，不再要求与历史产物逐字节等价。[scripts/validate_skills.py](../../scripts/validate_skills.py) 校验结构完整性；Node 回归测试检查 19 套模板共用同一编辑器及用户副本组装。
+inline 脚本会把 `../frame/base.css` 与 `toolbar.css` 内联进 `<head>`、注入 `../frame/toolbar.html` 与 `../frame/editor.js`、移除 `design-preview` 类。脚本随 skill 安装，按自身位置定位外框：仓库布局读取 `assets/frame/`，安装布局读取 skills 上一级目录的 `assets/asu/frame/`；支持放在用户目录中的内容壳副本。内联是确定性的，公共功能更新会改变产物，不再要求与历史产物逐字节等价。[scripts/validate_skills.py](../../scripts/validate_skills.py) 校验结构完整性；Node 回归测试检查 19 套模板共用同一编辑器及用户副本组装。
 
 **注意**：壳文件拷出仓库会断链（缺 `../frame/`）。请始终交付 inline 之后的文件，不要把壳文件直接交给用户。
 

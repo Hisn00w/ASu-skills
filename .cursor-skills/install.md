@@ -74,7 +74,7 @@ PowerShell 会优先创建符号链接；Windows 未开启开发者模式或缺�
 
 用户级目录只包含各 Skill 自身。无论使用软链还是 Windows 复制回退，都不会把仓库根目录的 `assets/`、`references/`、`scripts/` 一并安装到当前业务项目。因此，用户级安装可以让入口出现在所有项目中，但不能保证以下完整工作流在其他项目中运行：
 
-- `/make-resume`：缺少完整资源时只能使用 Skill 中约定的简洁 A4 后备方案，无法保证 ASu 模板、18 套模板、构建脚本和 PDF 导出。
+- `/make-resume`：构建脚本随 Skill 一起安装（`skills/make-resume/scripts/`），但缺少 `assets/` 下的模板资源（ASu 模板、18 套模板、预览图与示例照片），只能使用 Skill 中约定的简洁 A4 后备方案，无法保证模板复刻与 PDF 导出。
 - `/offer`：无法复用仓库根目录的求职进度表、预览图及邮件监控参考资料。
 - `/job-apply`：无法运行仓库根目录的 `scripts/kimi-webbridge.mjs`，因而不能执行依赖该桥接的浏览器填写流程。
 

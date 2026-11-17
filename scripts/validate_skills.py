@@ -643,7 +643,7 @@ def check_templates(report: Report) -> None:
     - assets/frame/ 公共部件存在（base.css / toolbar.css / toolbar.html / editor.js）；
     - 壳文件数量 == 18。
 
-    交付产物的一致性由 scripts/inline-template.mjs 的确定性内联保证，
+    交付产物的一致性由 skills/make-resume/scripts/inline-template.mjs 的确定性内联保证，
     不做产物与历史基准的比对。
     """
     templates_dir = REPO_ROOT / "assets" / "templates-html"

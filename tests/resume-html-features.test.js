@@ -39,7 +39,7 @@ test('make-resume delivery HTML includes local save and photo-frame states', () 
 
   const result = spawnSync(
     process.execPath,
-    ['scripts/inline-template.mjs', join('assets', 'templates-html', shells[0])],
+    ['skills/make-resume/scripts/inline-template.mjs', join('assets', 'templates-html', shells[0])],
     { cwd: repoRoot, encoding: 'utf8' },
   );
   assert.equal(result.status, 0, result.stderr);
@@ -52,7 +52,7 @@ test('make-resume default ASu template saves HTML and hides the photo placeholde
   const html = read('assets', 'asu-resume-template.html');
   const source = read('assets', 'asu-resume', 'template.html');
 
-  const result = spawnSync(process.execPath, ['scripts/build-asu-resume.mjs', '--check'], {
+  const result = spawnSync(process.execPath, ['skills/make-resume/scripts/build-asu-resume.mjs', '--check'], {
     cwd: repoRoot,
     encoding: 'utf8',
   });
@@ -86,7 +86,7 @@ test('build-asu-resume rejects a symlink alias of the source template', () => {
     const alias = join(temp, 'alias.html');
     symlinkSync(templatePath, alias);
 
-    const result = spawnSync(process.execPath, ['scripts/build-asu-resume.mjs', shell, alias], {
+    const result = spawnSync(process.execPath, ['skills/make-resume/scripts/build-asu-resume.mjs', shell, alias], {
       cwd: repoRoot,
       encoding: 'utf8',
     });
@@ -109,7 +109,7 @@ test('copied user shells build with shared functionality without modifying the m
       const shell = join(temp, 'content.html');
       const output = join(temp, 'delivery.html');
       writeFileSync(shell, source.replace(/<title>.*?<\/title>/, '<title>User content test</title>'));
-      const result = spawnSync(process.execPath, [template === 'asu' ? 'scripts/build-asu-resume.mjs' : 'scripts/inline-template.mjs', shell, output], { cwd: repoRoot, encoding: 'utf8' });
+      const result = spawnSync(process.execPath, [template === 'asu' ? 'skills/make-resume/scripts/build-asu-resume.mjs' : 'skills/make-resume/scripts/inline-template.mjs', shell, output], { cwd: repoRoot, encoding: 'utf8' });
       assert.equal(result.status, 0, result.stderr);
       const html = readFileSync(output, 'utf8');
       assert.match(html, /<title>User content test<\/title>/);

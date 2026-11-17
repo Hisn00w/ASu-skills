@@ -25,6 +25,8 @@ python .opencode-plugin/install-opencode.py --target /custom/opencode/skills
 
 安装脚本除复制 `skills/` 外，还会把共享 `assets/` 与 `references/` 安装到 skills 目录的上一级，分别保存为 `assets/asu/` 与 `references/asu/`。这样 `/make-resume` 和 `/offer` 能在 OpenCode 中继续定位模板与参考资料。
 
+`/make-resume` 的构建与 PDF 导出脚本位于 `skills/make-resume/scripts/`，随 skill 一起安装，无需额外复制。脚本按自身位置定位 `assets/asu/` 下的模板资源，可从任意工作目录调用；运行需要 Node.js（版本要求见根目录 `package.json`），PDF 自动导出还需要本机 Chrome/Edge。
+
 ## 方法 2：手动安装
 
 先 clone 并进入仓库：
@@ -44,7 +46,7 @@ xcopy /E /I "assets\*" "%USERPROFILE%\.config\opencode\assets\asu"
 xcopy /E /I "references\*" "%USERPROFILE%\.config\opencode\references\asu"
 ```
 
-`/I` 会将不存在的目标视为目录并创建；路径引号用于兼容包含空格的用户名。
+`/I` 会将不存在的目标视为目录并创建；路径引号用于兼容包含空格的用户名。构建脚本已在 `skills/make-resume/scripts/` 中，不必单独复制。
 
 **macOS / Linux（Bash / Zsh）：**
 
@@ -55,7 +57,17 @@ cp -r assets/* "$HOME/.config/opencode/assets/asu/"
 cp -r references/* "$HOME/.config/opencode/references/asu/"
 ```
 
-复制完成后重启 OpenCode。
+复制完成后重启 OpenCode。构建脚本已在 `skills/make-resume/scripts/` 中，不必单独复制。
+
+可从任意工作目录验证默认简历构建（macOS / Linux 示例；自定义安装时替换路径）：
+
+```bash
+node "$HOME/.config/opencode/skills/make-resume/scripts/build-asu-resume.mjs" \
+  "$HOME/.config/opencode/assets/asu/asu-resume/template.html" \
+  "$HOME/resume-check.html"
+```
+
+打开生成的 `resume-check.html`，应能看到编辑和保存工具栏。该命令不会修改模板母版；正式制作时先复制内容壳，在用户副本上修改。
 
 ## 方法 3：通过 OpenCode 插件管理器（如果支持）
 

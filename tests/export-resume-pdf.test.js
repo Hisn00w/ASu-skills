@@ -6,9 +6,9 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 
-import { parseResumePdfArgs } from '../scripts/export-resume-pdf.mjs';
+import { parseResumePdfArgs } from '../skills/make-resume/scripts/export-resume-pdf.mjs';
 
-const script = fileURLToPath(new URL('../scripts/export-resume-pdf.mjs', import.meta.url));
+const script = fileURLToPath(new URL('../skills/make-resume/scripts/export-resume-pdf.mjs', import.meta.url));
 
 test('PDF export preserves the default input and A4 fallback dimensions', () => {
   assert.deepEqual(parseResumePdfArgs([]), {

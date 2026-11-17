@@ -6,9 +6,12 @@
 // 确定性组装为包含共享功能的 HTML，交付用户前必须经过它。
 //
 // 用法：
-//   node scripts/inline-template.mjs <壳文件> [输出文件]    # 无输出文件时打印到 stdout
-//   node scripts/inline-template.mjs --all <输出目录>        # 内联 assets/templates-html/ 下全部壳文件
-//   node scripts/inline-template.mjs --check <基准目录>      # 内联全部壳文件并与基准目录同名文件逐字节比对
+//   node skills/make-resume/scripts/inline-template.mjs <壳文件> [输出文件]  # 无输出文件时打印到 stdout
+//   node skills/make-resume/scripts/inline-template.mjs --all <输出目录>     # 内联资源目录下全部壳文件
+//   node skills/make-resume/scripts/inline-template.mjs --check <基准目录>   # 内联全部壳文件并与基准目录同名文件逐字节比对
+//
+// 脚本随 skill 安装，模板目录按布局自动定位：仓库为 assets/templates-html/，
+// 安装后为 skills 上一级目录的 assets/asu/templates-html/。
 //
 // 零依赖；内联是确定性的——交付统一走本脚本即得一致产物，不维护逐字节基准。
 // --check 可对任意基准目录做临时逐字节比对，改动 frame/ 后用于人工自测。
@@ -17,8 +20,12 @@ import os from 'node:os';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { resolveAssetsRoot } from './resolve-assets.mjs';
 
-const TEMPLATES_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'assets', 'templates-html');
+const TEMPLATES_DIR = path.join(
+  resolveAssetsRoot(path.dirname(fileURLToPath(import.meta.url))),
+  'templates-html',
+);
 const FRAME_LINK = '<link rel="stylesheet" href="../frame/base.css">';
 
 // 壳文件预览专用的 SHELL-ONLY 规则块（frame/base.css 末尾），交付时整块移除。
@@ -98,14 +105,14 @@ const [arg1, arg2] = process.argv.slice(2);
 
 if (arg1 === '--all') {
   if (!arg2) {
-    console.error('用法：node scripts/inline-template.mjs --all <输出目录>');
+    console.error('用法：node skills/make-resume/scripts/inline-template.mjs --all <输出目录>');
     process.exit(2);
   }
   inlineAll(arg2);
   console.log(`已内联 ${TEMPLATES_DIR} 下全部壳文件到 ${arg2}`);
 } else if (arg1 === '--check') {
   if (!arg2) {
-    console.error('用法：node scripts/inline-template.mjs --check <基准目录>');
+    console.error('用法：node skills/make-resume/scripts/inline-template.mjs --check <基准目录>');
     process.exit(2);
   }
   process.exit(checkAll(arg2) ? 0 : 1);

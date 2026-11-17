@@ -33,7 +33,8 @@ The following is not mandatory but is recommended:
   - The [First time: where to start](../README_en.md#first-time-where-to-start) section of the README still needs to be maintained manually (may be fixed later).
 - **HTML templates**: `assets/asu-resume/template.html` and the templates under `assets/templates-html/` are content shells. Their shared frame lives in `assets/frame/`:
   - Common features such as fonts, font size, colors, bold text, photos, auto-save, status messages, reset, saving HTML, and exporting PDF must be maintained only in the shared frame. `assets/frame/asu/` keeps only the ASu layout and page-mode extensions;
-  - Content shells can be opened directly as design drafts, but dependency-free deliverables must be generated with the corresponding inline script. Use `node scripts/inline-template.mjs --all dist/templates` for the 18 templates and `node scripts/build-asu-resume.mjs <user-content-shell> <output-html>` for ASu;
+  - Content shells can be opened directly as design drafts, but dependency-free deliverables must be generated with the corresponding inline script. Use `node skills/make-resume/scripts/inline-template.mjs --all dist/templates` for the 18 templates and `node skills/make-resume/scripts/build-asu-resume.mjs <user-content-shell> <output-html>` for ASu;
+  - The build and PDF export scripts live in `skills/make-resume/scripts/` so that they ship with the skill. They locate `assets/` (repository) or `assets/asu/` (installed layout) from their own location at runtime; do not move them back to the root `scripts/` directory;
   - After changing the shared frame or ASu extensions, run `npm run build:asu-resume` and `npm run check:asu-resume`.
 - **Static validation**: validate locally by following the checks in the CI workflow, or check the CI results when you submit.
 

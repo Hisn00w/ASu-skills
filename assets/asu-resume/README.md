@@ -7,10 +7,10 @@
 制作简历时，Agent 只读取内容壳，并在用户目录创建和修改副本，不读取外框代码。组装用户副本：
 
 ```bash
-node scripts/build-asu-resume.mjs user-content.html user-resume.html
+node skills/make-resume/scripts/build-asu-resume.mjs user-content.html user-resume.html
 ```
 
-脚本从仓库读取共享外框，不依赖用户目录中的 `frame/`。图片仍按输出 HTML 的相对路径引用，需同时交付对应的 `icons/`、`logos/` 或用户照片。不得覆盖仓库内容壳或母版。
+脚本随 skill 安装，按自身位置定位共享外框：仓库布局读取 `assets/frame/`，安装布局读取 skills 上一级目录的 `assets/asu/frame/`，不依赖用户目录中的 `frame/`。图片仍按输出 HTML 的相对路径引用，需同时交付对应的 `icons/`、`logos/` 或用户照片。不得覆盖仓库内容壳或母版。
 
 维护模板或公共功能后重新生成仓库母版并校验：
 

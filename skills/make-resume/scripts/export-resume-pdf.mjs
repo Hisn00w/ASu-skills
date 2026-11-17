@@ -3,7 +3,7 @@
  * 无头浏览器导出简历 PDF（preferCSSPageSize：让纸张尺寸以 CSS @page 为准）
  *
  * 用法：
- *   node scripts/export-resume-pdf.mjs [htmlPath] [--out out.pdf]
+ *   node skills/make-resume/scripts/export-resume-pdf.mjs [htmlPath] [--out out.pdf]
  *         [--paper-width 8.27] [--paper-height 11.69] [--browser <path>]
  *
  * 说明：

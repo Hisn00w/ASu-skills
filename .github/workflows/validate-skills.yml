@@ -87,12 +87,12 @@ jobs:
         run: |
           while IFS= read -r -d '' file; do
             node --check "$file"
-          done < <(find lib scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
+          done < <(find lib scripts skills -type f \( -name '*.js' -o -name '*.mjs' \) -print0)
 
       - name: Build all resume templates
         run: |
-          node scripts/build-asu-resume.mjs --check
-          node scripts/inline-template.mjs --all "$RUNNER_TEMP/templates"
+          node skills/make-resume/scripts/build-asu-resume.mjs --check
+          node skills/make-resume/scripts/inline-template.mjs --all "$RUNNER_TEMP/templates"
 
       - name: Check package contents
         run: npm pack --dry-run

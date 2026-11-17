@@ -401,7 +401,7 @@ asu-skills/
 │   ├── interview/              # /interview 面试预测、追问与复练
 │   ├── job-apply/              # /job-apply 简历投递填写（依赖浏览器桥接）
 │   ├── job-match/              # /job-match 岗位匹配分析
-│   ├── make-resume/            # /make-resume 简历制作
+│   ├── make-resume/            # /make-resume 简历制作（scripts/ 为其构建与 PDF 导出脚本）
 │   ├── offer/                  # /offer 校招进度管理
 │   └── project-guide/          # /project-guide 项目导学面经
 ├── scripts/

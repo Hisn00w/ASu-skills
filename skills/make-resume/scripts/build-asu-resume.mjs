@@ -3,15 +3,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { resolveAssetsRoot } from './resolve-assets.mjs';
 
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const sourceDir = path.join(repoRoot, 'assets', 'asu-resume');
-const frameDir = path.join(repoRoot, 'assets', 'frame', 'asu');
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+// 脚本位于 skills/make-resume/scripts/，随 skill 安装；资源目录按布局自动定位。
+const assetsRoot = resolveAssetsRoot(scriptDir);
+const sourceDir = path.join(assetsRoot, 'asu-resume');
+const frameDir = path.join(assetsRoot, 'frame', 'asu');
 const sharedDir = path.dirname(frameDir);
 const [input, destination] = process.argv.slice(2);
 const custom = input && input !== '--check';
-if (custom && !destination) throw new Error('用法：node scripts/build-asu-resume.mjs <用户内容壳> <输出 HTML>');
-const outputPath = custom ? path.resolve(destination) : path.join(repoRoot, 'assets', 'asu-resume-template.html');
+if (custom && !destination) throw new Error('用法：node skills/make-resume/scripts/build-asu-resume.mjs <用户内容壳> <输出 HTML>');
+const outputPath = custom ? path.resolve(destination) : path.join(assetsRoot, 'asu-resume-template.html');
 
 const pathKey = (p) => process.platform === 'win32' ? p.toLowerCase() : p;
 function sameFile(a, b) {
@@ -24,7 +27,7 @@ function sameFile(a, b) {
 }
 
 if (custom) {
-  const guardTargets = [path.resolve(input), path.join(sourceDir, 'template.html'), path.join(repoRoot, 'assets', 'asu-resume-template.html')];
+  const guardTargets = [path.resolve(input), path.join(sourceDir, 'template.html'), path.join(assetsRoot, 'asu-resume-template.html')];
   if (guardTargets.some((target) => sameFile(outputPath, target))) {
     throw new Error('用户输出不能覆盖内容壳或仓库母版');
   }
@@ -65,14 +68,15 @@ function build() {
 }
 
 const generated = build();
+const displayPath = path.relative(process.cwd(), outputPath) || outputPath;
 if (process.argv[2] === '--check') {
   const current = fs.readFileSync(outputPath, 'utf8');
   if (generated !== current) {
-    console.error('assets/asu-resume-template.html 与解耦源文件不一致，请运行 npm run build:asu-resume');
+    console.error(`${displayPath} 与解耦源文件不一致，请运行 npm run build:asu-resume`);
     process.exit(1);
   }
   console.log('ASu 简历模板生成产物一致');
 } else {
   fs.writeFileSync(outputPath, generated);
-  console.log(`已生成 ${path.relative(repoRoot, outputPath)}`);
+  console.log(`已生成 ${displayPath}`);
 }

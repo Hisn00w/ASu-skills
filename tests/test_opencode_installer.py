@@ -1,6 +1,8 @@
 import contextlib
 import importlib.util
 import io
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -53,6 +55,51 @@ class OpenCodeInstallerTests(unittest.TestCase):
             self.assertTrue(
                 (target.parent / "references" / "asu" / "email-monitoring.md").is_file()
             )
+
+    @unittest.skipUnless(shutil.which("node"), "Node.js is required for resume builds")
+    def test_installed_builders_generate_resumes_from_an_unrelated_directory(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            target = root / "OpenCode config" / "skills"
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(installer.main(["--target", str(target)]), 0)
+
+            scripts = target / "make-resume" / "scripts"
+            assets = target.parent / "assets" / "asu"
+            user_dir = root / "user resumes"
+            user_dir.mkdir()
+            cases = (
+                ("build-asu-resume.mjs", assets / "asu-resume" / "template.html"),
+                ("inline-template.mjs", sorted((assets / "templates-html").glob("*.html"))[0]),
+            )
+            for script, template in cases:
+                with self.subTest(script=script):
+                    original = template.read_bytes()
+                    shell = user_dir / "content.html"
+                    shutil.copyfile(template, shell)
+                    installed_output = user_dir / "installed.html"
+                    repo_output = user_dir / "repo.html"
+
+                    installed_script = scripts / script
+                    self.assertTrue(installed_script.is_file())
+                    result = subprocess.run(
+                        [shutil.which("node"), str(installed_script), str(shell), str(installed_output)],
+                        cwd=user_dir, capture_output=True, text=True,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stderr)
+
+                    repo_script = ROOT / "skills" / "make-resume" / "scripts" / script
+                    repo_result = subprocess.run(
+                        [shutil.which("node"), str(repo_script), str(shell), str(repo_output)],
+                        cwd=user_dir, capture_output=True, text=True,
+                    )
+                    self.assertEqual(repo_result.returncode, 0, repo_result.stderr)
+
+                    html = installed_output.read_text(encoding="utf-8")
+                    self.assertIn('data-action="save"', html)
+                    self.assertNotIn("frame/base.css", html)
+                    self.assertEqual(installed_output.read_bytes(), repo_output.read_bytes())
+                    self.assertEqual(template.read_bytes(), original)
 
     def test_without_target_uses_auto_discovery(self):
         with tempfile.TemporaryDirectory() as temp_dir:

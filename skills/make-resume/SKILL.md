@@ -23,9 +23,11 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 2. 提供本地 HTML/Word/PDF/简历图片作为参考；
 3. 指定 `assets/templates-html/` 下的模板壳文件。
 
-仓库中的 `assets/asu-resume/template.html` 和 `assets/templates-html/` 为模板壳文件，共享外框位于 `assets/frame/`。Agent 只读取内容壳，在用户目录创建并修改副本。壳文件只有设计稿，交付前必须用 `scripts/` 下的脚本内联共享的 `base.css`、`toolbar.css`、`toolbar.html` 和 `editor.js`，生成自包含 HTML；不能把壳文件直接交给用户。参考截图只用于分析版式，不能整页嵌入最终简历。
+仓库中的 `assets/asu-resume/template.html` 和 `assets/templates-html/` 为模板壳文件，共享外框位于 `assets/frame/`。Agent 只读取内容壳，在用户目录创建并修改副本。壳文件只有设计稿，交付前必须用本 skill 的 `scripts/` 目录下的脚本内联共享的 `base.css`、`toolbar.css`、`toolbar.html` 和 `editor.js`，生成自包含 HTML；不能把壳文件直接交给用户。参考截图只用于分析版式，不能整页嵌入最终简历。
 
-如果 skill 被单独复制到其他目录，先从当前 skill 目录向上定位 `assets/`，只有在该目录包含完整模板资源时才使用它。完整资源至少包括 `resume-data-template.json`、`template-overview.jpg`、`fictional-resume-photo.png`、`frame/` 下的 `base.css`、`toolbar.css`、`toolbar.html`、`editor.js`，以及全部 18 个模板壳文件。找不到完整资源时必须明确说明，使用简洁 A4 后备模板，并说明不保证 18 套模板、预览图、示例照片或原模板复刻精度。
+构建脚本随 skill 一起安装，仓库布局位于 `skills/make-resume/scripts/`，安装后位于 `<skills 目录>/make-resume/scripts/`。脚本按自身位置自动定位模板资源，两种布局都支持：仓库插件布局使用 `../../assets/`，安装布局（安装器把共享资源放在 skills 目录的上一级）使用 `../../assets/asu/`。安装后用 `node "<脚本绝对路径>" "<用户内容壳绝对路径>" "<输出 HTML 绝对路径>"` 调用，无需回到原克隆目录；运行需要 Node.js（版本要求见根目录 `package.json`）。
+
+如果 skill 被单独复制到其他目录，先从当前 skill 目录向上定位 `assets/` 或 `assets/asu/`，只有在该目录包含完整模板资源时才使用它。完整资源至少包括 `resume-data-template.json`、`template-overview.jpg`、`fictional-resume-photo.png`、`frame/` 下的 `base.css`、`toolbar.css`、`toolbar.html`、`editor.js`，以及全部 18 个模板壳文件。找不到完整资源时必须明确说明，使用简洁 A4 后备模板，并说明不保证 18 套模板、预览图、示例照片或原模板复刻精度。
 
 ## 工作流程
 
@@ -33,7 +35,7 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 2. 如果用户提供 PDF、已有简历、截图、图片或文档，先提取文字并分析栏位、间距、字体层级、颜色、照片位置和分页，再选择模板。未指定模板时使用默认 ASu 模板；指定模板时不擅自替换。
 3. 缺少关键字段时只补问真正影响交付的内容。姓名、学校、公司、职位、时间和成果指标不得捏造；无法补齐时使用 `待补充` 或 `待确认` 占位。
 4. 按“模板选择矩阵”决定页数和内容顺序。内容能在正常字号下形成完整单页时优先单页；需要双页时先填实第一页，再让第二页承接补充内容，不为了模板结构过早分页。
-5. 生成用户专属可编辑 HTML。先根据模板壳生成用户内容壳，然后在仓库根目录执行：默认 ASu 模板用 `node scripts/build-asu-resume.mjs <用户内容壳> <用户输出HTML>`，其余模板用 `node scripts/inline-template.mjs <用户内容壳> <用户输出HTML>`。脚本完成公共工具栏/样式/代码内联。引用的图片、`icons/` 和 `logos/` 按输出 HTML 的相对路径一起交付。
+5. 生成用户专属可编辑 HTML。先根据模板壳生成用户内容壳，然后执行本 skill 的构建脚本：默认 ASu 模板用 `node skills/make-resume/scripts/build-asu-resume.mjs <用户内容壳> <用户输出HTML>`，其余模板用 `node skills/make-resume/scripts/inline-template.mjs <用户内容壳> <用户输出HTML>`。脚本完成公共工具栏/样式/代码内联。引用的图片、`icons/` 和 `logos/` 按输出 HTML 的相对路径一起交付。
 6. 公司或平台名称能够确认时匹配品牌 Logo。优先复用共享 `assets/logos/` 中的实际 SVG；缺少对应资源时使用 `@lobehub/icons` 或 `@lobehub/icons-static-svg` 的官方 SVG，并将用户专属 Logo 放在用户副本旁的 `logos/` 目录。无法确认品牌或没有可用资源时使用纯文字公司条，不用相似 Logo 代替。
 7. 将 print-preview 作为交付前强制 QA：检查 A4 纸张、分页、单双栏、照片比例、长文本溢出、中文字体、打印边距、工具栏隐藏、链接可识别和公司 Logo 比例，再按 [A4 页面平衡与视觉密度 QA](references/page-balance-qa.md) 测量每页内容占用并保存整页截图。发现问题先修复 HTML/CSS。
 8. 按 [PDF 导出验收标准](#pdf-导出验收标准) 生成或指导生成 PDF，不用截图替代可编辑源文件。
@@ -105,7 +107,7 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 
 ## PDF 导出验收标准
 
-本机装有 Edge/Chrome 时，可用零依赖脚本 [scripts/export-resume-pdf.mjs](../../scripts/export-resume-pdf.mjs) 自动导出（`npm run export:pdf -- <html路径> --out <pdf>`，`preferCSSPageSize` 让 PDF 纸张跟随模板 `@page`）；浏览器打印另存为 PDF 作为兜底。
+本机装有 Edge/Chrome 时，可用零依赖脚本 [scripts/export-resume-pdf.mjs](scripts/export-resume-pdf.mjs) 自动导出（仓库根目录执行 `npm run export:pdf -- <html路径> --out <pdf>`；安装布局下用该脚本在安装目录中的绝对路径调用，参数相同；`preferCSSPageSize` 让 PDF 纸张跟随模板 `@page`）；浏览器打印另存为 PDF 作为兜底。
 
 - 文件页数符合预期：单页模板导出 1 页，双页模板导出 2 页，除非用户明确允许扩页；
 - PDF 中没有工具栏、编辑虚线、浏览器页眉页脚、URL、日期或多余空白页；
@@ -130,7 +132,7 @@ description: 中文可编辑简历制作技能：默认基于 ASu 单栏高密�
 - **证件照与校标。** 数据中的 `profile.photo` 指定图片文件名时，头部自动分为左文字右图片两栏；为空时退化为纯文字单栏。图片文件名只允许字母、数字、点、下划线和连字符（`\includegraphics` 的文件名参数不做转义），交付时必须把图片文件和 `.tex` 一起给用户。母版对图片缺失有容错：找不到文件时画占位框并提示，不会中断编译。
 - **仓库不编译 LaTeX，也不要求用户安装 TeX。** 产物是纯文本源文件，编译交给 Overleaf 或用户已有的本地环境。
 
-生成方式：先把已确认的简历事实写成结构化 JSON（字段见 [`../../assets/resume-data-template.json`](../../assets/resume-data-template.json)，缺省字段对应的整节不输出），再在仓库根目录执行 `node scripts/build-latex-resume.mjs <简历数据JSON> <用户输出TEX> [母版TEX]`。第三个参数省略时使用默认 ASu 母版，这与 `inline-template.mjs` 由调用方指定壳文件的方式一致。任何包含全部 `@` 标记的 `.tex` 都可以作为母版：版式差异集中在母版导言区，脚本的转义与章节生成逻辑与版式无关，可被各版式复用。
+生成方式：先把已确认的简历事实写成结构化 JSON（字段见 [`../../assets/resume-data-template.json`](../../assets/resume-data-template.json)，缺省字段对应的整节不输出），再在仓库根目录执行 `node scripts/build-latex-resume.mjs <简历数据JSON> <用户输出TEX> [母版TEX]`。第三个参数省略时使用默认 ASu 母版，这与 `skills/make-resume/scripts/inline-template.mjs` 由调用方指定壳文件的方式一致。任何包含全部 `@` 标记的 `.tex` 都可以作为母版：版式差异集中在母版导言区，脚本的转义与章节生成逻辑与版式无关，可被各版式复用。
 
 默认母版是 [`../../assets/latex-resume/template.tex`](../../assets/latex-resume/template.tex)，脚本统一处理 LaTeX 转义。新增版式只需在 `assets/latex-resume/` 下添加一个包含全部 `@` 标记、并定义 `\asuphotowidth`、`\asuheadtextwidth`、`\asuphoto`、`\asuname`、`\asumeta`、`\asuentry` 的 `.tex`，不需要改动脚本；测试会自动遍历该目录校验新版式。不要绕过脚本手写 `.tex`：简历正文里的 `C++`、`30%`、`snake_case`、`A&B` 等内容未经转义会直接导致编译失败。
 

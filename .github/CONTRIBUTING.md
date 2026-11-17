@@ -32,7 +32,8 @@
   - README 中 [第一次使用：从哪个入口开始](../README.md#第一次使用：从哪个入口开始)，仍需手动维护。（后续可能会修）
 - **HTML 模板**：`assets/asu-resume/template.html` 与 `assets/templates-html/` 下的模板都是内容壳，共享外框统一位于 `assets/frame/`：
   - 字体、字号、颜色、加粗、照片、自动保存、状态提示、重置、保存 HTML 与导出 PDF 等公共功能只在共享外框维护；`assets/frame/asu/` 只保留 ASu 版式与页面模式扩展；
-  - 内容壳可直接打开查看设计稿，但交付无依赖 HTML 前必须运行对应内联脚本；18 套模板使用 `node scripts/inline-template.mjs --all dist/templates`，ASu 使用 `node scripts/build-asu-resume.mjs <用户内容壳> <输出 HTML>`；
+  - 内容壳可直接打开查看设计稿，但交付无依赖 HTML 前必须运行对应内联脚本；18 套模板使用 `node skills/make-resume/scripts/inline-template.mjs --all dist/templates`，ASu 使用 `node skills/make-resume/scripts/build-asu-resume.mjs <用户内容壳> <输出 HTML>`；
+  - 构建脚本与 PDF 导出脚本位于 `skills/make-resume/scripts/`，随 skill 一起安装，并在运行时按自身位置定位 `assets/`（仓库）或 `assets/asu/`（安装布局），不要把脚本挪回根目录 `scripts/`；
   - 修改公共外框或 ASu 扩展后运行 `npm run build:asu-resume` 与 `npm run check:asu-resume`。
 - **静态校验**：可以参考 CI 流程中的校验流程进行本地校验，或在提交时检查 CI 结果。
 
