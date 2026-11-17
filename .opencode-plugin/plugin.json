@@ -65,7 +65,7 @@
       },
       {
         "name": "offer",
-        "description": "校招进度管理：记录投递、面试、offer 状态"
+        "description": "校招进度管理：记录投递、面试、offer 状态，比较多个 Offer 做决策"
       }
     ]
   },

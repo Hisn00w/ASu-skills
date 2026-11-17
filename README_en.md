@@ -75,7 +75,7 @@ ASu-skills is now a plugin pack. Installing it provides nine individually callab
 | `/job-match` | Job matching | Compares a JD with verified experience and returns an evidence matrix, hard constraints, and an application recommendation |
 | `/job-apply` | Job-application autofill | Connects to a browser, fills an application, and stops for review before submission |
 | `/interview` | Interview preparation | Interview prediction, contract-driven drilling, evidence review, and targeted retry |
-| `/offer` | Campus recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails |
+| `/offer` | Campus recruitment tracking | Tracks applications, assessments, interviews, offers, rejections, and recruiting emails; compares multiple offers and prepares negotiation points |
 <!-- catalog:readme.en.intro:end -->
 
 ## Installation
@@ -111,6 +111,7 @@ Pick your first entry based on the problem you most need to solve right now:
 | Have a job URL and need to fill its application form | `/job-apply` |
 | Interviews coming up; want to predict questions and drill the weak spots | `/interview` |
 | Already applying; need to organize recruiting emails and follow-ups | `/offer` |
+| Holding multiple offers; need to compare and choose | `/offer` (comparison mode) |
 
 You can also combine entries:
 
@@ -120,6 +121,7 @@ You can also combine entries:
 - **Have a resume and a specific JD, need an application decision**: use `/job-match` to separate verified matches, presentation gaps, and real gaps; hand confirmed presentation gaps to `/great-resume` when rewriting is needed;
 - **Already applying, tracking ongoing progress**: use `/offer` directly to organize emails and statuses; come back to `/great-resume` and `/make-resume` whenever the resume needs an update.
 - **Ready to fill an application form**: use `/job-apply` with a connected browser for one specific role, then use `/offer` to record the application status.
+- **Holding multiple offers, need to decide**: stay in `/offer` and switch to its comparison mode; it reuses the tracker records, scores every offer on one shared scale, and keeps unconfirmed fields out of the weighted total.
 
 ## `/contributor`: Make real open-source contributions
 
@@ -284,6 +286,22 @@ Organize the recruiting emails and screenshots I uploaded into a campus recruitm
 
 ![Campus recruitment tracker preview](assets/application-tracker-overview.svg)
 
+### Comparing and choosing between multiple offers
+
+The same `/offer` also handles what happens after offers arrive, so no extra entry is needed. It reuses the company, role, city, pay, and benefits already recorded in the tracker, splits each offer into five dimensions (pay structure, growth, business and team, stability and risk, personal cost), and compares them on one shared scale with weights the user sets.
+
+Two hard rules keep the comparison honest: every score must trace back to the offer letter, an HR reply, or a user statement, and missing fields are marked `Needs confirmation` and listed separately instead of counting as zero in the weighted total; conversion probability for an internship may only quote explicit HR information or user-provided data, and without reliable data it is analyzed as an uncertainty rather than estimated by the model.
+
+Default deliverables include an offer comparison table, a confirmation checklist, the weighted result, what each option gives up, uncertainties, and negotiation points. The full flow lives in [`skills/offer/references/offer-decision.md`](skills/offer/references/offer-decision.md).
+
+Typical usage:
+
+```text
+/offer
+
+I have two offers. Compare their pay structure, growth, and commute cost. I will set the weights; list the missing information separately and do not estimate on my behalf.
+```
+
 ## `/job-match`: Job-match analysis
 
 `/job-match` separates a target JD into hard constraints, core capabilities, and preferred qualifications, then compares each item with the user's verified resume, experience, or claim–evidence ledger. It distinguishes verified matches, presentation gaps, insufficient evidence, real gaps, and unknowns instead of inventing a precise score from keyword overlap.
@@ -341,7 +359,7 @@ Recommended order:
 6. Use `/job-match` to compare a specific JD with verified evidence, hard constraints, and application priority;
 7. Use `/job-apply` to connect a browser, fill one specific application, and review it before submission;
 8. Use `/interview` to predict likely questions and verify through follow-up drilling that the resume holds up in interviews;
-9. Use `/offer` to record the status of applications, assessments, interviews, and offers.
+9. Use `/offer` to record the status of applications, assessments, interviews, and offers; once multiple offers arrive, switch to its comparison mode without leaving the entry.
 
 You can also state a combined goal in a single request, e.g.: “first use `/project-guide` to generate project study notes and interview answers, then `/great-resume` to improve the experience, and finally `/make-resume` to generate an HTML resume”.
 
