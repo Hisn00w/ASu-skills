@@ -32,7 +32,8 @@ test("installs skills and shared resources into a Codex home", (t) => {
   assert.ok(fs.existsSync(path.join(home, ".codex", "skills", "make-resume", "SKILL.md")));
   assert.ok(fs.existsSync(path.join(home, ".codex", "assets", "asu-resume", "template.html")));
   assert.ok(fs.existsSync(path.join(home, ".codex", "references")));
-  assert.ok(fs.existsSync(path.join(home, ".codex", "scripts", "inline-template.mjs")));
+  assert.ok(fs.existsSync(path.join(home, ".codex", "scripts", "validate_skills.py")));
+  assert.ok(fs.existsSync(path.join(home, ".codex", "skills", "make-resume", "scripts", "inline-template.mjs")));
 });
 
 test("dry-run does not create the target directory", (t) => {
@@ -58,13 +59,13 @@ test("refuses to overwrite an unmanaged skill without --force", (t) => {
 
 test("checks shared-file conflicts before changing the target", (t) => {
   const home = tempHome(t);
-  const script = path.join(home, ".codex", "scripts", "inline-template.mjs");
+  const script = path.join(home, ".codex", "scripts", "validate_skills.py");
   fs.mkdirSync(path.dirname(script), { recursive: true });
   fs.writeFileSync(script, "custom\n", "utf8");
 
   const result = cli(["install", "--codex"], home);
   assert.equal(result.status, 1);
-  assert.match(result.stderr, /scripts.inline-template\.mjs/);
+  assert.match(result.stderr, /scripts[\\/]validate_skills\.py/);
   assert.equal(fs.readFileSync(script, "utf8"), "custom\n");
   assert.equal(fs.existsSync(path.join(home, ".codex", "skills", "contributor")), false);
 });
