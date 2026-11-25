@@ -92,7 +92,7 @@ After publication, use `npx asu-skills install --codex`. The default target is `
 
 | Platform | Installation entry | After installation | Uninstall |
 | --- | --- | --- | --- |
-| Codex | Send the GitHub repository link to Codex and ask it to install the plugin | Start a new conversation and choose an entry from the `/` menu | Remove ASu-skills from Codex's plugin manager |
+| Codex desktop | Send the GitHub repository link to Codex and ask it to install the plugin | In a new conversation, type `@` in the message box, select ASu-skills, and name the skill in your prompt, for example "Use `job-match` to assess this role" | Remove ASu-skills from Codex's plugin manager |
 | Claude Code | Run `/plugin marketplace add Hisn00w/ASu-skills` and `/plugin install asu-skills@asu` | Run `/reload-plugins` when prompted | Run `/plugin uninstall asu-skills` |
 | DeepSeek Harness Desktop | Open the plugin panel, choose **Add plugin**, paste `https://github.com/Hisn00w/ASu-skills.git`, and install it | Enable ASu-skills in the plugin panel, then start a new conversation and choose an entry from the `/` menu | Uninstall ASu-skills from the plugin panel |
 | Cursor | [Read the Skill bridge installation guide](.cursor-skills/install.md) | Start a new Agent chat and type `/` or `/contributor`, etc. | Remove the skill directories under the project `.cursor/skills/` or user `~/.cursor/skills/` |
