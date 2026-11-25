@@ -80,7 +80,7 @@ npx github:Hisn00w/ASu-skills install --codex
 
 | 平台        | 安装入口                                                                                 | 安装后操作                              | 卸载方式                                      |
 | ----------- | ---------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------- |
-| Codex       | 将 GitHub 仓库链接发给 Codex，并说明安装                                                 | 新建对话，从`/` 菜单选择入口             | 在 Codex 的插件管理中移除 ASu-skills          |
+| Codex 桌面版 | 将 GitHub 仓库链接发给 Codex，并说明安装 | 在新对话的输入框键入 `@`，选择 ASu-skills，然后说明要使用的技能，例如「请用 `job-match` 分析这个岗位」 | 在 Codex 的插件管理中移除 ASu-skills |
 | Claude Code | 执行`/plugin marketplace add Hisn00w/ASu-skills` 和 `/plugin install asu-skills@asu` | 按提示执行`/reload-plugins`              | 执行`/plugin uninstall asu-skills`            |
 | DeepSeek Harness Desktop | 在插件面板选择“添加插件”，粘贴 `https://github.com/Hisn00w/ASu-skills.git` 并安装 | 在插件面板启用 ASu-skills，新建会话后从`/` 菜单选择入口 | 在插件面板卸载 ASu-skills                     |
 | Cursor      | [查看 Skill bridge 安装说明](.cursor-skills/install.md)                                    | 新建 Agent 对话，输入 `/` 或 `/contributor` 等 | 删除项目 `.cursor/skills/` 或用户 `~/.cursor/skills/` 下对应目录 |
